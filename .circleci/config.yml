@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: /go/src/github.com/qlik-oss/enigma-go
+    docker:
+      - image: circleci/golang:1.9
+    steps:
+      - checkout
+      - run:
+          name: Install toolchain
+          command: |
+            go get -u github.com/golang/dep/cmd/dep
+            go get -u github.com/golang/lint/golint
+      - restore_cache:
+          key: dependency-cache-{{ checksum "Gopkg.lock" }}
+      - run:
+          name: Install dependencies
+          command: dep ensure
+      - save_cache:
+          key: dependency-cache-{{ checksum "Gopkg.lock" }}
+          paths:
+            - vendor
+      - run:
+          name: Linting
+          command: golint -set_exit_status
+      - run:
+          name: Build
+          command: go build
+      - run:
+          name: Test
+          command: go test -v -race ./...
+
