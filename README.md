@@ -12,10 +12,13 @@ Examples of use may be building your own analytics tools, back-end services, or 
 - [Runnable examples](./examples/README.md)
 
 ---
+## Installation
+
+go get -U github.com/qlik-oss/enigma-go
 
 ## Getting started
 
-Connecting to Qlik Associative Engine and interact with a document/app involves at least the following steps:
+Connecting to a Qlik Associative Engine and interacting with a document/app involves at least the following steps:
 
 1. Create and setup a Dialer object with TLS configuration etc
 
@@ -23,8 +26,7 @@ Connecting to Qlik Associative Engine and interact with a document/app involves 
 
 3. Open or create a document/app using openDoc or createApp
 
-See the example below for an illustration of how it may look. For more detail examples look at
-the examples in https://github.com/qlik-oss/enigma-go/tree/master/examples. See respective README.md file for further information
+Please refer to the examples in https://github.com/qlik-oss/enigma-go/tree/master/examples for more information.
 
 ## Schemas
 
