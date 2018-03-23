@@ -1,6 +1,7 @@
 ![](enigma-go.png)
 
-[![CircleCI](https://circleci.com/gh/qlik-oss/enigma-go.svg?style=svg)](https://circleci.com/gh/qlik-oss/enigma-go)
+[![CircleCI](https://circleci.com/gh/qlik-oss/enigma-go.svg?style=shield)](https://circleci.com/gh/qlik-oss/enigma-go)
+[![Go Report Card](https://goreportcard.com/badge/qlik-oss/enigma-go)](https://goreportcard.com/report/qlik-oss/enigma-go)
 
 enigma-go is a library that helps you communicate with Qlik Associative Engine.
 Examples of use may be building your own analytics tools, back-end services, or other tools communicating with Qlik Associative Engine.
