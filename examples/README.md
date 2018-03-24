@@ -1,5 +1,5 @@
 # Examples
-The examples below show various enigma-go uses cases.
+The examples below show various enigma-go use cases.
 
 #### Basics
 * [Custom object types](./basics/custom-type/README.md)
