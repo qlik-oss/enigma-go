@@ -10,6 +10,7 @@ Examples of use may be building your own analytics tools, back-end services, or 
 
 - [Getting started](#getting-started)
 - [API documentation](https://godoc.org/github.com/qlik-oss/enigma-go)
+- [Contributing](./.github/CONTRIBUTING.md#contributing-to-enigma-go)
 - [Runnable examples](./examples/README.md)
 
 ---
