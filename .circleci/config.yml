@@ -32,13 +32,14 @@ jobs:
       - setup_remote_docker
       - run:
           name: Execute integration tests
+          working_directory: /go
           command: |
             ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
             echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
             ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
             ENGINE_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ENGINE_CONTAINER_ID)
             TEST_CONTAINER_ID=$(docker run -d golang:1.9-alpine tail -f /dev/null)
-            docker cp . $TEST_CONTAINER_ID:/go/src/github.com/qlik-oss/enigma-go
+            docker cp . $TEST_CONTAINER_ID:/go
             docker exec $TEST_CONTAINER_ID /bin/sh -c 'apk update && apk add --no-cache socat bash'
             docker exec -d $TEST_CONTAINER_ID /bin/bash -c "socat TCP-LISTEN:9076,fork TCP:$ENGINE_IP:9076"
             docker exec $TEST_CONTAINER_ID /bin/bash -c '/go/src/github.com/qlik-oss/enigma-go/examples/run_examples.sh'
