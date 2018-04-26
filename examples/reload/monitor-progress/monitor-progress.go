@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go"
 	"time"
+
+	"github.com/qlik-oss/enigma-go"
 )
 
 // Path to testdata, update to match your Qlik Associative Engine deployment
@@ -18,7 +19,7 @@ func main() {
 	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)
 	if err != nil {
 		fmt.Println(err)
-		return
+		panic(err)
 	}
 	// When we leave this function disconnect from Qlik Associative Engine
 	defer global.DisconnectFromServer()
@@ -27,7 +28,7 @@ func main() {
 	app, err := global.CreateSessionApp(ctx)
 	if err != nil {
 		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	// Create a folder connection that references the current directory where there is a test csv file to load.
@@ -37,7 +38,7 @@ func main() {
 		ConnectionString: testDataFolder})
 	if err != nil {
 		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	err = app.SetScript(ctx, `
@@ -46,7 +47,7 @@ func main() {
 		(txt, utf8, embedded labels, delimiter is ',', msq);`)
 	if err != nil {
 		fmt.Println(err)
-		return
+		panic(err)
 	}
 
 	reloadDone := make(chan struct{})
@@ -75,7 +76,17 @@ func main() {
 	}()
 
 	// Do the reload in a separate goroutine
-	app.DoReload(ctxWithReservedRequestID, 0, false, false)
+	reloadSuccessful, err := app.DoReload(ctxWithReservedRequestID, 0, false, false)
+
+	if err != nil {
+		fmt.Println("Error when reloading app", err)
+		panic(err)
+	}
+
+	if !reloadSuccessful {
+		panic("DoReload was not successful!")
+	}
+
 	close(reloadDone)
 	fmt.Println("Reload Done")
 
@@ -100,7 +111,7 @@ func main() {
 	})
 	if err != nil {
 		fmt.Println(err)
-		return
+		panic(err)
 	}
 	layout, err := object.GetLayout(ctx)
 	cell := layout.HyperCube.DataPages[0].Matrix[3][0]
