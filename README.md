@@ -16,7 +16,9 @@ Examples of use may be building your own analytics tools, back-end services, or 
 ---
 ## Installation
 
+```bash
 go get -u github.com/qlik-oss/enigma-go
+```
 
 ## Getting started
 
