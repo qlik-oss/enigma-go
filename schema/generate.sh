@@ -8,7 +8,7 @@ if [ -z $ENGINE_VERSION ]; then
     echo "Using latest Engine version is $ENGINE_VERSION"
 fi
 
-# Retrieve the JSON RPC API from Qlik Analytics Engines REST API
+# Retrieve the JSON-RPC API from Qlik Analytics Engines REST API
 CONTAINER_ID=$(docker run -d -p 9076:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
 RETRIES=0
 while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
@@ -16,16 +16,15 @@ while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
   sleep 2
   RETRIES=$((RETRIES + 1 ))
 done
+docker kill $CONTAINER_ID
 
 # Generate enigma-go based on schema
 if [[ $JSON_RPC_API != "" ]]; then
-    echo "Generating enigma-go based on JSON RPC API for Qlik Analytics Engine version $ENGINE_VERSION"
+    echo "Generating enigma-go based on JSON-RPC API for Qlik Analytics Engine version $ENGINE_VERSION"
     echo "$JSON_RPC_API" > ./schema.json
     go run ./generate.go
     rm ./schema.json
-    docker kill $CONTAINER_ID
 else
-    echo "Failed to retrieve JSON RPC API for Qlik Analytics Engine version $ENGINE_VERSION"
-    docker kill $CONTAINER_ID
+    echo "Failed to retrieve JSON-RPC API for Qlik Analytics Engine version $ENGINE_VERSION"
     exit 1
 fi
