@@ -42,7 +42,7 @@ if [ ! -z "$local_changes" ]; then
   git push -u origin $branch_name
   curl -u none:$GH_TOKEN https://api.github.com/repos/qlik-oss/enigma-go/pulls --request POST --data "{
         \"title\": \"Automated: Generated enigma-go based on new JSON-RPC API\",
-        \"body\": \"Hello! This is an automated pull request.\n\nI have generated a new enigma-go based on the JSON-RPC API for Qlik Analytics Engine version $ENGINE_VERSION.\",
+        \"body\": \"Hello! This is an automated pull request.\n\nI have generated a new enigma-go based on the JSON-RPC API for Qlik Analytics Engine.\",
         \"head\": \"$branch_name\",
         \"base\": \"master\"
       }"
