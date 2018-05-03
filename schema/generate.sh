@@ -15,7 +15,7 @@ if [ -z $ENGINE_VERSION ]; then
 fi
 
 # Retrieve the JSON-RPC API from Qlik Analytics Engines REST API
-CONTAINER_ID=$(docker run -d -p 9076:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
+CONTAINER_ID=$(docker run -d -p 9076:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=$ACCEPT_EULA)
 RETRIES=0
 while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
     JSON_RPC_API=$(curl -fs localhost:9076/jsonrpc-api)
