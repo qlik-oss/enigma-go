@@ -12,8 +12,10 @@ Examples of use may be building your own analytics tools, back-end services, or 
 - [API documentation](https://godoc.org/github.com/qlik-oss/enigma-go)
 - [Contributing](./.github/CONTRIBUTING.md#contributing-to-enigma-go)
 - [Runnable examples](./examples/README.md)
+- [Generating from schema](./schema/README.md)
 
 ---
+
 ## Installation
 
 ```bash

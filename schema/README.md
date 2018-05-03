@@ -1,2 +1,16 @@
 # Schema Generator
-Generates the API based on a json specification
+
+This folder contains a script for generating enigma-go based on a specific version of Qlik Analytics Engine.
+The version to be used must be one of the published versions of the Qlik Analytics Engine, see [here](https://hub.docker.com/r/qlikcore/engine/tags/).
+
+Please note that to be able to generate enigma-go you will need to accept the [EULA](https://qlikcore.com/beta/).
+
+```bash
+ACCEPT_EULA=<yes/no> ENGINE_VERSION=12.160.6 ./schema/generate.sh
+```
+
+If a version is not specified the script will default to the latest published version.
+
+```bash
+ACCEPT_EULA=<yes/no> ./schema/generate.sh
+```

@@ -231,7 +231,12 @@ func createArrayTypesMap(schema *Schema) map[string]bool {
 }
 
 func loadSchemaFile() (*Schema, error) {
-	rawSchemaFile, err := ioutil.ReadFile("./schema/schema.json")
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	rawSchemaFile, err := ioutil.ReadFile(pwd + "/schema.json")
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -636,10 +641,16 @@ func main() {
 
 	schema, err := loadSchemaFile()
 
+	pwd, err := os.Getwd()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
 	expandGenericObjectWithLayouts(schema)
 	removeRedundantNxInfo(schema)
 	// Start generating the go file
-	out, err := os.Create("./qix_generated.go")
+	out, err := os.Create(pwd + "/../qix_generated.go")
 	defer out.Close()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -723,4 +734,3 @@ func main() {
 		}
 	}
 }
-
