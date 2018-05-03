@@ -2,19 +2,25 @@
 
 cd $(dirname "$0")
 
+# Check that the EULA has been accepted
+if [[ $ACCEPT_EULA != "yes" ]]; then
+    echo "The EULA for Qlik Analytics Engine was not accepted. Please check the README for instructions on how to accept the EULA"
+    exit 1
+fi
+
 # Fetch latest published Qlik Analytics Engine version on dockerhub if not specified
 if [ -z $ENGINE_VERSION ]; then
     ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
-    echo "Using latest Engine version is $ENGINE_VERSION"
+    echo "Using latest Engine version $ENGINE_VERSION"
 fi
 
 # Retrieve the JSON-RPC API from Qlik Analytics Engines REST API
 CONTAINER_ID=$(docker run -d -p 9076:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
 RETRIES=0
 while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
-  JSON_RPC_API=$(curl -fs localhost:9076/jsonrpc-api)
-  sleep 2
-  RETRIES=$((RETRIES + 1 ))
+    JSON_RPC_API=$(curl -fs localhost:9076/jsonrpc-api)
+    sleep 2
+    RETRIES=$((RETRIES + 1 ))
 done
 docker kill $CONTAINER_ID
 
