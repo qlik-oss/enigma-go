@@ -38,7 +38,7 @@ local_changes=$(git ls-files qix_generated.go -m)
 if [ ! -z "$local_changes" ]; then
   git checkout -b $branch_name
   git add qix_generated.go
-  git commit -m "Automated: Generated enigma-go based on new JSON-RPC API for version $ENGINE_VERSION"
+  git commit -m "Automated: New API based on $ENGINE_VERSION"
   git push -u origin $branch_name
   curl -u none:$GH_TOKEN https://api.github.com/repos/qlik-oss/enigma-go/pulls --request POST --data "{
         \"title\": \"Automated: Generated enigma-go based on new JSON-RPC API\",
