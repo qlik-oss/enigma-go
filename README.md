@@ -32,7 +32,7 @@ Connecting to a Qlik Associative Engine and interacting with a document/app invo
 
 3. Open or create a document/app using openDoc or createApp.
 
-Refer to the examples in https://github.com/qlik-oss/enigma-go/tree/master/examples for more information.
+Refer to the [examples](https://github.com/qlik-oss/enigma-go/tree/master/examples) section for more information.
 
 ## Schemas
 
