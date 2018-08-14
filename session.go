@@ -103,7 +103,7 @@ func (q *session) mainSessionLoop() {
 					q.signalAllObjectsClosed()
 					return
 				}
-				go q.handleResponse(message, receiveTimestamp)
+				q.handleResponse(message, receiveTimestamp)
 			}
 
 		}
