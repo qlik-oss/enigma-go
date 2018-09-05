@@ -290,6 +290,7 @@ func createObjectFunctionToObjectTypeMapping() map[string]string {
 	objectFuncToObject["GenericObject.CreateChild"] = "GenericObject"
 	objectFuncToObject["GenericObject.GetChild"] = "GenericObject"
 	objectFuncToObject["GenericObject.GetSnapshotObject"] = "GenericObject"
+	objectFuncToObject["GenericObject.GetParent"] = "GenericObject"
 	objectFuncToObject["Doc.CreateSessionObject"] = "GenericObject"
 	objectFuncToObject["Doc.CreateBookmark"] = "GenericBookmark"
 	objectFuncToObject["Doc.GetDimension"] = "GenericDimension"
