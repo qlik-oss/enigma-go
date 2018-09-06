@@ -200,6 +200,12 @@ func getTypeName(t *Type) string {
 		}
 		return "Float64"
 	default:
+		// Handle cases where type is not defined
+		if t.Type == "" && t.Items != nil {
+			return "[]" + getInnerType(t)
+		} else if t.Type == "" && t.Enum != nil {
+			return "string"
+		}
 		return t.Type
 	}
 }
@@ -459,7 +465,7 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				panic("Unknown remote object type for" + serviceName + "." + methodName)
+				panic("Unknown remote object type for " + serviceName + "." + methodName)
 			}
 			fmt.Fprint(out, "*"+objectTypeName, ", ")
 		} else {

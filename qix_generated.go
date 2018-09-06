@@ -223,7 +223,7 @@ type BNFDef  struct {
 	// This parameter is optional. The default value is false.
 	Depr bool `json:"qDepr,omitempty"`
 	// List of groups the function belongs to.
-	FGList  `json:"qFGList,omitempty"`
+	FGList []string `json:"qFGList,omitempty"`
 }
 
 type BookmarkFieldItem  struct {
