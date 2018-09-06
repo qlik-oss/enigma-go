@@ -201,10 +201,12 @@ func getTypeName(t *Type) string {
 		return "Float64"
 	default:
 		// Handle cases where type is not defined
-		if t.Type == "" && t.Items != nil {
-			return "[]" + getInnerType(t)
-		} else if t.Type == "" && t.Enum != nil {
-			return "string"
+		if t.Type == "" {
+			if t.Items != nil {
+				return "[]" + getInnerType(t)
+			} else if t.Enum != nil {
+				return "string"
+			}
 		}
 		return t.Type
 	}
