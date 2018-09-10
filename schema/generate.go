@@ -200,6 +200,14 @@ func getTypeName(t *Type) string {
 		}
 		return "Float64"
 	default:
+		// Handle cases where type is not defined
+		if t.Type == "" {
+			if t.Items != nil {
+				return "[]" + getInnerType(t)
+			} else if t.Enum != nil {
+				return "string"
+			}
+		}
 		return t.Type
 	}
 }
@@ -290,6 +298,7 @@ func createObjectFunctionToObjectTypeMapping() map[string]string {
 	objectFuncToObject["GenericObject.CreateChild"] = "GenericObject"
 	objectFuncToObject["GenericObject.GetChild"] = "GenericObject"
 	objectFuncToObject["GenericObject.GetSnapshotObject"] = "GenericObject"
+	objectFuncToObject["GenericObject.GetParent"] = "GenericObject"
 	objectFuncToObject["Doc.CreateSessionObject"] = "GenericObject"
 	objectFuncToObject["Doc.CreateBookmark"] = "GenericBookmark"
 	objectFuncToObject["Doc.GetDimension"] = "GenericDimension"
@@ -458,7 +467,7 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				panic("Unknown remote object type for" + serviceName + "." + methodName)
+				panic("Unknown remote object type for " + serviceName + "." + methodName)
 			}
 			fmt.Fprint(out, "*"+objectTypeName, ", ")
 		} else {
