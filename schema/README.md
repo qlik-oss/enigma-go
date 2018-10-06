@@ -6,7 +6,7 @@ The version to be used must be one of the published versions of the Qlik Associa
 Please note that to be able to generate enigma-go you will need to accept the [EULA](https://core.qlik.com/eula/).
 
 ```bash
-ACCEPT_EULA=<yes/no> ENGINE_VERSION=12.160.6 ./schema/generate.sh
+ACCEPT_EULA=<yes/no> ENGINE_VERSION=<version> ./schema/generate.sh
 ```
 
 If a version is not specified the script will default to the latest published version.
