@@ -10,7 +10,7 @@ jobs:
           name: Install toolchain
           command: |
             go get -u github.com/golang/dep/cmd/dep
-            go get -u github.com/golang/lint/golint
+            go get -u golang.org/x/lint/golint
       - restore_cache:
           key: dependency-cache-{{ checksum "Gopkg.lock" }}
       - run:
