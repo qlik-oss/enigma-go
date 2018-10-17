@@ -73,6 +73,11 @@ type (
 		// When set to true a mock socket replaying previously recorded traffic is used instead of a real one.
 		// TrafficDumpFile specified what log file to use.
 		MockMode bool
+
+		// Jar specifies the cookie jar.
+		// If Jar is nil, cookies are not sent in requests and ignored
+		// in responses.
+		Jar http.CookieJar
 	}
 )
 
@@ -97,6 +102,7 @@ func (dialer Dialer) Dial(ctx context.Context, url string, httpHeader http.Heade
 					NetDial: func(network, addr string) (net.Conn, error) {
 						return (&net.Dialer{}).DialContext(ctx, network, addr)
 					},
+					Jar: dialer.Jar,
 				}
 
 				// Run the actual websocket dialing (including the upgrade) in a goroutine so we can
