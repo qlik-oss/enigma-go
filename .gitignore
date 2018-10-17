@@ -1,3 +1,4 @@
 vendor
 examples/testing/mock_mode/socket.traffic
 .idea
+.DS_Store
