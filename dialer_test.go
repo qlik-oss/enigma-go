@@ -4,9 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go"
 	"github.com/stretchr/testify/assert"
+	"github.com/qlik-oss/enigma-go"
+	"net/http"
+	"net/http/cookiejar"
+	"net/url"
 	"testing"
+	"time"
 )
 
 //This example shows how to connect to a locally running Qlik Associative Engine, print the version number and disconnect again.
@@ -119,4 +123,50 @@ func TestFullRpcScenario(t *testing.T) {
 	assert.Equal(t, enigmaError.Message(), "mes")
 
 	testSocket.Close()
+}
+
+func TestCookieJar(t *testing.T) {
+	dialer := enigma.Dialer{MockMode: true}
+	jar, err := cookiejar.New(nil)
+	dialer.Jar = jar
+	assert.NoError(t, err, "Error creating cookiejar")
+
+	// Have some cookies!
+	header := http.Header{}
+	exp := fmt.Sprintf("%v", time.Now().Local().Add(time.Hour * time.Duration(48)).UTC())
+	header.Add("Set-Cookie","_session=a518840f-893b-4baf-bdf8-10d78ec14bf5; path=/; expires=" + exp + "; secure; httponly")
+	header.Add("Set-Cookie","_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/interaction/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires=" + exp + "; secure; httponly")
+	header.Add("Set-Cookie","_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/auth/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires=" + exp + "; secure; httponly")
+
+	response := http.Response{Header: header}
+	cookies := response.Cookies()
+
+	// Set the cookies
+	url, err := url.Parse("https://www.qlik.com")
+	assert.NoError(t, err, "Error parsing URL")
+	dialer.Jar.SetCookies(url, cookies)
+
+	// Test whether correct cookie is returned for request to /
+	returnedCookies := dialer.Jar.Cookies(url)
+	gotResponse := false
+	for _, cookie := range returnedCookies {
+		if cookie.Name == "_session" {
+			assert.Equal(t, "a518840f-893b-4baf-bdf8-10d78ec14bf5", cookie.Value)
+			gotResponse = true
+		}
+	}
+	assert.True(t, gotResponse, fmt.Sprintf("Expected one cookie for path: <%v>", url.Path))
+
+	// Test whether correct cookie is returns for request to interaction URL
+	url, err = url.Parse("https://www.qlik.com/interaction/1d3cdfb9-25d0-42b2-8274-d4b11b97a475")
+	returnedCookies = dialer.Jar.Cookies(url)
+	assert.NoError(t, err, "Error parsing URL")
+	gotResponse = false
+	for _, cookie := range returnedCookies {
+		if cookie.Name == "_grant" {
+			assert.Equal(t, "1d3cdfb9-25d0-42b2-8274-d4b11b97a475", cookie.Value)
+			gotResponse = true
+		}
+	}
+	assert.True(t, gotResponse, fmt.Sprintf("Expected one cookie for path: <%v>", url.Path))
 }
