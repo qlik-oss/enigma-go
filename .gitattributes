@@ -3,3 +3,6 @@
 
 # Unix line endings in all text files.
 * text eol=lf
+
+# Always treat images as binaries
+*.png binary
