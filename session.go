@@ -22,6 +22,12 @@ type (
 		disconnectedFromServerCh chan struct{}
 		interceptorChain         InterceptorContinuation
 	}
+
+	ChangeListsKey struct{}
+	ChangeLists struct{
+		Changed []int
+		Closed []int
+	}
 )
 
 func (q *session) connect(ctx context.Context, url string, httpHeader http.Header) error {
@@ -218,7 +224,14 @@ func (q *session) invokeRPC(ctx context.Context, invocation *Invocation) *Invoca
 			result = &InvocationResponse{Result: nil, RequestID: pendingCall.ID, Error: pendingCall.Response.Error}
 		} else {
 			result = &InvocationResponse{Result: *pendingCall.Response.Result, RequestID: pendingCall.ID, Error: nil}
+
+			// Store change and close lists if requested in the context
+			if cl := changeListFromContext(ctx); cl != nil {
+				cl.Changed = pendingCall.Response.Change
+				cl.Closed = pendingCall.Response.Close
+			}
 		}
+
 		return result
 	}
 }
@@ -254,4 +267,14 @@ func newSession(dialer *Dialer) *session {
 	qixSession.interceptorChain = buildInterceptorChain(dialer.Interceptors, qixSession.invokeRPC)
 
 	return qixSession
+}
+
+func changeListFromContext(ctx context.Context) *ChangeLists {
+	clk := ctx.Value(ChangeListsKey{})
+	if clk != nil {
+		if cl, ok := clk.(*ChangeLists); ok {
+			return cl
+		}
+	}
+	return nil
 }

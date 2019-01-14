@@ -43,6 +43,32 @@ func TestRpcInvocation(t *testing.T) {
 
 }
 
+func TestRpcInvocationWithChangeListContext(t *testing.T) {
+	cl := ChangeLists{}
+	ctx := context.WithValue(context.Background(), ChangeListsKey{}, &cl)
+
+	_, testSocket, rpcObject := createAndConnectSession()
+
+	testSocket.ExpectCall(
+		`{"jsonrpc":"2.0","delta":false,"method":"DummyQixMethod","handle":-1,"id":1,"params":["a","b"]}`,
+		`{"handle": -1, "id": 1, "result": "resultstring","change":[1,7,8,9,10,11,12,13,14,15,16,17],"close":[5,6]}`)
+
+	// Invoke rpc Method
+	resultHolder := ""
+	rpcerr := rpcObject.rpc(ctx, "DummyQixMethod", &resultHolder, "a", "b")
+
+	// Expected response should be received
+	assert.Equal(t, "resultstring", resultHolder)
+	assert.Nil(t, rpcerr)
+
+	expectedChanges := []int{1,7,8,9,10,11,12,13,14,15,16,17}
+	assert.Equal(t, expectedChanges, cl.Changed)
+
+	expectedCloses := []int{5,6}
+	assert.Equal(t, expectedCloses, cl.Closed)
+
+}
+
 func TestClose(t *testing.T) {
 	session, testSocket, _ := createAndConnectSession()
 	// Close socket and wait for suspend event
