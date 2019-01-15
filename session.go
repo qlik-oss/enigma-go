@@ -23,9 +23,13 @@ type (
 		interceptorChain         InterceptorContinuation
 	}
 
+	// ChangeListsKey key for ChangeLists context value
 	ChangeListsKey struct{}
+	// ChangeLists list of changed and closed handles.
 	ChangeLists struct{
+		// Changed list of changed object handles or nil
 		Changed []int
+		// Closed  list of closed object handles or nil
 		Closed []int
 	}
 )
