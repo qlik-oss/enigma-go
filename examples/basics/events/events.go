@@ -65,14 +65,7 @@ func main() {
 	// Fetch additional layout changes in a separate goroutine by listening for change events
 	go func() {
 		for range layoutChangeChannel {
-			layout, err = object.GetLayout(ctx)
-
-			if err != nil {
-				fmt.Println("The getlayout() call was aborted since the layout had already changed before we finished evaluating it")
-				continue
-			}
-			HyperCubeDataPagesAsJSON, _ = json.MarshalIndent(layout.HyperCube.DataPages, "", "  ")
-			fmt.Println(fmt.Sprintf("Changed hypercube layout: %s", HyperCubeDataPagesAsJSON))
+			fetchAndPrintLayout(ctx, object)
 		}
 		fmt.Println("Layout change channel closed")
 	}()
@@ -89,6 +82,35 @@ func main() {
 	time.Sleep(1 * time.Second)
 
 
+	// This section illustrates how to react on change events synchronously
+
+	// First lets remove the previously used change channel
+	object.RemoveChangeChannel(layoutChangeChannel)
+
+	// Let's say we keep objects in e.g. a map
+	objectMap := make(map[int]*enigma.GenericObject)
+	objectMap[object.Handle] = object
+
+	// Create a new context with a ChangeList value
+	cl := enigma.ChangeLists{}
+	ctxWithChanges := context.WithValue(ctx, enigma.ChangeListsKey{}, &cl)
+
+	// Clearing previous selections yields a changed object
+	if err := object.ClearSelections(ctxWithChanges, "/qHyperCubeDef", []int{0}); err != nil {
+		fmt.Println("failed to clear selections in object", object.GenericId)
+	}
+
+	// Update layout/-s
+	var wg sync.WaitGroup
+	for _, handle := range cl.Changed {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			fetchAndPrintLayout(ctx, objectMap[handle])
+		}()
+	}
+	wg.Wait()
+
 	// Destroy the object
 	fmt.Println("Destroying object")
 	doc.DestroyObject(ctx, object.GenericId)
@@ -99,4 +121,19 @@ func main() {
 	// Close the session
 	time.Sleep(1 * time.Second)
 	global.DisconnectFromServer()
+}
+
+func fetchAndPrintLayout(ctx context.Context, object *enigma.GenericObject) {
+	if object == nil {
+		return
+	}
+
+	layout, err := object.GetLayout(ctx)
+
+	if err != nil {
+		fmt.Println("The getlayout() call was aborted since the layout had already changed before we finished evaluating it")
+		return
+	}
+	HyperCubeDataPagesAsJSON, _ := json.MarshalIndent(layout.HyperCube.DataPages, "", "  ")
+	fmt.Println(fmt.Sprintf("Changed hypercube layout: %s", HyperCubeDataPagesAsJSON))
 }

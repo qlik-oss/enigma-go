@@ -4,6 +4,7 @@ This example will show you how to handle messages and events coming from a Qlik 
 * Session Messages
 * Object Layout Change Events
 * Object Close Events
+* Synchronously handle Change Events
 
 ## Runnable code
 
