@@ -16,6 +16,7 @@ examples=(
     data/string-expression/string-expression.go
     interceptors/retry-aborted/retry-aborted.go
     interceptors/metrics/metrics.go
+    logging/traffic-log.go
     reload/monitor-progress/monitor-progress.go
     testing/mock_mode/mock_mode.go
 )
