@@ -1,6 +1,6 @@
-# Logging
+# Traffic logging
 
-This example shows how to implement the TrafficLogger interface and log the JSON traffic to `stdout`.
+This example shows how to log the JSON traffic to a file or how to implement the TrafficLogger interface and log traffic to `stdout`.
 
 ```
 Sent: {"jsonrpc":"2.0","delta":false,"method":"CreateSessionApp","handle":-1,"id":1,"params":[]}

@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"path"
+	"runtime"
 
 	"github.com/qlik-oss/enigma-go"
 )
@@ -37,20 +39,27 @@ func (l *Logger) Received(message []byte) {
 
 func main() {
 
-	// Define a logger and pass it to the Dialer
+	// Log JSON traffic to a file
+	_, filename, _, _ := runtime.Caller(0)
+	trafficFileName := path.Dir(filename) + "/socket.traffic"
+	logToFileDialer := &enigma.Dialer{TrafficDumpFile: trafficFileName}
+	runScenario(logToFileDialer)
+
+	// Log JSON traffic to stdout
 	var logger = &Logger{}
+	logStdOutDialer := &enigma.Dialer{TrafficLogger: logger}
+	runScenario(logStdOutDialer)
+}
+
+func runScenario(dialer *enigma.Dialer) {
 	ctx := context.Background()
-	dialer := &enigma.Dialer{TrafficLogger: logger}
 	global, _ := dialer.Dial(ctx, "ws://localhost:9076/app/engineData", nil)
 
 	// Create a session app, set a script and perform a reload
 	doc, _ := global.CreateSessionApp(ctx)
-
-	// Load in some data into the session document:
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 
 	// Close the session
 	global.DisconnectFromServer()
-
 }
