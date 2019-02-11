@@ -22,5 +22,8 @@ The examples below show various enigma-go use cases.
 #### Reload
 * [Monitor Progress](./reload/monitor-progress/README.md)
 
+#### Traffic logging
+* [Traffic Log](./logging/README.md)
+
 #### Testing
 * [Mock Mode](./testing/mock_mode/README.md)
