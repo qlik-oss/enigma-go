@@ -18,23 +18,27 @@ Rand() as Field3
 AutoGenerate 100
 `
 
-// Implement the TrafficLogger interface
+// Logger implements the TrafficLogger interface
 type Logger struct{}
 
-func (l *Logger) Opened() {
+// Opened implements the Opened method in the TrafficLogger interface
+func (Logger) Opened() {
 	fmt.Println("Logger opened")
 }
 
-func (l *Logger) Closed() {
+// Closed implements the Closed method in the TrafficLogger interface
+func (Logger) Closed() {
 	fmt.Println("Logger closed")
 }
 
-func (l *Logger) Sent(message []byte) {
-	fmt.Println("Sent:", string(message[:]))
+// Sent implements the Sent method in the TrafficLogger interface
+func (Logger) Sent(message []byte) {
+	fmt.Println("Sent:", string(message))
 }
 
-func (l *Logger) Received(message []byte) {
-	fmt.Println("Received:", string(message[:]))
+// Received implements the Received method in the TrafficLogger interface
+func (Logger) Received(message []byte) {
+	fmt.Println("Received:", string(message))
 }
 
 func main() {
@@ -46,8 +50,7 @@ func main() {
 	runScenario(logToFileDialer)
 
 	// Log JSON traffic to stdout
-	var logger = &Logger{}
-	logStdOutDialer := &enigma.Dialer{TrafficLogger: logger}
+	logStdOutDialer := &enigma.Dialer{TrafficLogger: &Logger{}}
 	runScenario(logStdOutDialer)
 }
 
