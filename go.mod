@@ -11,5 +11,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/stretchr/testify v1.2.0
-	golang.org/x/net v0.0.0-20180112015858-5ccada7d0a7b
+	golang.org/x/net v0.0.0-20190216013615-3a22650c66bd
 )
