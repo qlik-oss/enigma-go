@@ -4,7 +4,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gorilla/websocket v1.4.0
-	github.com/jaytaylor/html2text v0.0.0-20190218062942-57d518f124b0
+	github.com/jaytaylor/html2text v0.0.0-20190316160659-a93a6c6ea053
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1 // indirect
 	github.com/pkg/errors v0.8.1
