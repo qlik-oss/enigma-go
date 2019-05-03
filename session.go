@@ -125,6 +125,7 @@ func (q *session) mainSessionLoop() {
 	}
 	q.socket.Close()
 	q.closeAllSessionEventChannels()
+	q.closeAllChangeListChannels()
 	close(q.disconnectedFromServerCh)
 
 }
