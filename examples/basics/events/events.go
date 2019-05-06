@@ -2,15 +2,14 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/qlik-oss/enigma-go"
 	"sync"
-	"encoding/json"
 	"time"
 )
 
 func main() {
-
 
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 1000000"
 	ctx := context.Background()
@@ -30,6 +29,15 @@ func main() {
 			fmt.Println("Session message", sessionEvent.Topic, string(sessionEvent.Content))
 		}
 	}()
+
+	// Print all change and close events coming in on the session
+	changeListsChannel := global.ChangeListsChannel(false)
+	go func() {
+		for sessionChangeLists := range changeListsChannel {
+			fmt.Println("Session change lists", sessionChangeLists.Changed, sessionChangeLists.Closed)
+		}
+	}()
+
 	// Once connected, create a session app and populate it with some data.
 	doc, _ := global.CreateSessionApp(ctx)
 	doc.SetScript(ctx, script)
@@ -81,7 +89,6 @@ func main() {
 	object.SelectHyperCubeCells(ctx, "/qHyperCubeDef", []int{0, 2, 4}, []int{0}, false, false)
 	time.Sleep(1 * time.Second)
 
-
 	// This section illustrates how to react on change events synchronously
 
 	// First lets remove the previously used change channel
@@ -115,7 +122,7 @@ func main() {
 	fmt.Println("Destroying object")
 	doc.DestroyObject(ctx, object.GenericId)
 	// Wait for it to be closed
-	<- object.Closed()
+	<-object.Closed()
 	fmt.Println("Object closed")
 
 	// Close the session

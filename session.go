@@ -14,6 +14,7 @@ type (
 		*pendingCallRegistry
 		*remoteObjectRegistry
 		*sessionMessages
+		*sessionChangeLists
 		socket                   Socket
 		dialer                   *Dialer
 		isOpen                   bool
@@ -26,7 +27,7 @@ type (
 	// ChangeListsKey key for ChangeLists context value
 	ChangeListsKey struct{}
 	// ChangeLists list of changed and closed handles.
-	ChangeLists struct{
+	ChangeLists struct {
 		// Changed list of changed object handles or nil
 		Changed []int
 		// Closed  list of closed object handles or nil
@@ -124,6 +125,7 @@ func (q *session) mainSessionLoop() {
 	}
 	q.socket.Close()
 	q.closeAllSessionEventChannels()
+	q.closeAllChangeListChannels()
 	close(q.disconnectedFromServerCh)
 
 }
@@ -137,6 +139,7 @@ func (q *session) handleResponse(message []byte, receiveTimestamp time.Time) {
 		q.emitSessionMessage(rpcResponse.Method, rpcResponse.Params)
 	} else {
 		pendingCall := q.removePendingCall(rpcResponse.ID)
+		q.emitChangeLists(rpcResponse.Change, rpcResponse.Close, pendingCall == nil) // Emit this before marking the pending call as done to make sure it is there when the pending call returns
 		if pendingCall != nil {
 			pendingCall.Response = rpcResponse
 			pendingCall.receiveTimestamp = receiveTimestamp
@@ -263,6 +266,7 @@ func newSession(dialer *Dialer) *session {
 		socket:                   nil,
 		dialer:                   dialer,
 		sessionMessages:          newSessionEvents(),
+		sessionChangeLists:       newSessionChangeLists(),
 		outgoingMessages:         make(chan []byte, 50),
 		pendingCallRegistry:      newPendingCallRegistry(),
 		remoteObjectRegistry:     newRemoteObjectRegistry(),
