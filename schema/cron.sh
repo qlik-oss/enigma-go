@@ -33,6 +33,7 @@ fi
 . ./schema/generate.sh
 
 # If there are changes to qix_generated.go then open a pull request
+cd ..
 local_changes=$(git ls-files qix_generated.go -m)
 
 if [ ! -z "$local_changes" ]; then
