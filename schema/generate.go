@@ -15,9 +15,14 @@ import (
 
 // QlikExtensions represents Qlik JSON Schema extensinos
 type QlikExtensions struct {
-	QlikStability     string `json:"x-qlik-stability,omitempty"`
-	QlikVisibility    string `json:"x-qlik-visibility,omitempty"`
-	QlikEngineVersion string `json:"x-qlik-engine-version,omitempty"`
+	QlikStability  string `json:"x-qlik-stability,omitempty"`
+	QlikVisibility string `json:"x-qlik-visibility,omitempty"`
+}
+
+// Info represents engine information
+type Info struct {
+	Version string `json:"version,omitempty"` //Engine version
+	Title   string `json:"title,omitempty"`
 }
 
 // Layout represents GenericObject Layout definition
@@ -29,14 +34,16 @@ type Layout struct {
 // Schema represents a JSON Schema
 type Schema struct {
 	QlikExtensions
-	Definitions map[string]*Type    `json:"definitions,omitempty"`
-	Services    map[string]*Service `json:"services,omitempty"`
+	Info       Info                        `json:"info,omitempty"`
+	OpenAPI    string                      `json:"openapi,omitempty"`
+	Components map[string]map[string]*Type `json:"components,omitempy"`
+	Services   map[string]*Service         `json:"x-qlik-services,omitempy"`
 }
 
 // Service represents a JSON Schema service
 type Service struct {
 	QlikExtensions
-	Description string              `json:"description,omitempty"`
+	Description string
 	Methods     map[string]*Methodx `json:"methods,omitempty"`
 	Layouts     []*Layout           `json:"layouts,omitempty"`
 }
@@ -78,7 +85,7 @@ type Type struct {
 	MultipleOf           int                     `json:"multipleOf,omitempty"`
 	Not                  *Type                   `json:"not,omitempty"`
 	Name                 string                  `json:"name,omitempty"`
-	OneOf                []*Type                 `json:"oneOf,omitempty"`
+	OneOf                []*Option               `json:"oneOf,omitempty"`
 	Pattern              string                  `json:"pattern,omitempty"`
 	PatternProperties    map[string]*Type        `json:"patternProperties,omitempty"`
 	Properties           map[OrderAwareKey]*Type `json:"properties,omitempty"` // Special trick with the OrderAwareKey to retain the order of the properties
@@ -88,6 +95,13 @@ type Type struct {
 	Type                 string                  `json:"type,omitempty"`
 	UniqueItems          bool                    `json:"uniqueItems,omitempty"`
 	Schema               *Type                   `json:"schema,omitempty"`
+}
+
+// Option represents a possible value in case of an "enum"
+type Option struct {
+	Description string `json:"description,omitempty"`
+	Title       string `json:"title,omitempty"`
+	ConstValue  int    `json:"x-qlik-const,omitempty"`
 }
 
 // OrderAwareKey is a special key construct to retain order from json spec for properties
@@ -105,7 +119,7 @@ func (p OrderAwareKeySlice) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
 
 var keyOrderCounter uint64
 
-var arrayTypes map[string]bool
+var typesMap map[string]string
 
 // UnmarshalText allows OrderAwareKey to be used as a json map key
 func (k *OrderAwareKey) UnmarshalText(text []byte) error {
@@ -154,11 +168,14 @@ func getSortedServiceKeys(contents map[string]*Service) []string {
 }
 
 func refToName(refName string) string {
-	if refName == "#/definitions/JsonObject" {
+	if refName == "#/components/schemas/JsonObject" {
 		return "json.RawMessage"
 	}
-	name := strings.Replace(refName, "#/definitions/", "", 1)
-	if arrayTypes[name] == true {
+	name := strings.Replace(refName, "#/components/schemas/", "", 1)
+	if typesMap[name] == "string" {
+		return "string"
+	}
+	if typesMap[name] == "array" {
 		return name
 	}
 	return "*" + name
@@ -173,12 +190,19 @@ func getInnerType(t *Type) string {
 	} else {
 		innerType = t
 	}
-
+	var s string
 	if innerType.Ref != "" {
-		return refToName(innerType.Ref)
+		s = refToName(innerType.Ref)
+	} else {
+		s = getTypeName(innerType)
 	}
-	return getTypeName(innerType)
+	if found {
+		fmt.Println(s)
+	}
+	return s
 }
+
+var found = false
 
 func getTypeName(t *Type) string {
 	switch t.Type {
@@ -186,6 +210,8 @@ func getTypeName(t *Type) string {
 		return getInnerType(t)
 	case "array":
 		return "[]" + getInnerType(t)
+	case "string":
+		return "string"
 	case "boolean":
 		return "bool"
 	case "integer":
@@ -229,12 +255,10 @@ func allTypesBuiltIn(types []*Type) bool {
 	return result
 }
 
-func createArrayTypesMap(schema *Schema) map[string]bool {
-	result := make(map[string]bool)
-	for id, t := range schema.Definitions {
-		if t.Type == "array" {
-			result[id] = true
-		}
+func createTypesMap(schema *Schema) map[string]string {
+	result := map[string]string{}
+	for id, t := range schema.Components["schemas"] {
+		result[id] = t.Type
 	}
 	return result
 }
@@ -258,16 +282,16 @@ func loadSchemaFile() (*Schema, error) {
 	}
 
 	// Fix some issues in the spec file
-	schema.Definitions["ObjectInterface"].Type = "object"
-	delete(schema.Definitions, "JsonObject")
-	arrayTypes = createArrayTypesMap(schema)
+	schema.Components["schemas"]["ObjectInterface"].Type = "object"
+	delete(schema.Components["schemas"], "JsonObject")
+	typesMap = createTypesMap(schema)
 	return schema, err
 }
 
 func expandGenericObjectWithLayouts(schema *Schema) {
 	// Expand the generic object properties schema with layouts
-	genericObjectProperties := schema.Definitions["GenericObjectProperties"]
-	genericObjectLayout := schema.Definitions["GenericObjectLayout"]
+	genericObjectProperties := schema.Components["schemas"]["GenericObjectProperties"]
+	genericObjectLayout := schema.Components["schemas"]["GenericObjectLayout"]
 	layouts := schema.Services["GenericObject"].Layouts
 	for _, layout := range layouts {
 		if layout.Prop != nil {
@@ -627,7 +651,15 @@ func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
 func isStringEnum(property *Type) bool {
-	return property.Type == "string" && property.Enum != nil
+	return property.Type == "string" && (property.Enum != nil || property.OneOf != nil)
+}
+func hasEnumRef(property *Type) bool {
+	if property.Ref != "" {
+		name := refToName(property.Ref)
+		// "Enums" are have type string but are sent as "objects" with a list of valid options for said "enum".
+		return name == "string"
+	}
+	return false
 }
 
 func getExtraCrossAssignmentLine(methodName string) string {
@@ -667,7 +699,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schema.QlikEngineVersion, ". DO NOT EDIT.")
+	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schema.Info.Version, ". DO NOT EDIT.")
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "package enigma")
 	fmt.Fprintln(out, "import (")
@@ -676,15 +708,15 @@ func main() {
 	fmt.Fprint(out, ")\n\n")
 
 	// Generate definition data type structs
-	definitionKeys := getAlphabeticSortedKeys(schema.Definitions)
+	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])
 	for _, defName := range definitionKeys {
-		def := schema.Definitions[defName]
+		def := schema.Components["schemas"][defName]
 		if def.Description != "" {
 			fmt.Fprintln(out, formatComment("", def.Description, nil))
 		}
 		switch def.Type {
 		case "object":
-			fmt.Fprintln(out, "type", defName, " struct {")
+			fmt.Fprintln(out, "type", defName, "struct {")
 			// types
 			propertiesKeys := getOriginalOrderSortedKeys(def.Properties)
 			for _, key := range propertiesKeys {
@@ -697,7 +729,7 @@ func main() {
 					fmt.Fprintln(out, formatComment("\t", property.Description, nil))
 				}
 
-				if isNonZero(property.Default) && !isStringEnum(property) {
+				if isNonZero(property.Default) && !hasEnumRef(property) {
 					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
 				} else {
@@ -709,12 +741,12 @@ func main() {
 			fmt.Fprintln(out, "}")
 			fmt.Fprintln(out, "")
 		case "array":
-			fmt.Fprintln(out, "type ", defName, getTypeName(def))
+			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
-		case "enum":
-			// Don't generate enums for now
+		case "string":
+			// Enums are strings now
 		default:
-			fmt.Fprintln(out, "<<<other>>>", def.Type)
+			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
 			fmt.Fprintln(out, "")
 		}
 	}
