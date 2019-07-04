@@ -744,6 +744,8 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
+      fmt.Frpintln(out, "type", defName, "string")
+      fmt.Fprintln("")
 			// Enums are strings now
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
