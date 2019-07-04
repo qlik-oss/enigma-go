@@ -6,14 +6,14 @@ import (
 	"encoding/json"
 )
 
-type AlfaNumString  struct {
+type AlfaNumString struct {
 	// Calculated value.
 	String string `json:"qString,omitempty"`
 	// Is set to true if the value is a numeric.
 	IsNum bool `json:"qIsNum,omitempty"`
 }
 
-type AlternateStateData  struct {
+type AlternateStateData struct {
 	// Name of the alternate state.
 	// Default is current selections: $
 	StateName string `json:"qStateName,omitempty"`
@@ -21,7 +21,7 @@ type AlternateStateData  struct {
 	FieldItems []*BookmarkFieldItem `json:"qFieldItems,omitempty"`
 }
 
-type AppEntry  struct {
+type AppEntry struct {
 	// Identifier of the app.
 	ID string `json:"qID,omitempty"`
 	// Title of the app.
@@ -43,14 +43,14 @@ type AppEntry  struct {
 
 // Lists the app objects. Is the layout for AppObjectListDef.
 // An app object is a generic object created at app level.
-type AppObjectList  struct {
+type AppObjectList struct {
 	// Information about the list of dimensions.
 	Items []*NxContainerEntry `json:"qItems,omitempty"`
 }
 
 // Defines the list of objects in an app.
 // An app object is a generic object created at app level.
-type AppObjectListDef  struct {
+type AppObjectListDef struct {
 	// Type of the app list.
 	Type string `json:"qType,omitempty"`
 	// Data that you want to include in the app list definition.
@@ -58,7 +58,7 @@ type AppObjectListDef  struct {
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type AppScript  struct {
+type AppScript struct {
 	// Script text.
 	Script string `json:"qScript,omitempty"`
 	// Information about publishing and permissions.
@@ -66,9 +66,9 @@ type AppScript  struct {
 	Meta *NxMeta `json:"qMeta,omitempty"`
 }
 
-type  ArrayOfNxValuePoint []*NxPivotValuePoint
+type ArrayOfNxValuePoint []*NxPivotValuePoint
 
-type AssociationScore  struct {
+type AssociationScore struct {
 	// Pair of fields.
 	// _< FieldName1>_ / < FieldName2>
 	// Where:
@@ -100,7 +100,7 @@ type AssociationScore  struct {
 	Field2Scores *FieldScores `json:"qField2Scores,omitempty"`
 }
 
-type BNFDef  struct {
+type BNFDef struct {
 	// Array of token references that all together build up the definition of the current token.
 	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
 	Bnf []int `json:"qBnf,omitempty"`
@@ -228,7 +228,7 @@ type BNFDef  struct {
 	FGList []string `json:"qFGList,omitempty"`
 }
 
-type BookmarkFieldItem  struct {
+type BookmarkFieldItem struct {
 	// Name and type of the field.
 	Def *FieldDefEx `json:"qDef,omitempty"`
 	// Indicates if the field is locked.
@@ -250,7 +250,7 @@ type BookmarkFieldItem  struct {
 }
 
 // Defines the range of the bookmark fields that are returned.
-type BookmarkFieldPage  struct {
+type BookmarkFieldPage struct {
 	// The start value of the range.
 	StartIndex int `json:"qStartIndex,omitempty"`
 	// The end value of the range.
@@ -258,27 +258,27 @@ type BookmarkFieldPage  struct {
 }
 
 // Lists the bookmarks. Is the layout for BookmarkListDef.
-type BookmarkList  struct {
+type BookmarkList struct {
 	// Information about the list of bookmarks.
 	Items []*NxContainerEntry `json:"qItems,omitempty"`
 }
 
 // Defines the list of bookmarks.
-type BookmarkListDef  struct {
+type BookmarkListDef struct {
 	// Type of the list.
 	Type string `json:"qType,omitempty"`
 	// Data
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type BookmarkVariableItem  struct {
+type BookmarkVariableItem struct {
 	// Name of the variable.
 	Name string `json:"qName,omitempty"`
 	// Value of the variable.
 	Value *FieldValue `json:"qValue,omitempty"`
 }
 
-type CalendarStrings  struct {
+type CalendarStrings struct {
 	// List of short day names.
 	DayNames []string `json:"qDayNames,omitempty"`
 	// List of short month names.
@@ -289,7 +289,7 @@ type CalendarStrings  struct {
 	LongMonthNames []string `json:"qLongMonthNames,omitempty"`
 }
 
-type CharRange  struct {
+type CharRange struct {
 	// Position of the first search occurrence.
 	CharPos int `json:"qCharPos,omitempty"`
 	// Number of occurrences found.
@@ -298,20 +298,20 @@ type CharRange  struct {
 
 // Lists the children of a generic object. Is the layout for ChildListDef.
 // ChildList is used by the GetLayout Method to list the children of a generic object.
-type ChildList  struct {
+type ChildList struct {
 	// Information about the items in the app object.
 	Items []*NxContainerEntry `json:"qItems,omitempty"`
 }
 
 // Defines the list of children of a generic object.
 // What is defined in ChildListDef has an impact on what the GetLayout method returns. See Example for more information.
-type ChildListDef  struct {
+type ChildListDef struct {
 	// Data that you want to include in the child list definition.
 	// You need to enter the paths to the information you want to retrieve.
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type CodePage  struct {
+type CodePage struct {
 	// Number of the code page.
 	Number int `json:"qNumber,omitempty"`
 	// Name of the code page.
@@ -320,7 +320,7 @@ type CodePage  struct {
 	Description string `json:"qDescription,omitempty"`
 }
 
-type Connection  struct {
+type Connection struct {
 	// Identifier of the connection.
 	// Is generated by the engine and is unique.
 	Id string `json:"qId,omitempty"`
@@ -386,12 +386,12 @@ type Connection  struct {
 	LogOn string `json:"qLogOn,omitempty"`
 }
 
-type ContentLibraryList  struct {
+type ContentLibraryList struct {
 	// Information about the content library.
 	Items []*ContentLibraryListItem `json:"qItems,omitempty"`
 }
 
-type ContentLibraryListItem  struct {
+type ContentLibraryListItem struct {
 	// Name of the library.
 	Name string `json:"qName,omitempty"`
 	// Is set to true if the library is specific to the app (not a global content library).
@@ -400,7 +400,7 @@ type ContentLibraryListItem  struct {
 	Meta *NxMeta `json:"qMeta,omitempty"`
 }
 
-type CustomConnector  struct {
+type CustomConnector struct {
 	// Name of the custom connector file.
 	Provider string `json:"qProvider,omitempty"`
 	// Name of the parent folder that contains the custom connector file.
@@ -420,7 +420,7 @@ type CustomConnector  struct {
 	SupportFileStreaming bool `json:"qSupportFileStreaming,omitempty"`
 }
 
-type DataField  struct {
+type DataField struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// Is set to true if the field is a primary key.
@@ -431,14 +431,14 @@ type DataField  struct {
 	OriginalFieldName string `json:"qOriginalFieldName,omitempty"`
 }
 
-type DataRecord  struct {
+type DataRecord struct {
 	// List of values inside the table.
 	// The first values (in result/qPreview/0/qValues ) correspond to the field names in the table.
 	// The following values (from result/qPreview/1/qValues ) are the values of the fields in the table.
 	Values []string `json:"qValues,omitempty"`
 }
 
-type DataTable  struct {
+type DataTable struct {
 	// Name of the table.
 	Name string `json:"qName,omitempty"`
 	// Type of the table.
@@ -446,7 +446,7 @@ type DataTable  struct {
 	Type string `json:"qType,omitempty"`
 }
 
-type DataTableEx  struct {
+type DataTableEx struct {
 	// Name of the table.
 	Name string `json:"qName,omitempty"`
 	// List of the fields in the table.
@@ -462,14 +462,14 @@ type DataTableEx  struct {
 	FormatSpec string `json:"qFormatSpec,omitempty"`
 }
 
-type Database  struct {
+type Database struct {
 	// Name of the database.
 	Name string `json:"qName,omitempty"`
 	// Is set to true if the database is set by default.
 	IsDefault bool `json:"qIsDefault,omitempty"`
 }
 
-type DatabaseInfo  struct {
+type DatabaseInfo struct {
 	// Name of the product accessed by the provider.
 	DBMSName string `json:"qDBMSName,omitempty"`
 	// If set to true, it means that the data source contains some databases.
@@ -512,12 +512,12 @@ type DatabaseInfo  struct {
 	Keywords []string `json:"qKeywords,omitempty"`
 }
 
-type DatabaseOwner  struct {
+type DatabaseOwner struct {
 	// Name of the owner.
 	Name string `json:"qName,omitempty"`
 }
 
-type DelimiterInfo  struct {
+type DelimiterInfo struct {
 	// Name of the delimiter.
 	// Example:
 	// "Tab_DELIMITER"
@@ -532,7 +532,7 @@ type DelimiterInfo  struct {
 	IsMultiple bool `json:"qIsMultiple,omitempty"`
 }
 
-type DerivedFieldsInTableData  struct {
+type DerivedFieldsInTableData struct {
 	// Name of the derived definition.
 	DefinitionName string `json:"qDefinitionName,omitempty"`
 	// List of tags.
@@ -542,13 +542,13 @@ type DerivedFieldsInTableData  struct {
 }
 
 // Lists the dimensions. Is the layout for DimensionListDef.
-type DimensionList  struct {
+type DimensionList struct {
 	// Information about the list of dimensions.
 	Items []*NxContainerEntry `json:"qItems,omitempty"`
 }
 
 // Defines the lists of dimensions.
-type DimensionListDef  struct {
+type DimensionListDef struct {
 	// Type of the list.
 	Type string `json:"qType,omitempty"`
 	// Data
@@ -556,7 +556,7 @@ type DimensionListDef  struct {
 }
 
 // Parameters for a reload.
-type DoReloadExParams  struct {
+type DoReloadExParams struct {
 	// 0: for default mode.
 	// 1: for ABEND; the reload of the script ends if an error occurs.
 	// 2: for ignore; the reload of the script continues even if an error is detected in the script.
@@ -573,14 +573,14 @@ type DoReloadExParams  struct {
 }
 
 // The result and path to script log for a reload.
-type DoReloadExResult  struct {
+type DoReloadExResult struct {
 	// The reload is successful if True.
 	Success bool `json:"qSuccess,omitempty"`
 	// Path to the script log file.
 	ScriptLogFile string `json:"qScriptLogFile,omitempty"`
 }
 
-type DocListEntry  struct {
+type DocListEntry struct {
 	// Name of the app.
 	DocName string `json:"qDocName,omitempty"`
 	// Not used.
@@ -613,7 +613,7 @@ type DocListEntry  struct {
 	HasSectionAccess bool `json:"qHasSectionAccess,omitempty"`
 }
 
-type DriveInfo  struct {
+type DriveInfo struct {
 	// Value of the drive.
 	// Examples:
 	// C:\\\, E:\\\
@@ -642,7 +642,7 @@ type DriveInfo  struct {
 	UnnamedDrive bool `json:"qUnnamedDrive,omitempty"`
 }
 
-type EditorBreakpoint  struct {
+type EditorBreakpoint struct {
 	// Name of the breakpoint.
 	BufferName string `json:"qbufferName,omitempty"`
 	// Line number in the script where the breakpoint is set.
@@ -661,7 +661,7 @@ type EditorBreakpoint  struct {
 // Properties:
 // 
 // "qEmbeddedSnapshot": {}
-type EmbeddedSnapshot  struct {
+type EmbeddedSnapshot struct {
 }
 
 // Defines the embedded snapshot in a generic object.
@@ -669,10 +669,10 @@ type EmbeddedSnapshot  struct {
 // Properties:
 // 
 // "EmbeddedSnapshotDef": {}
-type EmbeddedSnapshotDef  struct {
+type EmbeddedSnapshotDef struct {
 }
 
-type ErrorData  struct {
+type ErrorData struct {
 	// Detailed information about the error message.
 	ErrorString string `json:"qErrorString,omitempty"`
 	// Line termination characters.
@@ -693,12 +693,12 @@ type ErrorData  struct {
 }
 
 // Obsolete, use qrs API's to fetch extensions.
-type ExtensionList  struct {
+type ExtensionList struct {
 	Items []string `json:"qItems,omitempty"`
 }
 
 // Obsolete, use qrs API's to fetch extensions.
-type ExtensionListDef  struct {
+type ExtensionListDef struct {
 }
 
 // Sets the formatting of a field.
@@ -758,7 +758,7 @@ type ExtensionListDef  struct {
 // Type is ASCII:
 // 
 // No formatting, qFmt is ignored.
-type FieldAttributes  struct {
+type FieldAttributes struct {
 	// Type of the field.
 	// Default is U.
 	// 
@@ -809,7 +809,7 @@ type FieldAttributes  struct {
 	Thou string `json:"qThou,omitempty"`
 }
 
-type FieldDefEx  struct {
+type FieldDefEx struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// Type of data entity.
@@ -834,7 +834,7 @@ type FieldDefEx  struct {
 	Type string `json:"qType,omitempty"`
 }
 
-type FieldDescription  struct {
+type FieldDescription struct {
 	// Internal number of the field.
 	InternalNumber int `json:"qInternalNumber,omitempty"`
 	// Name of the field.
@@ -884,7 +884,7 @@ type FieldDescription  struct {
 	ByteSize int `json:"qByteSize,omitempty"`
 }
 
-type FieldInTableData  struct {
+type FieldInTableData struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// Is shown for fixed records.
@@ -933,13 +933,13 @@ type FieldInTableData  struct {
 }
 
 // Lists the fields present in the data model viewer. Is the layout for FieldListDef.
-type FieldList  struct {
+type FieldList struct {
 	// Array of items.
 	Items []*NxFieldDescription `json:"qItems,omitempty"`
 }
 
 // Defines the fields to show.
-type FieldListDef  struct {
+type FieldListDef struct {
 	// Shows the system tables if set to true.
 	// Default is false.
 	ShowSystem bool `json:"qShowSystem,omitempty"`
@@ -963,14 +963,14 @@ type FieldListDef  struct {
 	ShowImplicit bool `json:"qShowImplicit,omitempty"`
 }
 
-type FieldOrColumn  struct {
+type FieldOrColumn struct {
 	// Name of the field or column to be matched.
 	FieldName string `json:"qFieldName,omitempty"`
 	// Name of the table to be matched on. This parameter is optional. If TableName is set, FieldName represent the Table column with that name. If TableName is not set, FieldName represents the the field with that name.
 	TableName string `json:"qTableName,omitempty"`
 }
 
-type FieldScores  struct {
+type FieldScores struct {
 	// Field name.
 	// One of the field names defined in qFieldPairName.
 	FieldName string `json:"qFieldName,omitempty"`
@@ -986,7 +986,7 @@ type FieldScores  struct {
 	RowScore Float64 `json:"qRowScore,omitempty"`
 }
 
-type FieldValue  struct {
+type FieldValue struct {
 	// Text related to the field value.
 	// This parameter is optional.
 	Text string `json:"qText,omitempty"`
@@ -1024,7 +1024,7 @@ type FieldValue  struct {
 // • JSON for JSON format
 // 
 // • KML for KML file
-type FileDataFormat  struct {
+type FileDataFormat struct {
 	// Type of the file.
 	// 
 	// One of:
@@ -1100,7 +1100,7 @@ type FileDataFormat  struct {
 	FixedWidthDelimiters string `json:"qFixedWidthDelimiters,omitempty"`
 }
 
-type FilterInfo  struct {
+type FilterInfo struct {
 	// One of:
 	// 
 	// • NONE or FILTER_TYPE_NONE
@@ -1110,7 +1110,7 @@ type FilterInfo  struct {
 	WherePredicate string `json:"qWherePredicate,omitempty"`
 }
 
-type FolderItem  struct {
+type FolderItem struct {
 	// Name of the folder item.
 	Name string `json:"qName,omitempty"`
 	// Type of the folder item.
@@ -1125,7 +1125,7 @@ type FolderItem  struct {
 	Type string `json:"qType,omitempty"`
 }
 
-type Function  struct {
+type Function struct {
 	// Name of the script function.
 	Name string `json:"qName,omitempty"`
 	// Group of the script function.
@@ -1197,7 +1197,7 @@ type Function  struct {
 	Signature string `json:"qSignature,omitempty"`
 }
 
-type GenericBookmarkEntry  struct {
+type GenericBookmarkEntry struct {
 	// Information about the properties of the bookmark.
 	Properties *GenericBookmarkProperties `json:"qProperties,omitempty"`
 	// Information about the bookmark.
@@ -1205,7 +1205,7 @@ type GenericBookmarkEntry  struct {
 }
 
 // Is the layout for GenericBookmarkProperties.
-type GenericBookmarkLayout  struct {
+type GenericBookmarkLayout struct {
 	// Information about the object.
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Information on publishing and permissions.
@@ -1216,7 +1216,7 @@ type GenericBookmarkLayout  struct {
 	FieldInfos []*LayoutFieldInfo `json:"qFieldInfos,omitempty"`
 }
 
-type GenericBookmarkProperties  struct {
+type GenericBookmarkProperties struct {
 	// Information about the bookmark.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1224,7 +1224,7 @@ type GenericBookmarkProperties  struct {
 	MetaDef *NxMetaDef `json:"qMetaDef,omitempty"`
 }
 
-type GenericDimensionInfo  struct {
+type GenericDimensionInfo struct {
 	// Length of the longest value in the field.
 	ApprMaxGlyphCount int `json:"qApprMaxGlyphCount,omitempty"`
 	// Number of distinct field values
@@ -1240,7 +1240,7 @@ type GenericDimensionInfo  struct {
 }
 
 // Is the layout for GenericDimensionProperties.
-type GenericDimensionLayout  struct {
+type GenericDimensionLayout struct {
 	// Identifier and type of the dimension.
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Information about publishing and permissions.
@@ -1252,7 +1252,7 @@ type GenericDimensionLayout  struct {
 	DimInfos []*GenericDimensionInfo `json:"qDimInfos,omitempty"`
 }
 
-type GenericDimensionProperties  struct {
+type GenericDimensionProperties struct {
 	// Identifier and type of the dimension.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1264,7 +1264,7 @@ type GenericDimensionProperties  struct {
 }
 
 // Is the layout for GenericMeasureProperties.
-type GenericMeasureLayout  struct {
+type GenericMeasureLayout struct {
 	// Information about the object.
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Information about the measure.
@@ -1273,7 +1273,7 @@ type GenericMeasureLayout  struct {
 	Meta *NxMeta `json:"qMeta,omitempty"`
 }
 
-type GenericMeasureProperties  struct {
+type GenericMeasureProperties struct {
 	// Information about the measure.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1284,7 +1284,7 @@ type GenericMeasureProperties  struct {
 	MetaDef *NxMetaDef `json:"qMetaDef,omitempty"`
 }
 
-type GenericObjectEntry  struct {
+type GenericObjectEntry struct {
 	// Information about the generic object properties.
 	Property *GenericObjectProperties `json:"qProperty,omitempty"`
 	// Information about the children of the generic object.
@@ -1294,7 +1294,7 @@ type GenericObjectEntry  struct {
 }
 
 // Is the layout for GenericObjectProperties.
-type GenericObjectLayout  struct {
+type GenericObjectLayout struct {
 	// Identifier and type of the generic object.
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Information about publishing and permissions.
@@ -1333,7 +1333,7 @@ type GenericObjectLayout  struct {
 	VariableList *VariableList `json:"qVariableList,omitempty"`
 }
 
-type GenericObjectProperties  struct {
+type GenericObjectProperties struct {
 	// Identifier and type of the object.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1369,7 +1369,7 @@ type GenericObjectProperties  struct {
 }
 
 // Is the layout for GenericVariableProperties.
-type GenericVariableLayout  struct {
+type GenericVariableLayout struct {
 	// Identifier and type of the object.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1384,7 +1384,7 @@ type GenericVariableLayout  struct {
 	IsScriptCreated bool `json:"qIsScriptCreated,omitempty"`
 }
 
-type GenericVariableProperties  struct {
+type GenericVariableProperties struct {
 	// Identifier and type of the object.
 	// This parameter is mandatory.
 	Info *NxInfo `json:"qInfo,omitempty"`
@@ -1412,7 +1412,7 @@ type GenericVariableProperties  struct {
 // Renders the properties of a hypercube. Is the layout for HyperCubeDef.
 // For more information about the definition of a hypercube, see Generic object.
 // What is returned in HyperCube depends on the type of the hypercube (straight, pivot or stacked table, or tree) and on the method called (GetLayout, GetHyperCubeData, GetHyperCubePivotData, GetHyperCubeStackData, GetHyperCubeTreeData).
-type HyperCube  struct {
+type HyperCube struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -1515,7 +1515,7 @@ type HyperCube  struct {
 
 // Defines the properties of a hypercube.
 // For more information about the definition of a hypercube, see Generic object.
-type HyperCubeDef  struct {
+type HyperCubeDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -1647,7 +1647,7 @@ type HyperCubeDef  struct {
 	ColumnOrder []int `json:"qColumnOrder,omitempty"`
 }
 
-type InteractDef  struct {
+type InteractDef struct {
 	// Interaction type.
 	// 
 	// One of:
@@ -1703,11 +1703,11 @@ type InteractDef  struct {
 }
 
 // Contains JSON to be excluded from validation.
-type LayoutExclude  struct {
+type LayoutExclude struct {
 }
 
 // Meta data about the selection in a field.
-type LayoutFieldInfo  struct {
+type LayoutFieldInfo struct {
 	// The name of the field.
 	FieldName string `json:"qFieldName,omitempty"`
 	// Number of selected values in the field.
@@ -1716,7 +1716,7 @@ type LayoutFieldInfo  struct {
 	ExcludedValuesCount int `json:"qExcludedValuesCount,omitempty"`
 }
 
-type LineageInfo  struct {
+type LineageInfo struct {
 	// A string indicating the origin of the data:
 	// 
 	// • [filename]: the data comes from a local file.
@@ -1742,7 +1742,7 @@ type LineageInfo  struct {
 // Renders the properties of a list object. Is the layout for ListObjectDef.
 // For more information about the definition of a list object, see Generic object.
 // ListObject is used by the GetLayout Method to display the properties of a list object.
-type ListObject  struct {
+type ListObject struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -1761,7 +1761,7 @@ type ListObject  struct {
 
 // Defines the properties of a list object.
 // For more information about the definition of a list object, see Generic object.
-type ListObjectDef  struct {
+type ListObjectDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -1798,7 +1798,7 @@ type ListObjectDef  struct {
 	Expressions []*NxListObjectExpressionDef `json:"qExpressions,omitempty"`
 }
 
-type LocaleInfo  struct {
+type LocaleInfo struct {
 	// Decimal separator.
 	DecimalSep string `json:"qDecimalSep,omitempty"`
 	// Thousand separator.
@@ -1883,13 +1883,13 @@ type LocaleInfo  struct {
 }
 
 // Lists the measures. Is the layout for MeasureListDef.
-type MeasureList  struct {
+type MeasureList struct {
 	// Information about the list of measures.
 	Items []*NxContainerEntry `json:"qItems,omitempty"`
 }
 
 // Defines the list of measures.
-type MeasureListDef  struct {
+type MeasureListDef struct {
 	// Type of the list.
 	Type string `json:"qType,omitempty"`
 	// Data
@@ -1898,7 +1898,7 @@ type MeasureListDef  struct {
 
 // Lists the media files. Is the layout for MediaListDef.
 // This struct is deprecated.
-type MediaList  struct {
+type MediaList struct {
 	// Information about the list of media files.
 	// In Qlik Sense Desktop, the media files are retrieved from:
 	// _%userprofile%\Documents\Qlik\Sense\Content\Default_
@@ -1915,11 +1915,11 @@ type MediaList  struct {
 // 
 // "qMediaListDef": {}
 // _qMediaListDef_ has an empty structure. No properties need to be set.
-type MediaListDef  struct {
+type MediaListDef struct {
 }
 
 // In addition, this structure can return dynamic properties.
-type MediaListItem  struct {
+type MediaListItem struct {
 	// Relative path to the media file. The URL is static.
 	// Media files located:
 	// 
@@ -1956,7 +1956,7 @@ type MediaListItem  struct {
 // • description
 // 
 // • dynamicColor
-type NxAppLayout  struct {
+type NxAppLayout struct {
 	// Title of the app.
 	Title string `json:"qTitle,omitempty"`
 	// In Qlik Sense Enterprise, this property corresponds to the app identifier (GUID).
@@ -2004,7 +2004,7 @@ type NxAppLayout  struct {
 // • description
 // 
 // • dynamicColor
-type NxAppProperties  struct {
+type NxAppProperties struct {
 	// App title.
 	Title string `json:"qTitle,omitempty"`
 	// Last reload time of the app.
@@ -2024,7 +2024,7 @@ type NxAppProperties  struct {
 }
 
 // Layout for NxAttrDimDef.
-type NxAttrDimDef  struct {
+type NxAttrDimDef struct {
 	// Expression or field name.
 	Def string `json:"qDef,omitempty"`
 	// LibraryId for dimension.
@@ -2036,7 +2036,7 @@ type NxAttrDimDef  struct {
 }
 
 // Layout for NxAttrDimDef.
-type NxAttrDimInfo  struct {
+type NxAttrDimInfo struct {
 	// Cardinality of the attribute expression.
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Number of rows.
@@ -2051,7 +2051,7 @@ type NxAttrDimInfo  struct {
 	IsCalculated bool `json:"qIsCalculated,omitempty"`
 }
 
-type NxAttrExprDef  struct {
+type NxAttrExprDef struct {
 	// Definition of the attribute expression.
 	// Example: "Max(OrderID)"
 	Expression string `json:"qExpression,omitempty"`
@@ -2063,7 +2063,7 @@ type NxAttrExprDef  struct {
 }
 
 // Layout for NxAttrExprDef.
-type NxAttrExprInfo  struct {
+type NxAttrExprInfo struct {
 	// Minimum value.
 	Min Float64 `json:"qMin,omitempty"`
 	// Maximum value.
@@ -2075,29 +2075,29 @@ type NxAttrExprInfo  struct {
 	MaxText string `json:"qMaxText,omitempty"`
 }
 
-type NxAttributeDimValues  struct {
+type NxAttributeDimValues struct {
 	// List of values.
 	Values []*NxSimpleDimValue `json:"qValues,omitempty"`
 }
 
-type NxAttributeExpressionValues  struct {
+type NxAttributeExpressionValues struct {
 	// List of attribute expressions values.
 	Values []*NxSimpleValue `json:"qValues,omitempty"`
 }
 
-type NxAutoSortByStateDef  struct {
+type NxAutoSortByStateDef struct {
 	// This parameter applies to list objects.
 	// If the number of selected values in the list object is greater than the value set in qDisplayNumberOfRows , the selected lines are promoted at the top of the list object.
 	// If qDisplayNumberOfRows is set to a negative value or to 0, the sort by state is disabled.
 	DisplayNumberOfRows int `json:"qDisplayNumberOfRows,omitempty"`
 }
 
-type NxAxisData  struct {
+type NxAxisData struct {
 	// List of axis data.
 	Axis []*NxAxisTicks `json:"qAxis,omitempty"`
 }
 
-type NxAxisTicks  struct {
+type NxAxisTicks struct {
 	// Name of the derived definition.
 	Name string `json:"qName,omitempty"`
 	// List of tags.
@@ -2106,7 +2106,7 @@ type NxAxisTicks  struct {
 	Ticks []*NxTickCell `json:"qTicks,omitempty"`
 }
 
-type NxBookmark  struct {
+type NxBookmark struct {
 	// List of selections for each state.
 	StateData []*AlternateStateData `json:"qStateData,omitempty"`
 	// Time when the bookmark was created.
@@ -2115,21 +2115,21 @@ type NxBookmark  struct {
 	VariableItems []*BookmarkVariableItem `json:"qVariableItems,omitempty"`
 }
 
-type NxCalcCond  struct {
+type NxCalcCond struct {
 	// Condition for calculating an hypercube, dimension or measure.
 	Cond *ValueExpr `json:"qCond,omitempty"`
 	// Evaluated if Cond is not fullfilled.
 	Msg *StringExpr `json:"qMsg,omitempty"`
 }
 
-type NxCardinalities  struct {
+type NxCardinalities struct {
 	// Number of distinct field values.
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Number of distinct hypercube values.
 	HypercubeCardinal int `json:"qHypercubeCardinal,omitempty"`
 }
 
-type NxCell  struct {
+type NxCell struct {
 	// Some text.
 	// This parameter is optional.
 	Text string `json:"qText,omitempty"`
@@ -2198,16 +2198,16 @@ type NxCell  struct {
 	IsNull bool `json:"qIsNull,omitempty"`
 }
 
-type NxCellPosition  struct {
+type NxCellPosition struct {
 	// Position of the cell on the x-axis.
 	X int `json:"qx,omitempty"`
 	// Position of the cell on the y-axis.
 	Y int `json:"qy,omitempty"`
 }
 
-type  NxCellRows []*NxCell
+type NxCellRows []*NxCell
 
-type NxContainerEntry  struct {
+type NxContainerEntry struct {
 	// Information about the object.
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Information on publishing and permissions.
@@ -2216,7 +2216,7 @@ type NxContainerEntry  struct {
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type NxContinuousDataOptions  struct {
+type NxContinuousDataOptions struct {
 	// Start value.
 	Start Float64 `json:"qStart,omitempty"`
 	// End value.
@@ -2230,14 +2230,14 @@ type NxContinuousDataOptions  struct {
 	MaxNumberLines *int `json:"qMaxNumberLines,omitempty"`
 }
 
-type NxContinuousRangeSelectInfo  struct {
+type NxContinuousRangeSelectInfo struct {
 	// Range information.
 	Range *Range `json:"qRange,omitempty"`
 	// Dimension index.
 	DimIx int `json:"qDimIx,omitempty"`
 }
 
-type NxCurrentSelectionItem  struct {
+type NxCurrentSelectionItem struct {
 	// Number of values in the field.
 	Total int `json:"qTotal,omitempty"`
 	// This parameter is displayed if its value is true.
@@ -2282,7 +2282,7 @@ type NxCurrentSelectionItem  struct {
 	IsHidden bool `json:"qIsHidden,omitempty"`
 }
 
-type NxDataAreaPage  struct {
+type NxDataAreaPage struct {
 	// Position from the left.
 	// Corresponds to the lowest possible value of the first measure (the measure on the x-axis).
 	Left Float64 `json:"qLeft,omitempty"`
@@ -2297,7 +2297,7 @@ type NxDataAreaPage  struct {
 	Height Float64 `json:"qHeight,omitempty"`
 }
 
-type NxDataPage  struct {
+type NxDataPage struct {
 	// Array of data.
 	Matrix []NxCellRows `json:"qMatrix,omitempty"`
 	// Array of tails.
@@ -2311,7 +2311,7 @@ type NxDataPage  struct {
 	IsReduced bool `json:"qIsReduced,omitempty"`
 }
 
-type NxDerivedField  struct {
+type NxDerivedField struct {
 	// Identifier of the derived field.
 	// The identifier is unique.
 	Id string `json:"qId,omitempty"`
@@ -2330,12 +2330,12 @@ type NxDerivedField  struct {
 	Tags []string `json:"qTags,omitempty"`
 }
 
-type NxDerivedFieldDescriptionList  struct {
+type NxDerivedFieldDescriptionList struct {
 	// Information about the derived fields.
 	DerivedFieldLists []*NxDerivedFieldsData `json:"qDerivedFieldLists,omitempty"`
 }
 
-type NxDerivedFieldsData  struct {
+type NxDerivedFieldsData struct {
 	// Name of the derived definition.
 	DerivedDefinitionName string `json:"qDerivedDefinitionName,omitempty"`
 	// List of the derived fields.
@@ -2346,7 +2346,7 @@ type NxDerivedFieldsData  struct {
 	Tags []string `json:"qTags,omitempty"`
 }
 
-type NxDerivedGroup  struct {
+type NxDerivedGroup struct {
 	// Identifier of the group.
 	Id string `json:"qId,omitempty"`
 	// Name of the derived group.
@@ -2370,7 +2370,7 @@ type NxDerivedGroup  struct {
 // Either qDef or qLibraryId must be set, but not both.
 // If the dimension is set in the hypercube and not in the library, this dimension cannot be shared with other objects.
 // A dimension that is set in the library can be used by many objects.
-type NxDimension  struct {
+type NxDimension struct {
 	// Refers to a dimension stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
 	// Refers to a dimension stored in the hypercube.
@@ -2421,7 +2421,7 @@ type NxDimension  struct {
 	CalcCondition *NxCalcCond `json:"qCalcCondition,omitempty"`
 }
 
-type NxDimensionInfo  struct {
+type NxDimensionInfo struct {
 	// Corresponds to the label of the dimension that is selected.
 	// If the label is not defined then the field name is used.
 	FallbackTitle string `json:"qFallbackTitle,omitempty"`
@@ -2514,26 +2514,26 @@ type NxDimensionInfo  struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
-type NxEngineVersion  struct {
+type NxEngineVersion struct {
 	// Version number of the Qlik engine component.
 	ComponentVersion string `json:"qComponentVersion,omitempty"`
 }
 
 // NxDerivedFieldsdata:
 // 
-//   +------------------------+--------------------------------+------------------------+
-//   |          NAME          |          DESCRIPTION           |          TYPE          |
-//   +------------------------+--------------------------------+------------------------+
-//   | qDerivedDefinitionName | Name of the derived            | String                 |
-//   |                        | definition.                    |                        |
-//   | qFieldDefs             | List of the derived fields.    | Array of               |
-//   |                        |                                | NxDerivedField         |
-//   | qGroupDefs             | List of the derived groups.    | Array of               |
-//   |                        |                                | NxDerivedGroup         |
-//   | qTags                  | List of tags on the derived    | Array of String        |
-//   |                        | fields.                        |                        |
-//   +------------------------+--------------------------------+------------------------+
-type NxFieldDescription  struct {
+//   +------------------------+--------------------------------+----------------+
+//   |          NAME          |          DESCRIPTION           |      TYPE      |
+//   +------------------------+--------------------------------+----------------+
+//   | qDerivedDefinitionName | Name of the derived            | String         |
+//   |                        | definition.                    |                |
+//   | qFieldDefs             | List of the derived fields.    | Array of       |
+//   |                        |                                | NxDerivedField |
+//   | qGroupDefs             | List of the derived groups.    | Array of       |
+//   |                        |                                | NxDerivedGroup |
+//   | qTags                  | List of tags on the derived    | Array of       |
+//   |                        | fields.                        | String         |
+//   +------------------------+--------------------------------+----------------+
+type NxFieldDescription struct {
 	// If set to true, it means that the field is a semantic.
 	IsSemantic bool `json:"qIsSemantic,omitempty"`
 	// If set to true, it means that the field is hidden.
@@ -2563,14 +2563,14 @@ type NxFieldDescription  struct {
 	ReadableName string `json:"qReadableName,omitempty"`
 }
 
-type NxFieldProperties  struct {
+type NxFieldProperties struct {
 	// This parameter is set to true, if the field has one and only one selection (not 0 and not more than 1).
 	// If this property is set to true, the field cannot be cleared anymore and no more selections can be performed in that field.
 	// The property OneAndOnlyOne can be set to true if one and only value has been selected in the field prior to setting the property.
 	OneAndOnlyOne bool `json:"qOneAndOnlyOne,omitempty"`
 }
 
-type NxFieldSelectionInfo  struct {
+type NxFieldSelectionInfo struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// Selection mode.
@@ -2594,14 +2594,14 @@ type NxFieldSelectionInfo  struct {
 	FieldSelectionMode string `json:"qFieldSelectionMode,omitempty"`
 }
 
-type NxGetBookmarkOptions  struct {
+type NxGetBookmarkOptions struct {
 	// List of object types.
 	Types []string `json:"qTypes,omitempty"`
 	// Set of data.
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type NxGetObjectOptions  struct {
+type NxGetObjectOptions struct {
 	// List of object types.
 	Types []string `json:"qTypes,omitempty"`
 	// Set to true to include session objects.
@@ -2611,7 +2611,7 @@ type NxGetObjectOptions  struct {
 	Data json.RawMessage `json:"qData,omitempty"`
 }
 
-type NxGroupTail  struct {
+type NxGroupTail struct {
 	// Number of elements that are part of the previous tail.
 	// This number depends on the paging, more particularly it depends on the values defined in qTop and qHeight .
 	// Is not shown if the value is 0.
@@ -2624,12 +2624,12 @@ type NxGroupTail  struct {
 	Down int `json:"qDown,omitempty"`
 }
 
-type NxHighlightRanges  struct {
+type NxHighlightRanges struct {
 	// Ranges of highlighted values.
 	Ranges []*CharRange `json:"qRanges,omitempty"`
 }
 
-type NxInfo  struct {
+type NxInfo struct {
 	// Identifier of the object.
 	// If the chosen identifier is already in use, the engine automatically sets another one.
 	// If an identifier is not set, the engine automatically sets one.
@@ -2640,7 +2640,7 @@ type NxInfo  struct {
 	Type string `json:"qType,omitempty"`
 }
 
-type NxInlineDimensionDef  struct {
+type NxInlineDimensionDef struct {
 	// Used to define a cyclic group or drill-down group.
 	// Default value is no grouping.
 	// This parameter is optional.
@@ -2678,7 +2678,7 @@ type NxInlineDimensionDef  struct {
 	LabelExpression string `json:"qLabelExpression,omitempty"`
 }
 
-type NxInlineMeasureDef  struct {
+type NxInlineMeasureDef struct {
 	// Name of the measure.
 	// An empty string is returned as a default value.
 	// This parameter is optional.
@@ -2744,12 +2744,12 @@ type NxInlineMeasureDef  struct {
 	LabelExpression string `json:"qLabelExpression,omitempty"`
 }
 
-type NxLayoutErrors  struct {
+type NxLayoutErrors struct {
 	// Error code.
 	ErrorCode int `json:"qErrorCode,omitempty"`
 }
 
-type NxLibraryDimension  struct {
+type NxLibraryDimension struct {
 	// Information about the grouping.
 	// 
 	// One of:
@@ -2767,7 +2767,7 @@ type NxLibraryDimension  struct {
 	LabelExpression string `json:"qLabelExpression,omitempty"`
 }
 
-type NxLibraryDimensionDef  struct {
+type NxLibraryDimensionDef struct {
 	// Information about the grouping.
 	// 
 	// One of:
@@ -2786,7 +2786,7 @@ type NxLibraryDimensionDef  struct {
 }
 
 // Information about the library measure. Is the layout for NxLibraryMeasureDef.
-type NxLibraryMeasure  struct {
+type NxLibraryMeasure struct {
 	Label string `json:"qLabel,omitempty"`
 	Def string `json:"qDef,omitempty"`
 	// One of:
@@ -2802,7 +2802,7 @@ type NxLibraryMeasure  struct {
 	LabelExpression string `json:"qLabelExpression,omitempty"`
 }
 
-type NxLibraryMeasureDef  struct {
+type NxLibraryMeasureDef struct {
 	// Label of the measure.
 	Label string `json:"qLabel,omitempty"`
 	// Definition of the measure.
@@ -2827,7 +2827,7 @@ type NxLibraryMeasureDef  struct {
 	LabelExpression string `json:"qLabelExpression,omitempty"`
 }
 
-type NxLinkedObjectInfo  struct {
+type NxLinkedObjectInfo struct {
 	// Identifier of the root object.
 	// If the linked object is a child, the root identifier is the identifier of the parent.
 	// If the linked object is an app object, the root identifier is the same than the identifier of the linked object since the linked object is a root object.
@@ -2836,7 +2836,7 @@ type NxLinkedObjectInfo  struct {
 	Info *NxInfo `json:"qInfo,omitempty"`
 }
 
-type NxListObjectExpression  struct {
+type NxListObjectExpression struct {
 	// Value of the expression.
 	Expr string `json:"qExpr,omitempty"`
 	// Gives information on the error.
@@ -2844,14 +2844,14 @@ type NxListObjectExpression  struct {
 	Error *NxLayoutErrors `json:"qError,omitempty"`
 }
 
-type NxListObjectExpressionDef  struct {
+type NxListObjectExpressionDef struct {
 	// Value of the expression.
 	Expr string `json:"qExpr,omitempty"`
 	// Refers to an expression stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
-type NxMatchingFieldInfo  struct {
+type NxMatchingFieldInfo struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// List of tags.
@@ -2864,7 +2864,7 @@ type NxMatchingFieldInfo  struct {
 // 
 // expressions are complementary expressions associated to a measure. For example, you can decide to change the background color of a visualization depending on the values of the measure.
 // Attribute expressions do not affect the layout of an object. The sorting order is unchanged.
-type NxMeasure  struct {
+type NxMeasure struct {
 	// Refers to a measure stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
 	// Refers to a measure stored in the hypercube.
@@ -2890,7 +2890,7 @@ type NxMeasure  struct {
 }
 
 // Layout for NxInlineMeasureDef.
-type NxMeasureInfo  struct {
+type NxMeasureInfo struct {
 	// Corresponds to the label of the measure.
 	// If the label is not defined then the measure name is used.
 	FallbackTitle string `json:"qFallbackTitle,omitempty"`
@@ -2935,7 +2935,7 @@ type NxMeasureInfo  struct {
 }
 
 // Layout for NxMetaDef.
-type NxMeta  struct {
+type NxMeta struct {
 	// Name.
 	// This property is optional.
 	Name string `json:"qName,omitempty"`
@@ -2946,15 +2946,15 @@ type NxMeta  struct {
 // Properties:
 // 
 // Semantic type with an empty structure.
-type NxMetaDef  struct {
+type NxMetaDef struct {
 }
 
-type NxMultiRangeSelectInfo  struct {
+type NxMultiRangeSelectInfo struct {
 	Ranges []*NxRangeSelectInfo `json:"qRanges,omitempty"`
 	ColumnsToSelect []int `json:"qColumnsToSelect,omitempty"`
 }
 
-type NxPage  struct {
+type NxPage struct {
 	// Position from the left.
 	// Corresponds to the first column.
 	Left int `json:"qLeft,omitempty"`
@@ -2967,7 +2967,7 @@ type NxPage  struct {
 	Height int `json:"qHeight,omitempty"`
 }
 
-type NxPageTreeLevel  struct {
+type NxPageTreeLevel struct {
 	// The first dimension that is to be part of the tree, counted from the left. For example, if qLeft is equal to 1, omit nodes from the first dimension in the current sort order.
 	Left int `json:"qLeft,omitempty"`
 	// Number of dimensions to include in the tree.
@@ -2976,14 +2976,14 @@ type NxPageTreeLevel  struct {
 }
 
 // Defines an area of the tree to be fetched.
-type NxPageTreeNode  struct {
+type NxPageTreeNode struct {
 	// The area of the tree to be fetched. If no area is defined on a dimension, all existing nodes are included.
 	Area *Rect `json:"qArea,omitempty"`
 	// When set to true, generated nodes (based on current selection) will be inserted into the returned tree even when there is no actual value. For example, suppose you are looking for hybrid car sales at all car dealerships. Normally, only dealerships where hybrid cars are sold would be part of the returned tree but with qAllValues set to true, all available dealerships will be included regardless if they sold any hybrid cars or not.
 	AllValues bool `json:"qAllValues,omitempty"`
 }
 
-type NxPatch  struct {
+type NxPatch struct {
 	// Operation to perform.
 	// 
 	// One of:
@@ -3003,7 +3003,7 @@ type NxPatch  struct {
 	Value string `json:"qValue,omitempty"`
 }
 
-type NxPivotDimensionCell  struct {
+type NxPivotDimensionCell struct {
 	// Some text.
 	Text string `json:"qText,omitempty"`
 	// Rank number of the value.
@@ -3058,7 +3058,7 @@ type NxPivotDimensionCell  struct {
 	AttrDims *NxAttributeDimValues `json:"qAttrDims,omitempty"`
 }
 
-type NxPivotPage  struct {
+type NxPivotPage struct {
 	// Information about the left dimension values of a pivot table.
 	Left []*NxPivotDimensionCell `json:"qLeft,omitempty"`
 	// Information about the top dimension values of a pivot table. If there is no top dimension in the pivot table, information about the measures are given.
@@ -3069,7 +3069,7 @@ type NxPivotPage  struct {
 	Area *Rect `json:"qArea,omitempty"`
 }
 
-type NxPivotValuePoint  struct {
+type NxPivotValuePoint struct {
 	// Label of the cell.
 	// This parameter is optional.
 	Label string `json:"qLabel,omitempty"`
@@ -3106,14 +3106,14 @@ type NxPivotValuePoint  struct {
 	AttrDims *NxAttributeDimValues `json:"qAttrDims,omitempty"`
 }
 
-type NxRange  struct {
+type NxRange struct {
 	// Position in the expression of the first character of the field name.
 	From int `json:"qFrom,omitempty"`
 	// Number of characters in the field name.
 	Count int `json:"qCount,omitempty"`
 }
 
-type NxRangeSelectInfo  struct {
+type NxRangeSelectInfo struct {
 	// Range of values.
 	Range *Range `json:"qRange,omitempty"`
 	// Number of the measure to select.
@@ -3121,7 +3121,7 @@ type NxRangeSelectInfo  struct {
 	MeasureIx int `json:"qMeasureIx,omitempty"`
 }
 
-type NxSelectionCell  struct {
+type NxSelectionCell struct {
 	// Type of cells to select.
 	// 
 	// One of:
@@ -3154,7 +3154,7 @@ type NxSelectionCell  struct {
 	Row int `json:"qRow,omitempty"`
 }
 
-type NxSelectionInfo  struct {
+type NxSelectionInfo struct {
 	// Is set to true if the visualization is in selection mode.
 	// For more information about the selection mode, see BeginSelections Method.
 	InSelections bool `json:"qInSelections,omitempty"`
@@ -3163,7 +3163,7 @@ type NxSelectionInfo  struct {
 	MadeSelections bool `json:"qMadeSelections,omitempty"`
 }
 
-type NxSimpleDimValue  struct {
+type NxSimpleDimValue struct {
 	// Text related to the attribute expression value.
 	// This property is optional. No text is returned if the attribute expression value is a numeric.
 	Text string `json:"qText,omitempty"`
@@ -3171,7 +3171,7 @@ type NxSimpleDimValue  struct {
 	ElemNo int `json:"qElemNo,omitempty"`
 }
 
-type NxSimpleValue  struct {
+type NxSimpleValue struct {
 	// Text related to the attribute expression value.
 	Text string `json:"qText,omitempty"`
 	// Numeric value of the attribute expression.
@@ -3179,14 +3179,14 @@ type NxSimpleValue  struct {
 	Num Float64 `json:"qNum,omitempty"`
 }
 
-type NxStackPage  struct {
+type NxStackPage struct {
 	// Array of data.
 	Data []*NxStackedPivotCell `json:"qData,omitempty"`
 	// Size and offset of the data in the matrix.
 	Area *Rect `json:"qArea,omitempty"`
 }
 
-type NxStackedPivotCell  struct {
+type NxStackedPivotCell struct {
 	// Some text.
 	Text string `json:"qText,omitempty"`
 	// Rank number of the value.
@@ -3245,7 +3245,7 @@ type NxStackedPivotCell  struct {
 	AttrDims *NxAttributeDimValues `json:"qAttrDims,omitempty"`
 }
 
-type NxStateCounts  struct {
+type NxStateCounts struct {
 	// Number of values in locked state.
 	Locked int `json:"qLocked,omitempty"`
 	// Number of values in selected state.
@@ -3265,14 +3265,14 @@ type NxStateCounts  struct {
 }
 
 // This struct is deprecated (not recommended to use).
-type NxStreamListEntry  struct {
+type NxStreamListEntry struct {
 	// Name of the stream.
 	Name string `json:"qName,omitempty"`
 	// Identifier of the stream.
 	Id string `json:"qId,omitempty"`
 }
 
-type NxTickCell  struct {
+type NxTickCell struct {
 	// Tick's label.
 	Text string `json:"qText,omitempty"`
 	// Start value.
@@ -3282,7 +3282,7 @@ type NxTickCell  struct {
 }
 
 // Specifies all the paging filters needed to define the tree to be fetched.
-type NxTreeDataOption  struct {
+type NxTreeDataOption struct {
 	// Maximum number of nodes in the tree. If this limit is exceeded, no nodes are returned. All nodes are counted.
 	MaxNbrOfNodes int `json:"qMaxNbrOfNodes,omitempty"`
 	// Defines areas of the tree to be fetched. Areas must be defined left to right.
@@ -3291,7 +3291,7 @@ type NxTreeDataOption  struct {
 	TreeLevels *NxPageTreeLevel `json:"qTreeLevels,omitempty"`
 }
 
-type NxTreeDimensionDef  struct {
+type NxTreeDimensionDef struct {
 	// Refers to a dimension stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
 	// Refers to a dimension.
@@ -3337,7 +3337,7 @@ type NxTreeDimensionDef  struct {
 	AttributeDimensions []*NxAttrDimDef `json:"qAttributeDimensions,omitempty"`
 }
 
-type NxTreeDimensionInfo  struct {
+type NxTreeDimensionInfo struct {
 	// Corresponds to the label of the dimension that is selected.
 	// If the label is not defined then the field name is used.
 	FallbackTitle string `json:"qFallbackTitle,omitempty"`
@@ -3432,13 +3432,13 @@ type NxTreeDimensionInfo  struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
-type NxTreeMultiRangeSelectInfo  struct {
+type NxTreeMultiRangeSelectInfo struct {
 	// An array of Ranges.
 	Ranges []*NxTreeRangeSelectInfo `json:"qRanges,omitempty"`
 }
 
 // Represents a dimension in the tree.
-type NxTreeNode  struct {
+type NxTreeNode struct {
 	// The text version of the value, if available.
 	Text string `json:"qText,omitempty"`
 	// Value of the cell.
@@ -3491,7 +3491,7 @@ type NxTreeNode  struct {
 	MinNeg []Float64 `json:"qMinNeg,omitempty"`
 }
 
-type NxTreeRangeSelectInfo  struct {
+type NxTreeRangeSelectInfo struct {
 	// Range of values.
 	Range *Range `json:"qRange,omitempty"`
 	// Number of the measure to select.
@@ -3503,7 +3503,7 @@ type NxTreeRangeSelectInfo  struct {
 }
 
 // Represents a measure.
-type NxTreeValue  struct {
+type NxTreeValue struct {
 	// The text version of the value, if available.
 	Text string `json:"qText,omitempty"`
 	// Value of the cell.
@@ -3515,7 +3515,7 @@ type NxTreeValue  struct {
 	AttrDims *NxAttributeDimValues `json:"qAttrDims,omitempty"`
 }
 
-type NxValidationError  struct {
+type NxValidationError struct {
 	// Error code.
 	// This parameter is always displayed in case of error.
 	ErrorCode int `json:"qErrorCode,omitempty"`
@@ -3528,7 +3528,7 @@ type NxValidationError  struct {
 	ExtendedMessage string `json:"qExtendedMessage,omitempty"`
 }
 
-type NxVariableListItem  struct {
+type NxVariableListItem struct {
 	// Name of the variable.
 	Name string `json:"qName,omitempty"`
 	// Description of the variable.
@@ -3561,7 +3561,7 @@ type NxVariableListItem  struct {
 	IsScriptCreated bool `json:"qIsScriptCreated,omitempty"`
 }
 
-type NxVariableProperties  struct {
+type NxVariableProperties struct {
 	// Name of the variable.
 	Name string `json:"qName,omitempty"`
 	// Defines the format of the value of a variable.
@@ -3578,7 +3578,7 @@ type NxVariableProperties  struct {
 	PreDefinedList []string `json:"qPreDefinedList,omitempty"`
 }
 
-type NxViewPort  struct {
+type NxViewPort struct {
 	// Width of the canvas in pixels.
 	Width int `json:"qWidth,omitempty"`
 	// Height of the canvas in pixels.
@@ -3587,7 +3587,7 @@ type NxViewPort  struct {
 	ZoomLevel int `json:"qZoomLevel,omitempty"`
 }
 
-type ObjectInterface  struct {
+type ObjectInterface struct {
 	// The native type of the object.
 	Type string `json:"qType,omitempty"`
 	// The handle used to connect to object.
@@ -3598,7 +3598,7 @@ type ObjectInterface  struct {
 	GenericId string `json:"qGenericId,omitempty"`
 }
 
-type OdbcDsn  struct {
+type OdbcDsn struct {
 	// Name of the ODBC connection.
 	Name string `json:"qName,omitempty"`
 	// Description of the ODBC connection.
@@ -3612,7 +3612,7 @@ type OdbcDsn  struct {
 	UserOnly bool `json:"qUserOnly,omitempty"`
 }
 
-type OleDbProvider  struct {
+type OleDbProvider struct {
 	// Name of the OLEDB provider.
 	Name string `json:"qName,omitempty"`
 	// Description of the OLEDB provider.
@@ -3623,7 +3623,7 @@ type OleDbProvider  struct {
 	Bit32 bool `json:"qBit32,omitempty"`
 }
 
-type OtherTotalSpecProp  struct {
+type OtherTotalSpecProp struct {
 	// Determines how many dimension values are displayed.
 	// The default value is OTHEROFF_ .
 	// 
@@ -3728,7 +3728,7 @@ type OtherTotalSpecProp  struct {
 	ReferencedExpression *StringExpr `json:"qReferencedExpression,omitempty"`
 }
 
-type Point  struct {
+type Point struct {
 	// x-coordinate in pixels.
 	// The origin is the top left of the screen.
 	X int `json:"qx,omitempty"`
@@ -3737,7 +3737,7 @@ type Point  struct {
 	Y int `json:"qy,omitempty"`
 }
 
-type ProgressData  struct {
+type ProgressData struct {
 	// True if the request is started.
 	Started bool `json:"qStarted,omitempty"`
 	// True if the request is finished.
@@ -3764,14 +3764,14 @@ type ProgressData  struct {
 	TransientProgressMessage *ProgressMessage `json:"qTransientProgressMessage,omitempty"`
 }
 
-type ProgressMessage  struct {
+type ProgressMessage struct {
 	// Code number to the corresponding localized message string.
 	MessageCode int `json:"qMessageCode,omitempty"`
 	// Parameters to be inserted in the localized message string.
 	MessageParameters []string `json:"qMessageParameters,omitempty"`
 }
 
-type Range  struct {
+type Range struct {
 	// Lowest value in the range
 	Min Float64 `json:"qMin,omitempty"`
 	// Highest value in the range
@@ -3786,7 +3786,7 @@ type Range  struct {
 	MaxInclEq bool `json:"qMaxInclEq,omitempty"`
 }
 
-type RangeSelectInfo  struct {
+type RangeSelectInfo struct {
 	// Lowest value in the range.
 	// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)
 	RangeLo *Float64 `json:"qRangeLo,omitempty"`
@@ -3797,7 +3797,7 @@ type RangeSelectInfo  struct {
 	Measure string `json:"qMeasure,omitempty"`
 }
 
-type Rect  struct {
+type Rect struct {
 	// Position from the left.
 	// Corresponds to the first column.
 	Left int `json:"qLeft,omitempty"`
@@ -3810,14 +3810,14 @@ type Rect  struct {
 	Height int `json:"qHeight,omitempty"`
 }
 
-type SampleResult  struct {
+type SampleResult struct {
 	// Name of field or column.
 	FieldOrColumn *FieldOrColumn `json:"qFieldOrColumn,omitempty"`
 	// Matched values part of the sample.
 	Values []*FieldValue `json:"qValues,omitempty"`
 }
 
-type ScriptSyntaxError  struct {
+type ScriptSyntaxError struct {
 	// Length of the word where the error is located.
 	ErrLen int `json:"qErrLen,omitempty"`
 	// Number of the faulty section.
@@ -3832,7 +3832,7 @@ type ScriptSyntaxError  struct {
 	SecondaryFailure bool `json:"qSecondaryFailure,omitempty"`
 }
 
-type SearchAssociationResult  struct {
+type SearchAssociationResult struct {
 	// List of the fields that contains search associations.
 	FieldNames []string `json:"qFieldNames,omitempty"`
 	// List of the search terms.
@@ -3847,14 +3847,14 @@ type SearchAssociationResult  struct {
 	TotalSearchResults int `json:"qTotalSearchResults,omitempty"`
 }
 
-type SearchAttribute  struct {
+type SearchAttribute struct {
 	// String corresponding to SearchObjectOptions.qAttributes. It will be qProperty for SearchObjectOptions.
 	Key string `json:"qKey,omitempty"`
 	// String corresponding to qKey for the current SearchGroupItemMatch. For example, if the match is Make by Price found in the title of a generic object, qValue will be qMetaDef/title.
 	Value string `json:"qValue,omitempty"`
 }
 
-type SearchCharRange  struct {
+type SearchCharRange struct {
 	// Starting position of the match in the search result, starting from 0.
 	CharPos int `json:"qCharPos,omitempty"`
 	// Length of the match in the search result.
@@ -3863,7 +3863,7 @@ type SearchCharRange  struct {
 	Term int `json:"qTerm,omitempty"`
 }
 
-type SearchCombinationOptions  struct {
+type SearchCombinationOptions struct {
 	// List of the search fields.
 	// If empty, the search is performed in all fields of the app.
 	SearchFields []string `json:"qSearchFields,omitempty"`
@@ -3897,7 +3897,7 @@ type SearchCombinationOptions  struct {
 	Attributes []string `json:"qAttributes,omitempty"`
 }
 
-type SearchFieldDictionary  struct {
+type SearchFieldDictionary struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
 	Field int `json:"qField,omitempty"`
@@ -3906,7 +3906,7 @@ type SearchFieldDictionary  struct {
 	Result []*SearchTermResult `json:"qResult,omitempty"`
 }
 
-type SearchFieldMatch  struct {
+type SearchFieldMatch struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
 	Field int `json:"qField,omitempty"`
@@ -3920,7 +3920,7 @@ type SearchFieldMatch  struct {
 	NoOfMatches int `json:"qNoOfMatches,omitempty"`
 }
 
-type SearchGroup  struct {
+type SearchGroup struct {
 	// Identifier of the search group.
 	Id int `json:"qId,omitempty"`
 	// Type of the search group.
@@ -3940,7 +3940,7 @@ type SearchGroup  struct {
 	Items []*SearchGroupItem `json:"qItems,omitempty"`
 }
 
-type SearchGroupItem  struct {
+type SearchGroupItem struct {
 	// Type of the group item.
 	// 
 	// One of:
@@ -3965,7 +3965,7 @@ type SearchGroupItem  struct {
 	SearchTermsMatched []int `json:"qSearchTermsMatched,omitempty"`
 }
 
-type SearchGroupItemMatch  struct {
+type SearchGroupItemMatch struct {
 	// Search match value.
 	// Value of the search group item.
 	// If the match is found in a field, it corresponds to the value of the field.
@@ -3985,7 +3985,7 @@ type SearchGroupItemMatch  struct {
 	Attributes []*SearchAttribute `json:"qAttributes,omitempty"`
 }
 
-type SearchGroupItemOptions  struct {
+type SearchGroupItemOptions struct {
 	// Type of the group item. Can be:
 	// 
 	// • GenericObject: the type of the search group item is a generic object. Group items have this type when you are calling SearchObjects .
@@ -4007,7 +4007,7 @@ type SearchGroupItemOptions  struct {
 	Count *int `json:"qCount,omitempty"`
 }
 
-type SearchGroupOptions  struct {
+type SearchGroupOptions struct {
 	// Type of the group. Can be:
 	// 
 	// • GenericObjectType: the type of the search group item is a generic object. Groups have this type when you are calling SearchObjects .
@@ -4029,16 +4029,16 @@ type SearchGroupOptions  struct {
 	Count *int `json:"qCount,omitempty"`
 }
 
-type SearchMatchCombination  struct {
+type SearchMatchCombination struct {
 	// Index of the search result, starting from 0.
 	Id int `json:"qId,omitempty"`
 	// Information about the search matches.
 	FieldMatches []*SearchFieldMatch `json:"qFieldMatches,omitempty"`
 }
 
-type  SearchMatchCombinations []*SearchMatchCombination
+type SearchMatchCombinations []*SearchMatchCombination
 
-type SearchObjectOptions  struct {
+type SearchObjectOptions struct {
 	// This array is either empty or contains qProperty .
 	Attributes []string `json:"qAttributes,omitempty"`
 	// Encoding used to compute qRanges of type SearchCharRange.
@@ -4052,7 +4052,7 @@ type SearchObjectOptions  struct {
 	CharEncoding string `json:"qCharEncoding,omitempty"`
 }
 
-type SearchPage  struct {
+type SearchPage struct {
 	// Position from the top, starting from 0.
 	// If the offset is set to 0, the first search result to be returned is at position 0.
 	Offset int `json:"qOffset,omitempty"`
@@ -4073,7 +4073,7 @@ type SearchPage  struct {
 	GroupItemOptions []*SearchGroupItemOptions `json:"qGroupItemOptions,omitempty"`
 }
 
-type SearchResult  struct {
+type SearchResult struct {
 	// List of the search terms.
 	SearchTerms []string `json:"qSearchTerms,omitempty"`
 	// Total number of groups.
@@ -4083,7 +4083,7 @@ type SearchResult  struct {
 	SearchGroupArray []*SearchGroup `json:"qSearchGroupArray,omitempty"`
 }
 
-type SearchSuggestItem  struct {
+type SearchSuggestItem struct {
 	// Value of the suggestion.
 	Value string `json:"qValue,omitempty"`
 	// Index of the suggestion value.
@@ -4091,14 +4091,14 @@ type SearchSuggestItem  struct {
 	Term int `json:"qTerm,omitempty"`
 }
 
-type SearchSuggestionResult  struct {
+type SearchSuggestionResult struct {
 	// List of suggestions.
 	Suggestions []*SearchSuggestItem `json:"qSuggestions,omitempty"`
 	// List of field names that contain search hits.
 	FieldNames []string `json:"qFieldNames,omitempty"`
 }
 
-type SearchTermResult  struct {
+type SearchTermResult struct {
 	// Text of the associated value.
 	Text string `json:"qText,omitempty"`
 	// Element number of the associated value.
@@ -4108,7 +4108,7 @@ type SearchTermResult  struct {
 	Ranges []*SearchCharRange `json:"qRanges,omitempty"`
 }
 
-type SelectInfo  struct {
+type SelectInfo struct {
 	// Text search string.
 	// Everything that matches the text is selected.
 	// This parameter is optional.
@@ -4139,7 +4139,7 @@ type SelectInfo  struct {
 }
 
 // Indicates which selections are currently applied. It gives the current selections. Is the layout for SelectionObjectDef.
-type SelectionObject  struct {
+type SelectionObject struct {
 	// Number of steps back.
 	BackCount int `json:"qBackCount,omitempty"`
 	// Number of steps forward.
@@ -4157,20 +4157,20 @@ type SelectionObject  struct {
 // Properties:
 // 
 // "qSelectionObjectDef": {}
-type SelectionObjectDef  struct {
+type SelectionObjectDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
 }
 
-type Size  struct {
+type Size struct {
 	// Number of pixels on the x axis.
 	Cx int `json:"qcx,omitempty"`
 	// Number of pixels on the y axis.
 	Cy int `json:"qcy,omitempty"`
 }
 
-type SortCriteria  struct {
+type SortCriteria struct {
 	// Sorts the field values according to their logical state (selected, optional, alternative or excluded).
 	SortByState int `json:"qSortByState,omitempty"`
 	// Sorts the field values by frequency (number of occurrences in the field).
@@ -4188,20 +4188,20 @@ type SortCriteria  struct {
 	SortByGreyness int `json:"qSortByGreyness,omitempty"`
 }
 
-type SourceKeyRecord  struct {
+type SourceKeyRecord struct {
 	// Name of the key field.
 	KeyFields []string `json:"qKeyFields,omitempty"`
 	// Table the key belongs to.
 	Tables []string `json:"qTables,omitempty"`
 }
 
-type StaticContentList  struct {
+type StaticContentList struct {
 	// Information about the list of content files.
 	Items []*StaticContentListItem `json:"qItems,omitempty"`
 }
 
 // In addition, this structure can return dynamic properties.
-type StaticContentListItem  struct {
+type StaticContentListItem struct {
 	// Relative path to the content file. The URL is static.
 	// In Qlik Sense Enterprise, content files located:
 	// 
@@ -4231,18 +4231,18 @@ type StaticContentListItem  struct {
 }
 
 // In addition, this structure can return dynamic properties.
-type StaticContentUrl  struct {
+type StaticContentUrl struct {
 	// Relative path of the thumbnail.
 	Url string `json:"qUrl,omitempty"`
 }
 
 // In addition, this structure can contain dynamic properties.
-type StaticContentUrlDef  struct {
+type StaticContentUrlDef struct {
 	// Relative path of the thumbnail.
 	Url string `json:"qUrl,omitempty"`
 }
 
-type StringExpr  struct {
+type StringExpr struct {
 	// Expression evaluated to string.
 	V string `json:"qv,omitempty"`
 }
@@ -4261,11 +4261,11 @@ type StringExpr  struct {
 // A string expression is not evaluated, if the expression is surrounded by simple quotes.
 // 
 // The result of the evaluation of the expression can be of any type, as it is returned as a JSON (quoted) string.
-type StringExpression  struct {
+type StringExpression struct {
 	Expr string `json:"qExpr,omitempty"`
 }
 
-type TableRecord  struct {
+type TableRecord struct {
 	// Name of the table.
 	Name string `json:"qName,omitempty"`
 	// This property is set to true if the table is loose.
@@ -4285,12 +4285,12 @@ type TableRecord  struct {
 	IsSynthetic bool `json:"qIsSynthetic,omitempty"`
 }
 
-type TableRow  struct {
+type TableRow struct {
 	// Array of field values.
 	Value []*FieldValue `json:"qValue,omitempty"`
 }
 
-type TableViewBroomPointSaveInfo  struct {
+type TableViewBroomPointSaveInfo struct {
 	// Information about the position of the broom point.
 	Pos *Point `json:"qPos,omitempty"`
 	// Name of the table.
@@ -4299,21 +4299,21 @@ type TableViewBroomPointSaveInfo  struct {
 	Fields []string `json:"qFields,omitempty"`
 }
 
-type TableViewConnectionPointSaveInfo  struct {
+type TableViewConnectionPointSaveInfo struct {
 	// Information about the position of the connection point.
 	Pos *Point `json:"qPos,omitempty"`
 	// List of the fields in the table.
 	Fields []string `json:"qFields,omitempty"`
 }
 
-type TableViewCtlSaveInfo  struct {
+type TableViewCtlSaveInfo struct {
 	// Internal view mode.
 	InternalView *TableViewSaveInfo `json:"qInternalView,omitempty"`
 	// Source view mode.
 	SourceView *TableViewSaveInfo `json:"qSourceView,omitempty"`
 }
 
-type TableViewDlgSaveInfo  struct {
+type TableViewDlgSaveInfo struct {
 	// Information about the position of the dialog window.
 	// Not used in Qlik Sense.
 	Pos *Rect `json:"qPos,omitempty"`
@@ -4328,7 +4328,7 @@ type TableViewDlgSaveInfo  struct {
 	Mode int `json:"qMode,omitempty"`
 }
 
-type TableViewSaveInfo  struct {
+type TableViewSaveInfo struct {
 	// List of the tables in the database model viewer.
 	Tables []*TableViewTableWinSaveInfo `json:"qTables,omitempty"`
 	// List of the broom points in the database model viewer.
@@ -4343,14 +4343,14 @@ type TableViewSaveInfo  struct {
 	ZoomFactor *Float64 `json:"qZoomFactor,omitempty"`
 }
 
-type TableViewTableWinSaveInfo  struct {
+type TableViewTableWinSaveInfo struct {
 	// Information about the position of the table.
 	Pos *Rect `json:"qPos,omitempty"`
 	// Table name.
 	Caption string `json:"qCaption,omitempty"`
 }
 
-type TextMacro  struct {
+type TextMacro struct {
 	// Name of the variable.
 	Tag string `json:"qTag,omitempty"`
 	// Order in which the variable was referenced during the script execution.
@@ -4370,7 +4370,7 @@ type TextMacro  struct {
 // Renders the properties of a TreeData object. Is the layout for TreeDataDef.
 // For more information about the definition of TreeData, see Generic object.
 // To retrieve data from the TreeData object, use the method called GetHyperCubeTreeData.
-type TreeData  struct {
+type TreeData struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -4400,7 +4400,7 @@ type TreeData  struct {
 
 // Defines the properties of a TreeData object.
 // For more information about the definition of a TreeData object, see Generic object.
-type TreeDataDef  struct {
+type TreeDataDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
 	StateName string `json:"qStateName,omitempty"`
@@ -4433,7 +4433,7 @@ type TreeDataDef  struct {
 }
 
 // Displays information about the number of possible undos and redos. Is the layout for UndoInfoDef.
-type UndoInfo  struct {
+type UndoInfo struct {
 	// Number of possible undos.
 	UndoCount int `json:"qUndoCount,omitempty"`
 	// Number of possible redos.
@@ -4446,10 +4446,10 @@ type UndoInfo  struct {
 // 
 // "qUndoInfoDef": {}
 // The numbers of undos and redos are empty when an object is created. The number of possible undos is increased every time an action (for example, create a child, set some properties) on the object is performed. The number of possible redos is increased every time an undo action is performed.
-type UndoInfoDef  struct {
+type UndoInfoDef struct {
 }
 
-type ValueExpr  struct {
+type ValueExpr struct {
 	// Expression evaluated to dual.
 	V string `json:"qv,omitempty"`
 }
@@ -4467,18 +4467,18 @@ type ValueExpr  struct {
 // The "=" sign in the value expression is not mandatory. Even if the "=" sign is not given, the expression is evaluated.
 // 
 // The expression is evaluated as a numeric.
-type ValueExpression  struct {
+type ValueExpression struct {
 	Expr string `json:"qExpr,omitempty"`
 }
 
 // Lists the variables in an app. Is the layout for VariableListDef.
-type VariableList  struct {
+type VariableList struct {
 	// List of the variables.
 	Items []*NxVariableListItem `json:"qItems,omitempty"`
 }
 
 // Defines the list of variables in an app.
-type VariableListDef  struct {
+type VariableListDef struct {
 	// Type of variables to include in the list.
 	Type string `json:"qType,omitempty"`
 	// Shows the reserved variables if set to true.
@@ -5439,15 +5439,16 @@ func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 // 
-//   +--------------------------------+--------------------------------+
-//   |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |
-//   +--------------------------------+--------------------------------+
-//   | < MachineName> AuditActivity   | < MachineName> Service         |
-//   | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |
-//   | Enterprise  < MachineName>     | Enterprise  < MachineName>     |
-//   | AuditActivity Engine.log in    | Service Engine.log in Qlik     |
-//   | Qlik Sense Desktop             | Sense Desktop                  |
-//   +--------------------------------+--------------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 // 
 // Where to find the log files:
 // 
@@ -5510,15 +5511,16 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 // 
-//   +--------------------------------+--------------------------------+
-//   |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |
-//   +--------------------------------+--------------------------------+
-//   | < MachineName> AuditActivity   | < MachineName> Service         |
-//   | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |
-//   | Enterprise  < MachineName>     | Enterprise  < MachineName>     |
-//   | AuditActivity Engine.log in    | Service Engine.log in Qlik     |
-//   | Qlik Sense Desktop             | Sense Desktop                  |
-//   +--------------------------------+--------------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 // 
 // Where to find the log files:
 // 
@@ -7547,12 +7549,13 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 // 
 // SearchMatchCombinations:
 // 
-//   +--------------------------+-------------------------------+--------------------------------+
-//   |           NAME           |          DESCRIPTION          |              TYPE              |
-//   +--------------------------+-------------------------------+--------------------------------+
-//   | qSearchMatchCombinations | Array of search combinations. | Array of                       |
-//   |                          |                               | SearchMatchCombination         |
-//   +--------------------------+-------------------------------+--------------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -7576,12 +7579,13 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 // 
 // SearchMatchCombinations:
 // 
-//   +--------------------------+-------------------------------+--------------------------------+
-//   |           NAME           |          DESCRIPTION          |              TYPE              |
-//   +--------------------------+-------------------------------+--------------------------------+
-//   | qSearchMatchCombinations | Array of search combinations. | Array of                       |
-//   |                          |                               | SearchMatchCombination         |
-//   +--------------------------+-------------------------------+--------------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -9411,19 +9415,21 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 // 
-//   +-------------+--------------------------------+--------------------------------+
-//   |    NAME     |          DESCRIPTION           |              TYPE              |
-//   +-------------+--------------------------------+--------------------------------+
-//   | qNum        | Maximum number of points that  | String                         |
-//   |             | a cell can contain.            |                                |
-//   | qElemNumber | Is set to 0.                   | Boolean                        |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
-//   +-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 // 
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
@@ -9451,12 +9457,14 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 // 
 // Cells are represented as rectangles.
@@ -9484,12 +9492,14 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
@@ -9547,19 +9557,21 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 // 
-//   +-------------+--------------------------------+--------------------------------+
-//   |    NAME     |          DESCRIPTION           |              TYPE              |
-//   +-------------+--------------------------------+--------------------------------+
-//   | qNum        | Maximum number of points that  | String                         |
-//   |             | a cell can contain.            |                                |
-//   | qElemNumber | Is set to 0.                   | Boolean                        |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
-//   +-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 // 
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
@@ -9587,12 +9599,14 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 // 
 // Cells are represented as rectangles.
@@ -9620,12 +9634,14 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
@@ -10728,19 +10744,19 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 // 
 // In the representation above:
 // 
-//   +--------------------------------+--------------------------------+
-//   | Sum(OrderTotal)                | Are pseudo dimensions.         |
-//   | Count(OrderTotal)              |                                |
-//   | CategoryName                   | Is a left dimension.           |
-//   |                                | Beverages , Condiments ... are |
-//   |                                | left dimension values.         |
-//   | ProductName                    | Is a top dimension.  Chef      |
-//   |                                | Anton's Cajun Seasoning is a   |
-//   |                                | top dimension value.           |
-//   | Numeric values                 | Are calculated values in the   |
-//   |                                | data matrix.  626291,832 is a  |
-//   |                                | calculated value.              |
-//   +--------------------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 // 
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
@@ -10788,19 +10804,19 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 // 
 // In the representation above:
 // 
-//   +--------------------------------+--------------------------------+
-//   | Sum(OrderTotal)                | Are pseudo dimensions.         |
-//   | Count(OrderTotal)              |                                |
-//   | CategoryName                   | Is a left dimension.           |
-//   |                                | Beverages , Condiments ... are |
-//   |                                | left dimension values.         |
-//   | ProductName                    | Is a top dimension.  Chef      |
-//   |                                | Anton's Cajun Seasoning is a   |
-//   |                                | top dimension value.           |
-//   | Numeric values                 | Are calculated values in the   |
-//   |                                | data matrix.  626291,832 is a  |
-//   |                                | calculated value.              |
-//   +--------------------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 // 
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
