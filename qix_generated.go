@@ -228,6 +228,28 @@ type BNFDef struct {
 	FGList []string `json:"qFGList,omitempty"`
 }
 
+type BNFDefMetaType string
+
+func (t BNFDefMetaType) String() string {
+	return string(t)
+}
+
+func (t BNFDefMetaType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type BNFType string
+
+func (t BNFType) String() string {
+	return string(t)
+}
+
+func (t BNFType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type BookmarkFieldItem struct {
 	// Name and type of the field.
 	Def *FieldDefEx `json:"qDef,omitempty"`
@@ -287,6 +309,17 @@ type CalendarStrings struct {
 	LongDayNames []string `json:"qLongDayNames,omitempty"`
 	// List of long month names.
 	LongMonthNames []string `json:"qLongMonthNames,omitempty"`
+}
+
+type CharEncodingType string
+
+func (t CharEncodingType) String() string {
+	return string(t)
+}
+
+func (t CharEncodingType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type CharRange struct {
@@ -642,6 +675,17 @@ type DriveInfo struct {
 	UnnamedDrive bool `json:"qUnnamedDrive,omitempty"`
 }
 
+type DriveType string
+
+func (t DriveType) String() string {
+	return string(t)
+}
+
+func (t DriveType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type EditorBreakpoint struct {
 	// Name of the breakpoint.
 	BufferName string `json:"qbufferName,omitempty"`
@@ -692,6 +736,17 @@ type ErrorData struct {
 	Message *ProgressMessage `json:"qMessage,omitempty"`
 }
 
+type ErrorDataCode string
+
+func (t ErrorDataCode) String() string {
+	return string(t)
+}
+
+func (t ErrorDataCode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 // Obsolete, use qrs API's to fetch extensions.
 type ExtensionList struct {
 	Items []string `json:"qItems,omitempty"`
@@ -699,6 +754,17 @@ type ExtensionList struct {
 
 // Obsolete, use qrs API's to fetch extensions.
 type ExtensionListDef struct {
+}
+
+type FieldAttrType string
+
+func (t FieldAttrType) String() string {
+	return string(t)
+}
+
+func (t FieldAttrType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // Sets the formatting of a field.
@@ -986,6 +1052,17 @@ type FieldScores struct {
 	RowScore Float64 `json:"qRowScore,omitempty"`
 }
 
+type FieldType string
+
+func (t FieldType) String() string {
+	return string(t)
+}
+
+func (t FieldType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type FieldValue struct {
 	// Text related to the field value.
 	// This parameter is optional.
@@ -1100,6 +1177,17 @@ type FileDataFormat struct {
 	FixedWidthDelimiters string `json:"qFixedWidthDelimiters,omitempty"`
 }
 
+type FileType string
+
+func (t FileType) String() string {
+	return string(t)
+}
+
+func (t FileType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type FilterInfo struct {
 	// One of:
 	// 
@@ -1108,6 +1196,17 @@ type FilterInfo struct {
 	// • RAW or FILTER_TYPE_RAW
 	Type string `json:"qType,omitempty"`
 	WherePredicate string `json:"qWherePredicate,omitempty"`
+}
+
+type FilterType string
+
+func (t FilterType) String() string {
+	return string(t)
+}
+
+func (t FilterType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type FolderItem struct {
@@ -1123,6 +1222,17 @@ type FolderItem struct {
 	// 
 	// • OTHER or FOLDER_ITEM_OTHER
 	Type string `json:"qType,omitempty"`
+}
+
+type FolderItemType string
+
+func (t FolderItemType) String() string {
+	return string(t)
+}
+
+func (t FolderItemType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type Function struct {
@@ -1197,6 +1307,17 @@ type Function struct {
 	Signature string `json:"qSignature,omitempty"`
 }
 
+type FunctionGroup string
+
+func (t FunctionGroup) String() string {
+	return string(t)
+}
+
+func (t FunctionGroup) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type GenericBookmarkEntry struct {
 	// Information about the properties of the bookmark.
 	Properties *GenericBookmarkProperties `json:"qProperties,omitempty"`
@@ -1222,6 +1343,17 @@ type GenericBookmarkProperties struct {
 	Info *NxInfo `json:"qInfo,omitempty"`
 	// Definition of the dynamic properties.
 	MetaDef *NxMetaDef `json:"qMetaDef,omitempty"`
+}
+
+type GenericConnectMachine string
+
+func (t GenericConnectMachine) String() string {
+	return string(t)
+}
+
+func (t GenericConnectMachine) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type GenericDimensionInfo struct {
@@ -1702,6 +1834,28 @@ type InteractDef struct {
 	Input string `json:"qInput,omitempty"`
 }
 
+type InteractType string
+
+func (t InteractType) String() string {
+	return string(t)
+}
+
+func (t InteractType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type KeyType string
+
+func (t KeyType) String() string {
+	return string(t)
+}
+
+func (t KeyType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 // Contains JSON to be excluded from validation.
 type LayoutExclude struct {
 }
@@ -1880,6 +2034,17 @@ type LocaleInfo struct {
 	// Number format.
 	// Example: 3:k;6:M;9:G;12:T;15:P;18:E;21:Z;24:Y;-3:m;-6:μ;-9:n;-12:p;-15:f;-18:a;-21:z;-24:y
 	NumericalAbbreviation string `json:"qNumericalAbbreviation,omitempty"`
+}
+
+type LogOnType string
+
+func (t LogOnType) String() string {
+	return string(t)
+}
+
+func (t LogOnType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // Lists the measures. Is the layout for MeasureListDef.
@@ -2311,6 +2476,17 @@ type NxDataPage struct {
 	IsReduced bool `json:"qIsReduced,omitempty"`
 }
 
+type NxDataReductionMode string
+
+func (t NxDataReductionMode) String() string {
+	return string(t)
+}
+
+func (t NxDataReductionMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxDerivedField struct {
 	// Identifier of the derived field.
 	// The identifier is unique.
@@ -2365,6 +2541,17 @@ type NxDerivedGroup struct {
 	Grouping string `json:"qGrouping,omitempty"`
 	// List of the derived fields in the group.
 	FieldDefs []string `json:"qFieldDefs,omitempty"`
+}
+
+type NxDimCellType string
+
+func (t NxDimCellType) String() string {
+	return string(t)
+}
+
+func (t NxDimCellType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // Either qDef or qLibraryId must be set, but not both.
@@ -2514,9 +2701,42 @@ type NxDimensionInfo struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
+type NxDimensionType string
+
+func (t NxDimensionType) String() string {
+	return string(t)
+}
+
+func (t NxDimensionType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxEngineVersion struct {
 	// Version number of the Qlik engine component.
 	ComponentVersion string `json:"qComponentVersion,omitempty"`
+}
+
+type NxExportFileType string
+
+func (t NxExportFileType) String() string {
+	return string(t)
+}
+
+func (t NxExportFileType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type NxExportState string
+
+func (t NxExportState) String() string {
+	return string(t)
+}
+
+func (t NxExportState) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // NxDerivedFieldsdata:
@@ -2594,6 +2814,28 @@ type NxFieldSelectionInfo struct {
 	FieldSelectionMode string `json:"qFieldSelectionMode,omitempty"`
 }
 
+type NxFieldSelectionMode string
+
+func (t NxFieldSelectionMode) String() string {
+	return string(t)
+}
+
+func (t NxFieldSelectionMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type NxFrequencyMode string
+
+func (t NxFrequencyMode) String() string {
+	return string(t)
+}
+
+func (t NxFrequencyMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxGetBookmarkOptions struct {
 	// List of object types.
 	Types []string `json:"qTypes,omitempty"`
@@ -2624,9 +2866,31 @@ type NxGroupTail struct {
 	Down int `json:"qDown,omitempty"`
 }
 
+type NxGrpType string
+
+func (t NxGrpType) String() string {
+	return string(t)
+}
+
+func (t NxGrpType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxHighlightRanges struct {
 	// Ranges of highlighted values.
 	Ranges []*CharRange `json:"qRanges,omitempty"`
+}
+
+type NxHypercubeMode string
+
+func (t NxHypercubeMode) String() string {
+	return string(t)
+}
+
+func (t NxHypercubeMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type NxInfo struct {
@@ -2851,11 +3115,44 @@ type NxListObjectExpressionDef struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
+type NxLocalizedErrorCode string
+
+func (t NxLocalizedErrorCode) String() string {
+	return string(t)
+}
+
+func (t NxLocalizedErrorCode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type NxLocalizedWarningCode string
+
+func (t NxLocalizedWarningCode) String() string {
+	return string(t)
+}
+
+func (t NxLocalizedWarningCode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxMatchingFieldInfo struct {
 	// Name of the field.
 	Name string `json:"qName,omitempty"`
 	// List of tags.
 	Tags []string `json:"qTags,omitempty"`
+}
+
+type NxMatchingFieldMode string
+
+func (t NxMatchingFieldMode) String() string {
+	return string(t)
+}
+
+func (t NxMatchingFieldMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // Either qDef or qLibraryId must be set, but not both.
@@ -3001,6 +3298,17 @@ type NxPatch struct {
 	// Examples:
 	// "false", "2", "\"New title\""
 	Value string `json:"qValue,omitempty"`
+}
+
+type NxPatchOperationType string
+
+func (t NxPatchOperationType) String() string {
+	return string(t)
+}
+
+func (t NxPatchOperationType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type NxPivotDimensionCell struct {
@@ -3154,6 +3462,17 @@ type NxSelectionCell struct {
 	Row int `json:"qRow,omitempty"`
 }
 
+type NxSelectionCellType string
+
+func (t NxSelectionCellType) String() string {
+	return string(t)
+}
+
+func (t NxSelectionCellType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type NxSelectionInfo struct {
 	// Is set to true if the visualization is in selection mode.
 	// For more information about the selection mode, see BeginSelections Method.
@@ -3177,6 +3496,17 @@ type NxSimpleValue struct {
 	// Numeric value of the attribute expression.
 	// Set to NaN (Not a Number) if the attribute expression value is not numeric.
 	Num Float64 `json:"qNum,omitempty"`
+}
+
+type NxSortIndicatorType string
+
+func (t NxSortIndicatorType) String() string {
+	return string(t)
+}
+
+func (t NxSortIndicatorType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type NxStackPage struct {
@@ -3623,6 +3953,39 @@ type OleDbProvider struct {
 	Bit32 bool `json:"qBit32,omitempty"`
 }
 
+type OtherLimitMode string
+
+func (t OtherLimitMode) String() string {
+	return string(t)
+}
+
+func (t OtherLimitMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type OtherMode string
+
+func (t OtherMode) String() string {
+	return string(t)
+}
+
+func (t OtherMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
+type OtherSortMode string
+
+func (t OtherSortMode) String() string {
+	return string(t)
+}
+
+func (t OtherSortMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type OtherTotalSpecProp struct {
 	// Determines how many dimension values are displayed.
 	// The default value is OTHEROFF_ .
@@ -3897,6 +4260,17 @@ type SearchCombinationOptions struct {
 	Attributes []string `json:"qAttributes,omitempty"`
 }
 
+type SearchContextType string
+
+func (t SearchContextType) String() string {
+	return string(t)
+}
+
+func (t SearchContextType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type SearchFieldDictionary struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
@@ -3918,6 +4292,17 @@ type SearchFieldMatch struct {
 	// Number of search hits in the field.
 	// The number of values in qValues and the value of qNoOfMatches are equal if qMaxNbrFieldMatches is -1.
 	NoOfMatches int `json:"qNoOfMatches,omitempty"`
+}
+
+type SearchFieldSelectionMode string
+
+func (t SearchFieldSelectionMode) String() string {
+	return string(t)
+}
+
+func (t SearchFieldSelectionMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type SearchGroup struct {
@@ -4007,6 +4392,17 @@ type SearchGroupItemOptions struct {
 	Count *int `json:"qCount,omitempty"`
 }
 
+type SearchGroupItemType string
+
+func (t SearchGroupItemType) String() string {
+	return string(t)
+}
+
+func (t SearchGroupItemType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
+}
+
 type SearchGroupOptions struct {
 	// Type of the group. Can be:
 	// 
@@ -4027,6 +4423,17 @@ type SearchGroupOptions struct {
 	// The default value is -1; all values are returned.
 	// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)
 	Count *int `json:"qCount,omitempty"`
+}
+
+type SearchGroupType string
+
+func (t SearchGroupType) String() string {
+	return string(t)
+}
+
+func (t SearchGroupType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type SearchMatchCombination struct {
@@ -4193,6 +4600,17 @@ type SourceKeyRecord struct {
 	KeyFields []string `json:"qKeyFields,omitempty"`
 	// Table the key belongs to.
 	Tables []string `json:"qTables,omitempty"`
+}
+
+type StateEnumType string
+
+func (t StateEnumType) String() string {
+	return string(t)
+}
+
+func (t StateEnumType) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 type StaticContentList struct {
@@ -4365,6 +4783,17 @@ type TextMacro struct {
 	IsSystem bool `json:"qIsSystem,omitempty"`
 	// Is set to true if the variable is a reserved variable.
 	IsReserved bool `json:"qIsReserved,omitempty"`
+}
+
+type TotalMode string
+
+func (t TotalMode) String() string {
+	return string(t)
+}
+
+func (t TotalMode) MarshalText() ([]byte, error) {
+	err := validateArg(t)
+	return []byte(t), err
 }
 
 // Renders the properties of a TreeData object. Is the layout for TreeDataDef.
@@ -12473,5 +12902,52 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{})error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, ensureEncodable(properties))
 	return err 
+}
+
+var argInitCalled = false
+
+//argInit initializes all the valid arguments for the generated "enum" (string) types.
+//This method should be called once for the argument validation to work.
+func argInit() {
+	argInitCalled = true
+	AddArgumentsForType(BNFDefMetaType(""), []string{"NOT_META", "N", "META_DOC_NAME", "D", "META_RET_TYPE", "R", "META_DEFAULT_VALUE", "V"})
+	AddArgumentsForType(BNFType(""), []string{"SCRIPT_TEXT_SCRIPT", "S", "SCRIPT_TEXT_EXPRESSION", "E"})
+	AddArgumentsForType(CharEncodingType(""), []string{"CHAR_ENCODING_UTF8", "Utf8", "CHAR_ENCODING_UTF16", "Utf16"})
+	AddArgumentsForType(DriveType(""), []string{"REMOVABLE", "FIXED", "NETWORK", "CD_ROM", "RAM", "UNKNOWN_TYPE"})
+	AddArgumentsForType(ErrorDataCode(""), []string{"EDC_ERROR", "EDC_WARNING", "EDC_CIRCULAR_REFERENCE"})
+	AddArgumentsForType(FieldAttrType(""), []string{"UNKNOWN", "U", "ASCII", "A", "INTEGER", "I", "REAL", "R", "FIX", "F", "MONEY", "M", "DATE", "D", "TIME", "T", "TIMESTAMP", "TS", "INTERVAL", "IV"})
+	AddArgumentsForType(FieldType(""), []string{"NOT_PRESENT", "PRESENT", "IS_CYCLIC_GROUP", "IS_DRILL_GROUP", "IS_VAR", "IS_EXPR", "IS_IMPLICIT", "IS_DETAIL"})
+	AddArgumentsForType(FileType(""), []string{"FILE_TYPE_CSV", "CSV", "FILE_TYPE_FIX", "FIX", "FILE_TYPE_DIF", "DIF", "FILE_TYPE_EXCEL_BIFF", "EXCEL_BIFF", "FILE_TYPE_EXCEL_OOXML", "EXCEL_OOXML", "FILE_TYPE_HTML", "HTML", "FILE_TYPE_QVD", "QVD", "FILE_TYPE_XML", "XML", "FILE_TYPE_QVX", "QVX", "FILE_TYPE_JSON", "JSON", "FILE_TYPE_KML", "KML"})
+	AddArgumentsForType(FilterType(""), []string{"FILTER_TYPE_NONE", "NONE", "FILTER_TYPE_RAW", "RAW"})
+	AddArgumentsForType(FolderItemType(""), []string{"FOLDER_ITEM_FOLDER", "FOLDER", "FOLDER_ITEM_FILE", "FILE", "FOLDER_ITEM_OTHER", "OTHER"})
+	AddArgumentsForType(FunctionGroup(""), []string{"FUNC_GROUP_ALL", "ALL", "FUNC_GROUP_UNKNOWN", "U", "FUNC_GROUP_NONE", "NONE", "FUNC_GROUP_AGGR", "AGGR", "FUNC_GROUP_NUMERIC", "NUM", "FUNC_GROUP_RANGE", "RNG", "FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC", "EXP", "FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC", "TRIG", "FUNC_GROUP_FINANCIAL", "FIN", "FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE", "MATH", "FUNC_GROUP_COUNTER", "COUNT", "FUNC_GROUP_STRING", "STR", "FUNC_GROUP_MAPPING", "MAPP", "FUNC_GROUP_INTER_RECORD", "RCRD", "FUNC_GROUP_CONDITIONAL", "CND", "FUNC_GROUP_LOGICAL", "LOG", "FUNC_GROUP_NULL", "NULL", "FUNC_GROUP_SYSTEM", "SYS", "FUNC_GROUP_FILE", "FILE", "FUNC_GROUP_TABLE", "TBL", "FUNC_GROUP_DATE_AND_TIME", "DATE", "FUNC_GROUP_NUMBER_INTERPRET", "NUMI", "FUNC_GROUP_FORMATTING", "FRMT", "FUNC_GROUP_COLOR", "CLR", "FUNC_GROUP_RANKING", "RNK", "FUNC_GROUP_GEO", "GEO", "FUNC_GROUP_EXTERNAL", "EXT", "FUNC_GROUP_PROBABILITY", "PROB", "FUNC_GROUP_ARRAY", "ARRAY", "FUNC_GROUP_LEGACY", "LEG"})
+	AddArgumentsForType(GenericConnectMachine(""), []string{"CONNECT_DEFAULT", "CONNECT_64", "CONNECT_32"})
+	AddArgumentsForType(InteractType(""), []string{"IT_MSGBOX", "IT_SCRIPTLINE", "IT_BREAK", "IT_INPUT", "IT_END", "IT_PASSWD", "IT_USERNAME"})
+	AddArgumentsForType(KeyType(""), []string{"NOT_KEY", "ANY_KEY", "PRIMARY_KEY", "PERFECT_KEY"})
+	AddArgumentsForType(LogOnType(""), []string{"LOG_ON_SERVICE_USER", "LOG_ON_CURRENT_USER"})
+	AddArgumentsForType(NxDataReductionMode(""), []string{"DATA_REDUCTION_NONE", "N", "DATA_REDUCTION_ONEDIM", "D1", "DATA_REDUCTION_SCATTERED", "S", "DATA_REDUCTION_CLUSTERED", "C", "DATA_REDUCTION_STACKED", "ST"})
+	AddArgumentsForType(NxDimCellType(""), []string{"NX_DIM_CELL_VALUE", "V", "NX_DIM_CELL_EMPTY", "E", "NX_DIM_CELL_NORMAL", "N", "NX_DIM_CELL_TOTAL", "T", "NX_DIM_CELL_OTHER", "O", "NX_DIM_CELL_AGGR", "A", "NX_DIM_CELL_PSEUDO", "P", "NX_DIM_CELL_ROOT", "R", "NX_DIM_CELL_NULL", "U", "NX_DIM_CELL_GENERATED", "G"})
+	AddArgumentsForType(NxDimensionType(""), []string{"NX_DIMENSION_TYPE_DISCRETE", "D", "NX_DIMENSION_TYPE_NUMERIC", "N", "NX_DIMENSION_TYPE_TIME", "T"})
+	AddArgumentsForType(NxExportFileType(""), []string{"EXPORT_CSV_C", "CSV_C", "EXPORT_CSV_T", "CSV_T", "EXPORT_OOXML", "OOXML"})
+	AddArgumentsForType(NxExportState(""), []string{"EXPORT_POSSIBLE", "P", "EXPORT_ALL", "A"})
+	AddArgumentsForType(NxFieldSelectionMode(""), []string{"SELECTION_MODE_NORMAL", "NORMAL", "SELECTION_MODE_AND", "AND", "SELECTION_MODE_NOT", "NOT"})
+	AddArgumentsForType(NxFrequencyMode(""), []string{"NX_FREQUENCY_NONE", "N", "NX_FREQUENCY_VALUE", "V", "NX_FREQUENCY_PERCENT", "P", "NX_FREQUENCY_RELATIVE", "R"})
+	AddArgumentsForType(NxGrpType(""), []string{"GRP_NX_NONE", "N", "GRP_NX_HIEARCHY", "H", "GRP_NX_COLLECTION", "C"})
+	AddArgumentsForType(NxHypercubeMode(""), []string{"DATA_MODE_STRAIGHT", "S", "DATA_MODE_PIVOT", "P", "DATA_MODE_PIVOT_STACK", "K", "DATA_MODE_TREE", "T"})
+	AddArgumentsForType(NxLocalizedErrorCode(""), []string{"LOCERR_INTERNAL_ERROR", "LOCERR_GENERIC_UNKNOWN", "LOCERR_GENERIC_OK", "LOCERR_GENERIC_NOT_SET", "LOCERR_GENERIC_NOT_FOUND", "LOCERR_GENERIC_ALREADY_EXISTS", "LOCERR_GENERIC_INVALID_PATH", "LOCERR_GENERIC_ACCESS_DENIED", "LOCERR_GENERIC_OUT_OF_MEMORY", "LOCERR_GENERIC_NOT_INITIALIZED", "LOCERR_GENERIC_INVALID_PARAMETERS", "LOCERR_GENERIC_EMPTY_PARAMETERS", "LOCERR_GENERIC_INTERNAL_ERROR", "LOCERR_GENERIC_CORRUPT_DATA", "LOCERR_GENERIC_MEMORY_INCONSISTENCY", "LOCERR_GENERIC_INVISIBLE_OWNER_ABORT", "LOCERR_GENERIC_PROHIBIT_VALIDATE", "LOCERR_GENERIC_ABORTED", "LOCERR_GENERIC_CONNECTION_LOST", "LOCERR_GENERIC_UNSUPPORTED_IN_PRODUCT_VERSION", "LOCERR_GENERIC_REST_CONNECTION_FAILURE", "LOCERR_GENERIC_MEMORY_LIMIT_REACHED", "LOCERR_GENERIC_NOT_IMPLEMENTED", "LOCERR_HTTP_400", "LOCERR_HTTP_401", "LOCERR_HTTP_402", "LOCERR_HTTP_403", "LOCERR_HTTP_404", "LOCERR_HTTP_405", "LOCERR_HTTP_406", "LOCERR_HTTP_407", "LOCERR_HTTP_408", "LOCERR_HTTP_409", "LOCERR_HTTP_410", "LOCERR_HTTP_411", "LOCERR_HTTP_412", "LOCERR_HTTP_413", "LOCERR_HTTP_414", "LOCERR_HTTP_415", "LOCERR_HTTP_416", "LOCERR_HTTP_417", "LOCERR_HTTP_422", "LOCERR_HTTP_429", "LOCERR_HTTP_500", "LOCERR_HTTP_501", "LOCERR_HTTP_502", "LOCERR_HTTP_503", "LOCERR_HTTP_504", "LOCERR_HTTP_505", "LOCERR_HTTP_509", "LOCERR_HTTP_COULD_NOT_RESOLVE_HOST", "LOCERR_APP_ALREADY_EXISTS", "LOCERR_APP_INVALID_NAME", "LOCERR_APP_ALREADY_OPEN", "LOCERR_APP_NOT_FOUND", "LOCERR_APP_IMPORT_FAILED", "LOCERR_APP_SAVE_FAILED", "LOCERR_APP_CREATE_FAILED", "LOCERR_APP_INVALID", "LOCERR_APP_CONNECT_FAILED", "LOCERR_APP_ALREADY_OPEN_IN_DIFFERENT_MODE", "LOCERR_APP_MIGRATION_COULD_NOT_CONTACT_MIGRATION_SERVICE", "LOCERR_APP_MIGRATION_COULD_NOT_START_MIGRATION", "LOCERR_APP_MIGRATION_FAILURE", "LOCERR_APP_SCRIPT_MISSING", "LOCERR_APP_EXPORT_FAILED", "LOCERR_CONNECTION_ALREADY_EXISTS", "LOCERR_CONNECTION_NOT_FOUND", "LOCERR_CONNECTION_FAILED_TO_LOAD", "LOCERR_CONNECTION_FAILED_TO_IMPORT", "LOCERR_CONNECTION_NAME_IS_INVALID", "LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT", "LOCERR_CONNECTOR_FILESIZE_EXCEEDED_BUFFER_SIZE", "LOCERR_FILE_ACCESS_DENIED", "LOCERR_FILE_NAME_INVALID", "LOCERR_FILE_CORRUPT", "LOCERR_FILE_NOT_FOUND", "LOCERR_FILE_FORMAT_UNSUPPORTED", "LOCERR_FILE_OPENED_IN_UNSUPPORTED_MODE", "LOCERR_FILE_TABLE_NOT_FOUND", "LOCERR_USER_ACCESS_DENIED", "LOCERR_USER_IMPERSONATION_FAILED", "LOCERR_SERVER_OUT_OF_SESSION_AND_USER_CALS", "LOCERR_SERVER_OUT_OF_SESSION_CALS", "LOCERR_SERVER_OUT_OF_USAGE_CALS", "LOCERR_SERVER_OUT_OF_CALS", "LOCERR_SERVER_OUT_OF_NAMED_CALS", "LOCERR_SERVER_OFF_DUTY", "LOCERR_SERVER_BUSY", "LOCERR_SERVER_LICENSE_EXPIRED", "LOCERR_SERVER_AJAX_DISABLED", "LOCERR_SERVER_NO_TOKEN", "LOCERR_HC_INVALID_OBJECT", "LOCERR_HC_RESULT_TOO_LARGE", "LOCERR_HC_INVALID_OBJECT_STATE", "LOCERR_HC_MODAL_OBJECT_ERROR", "LOCERR_CALC_INVALID_DEF", "LOCERR_CALC_NOT_IN_LIB", "LOCERR_CALC_HEAP_ERROR", "LOCERR_CALC_TOO_LARGE", "LOCERR_CALC_TIMEOUT", "LOCERR_CALC_EVAL_CONDITION_FAILED", "LOCERR_CALC_MIXED_LINKED_AGGREGATION", "LOCERR_CALC_MISSING_LINKED", "LOCERR_CALC_INVALID_COL_SORT", "LOCERR_CALC_PAGES_TOO_LARGE", "LOCERR_CALC_SEMANTIC_FIELD_NOT_ALLOWED", "LOCERR_CALC_VALIDATION_STATE_INVALID", "LOCERR_CALC_PIVOT_DIMENSIONS_ALREADY_EXISTS", "LOCERR_CALC_MISSING_LINKED_FIELD", "LOCERR_CALC_NOT_CALCULATED", "LOCERR_LAYOUT_EXTENDS_INVALID_ID", "LOCERR_LAYOUT_LINKED_OBJECT_NOT_FOUND", "LOCERR_LAYOUT_LINKED_OBJECT_INVALID", "LOCERR_PERSISTENCE_WRITE_FAILED", "LOCERR_PERSISTENCE_READ_FAILED", "LOCERR_PERSISTENCE_DELETE_FAILED", "LOCERR_PERSISTENCE_NOT_FOUND", "LOCERR_PERSISTENCE_UNSUPPORTED_VERSION", "LOCERR_PERSISTENCE_MIGRATION_FAILED_READ_ONLY", "LOCERR_PERSISTENCE_MIGRATION_CANCELLED", "LOCERR_PERSISTENCE_MIGRATION_BACKUP_FAILED", "LOCERR_PERSISTENCE_DISK_FULL", "LOCERR_PERSISTENCE_NOT_SUPPORTED_FOR_SESSION_APP", "LOCERR_PERSISTENCE_MOVE_FAILED", "LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS", "LOCERR_PERSISTENCE_SYNC_GET_CHUNK_INVALID_PARAMETERS", "LOCERR_SCRIPT_DATASOURCE_ACCESS_DENIED", "LOCERR_RELOAD_IN_PROGRESS", "LOCERR_RELOAD_TABLE_X_NOT_FOUND", "LOCERR_RELOAD_UNKNOWN_STATEMENT", "LOCERR_RELOAD_EXPECTED_SOMETHING_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_NOTHING_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_1_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_2_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_3_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_4_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_5_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_6_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_7_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_EXPECTED_ONE_OF_8_OR_MORE_TOKENS_FOUND_UNKNOWN", "LOCERR_RELOAD_FIELD_X_NOT_FOUND", "LOCERR_RELOAD_MAPPING_TABLE_X_NOT_FOUND", "LOCERR_RELOAD_LIB_CONNECTION_X_NOT_FOUND", "LOCERR_RELOAD_NAME_ALREADY_TAKEN", "LOCERR_RELOAD_WRONG_FILE_FORMAT_DIF", "LOCERR_RELOAD_WRONG_FILE_FORMAT_BIFF", "LOCERR_RELOAD_WRONG_FILE_FORMAT_ENCRYPTED", "LOCERR_RELOAD_OPEN_FILE_ERROR", "LOCERR_RELOAD_AUTO_GENERATE_COUNT", "LOCERR_RELOAD_PE_ILLEGAL_PREFIX_COMB", "LOCERR_RELOAD_MATCHING_CONTROL_STATEMENT_ERROR", "LOCERR_RELOAD_MATCHING_LIBPATH_X_NOT_FOUND", "LOCERR_RELOAD_MATCHING_LIBPATH_X_INVALID", "LOCERR_RELOAD_MATCHING_LIBPATH_X_OUTSIDE", "LOCERR_RELOAD_NO_QUALIFIED_PATH_FOR_FILE", "LOCERR_RELOAD_MODE_STATEMENT_ONLY_FOR_LIB_PATHS", "LOCERR_RELOAD_INCONSISTENT_USE_OF_SEMANTIC_FIELDS", "LOCERR_RELOAD_NO_OPEN_DATABASE", "LOCERR_RELOAD_AGGREGATION_REQUIRED_BY_GROUP_BY", "LOCERR_RELOAD_CONNECT_MUST_USE_LIB_PREFIX_IN_THIS_MODE", "LOCERR_RELOAD_ODBC_CONNECT_FAILED", "LOCERR_RELOAD_OLEDB_CONNECT_FAILED", "LOCERR_RELOAD_CUSTOM_CONNECT_FAILED", "LOCERR_RELOAD_ODBC_READ_FAILED", "LOCERR_RELOAD_OLEDB_READ_FAILED", "LOCERR_RELOAD_CUSTOM_READ_FAILED", "LOCERR_RELOAD_BINARY_LOAD_PROHIBITED", "LOCERR_RELOAD_CONNECTOR_START_FAILED", "LOCERR_RELOAD_CONNECTOR_NOT_RESPONDING", "LOCERR_RELOAD_CONNECTOR_REPLY_ERROR", "LOCERR_RELOAD_CONNECTOR_CONNECT_ERROR", "LOCERR_RELOAD_CONNECTOR_NOT_FOUND_ERROR", "LOCERR_RELOAD_INPUT_FIELD_WITH_DUPLICATE_KEYS", "LOCERR_RELOAD_CONCATENATE_LOAD_NO_PREVIOUS_TABLE", "LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD", "LOCERR_PERSONAL_NEW_VERSION_AVAILABLE", "LOCERR_PERSONAL_VERSION_EXPIRED", "LOCERR_PERSONAL_SECTION_ACCESS_DETECTED", "LOCERR_PERSONAL_APP_DELETION_FAILED", "LOCERR_USER_AUTHENTICATION_FAILURE", "LOCERR_EXPORT_OUT_OF_MEMORY", "LOCERR_EXPORT_NO_DATA", "LOCERR_SYNC_INVALID_OFFSET", "LOCERR_SEARCH_TIMEOUT", "LOCERR_DIRECT_DISCOVERY_LINKED_EXPRESSION_FAIL", "LOCERR_DIRECT_DISCOVERY_ROWCOUNT_OVERFLOW", "LOCERR_DIRECT_DISCOVERY_EMPTY_RESULT", "LOCERR_DIRECT_DISCOVERY_DB_CONNECTION_FAILED", "LOCERR_DIRECT_DISCOVERY_MEASURE_NOT_ALLOWED", "LOCERR_DIRECT_DISCOVERY_DETAIL_NOT_ALLOWED", "LOCERR_DIRECT_DISCOVERY_NOT_SYNTH_CIRCULAR_ALLOWED", "LOCERR_DIRECT_DISCOVERY_ONLY_ONE_DD_TABLE_ALLOWED", "LOCERR_DIRECT_DISCOVERY_DB_AUTHORIZATION_FAILED", "LOCERR_SMART_LOAD_TABLE_NOT_FOUND", "LOCERR_SMART_LOAD_TABLE_DUPLICATED", "LOCERR_VARIABLE_NO_NAME", "LOCERR_VARIABLE_DUPLICATE_NAME", "LOCERR_VARIABLE_INCONSISTENCY", "LOCERR_MEDIA_LIBRARY_LIST_FAILED", "LOCERR_MEDIA_LIBRARY_CONTENT_FAILED", "LOCERR_MEDIA_BUNDLING_FAILED", "LOCERR_MEDIA_UNBUNDLING_FAILED", "LOCERR_MEDIA_LIBRARY_NOT_FOUND", "LOCERR_FEATURE_DISABLED", "LOCERR_JSON_RPC_INVALID_REQUEST", "LOCERR_JSON_RPC_METHOD_NOT_FOUND", "LOCERR_JSON_RPC_INVALID_PARAMETERS", "LOCERR_JSON_RPC_INTERNAL_ERROR", "LOCERR_JSON_RPC_PARSE_ERROR", "LOCERR_MQ_SOCKET_CONNECT_FAILURE", "LOCERR_MQ_SOCKET_OPEN_FAILURE", "LOCERR_MQ_PROTOCOL_NO_RESPONE", "LOCERR_MQ_PROTOCOL_LIBRARY_EXCEPTION", "LOCERR_MQ_PROTOCOL_CONNECTION_CLOSED", "LOCERR_MQ_PROTOCOL_CHANNEL_CLOSED", "LOCERR_MQ_PROTOCOL_UNKNOWN_ERROR", "LOCERR_MQ_PROTOCOL_INVALID_STATUS", "LOCERR_EXTENGINE_GRPC_STATUS_OK", "LOCERR_EXTENGINE_GRPC_STATUS_CANCELLED", "LOCERR_EXTENGINE_GRPC_STATUS_UNKNOWN", "LOCERR_EXTENGINE_GRPC_STATUS_INVALID_ARGUMENT", "LOCERR_EXTENGINE_GRPC_STATUS_DEADLINE_EXCEEDED", "LOCERR_EXTENGINE_GRPC_STATUS_NOT_FOUND", "LOCERR_EXTENGINE_GRPC_STATUS_ALREADY_EXISTS", "LOCERR_EXTENGINE_GRPC_STATUS_PERMISSION_DENIED", "LOCERR_EXTENGINE_GRPC_STATUS_RESOURCE_EXHAUSTED", "LOCERR_EXTENGINE_GRPC_STATUS_FAILED_PRECONDITION", "LOCERR_EXTENGINE_GRPC_STATUS_ABORTED", "LOCERR_EXTENGINE_GRPC_STATUS_OUT_OF_RANGE", "LOCERR_EXTENGINE_GRPC_STATUS_UNIMPLEMENTED", "LOCERR_EXTENGINE_GRPC_STATUS_INTERNAL", "LOCERR_EXTENGINE_GRPC_STATUS_UNAVAILABLE", "LOCERR_EXTENGINE_GRPC_STATUS_DATA_LOSS", "LOCERR_EXTENGINE_GRPC_STATUS_UNAUTHENTICATED", "LOCERR_LXW_INVALID_OBJ", "LOCERR_LXW_INVALID_FILE", "LOCERR_LXW_INVALID_SHEET", "LOCERR_LXW_INVALID_EXPORT_RANGE", "LOCERR_LXW_ERROR", "LOCERR_LXW_ERROR_MEMORY_MALLOC_FAILED", "LOCERR_LXW_ERROR_CREATING_XLSX_FILE", "LOCERR_LXW_ERROR_CREATING_TMPFILE", "LOCERR_LXW_ERROR_ZIP_FILE_OPERATION", "LOCERR_LXW_ERROR_ZIP_FILE_ADD", "LOCERR_LXW_ERROR_ZIP_CLOSE", "LOCERR_LXW_ERROR_NULL_PARAMETER_IGNORED", "LOCERR_LXW_ERROR_MAX_STRING_LENGTH_EXCEEDED", "LOCERR_LXW_ERROR_255_STRING_LENGTH_EXCEEDED", "LOCERR_LXW_ERROR_SHARED_STRING_INDEX_NOT_FOUND", "LOCERR_LXW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE", "LOCERR_LXW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED", "LOCERR_BDI_STATUS_OK", "LOCERR_BDI_GENERIC_ERROR_NOT_TRANSLATED", "LOCERR_CURL_UNSUPPORTED_PROTOCOL", "LOCERR_CURL_COULDNT_RESOLVE_PROXY", "LOCERR_CURL_COULDNT_CONNECT", "LOCERR_CURL_REMOTE_ACCESS_DENIED", "LOCERR_CURL_FTP_ACCEPT_FAILED", "LOCERR_CURL_FTP_ACCEPT_TIMEOUT", "LOCERR_CURL_FTP_CANT_GET_HOST", "LOCERR_CURL_PARTIAL_FILE", "LOCERR_CURL_QUOTE_ERROR", "LOCERR_CURL_WRITE_ERROR", "LOCERR_CURL_UPLOAD_FAILED", "LOCERR_CURL_OUT_OF_MEMORY", "LOCERR_CURL_OPERATION_TIMEDOUT", "LOCERR_CURL_FTP_COULDNT_USE_REST", "LOCERR_CURL_HTTP_POST_ERROR", "LOCERR_CURL_SSL_CONNECT_ERROR", "LOCERR_CURL_FILE_COULDNT_READ_FILE", "LOCERR_CURL_LDAP_CANNOT_BIND", "LOCERR_CURL_LDAP_SEARCH_FAILED", "LOCERR_CURL_TOO_MANY_REDIRECTS", "LOCERR_CURL_PEER_FAILED_VERIFICATION", "LOCERR_CURL_GOT_NOTHING", "LOCERR_CURL_SSL_ENGINE_NOTFOUND", "LOCERR_CURL_SSL_ENGINE_SETFAILED", "LOCERR_CURL_SSL_CERTPROBLEM", "LOCERR_CURL_SSL_CIPHER", "LOCERR_CURL_SSL_CACERT", "LOCERR_CURL_BAD_CONTENT_ENCODING", "LOCERR_CURL_LDAP_INVALID_URL", "LOCERR_CURL_USE_SSL_FAILED", "LOCERR_CURL_SSL_ENGINE_INITFAILED", "LOCERR_CURL_LOGIN_DENIED", "LOCERR_CURL_TFTP_NOTFOUND", "LOCERR_CURL_TFTP_ILLEGAL", "LOCERR_CURL_SSH", "LOCERR_SETEXPRESSION_TOO_LARGE"})
+	AddArgumentsForType(NxLocalizedWarningCode(""), []string{"LOCWARN_PERSONAL_RELOAD_REQUIRED", "LOCWARN_PERSONAL_VERSION_EXPIRES_SOON", "LOCWARN_EXPORT_DATA_TRUNCATED", "LOCWARN_COULD_NOT_OPEN_ALL_OBJECTS"})
+	AddArgumentsForType(NxMatchingFieldMode(""), []string{"MATCHINGFIELDMODE_MATCH_ALL", "MATCHINGFIELDMODE_MATCH_ONE"})
+	AddArgumentsForType(NxPatchOperationType(""), []string{"Add", "add", "Remove", "remove", "Replace", "replace"})
+	AddArgumentsForType(NxSelectionCellType(""), []string{"NX_CELL_DATA", "D", "NX_CELL_TOP", "T", "NX_CELL_LEFT", "L"})
+	AddArgumentsForType(NxSortIndicatorType(""), []string{"NX_SORT_INDICATE_NONE", "N", "NX_SORT_INDICATE_ASC", "A", "NX_SORT_INDICATE_DESC", "D"})
+	AddArgumentsForType(OtherLimitMode(""), []string{"OTHER_GE_LIMIT", "OTHER_LE_LIMIT", "OTHER_GT_LIMIT", "OTHER_LT_LIMIT"})
+	AddArgumentsForType(OtherMode(""), []string{"OTHER_OFF", "OTHER_COUNTED", "OTHER_ABS_LIMITED", "OTHER_ABS_ACC_TARGET", "OTHER_REL_LIMITED", "OTHER_REL_ACC_TARGET"})
+	AddArgumentsForType(OtherSortMode(""), []string{"OTHER_SORT_DEFAULT", "OTHER_SORT_DESCENDING", "OTHER_SORT_ASCENDING"})
+	AddArgumentsForType(SearchContextType(""), []string{"CONTEXT_CLEARED", "Cleared", "CONTEXT_LOCKED_FIELDS_ONLY", "LockedFieldsOnly", "CONTEXT_CURRENT_SELECTIONS", "CurrentSelections"})
+	AddArgumentsForType(SearchFieldSelectionMode(""), []string{"ONE_AND_ONLY_ONE", "OneAndOnlyOne"})
+	AddArgumentsForType(SearchGroupItemType(""), []string{"FIELD", "Field", "GENERIC_OBJECT", "GenericObject"})
+	AddArgumentsForType(SearchGroupType(""), []string{"DATASET_GROUP", "DatasetType", "GENERIC_OBJECTS_GROUP", "GenericObjectsType"})
+	AddArgumentsForType(StateEnumType(""), []string{"LOCKED", "L", "SELECTED", "S", "OPTION", "O", "DESELECTED", "D", "ALTERNATIVE", "A", "EXCLUDED", "X", "EXCL_SELECTED", "XS", "EXCL_LOCKED", "XL", "NSTATES"})
+	AddArgumentsForType(TotalMode(""), []string{"TOTAL_OFF", "TOTAL_EXPR"})
 }
 

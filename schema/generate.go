@@ -465,6 +465,44 @@ func removeRedundantNxInfo(schema *Schema) {
 	}
 }
 
+func printEnumMethods(out *os.File, typeName string) {
+  // Create String() method for type
+  // Using Fprint instead of Fprintln due to lintchecks on trailing newline otherwise
+  fmt.Fprintf(out, "func (t %s) String() string {\n", typeName)
+  fmt.Fprint(out, "\treturn string(t)\n")
+  fmt.Fprint(out, "}\n\n")
+  // Create MarshalText() method for type
+  fmt.Fprintf(out, "func (t %s) MarshalText() ([]byte, error) {\n", typeName)
+  fmt.Fprint(out, "\terr := validateArg(t)\n")
+  fmt.Fprint(out, "\treturn []byte(t), err\n")
+  fmt.Fprint(out, "}\n\n")
+}
+
+func generateArgumentInitForType(typeName string, t *Type) string {
+  validArgs := []string{}
+  for _, opt := range t.OneOf {
+    if opt.Description != "" {
+      validArgs = append(validArgs, "\"" + opt.Description + "\"")
+    }
+    if opt.Title != "" {
+      validArgs = append(validArgs, "\"" + opt.Title + "\"")
+    }
+  }
+  validArgsString := "[]string{" + strings.Join(validArgs, ", ") + "}"
+  // Add valid arguments for the type
+  return fmt.Sprintf("AddArgumentsForType(%s(\"\"), %s)", typeName, validArgsString)
+}
+
+func generateArgumentInitFunc(out *os.File, funcCalls []string) {
+  fmt.Fprint(out, "var argInitCalled = false\n\n")
+  fmt.Fprint(out, "//argInit initializes all the valid arguments for the generated \"enum\" (string) types.\n")
+  fmt.Fprint(out, "//This method should be called once for the argument validation to work.\n")
+  fmt.Fprint(out, "func argInit() {\n")
+  fmt.Fprint(out, "\targInitCalled = true\n")
+  fmt.Fprintf(out, "\t%s\n", strings.Join(funcCalls, "\n\t"))
+  fmt.Fprint(out, "}\n\n")
+}
+
 // Generate an ordinary fully typed method
 func printMethod(method *Methodx, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
 
@@ -650,9 +688,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
-func isStringEnum(property *Type) bool {
-	return property.Type == "string" && (property.Enum != nil || property.OneOf != nil)
-}
+
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
@@ -709,6 +745,8 @@ func main() {
 
 	// Generate definition data type structs
 	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])
+  // To be added into the argument validation init function
+  argumentInits := []string{}
 	for _, defName := range definitionKeys {
 		def := schema.Components["schemas"][defName]
 		if def.Description != "" {
@@ -744,8 +782,10 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
-      fmt.Frpintln(out, "type", defName, "string")
-      fmt.Fprintln("")
+      fmt.Fprintln(out, "type", defName, "string")
+      fmt.Fprintln(out, "")
+      printEnumMethods(out, defName)
+      argumentInits = append(argumentInits, generateArgumentInitForType(defName, def))
 			// Enums are strings now
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
@@ -778,4 +818,7 @@ func main() {
 			}
 		}
 	}
+
+  // Generate argument validation init function
+  generateArgumentInitFunc(out, argumentInits)
 }

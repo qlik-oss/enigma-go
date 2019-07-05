@@ -12,36 +12,6 @@ import (
   "strings"
 )
 
-type argSet map[string]bool
-
-func (as argSet) String() string {
-  args := make([]string, len(as))
-  i := 0
-  for k := range as {
-    args[i] = "\"" + k + "\""
-    i++
-  }
-  s := "[" + strings.Join(args, ", ") + "]"
-  return s
-}
-
-// validateArg is called by the MarshalText() method of an autogenerate type
-// with the type itself as argument.
-//
-// Even though the type is defined as a string we cannot cast it from interface{} to a string easily
-// so we might as well just use the fmt.Stringer interface.
-func validateArg(t fmt.Stringer) error {
-  sType := fmt.Sprintf("%T", t)
-  val := t.String()
-  set := typeArgSetMap[sType]
-  if !set[val] {
-    method, line := trace()
-    // TODO shorten this line
-    return fmt.Errorf("\n    In function %s at %s\n    \"%s\" is not a valid %s, must be one of: %s", method, line, val, sType, set.String())
-  }
-  return nil
-}
-
 // typeArgSetMap should not be accessed directly.
 // This map maps a type to a set of valid arguments for that type.
 // As types are not expressions in go we instead have to rely on
@@ -63,6 +33,42 @@ func AddArgumentsForType(t interface{}, args []string) {
   for _, arg := range args {
     set[arg] = true
   }
+}
+
+// argSet represents a set of valid arguments
+// for a given type
+type argSet map[string]bool
+
+func (as argSet) String() string {
+  args := make([]string, len(as))
+  i := 0
+  for k := range as {
+    args[i] = "\"" + k + "\""
+    i++
+  }
+  s := "[" + strings.Join(args, ", ") + "]"
+  return s
+}
+
+// validateArg is called by the MarshalText() method of an autogenerate type
+// with the type itself as argument.
+//
+// Even though the type is defined as a string we cannot cast it from interface{} to a string easily
+// so we might as well just use the fmt.Stringer interface.
+func validateArg(t fmt.Stringer) error {
+  if !argInitCalled {
+    argInit()
+  }
+  sType := fmt.Sprintf("%T", t)
+  val := t.String()
+  set := typeArgSetMap[sType]
+  if !set[val] {
+    method, line := trace()
+    format := "\n    In function %s at %s" // method and line
+    format += "\n    \"%s\" is not a valid %s, must be one of: %s" // value, type and possible args
+    return fmt.Errorf(format, method, line, val, sType, set.String())
+  }
+  return nil
 }
 
 // trace uses the stack trace to return
