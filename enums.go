@@ -22,8 +22,14 @@ import (
 // which prints what go thinks the name of the type is.
 var typeArgSetMap = map[string]argSet{}
 
-// AddArgumentsForType should be used for adding additional valid arguments for a given type.
-// TODO document this function for Andrée's use case.
+// AddArgumentsForType adds the provided arguments to the set of allowed arguments
+// for the specified type.
+//
+// Note: types cannot be expressions in golang, meaning that you
+//       have to pass an instance of the desired type.
+//       E.g. you can pass SomeType("") as the first parameter.
+//       See the related unit tests if this hasn't curbed your curiosity
+//
 func AddArgumentsForType(t interface{}, args []string) {
   sType := fmt.Sprintf("%T", t)
   if typeArgSetMap[sType] == nil {
