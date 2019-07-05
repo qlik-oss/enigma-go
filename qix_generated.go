@@ -204,7 +204,7 @@ type BNFDef struct {
 	// • ARRAY or FUNC_GROUP_ARRAY
 	// 
 	// • LEG or FUNC_GROUP_LEGACY
-	FG string `json:"qFG,omitempty"`
+	FG FunctionGroup `json:"qFG,omitempty"`
 	// If set to true, the definition is related to a field.
 	// This parameter is optional. The default value is false.
 	FieldFlag bool `json:"qFieldFlag,omitempty"`
@@ -219,13 +219,13 @@ type BNFDef struct {
 	// • R or META_RET_TYPE
 	// 
 	// • V or META_DEFAULT_VALUE
-	MT string `json:"qMT,omitempty"`
+	MT BNFDefMetaType `json:"qMT,omitempty"`
 	// Indicates whether a script statement, a chart or a script function is deprecated (not recommended for use).
 	// If set to true, the script statement or the function is not recommended for use in Qlik Sense.
 	// This parameter is optional. The default value is false.
 	Depr bool `json:"qDepr,omitempty"`
 	// List of groups the function belongs to.
-	FGList []string `json:"qFGList,omitempty"`
+	FGList []FunctionGroup `json:"qFGList,omitempty"`
 }
 
 type BNFDefMetaType string
@@ -416,7 +416,7 @@ type Connection struct {
 	// • LOG_ON_SERVICE_USER
 	// 
 	// • LOG_ON_CURRENT_USER
-	LogOn string `json:"qLogOn,omitempty"`
+	LogOn LogOnType `json:"qLogOn,omitempty"`
 }
 
 type ContentLibraryList struct {
@@ -449,7 +449,7 @@ type CustomConnector struct {
 	// • CONNECT_64
 	// 
 	// • CONNECT_32
-	MachineMode string `json:"qMachineMode,omitempty"`
+	MachineMode GenericConnectMachine `json:"qMachineMode,omitempty"`
 	SupportFileStreaming bool `json:"qSupportFileStreaming,omitempty"`
 }
 
@@ -671,7 +671,7 @@ type DriveInfo struct {
 	// • RAM
 	// 
 	// • UNKNOWN_TYPE
-	TypeIdentifier string `json:"qTypeIdentifier,omitempty"`
+	TypeIdentifier DriveType `json:"qTypeIdentifier,omitempty"`
 	UnnamedDrive bool `json:"qUnnamedDrive,omitempty"`
 }
 
@@ -732,7 +732,7 @@ type ErrorData struct {
 	// • EDC_WARNING
 	// 
 	// • EDC_CIRCULAR_REFERENCE
-	ErrorDataCode string `json:"qErrorDataCode,omitempty"`
+	ErrorDataCode ErrorDataCode `json:"qErrorDataCode,omitempty"`
 	Message *ProgressMessage `json:"qMessage,omitempty"`
 }
 
@@ -849,7 +849,7 @@ type FieldAttributes struct {
 	// • TS or TIMESTAMP
 	// 
 	// • IV or INTERVAL
-	Type string `json:"qType,omitempty"`
+	Type FieldAttrType `json:"qType,omitempty"`
 	// Number of decimals.
 	// Default is 10.
 	// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)
@@ -897,7 +897,7 @@ type FieldDefEx struct {
 	// • IS_IMPLICIT
 	// 
 	// • IS_DETAIL
-	Type string `json:"qType,omitempty"`
+	Type FieldType `json:"qType,omitempty"`
 }
 
 type FieldDescription struct {
@@ -987,7 +987,7 @@ type FieldInTableData struct {
 	// • PRIMARY_KEY
 	// 
 	// • PERFECT_KEY
-	KeyType string `json:"qKeyType,omitempty"`
+	KeyType KeyType `json:"qKeyType,omitempty"`
 	// Comment related to the field.
 	Comment string `json:"qComment,omitempty"`
 	// List of tags related to the field.
@@ -1127,7 +1127,7 @@ type FileDataFormat struct {
 	// • JSON or FILE_TYPE_JSON
 	// 
 	// • KML or FILE_TYPE_KML
-	Type string `json:"qType,omitempty"`
+	Type FileType `json:"qType,omitempty"`
 	// One of:
 	// 
 	// • Embedded labels (field names are present in the file)
@@ -1194,7 +1194,7 @@ type FilterInfo struct {
 	// • NONE or FILTER_TYPE_NONE
 	// 
 	// • RAW or FILTER_TYPE_RAW
-	Type string `json:"qType,omitempty"`
+	Type FilterType `json:"qType,omitempty"`
 	WherePredicate string `json:"qWherePredicate,omitempty"`
 }
 
@@ -1221,7 +1221,7 @@ type FolderItem struct {
 	// • FILE or FOLDER_ITEM_FILE
 	// 
 	// • OTHER or FOLDER_ITEM_OTHER
-	Type string `json:"qType,omitempty"`
+	Type FolderItemType `json:"qType,omitempty"`
 }
 
 type FolderItemType string
@@ -1301,7 +1301,7 @@ type Function struct {
 	// • ARRAY or FUNC_GROUP_ARRAY
 	// 
 	// • LEG or FUNC_GROUP_LEGACY
-	Group string `json:"qGroup,omitempty"`
+	Group FunctionGroup `json:"qGroup,omitempty"`
 	// Signature of the script function.
 	// Gives general information about the function.
 	Signature string `json:"qSignature,omitempty"`
@@ -1583,7 +1583,7 @@ type HyperCube struct {
 	// • K or DATA_MODE_PIVOT_STACK
 	// 
 	// • T or DATA_MODE_TREE
-	Mode string `json:"qMode,omitempty"`
+	Mode NxHypercubeMode `json:"qMode,omitempty"`
 	// Number of left dimensions.
 	// Default value is -1.
 	// The index related to each left dimension depends on the position of the pseudo dimension (if any).
@@ -1681,7 +1681,7 @@ type HyperCubeDef struct {
 	// • C or DATA_REDUCTION_CLUSTERED
 	// 
 	// • ST or DATA_REDUCTION_STACKED
-	ReductionMode string `json:"qReductionMode,omitempty"`
+	ReductionMode NxDataReductionMode `json:"qReductionMode,omitempty"`
 	// Defines the way the data are handled internally by the engine.
 	// Default value is DATAMODE_STRAIGHT_ .
 	// A pivot table can contain several dimensions and measures whereas a stacked pivot table can contain several dimensions but only one measure.
@@ -1695,7 +1695,7 @@ type HyperCubeDef struct {
 	// • K or DATA_MODE_PIVOT_STACK
 	// 
 	// • T or DATA_MODE_TREE
-	Mode string `json:"qMode,omitempty"`
+	Mode NxHypercubeMode `json:"qMode,omitempty"`
 	// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)
 	PseudoDimPos *int `json:"qPseudoDimPos,omitempty"`
 	// Number of left dimensions.
@@ -1797,7 +1797,7 @@ type InteractDef struct {
 	// • IT_PASSWD
 	// 
 	// • IT_USERNAME
-	Type string `json:"qType,omitempty"`
+	Type InteractType `json:"qType,omitempty"`
 	// Title used in the message box dialog.
 	// This property is relevant if qType is *IT_MSGBOX*.
 	Title string `json:"qTitle,omitempty"`
@@ -1938,7 +1938,7 @@ type ListObjectDef struct {
 	// • P or NX_FREQUENCY_PERCENT
 	// 
 	// • R or NX_FREQUENCY_RELATIVE
-	FrequencyMode string `json:"qFrequencyMode,omitempty"`
+	FrequencyMode NxFrequencyMode `json:"qFrequencyMode,omitempty"`
 	// If set to true, alternative values are allowed in qData .
 	// If set to false, no alternative values are displayed in qData . Values are excluded instead.
 	// The default value is false.
@@ -2335,7 +2335,7 @@ type NxCell struct {
 	// • XL or EXCL_LOCKED
 	// 
 	// • NSTATES
-	State string `json:"qState,omitempty"`
+	State StateEnumType `json:"qState,omitempty"`
 	// Is set to true , if qText and qNum are empty.
 	// This parameter is optional. The default value is false .
 	IsEmpty bool `json:"qIsEmpty,omitempty"`
@@ -2538,7 +2538,7 @@ type NxDerivedGroup struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// List of the derived fields in the group.
 	FieldDefs []string `json:"qFieldDefs,omitempty"`
 }
@@ -2629,7 +2629,7 @@ type NxDimensionInfo struct {
 	// • A or NX_SORT_INDICATE_ASC
 	// 
 	// • D or NX_SORT_INDICATE_DESC
-	SortIndicator string `json:"qSortIndicator,omitempty"`
+	SortIndicator NxSortIndicatorType `json:"qSortIndicator,omitempty"`
 	// Array of dimension labels.
 	// Contains the labels of all dimensions in a hierarchy group (for example the labels of all dimensions in a drill down group).
 	GroupFallbackTitles []string `json:"qGroupFallbackTitles,omitempty"`
@@ -2653,7 +2653,7 @@ type NxDimensionInfo struct {
 	// • N or NX_DIMENSION_TYPE_NUMERIC
 	// 
 	// • T or NX_DIMENSION_TYPE_TIME
-	DimensionType string `json:"qDimensionType,omitempty"`
+	DimensionType NxDimensionType `json:"qDimensionType,omitempty"`
 	// If set to true, it inverts the sort criteria in the field.
 	ReverseSort bool `json:"qReverseSort,omitempty"`
 	// Defines the grouping.
@@ -2665,7 +2665,7 @@ type NxDimensionInfo struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// If set to true, it means that the field is a semantic.
 	IsSemantic bool `json:"qIsSemantic,omitempty"`
 	// Format of the field.
@@ -2811,7 +2811,7 @@ type NxFieldSelectionInfo struct {
 	// • AND or SELECTION_MODE_AND
 	// 
 	// • NOT or SELECTION_MODE_NOT
-	FieldSelectionMode string `json:"qFieldSelectionMode,omitempty"`
+	FieldSelectionMode NxFieldSelectionMode `json:"qFieldSelectionMode,omitempty"`
 }
 
 type NxFieldSelectionMode string
@@ -2916,7 +2916,7 @@ type NxInlineDimensionDef struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// Array of field names.
 	// When creating a grouped dimension, more than one field name is defined.
 	// This parameter is optional.
@@ -2965,7 +2965,7 @@ type NxInlineMeasureDef struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// Definition of the expression in the measure.
 	// Example: Sum (OrderTotal)
 	// This parameter is mandatory.
@@ -3023,7 +3023,7 @@ type NxLibraryDimension struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// Array of dimension names.
 	FieldDefs []string `json:"qFieldDefs,omitempty"`
 	// Array of dimension labels.
@@ -3041,7 +3041,7 @@ type NxLibraryDimensionDef struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// Array of dimension names.
 	FieldDefs []string `json:"qFieldDefs,omitempty"`
 	// Array of dimension labels.
@@ -3060,7 +3060,7 @@ type NxLibraryMeasure struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	Expressions []string `json:"qExpressions,omitempty"`
 	ActiveExpression int `json:"qActiveExpression,omitempty"`
 	LabelExpression string `json:"qLabelExpression,omitempty"`
@@ -3082,7 +3082,7 @@ type NxLibraryMeasureDef struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// Array of expressions.
 	Expressions []string `json:"qExpressions,omitempty"`
 	// Index to the active expression in a measure.
@@ -3206,7 +3206,7 @@ type NxMeasureInfo struct {
 	// • A or NX_SORT_INDICATE_ASC
 	// 
 	// • D or NX_SORT_INDICATE_DESC
-	SortIndicator string `json:"qSortIndicator,omitempty"`
+	SortIndicator NxSortIndicatorType `json:"qSortIndicator,omitempty"`
 	// Format of the field.
 	// This parameter is optional.
 	NumFormat *FieldAttributes `json:"qNumFormat,omitempty"`
@@ -3290,7 +3290,7 @@ type NxPatch struct {
 	// • remove or Remove
 	// 
 	// • replace or Replace
-	Op string `json:"qOp,omitempty"`
+	Op NxPatchOperationType `json:"qOp,omitempty"`
 	// Path to the property to add, remove or replace.
 	Path string `json:"qPath,omitempty"`
 	// This parameter is not used in a remove operation.
@@ -3349,7 +3349,7 @@ type NxPivotDimensionCell struct {
 	// • U or NX_DIM_CELL_NULL
 	// 
 	// • G or NX_DIM_CELL_GENERATED
-	Type string `json:"qType,omitempty"`
+	Type NxDimCellType `json:"qType,omitempty"`
 	// Number of elements that are part of the previous tail.
 	// This number depends on the paging, more particularly it depends on the values defined in qTop and qHeight .
 	Up int `json:"qUp,omitempty"`
@@ -3408,7 +3408,7 @@ type NxPivotValuePoint struct {
 	// • U or NX_DIM_CELL_NULL
 	// 
 	// • G or NX_DIM_CELL_GENERATED
-	Type string `json:"qType,omitempty"`
+	Type NxDimCellType `json:"qType,omitempty"`
 	// Attribute expressions values.
 	AttrExps *NxAttributeExpressionValues `json:"qAttrExps,omitempty"`
 	AttrDims *NxAttributeDimValues `json:"qAttrDims,omitempty"`
@@ -3439,7 +3439,7 @@ type NxSelectionCell struct {
 	// • T or NX_CELL_TOP
 	// 
 	// • L or NX_CELL_LEFT
-	Type string `json:"qType,omitempty"`
+	Type NxSelectionCellType `json:"qType,omitempty"`
 	// Column index to select.
 	// Indexing starts from 0.
 	// If the cell's type is:
@@ -3554,7 +3554,7 @@ type NxStackedPivotCell struct {
 	// • U or NX_DIM_CELL_NULL
 	// 
 	// • G or NX_DIM_CELL_GENERATED
-	Type string `json:"qType,omitempty"`
+	Type NxDimCellType `json:"qType,omitempty"`
 	// Total of the positive values in the current group of cells.
 	MaxPos Float64 `json:"qMaxPos,omitempty"`
 	// Total of the negative values in the current group of cells.
@@ -3688,7 +3688,7 @@ type NxTreeDimensionInfo struct {
 	// • A or NX_SORT_INDICATE_ASC
 	// 
 	// • D or NX_SORT_INDICATE_DESC
-	SortIndicator string `json:"qSortIndicator,omitempty"`
+	SortIndicator NxSortIndicatorType `json:"qSortIndicator,omitempty"`
 	// Array of dimension labels.
 	// Contains the labels of all dimensions in a hierarchy group (for example the labels of all dimensions in a drill down group).
 	GroupFallbackTitles []string `json:"qGroupFallbackTitles,omitempty"`
@@ -3712,7 +3712,7 @@ type NxTreeDimensionInfo struct {
 	// • N or NX_DIMENSION_TYPE_NUMERIC
 	// 
 	// • T or NX_DIMENSION_TYPE_TIME
-	DimensionType string `json:"qDimensionType,omitempty"`
+	DimensionType NxDimensionType `json:"qDimensionType,omitempty"`
 	// If set to true, it inverts the sort criteria in the field.
 	ReverseSort bool `json:"qReverseSort,omitempty"`
 	// Defines the grouping.
@@ -3724,7 +3724,7 @@ type NxTreeDimensionInfo struct {
 	// • H or GRP_NX_HIEARCHY
 	// 
 	// • C or GRP_NX_COLLECTION
-	Grouping string `json:"qGrouping,omitempty"`
+	Grouping NxGrpType `json:"qGrouping,omitempty"`
 	// If set to true, it means that the field is a semantic.
 	IsSemantic bool `json:"qIsSemantic,omitempty"`
 	// Format of the field.
@@ -3806,7 +3806,7 @@ type NxTreeNode struct {
 	// • U or NX_DIM_CELL_NULL
 	// 
 	// • G or NX_DIM_CELL_GENERATED
-	Type string `json:"qType,omitempty"`
+	Type NxDimCellType `json:"qType,omitempty"`
 	// The measures for this node.
 	Values []*NxTreeValue `json:"qValues,omitempty"`
 	// The children of this node in the tree structure.
@@ -4003,7 +4003,7 @@ type OtherTotalSpecProp struct {
 	// • OTHER_REL_LIMITED
 	// 
 	// • OTHER_REL_ACC_TARGET
-	OtherMode string `json:"qOtherMode,omitempty"`
+	OtherMode OtherMode `json:"qOtherMode,omitempty"`
 	// Number of values to display. The number of values can be entered as a calculated formula.
 	// This parameter is used when qOtherMode is set to OTHERCOUNTED_ .
 	OtherCounted *ValueExpr `json:"qOtherCounted,omitempty"`
@@ -4036,7 +4036,7 @@ type OtherTotalSpecProp struct {
 	// • OTHER_GT_LIMIT
 	// 
 	// • OTHER_LT_LIMIT
-	OtherLimitMode string `json:"qOtherLimitMode,omitempty"`
+	OtherLimitMode OtherLimitMode `json:"qOtherLimitMode,omitempty"`
 	// If set to true, the group Others is not displayed as a dimension value.
 	// The default value is false.
 	SuppressOther bool `json:"qSuppressOther,omitempty"`
@@ -4076,7 +4076,7 @@ type OtherTotalSpecProp struct {
 	// • OTHER_SORT_DESCENDING
 	// 
 	// • OTHER_SORT_ASCENDING
-	OtherSortMode string `json:"qOtherSortMode,omitempty"`
+	OtherSortMode OtherSortMode `json:"qOtherSortMode,omitempty"`
 	// If set to TOTALEXPR_ , the total of the dimension values is returned.
 	// The default value is TOTALOFF_ .
 	// 
@@ -4085,7 +4085,7 @@ type OtherTotalSpecProp struct {
 	// • TOTAL_OFF
 	// 
 	// • TOTAL_EXPR
-	TotalMode string `json:"qTotalMode,omitempty"`
+	TotalMode TotalMode `json:"qTotalMode,omitempty"`
 	// This parameter applies when there are several measures.
 	// Name of the measure to use for the calculation of Others for a specific dimension.
 	ReferencedExpression *StringExpr `json:"qReferencedExpression,omitempty"`
@@ -4240,7 +4240,7 @@ type SearchCombinationOptions struct {
 	// • LockedFieldsOnly or CONTEXT_LOCKED_FIELDS_ONLY
 	// 
 	// • CurrentSelections or CONTEXT_CURRENT_SELECTIONS
-	Context string `json:"qContext,omitempty"`
+	Context SearchContextType `json:"qContext,omitempty"`
 	// Encoding used to compute qRanges of type SearchCharRange.
 	// Only affects the computation of the ranges. It does not impact the encoding of the text.
 	// 
@@ -4249,7 +4249,7 @@ type SearchCombinationOptions struct {
 	// • Utf8 or CHAR_ENCODING_UTF8
 	// 
 	// • Utf16 or CHAR_ENCODING_UTF16
-	CharEncoding string `json:"qCharEncoding,omitempty"`
+	CharEncoding CharEncodingType `json:"qCharEncoding,omitempty"`
 	// Optional.
 	// 
 	// • For SearchSuggest method, this array is empty.
@@ -4315,7 +4315,7 @@ type SearchGroup struct {
 	// • DatasetType or DATASET_GROUP
 	// 
 	// • GenericObjectsType or GENERIC_OBJECTS_GROUP
-	GroupType string `json:"qGroupType,omitempty"`
+	GroupType SearchGroupType `json:"qGroupType,omitempty"`
 	// Indexes of the search terms that are included in the group. These search terms are related to the list of terms defined in SearchResult.qSearchTerms .
 	SearchTermsMatched []int `json:"qSearchTermsMatched,omitempty"`
 	// Total number of distinct items in the search group.
@@ -4333,7 +4333,7 @@ type SearchGroupItem struct {
 	// • Field or FIELD
 	// 
 	// • GenericObject or GENERIC_OBJECT
-	ItemType string `json:"qItemType,omitempty"`
+	ItemType SearchGroupItemType `json:"qItemType,omitempty"`
 	// Total number of distinct matches in the search group item.
 	TotalNumberOfMatches int `json:"qTotalNumberOfMatches,omitempty"`
 	// Identifier of the item.
@@ -4358,7 +4358,7 @@ type SearchGroupItemMatch struct {
 	Text string `json:"qText,omitempty"`
 	// Selection mode of a field.
 	// Suppressed by default. One and always one field value is selected when set to OneAndOnlyOne.
-	FieldSelectionMode []string `json:"qFieldSelectionMode,omitempty"`
+	FieldSelectionMode []SearchFieldSelectionMode `json:"qFieldSelectionMode,omitempty"`
 	// List of ranges.
 	// For example, if the search terms are Price and Make, and the search group item value is Make by Price vs Mileage, then there are two ranges: one for Price and one for Make.
 	Ranges []*SearchCharRange `json:"qRanges,omitempty"`
@@ -4382,7 +4382,7 @@ type SearchGroupItemOptions struct {
 	// • Field or FIELD
 	// 
 	// • GenericObject or GENERIC_OBJECT
-	GroupItemType string `json:"qGroupItemType,omitempty"`
+	GroupItemType SearchGroupItemType `json:"qGroupItemType,omitempty"`
 	// Position starting from 0.
 	// The default value is 0.
 	Offset int `json:"qOffset,omitempty"`
@@ -4415,7 +4415,7 @@ type SearchGroupOptions struct {
 	// • DatasetType or DATASET_GROUP
 	// 
 	// • GenericObjectsType or GENERIC_OBJECTS_GROUP
-	GroupType string `json:"qGroupType,omitempty"`
+	GroupType SearchGroupType `json:"qGroupType,omitempty"`
 	// Position starting from 0.
 	// The default value is 0.
 	Offset int `json:"qOffset,omitempty"`
@@ -4456,7 +4456,7 @@ type SearchObjectOptions struct {
 	// • Utf8 or CHAR_ENCODING_UTF8
 	// 
 	// • Utf16 or CHAR_ENCODING_UTF16
-	CharEncoding string `json:"qCharEncoding,omitempty"`
+	CharEncoding CharEncodingType `json:"qCharEncoding,omitempty"`
 }
 
 type SearchPage struct {

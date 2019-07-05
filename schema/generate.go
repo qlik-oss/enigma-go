@@ -173,7 +173,7 @@ func refToName(refName string) string {
 	}
 	name := strings.Replace(refName, "#/components/schemas/", "", 1)
 	if typesMap[name] == "string" {
-		return "string"
+		return name
 	}
 	if typesMap[name] == "array" {
 		return name
@@ -196,13 +196,8 @@ func getInnerType(t *Type) string {
 	} else {
 		s = getTypeName(innerType)
 	}
-	if found {
-		fmt.Println(s)
-	}
 	return s
 }
-
-var found = false
 
 func getTypeName(t *Type) string {
 	switch t.Type {
@@ -210,8 +205,6 @@ func getTypeName(t *Type) string {
 		return getInnerType(t)
 	case "array":
 		return "[]" + getInnerType(t)
-	case "string":
-		return "string"
 	case "boolean":
 		return "bool"
 	case "integer":
@@ -230,8 +223,6 @@ func getTypeName(t *Type) string {
 		if t.Type == "" {
 			if t.Items != nil {
 				return "[]" + getInnerType(t)
-			} else if t.Enum != nil {
-				return "string"
 			}
 		}
 		return t.Type
@@ -692,8 +683,8 @@ func isNonZero(value interface{}) bool {
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
-		// "Enums" are have type string but are sent as "objects" with a list of valid options for said "enum".
-		return name == "string"
+		// "Enums" have type string but are sent as "objects" with a list of valid options for said "enum".
+		return typesMap[name] == "string"
 	}
 	return false
 }
@@ -770,6 +761,8 @@ func main() {
 				if isNonZero(property.Default) && !hasEnumRef(property) {
 					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
+        } else if hasEnumRef(property) {
+					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", refToName(property.Ref), " `json:\"q", propertyName, ",omitempty\"`")
 				} else {
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
 				}
