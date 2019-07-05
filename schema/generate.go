@@ -457,41 +457,41 @@ func removeRedundantNxInfo(schema *Schema) {
 }
 
 func printEnumMethods(out *os.File, typeName string) {
-  // Create String() method for type
-  // Using Fprint instead of Fprintln due to lintchecks on trailing newline otherwise
-  fmt.Fprintf(out, "func (t %s) String() string {\n", typeName)
-  fmt.Fprint(out, "\treturn string(t)\n")
-  fmt.Fprint(out, "}\n\n")
-  // Create MarshalText() method for type
-  fmt.Fprintf(out, "func (t %s) MarshalText() ([]byte, error) {\n", typeName)
-  fmt.Fprint(out, "\terr := validateArg(t)\n")
-  fmt.Fprint(out, "\treturn []byte(t), err\n")
-  fmt.Fprint(out, "}\n\n")
+	// Create String() method for type
+	// Using Fprint instead of Fprintln due to lintchecks on trailing newline otherwise
+	fmt.Fprintf(out, "func (t %s) String() string {\n", typeName)
+	fmt.Fprint(out, "\treturn string(t)\n")
+	fmt.Fprint(out, "}\n\n")
+	// Create MarshalText() method for type
+	fmt.Fprintf(out, "func (t %s) MarshalText() ([]byte, error) {\n", typeName)
+	fmt.Fprint(out, "\terr := validateArg(t)\n")
+	fmt.Fprint(out, "\treturn []byte(t), err\n")
+	fmt.Fprint(out, "}\n\n")
 }
 
 func generateArgumentInitForType(typeName string, t *Type) string {
-  validArgs := []string{}
-  for _, opt := range t.OneOf {
-    if opt.Description != "" {
-      validArgs = append(validArgs, "\"" + opt.Description + "\"")
-    }
-    if opt.Title != "" {
-      validArgs = append(validArgs, "\"" + opt.Title + "\"")
-    }
-  }
-  validArgsString := "[]string{" + strings.Join(validArgs, ", ") + "}"
-  // Add valid arguments for the type
-  return fmt.Sprintf("AddArgumentsForType(%s(\"\"), %s)", typeName, validArgsString)
+	validArgs := []string{}
+	for _, opt := range t.OneOf {
+		if opt.Description != "" {
+			validArgs = append(validArgs, "\""+opt.Description+"\"")
+		}
+		if opt.Title != "" {
+			validArgs = append(validArgs, "\""+opt.Title+"\"")
+		}
+	}
+	validArgsString := "[]string{" + strings.Join(validArgs, ", ") + "}"
+	// Add valid arguments for the type
+	return fmt.Sprintf("AddArgumentsForType(%s(\"\"), %s)", typeName, validArgsString)
 }
 
 func generateArgumentInitFunc(out *os.File, funcCalls []string) {
-  fmt.Fprint(out, "var argInitCalled = false\n\n")
-  fmt.Fprint(out, "//argInit initializes all the valid arguments for the generated \"enum\" (string) types.\n")
-  fmt.Fprint(out, "//This method should be called once for the argument validation to work.\n")
-  fmt.Fprint(out, "func argInit() {\n")
-  fmt.Fprint(out, "\targInitCalled = true\n")
-  fmt.Fprintf(out, "\t%s\n", strings.Join(funcCalls, "\n\t"))
-  fmt.Fprint(out, "}\n\n")
+	fmt.Fprint(out, "var argInitCalled = false\n\n")
+	fmt.Fprint(out, "//argInit initializes all the valid arguments for the generated \"enum\" (string) types.\n")
+	fmt.Fprint(out, "//This method should be called once for the argument validation to work.\n")
+	fmt.Fprint(out, "func argInit() {\n")
+	fmt.Fprint(out, "\targInitCalled = true\n")
+	fmt.Fprintf(out, "\t%s\n", strings.Join(funcCalls, "\n\t"))
+	fmt.Fprint(out, "}\n\n")
 }
 
 // Generate an ordinary fully typed method
@@ -736,8 +736,8 @@ func main() {
 
 	// Generate definition data type structs
 	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])
-  // To be added into the argument validation init function
-  argumentInits := []string{}
+	// To be added into the argument validation init function
+	argumentInits := []string{}
 	for _, defName := range definitionKeys {
 		def := schema.Components["schemas"][defName]
 		if def.Description != "" {
@@ -761,7 +761,7 @@ func main() {
 				if isNonZero(property.Default) && !hasEnumRef(property) {
 					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
-        } else if hasEnumRef(property) {
+				} else if hasEnumRef(property) {
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", refToName(property.Ref), " `json:\"q", propertyName, ",omitempty\"`")
 				} else {
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
@@ -775,10 +775,10 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
-      fmt.Fprintln(out, "type", defName, "string")
-      fmt.Fprintln(out, "")
-      printEnumMethods(out, defName)
-      argumentInits = append(argumentInits, generateArgumentInitForType(defName, def))
+			fmt.Fprintln(out, "type", defName, "string")
+			fmt.Fprintln(out, "")
+			printEnumMethods(out, defName)
+			argumentInits = append(argumentInits, generateArgumentInitForType(defName, def))
 			// Enums are strings now
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
@@ -812,6 +812,6 @@ func main() {
 		}
 	}
 
-  // Generate argument validation init function
-  generateArgumentInitFunc(out, argumentInits)
+	// Generate argument validation init function
+	generateArgumentInitFunc(out, argumentInits)
 }

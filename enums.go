@@ -7,9 +7,9 @@
 package enigma
 
 import (
-  "fmt"
-  "runtime/debug"
-  "strings"
+	"fmt"
+	"runtime/debug"
+	"strings"
 )
 
 // typeArgSetMap should not be accessed directly.
@@ -31,14 +31,14 @@ var typeArgSetMap = map[string]argSet{}
 //       See the related unit tests if this hasn't curbed your curiosity
 //
 func AddArgumentsForType(t interface{}, args []string) {
-  sType := fmt.Sprintf("%T", t)
-  if typeArgSetMap[sType] == nil {
-    typeArgSetMap[sType] = map[string]bool{}
-  }
-  set := typeArgSetMap[sType]
-  for _, arg := range args {
-    set[arg] = true
-  }
+	sType := fmt.Sprintf("%T", t)
+	if typeArgSetMap[sType] == nil {
+		typeArgSetMap[sType] = map[string]bool{}
+	}
+	set := typeArgSetMap[sType]
+	for _, arg := range args {
+		set[arg] = true
+	}
 }
 
 // argSet represents a set of valid arguments
@@ -46,14 +46,14 @@ func AddArgumentsForType(t interface{}, args []string) {
 type argSet map[string]bool
 
 func (as argSet) String() string {
-  args := make([]string, len(as))
-  i := 0
-  for k := range as {
-    args[i] = "\"" + k + "\""
-    i++
-  }
-  s := "[" + strings.Join(args, ", ") + "]"
-  return s
+	args := make([]string, len(as))
+	i := 0
+	for k := range as {
+		args[i] = "\"" + k + "\""
+		i++
+	}
+	s := "[" + strings.Join(args, ", ") + "]"
+	return s
 }
 
 // validateArg is called by the MarshalText() method of an autogenerate type
@@ -62,31 +62,31 @@ func (as argSet) String() string {
 // Even though the type is defined as a string we cannot cast it from interface{} to a string easily
 // so we might as well just use the fmt.Stringer interface.
 func validateArg(t fmt.Stringer) error {
-  if !argInitCalled {
-    argInit()
-  }
-  sType := fmt.Sprintf("%T", t)
-  val := t.String()
-  set := typeArgSetMap[sType]
-  if !set[val] {
-    method, line := trace()
-    format := "\n    In function %s at %s" // method and line
-    format += "\n    \"%s\" is not a valid %s, must be one of: %s" // value, type and possible args
-    return fmt.Errorf(format, method, line, val, sType, set.String())
-  }
-  return nil
+	if !argInitCalled {
+		argInit()
+	}
+	sType := fmt.Sprintf("%T", t)
+	val := t.String()
+	set := typeArgSetMap[sType]
+	if !set[val] {
+		method, line := trace()
+		format := "\n    In function %s at %s"                         // method and line
+		format += "\n    \"%s\" is not a valid %s, must be one of: %s" // value, type and possible args
+		return fmt.Errorf(format, method, line, val, sType, set.String())
+	}
+	return nil
 }
 
 // trace uses the stack trace to return
 // the method and line in a file that caused an error
 func trace() (method, line string) {
-  // stack has trailing new line
-  // method is the third last line
-  // file and line is the second last
-  stack := strings.Split(string(debug.Stack()), "\n")
-  method = stack[len(stack)-3]
-  line = stack[len(stack)-2]
-  line = strings.Trim(line, "\t ")
-  line = strings.Split(line, " ")[0]
-  return
+	// stack has trailing new line
+	// method is the third last line
+	// file and line is the second last
+	stack := strings.Split(string(debug.Stack()), "\n")
+	method = stack[len(stack)-3]
+	line = stack[len(stack)-2]
+	line = strings.Trim(line, "\t ")
+	line = strings.Split(line, " ")[0]
+	return
 }
