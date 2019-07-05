@@ -45,7 +45,7 @@ func main() {
 					Def: "Sum(Value)",
 				},
 			}},
-			Mode:                "EQ_DATA_MODE_PIVOT_STACK",
+			Mode:                "DATA_MODE_PIVOT_STACK",
 			AlwaysFullyExpanded: true,
 		},
 	})
