@@ -14,3 +14,15 @@ If a version is not specified the script will default to the latest published ve
 ```bash
 ACCEPT_EULA=<yes/no> ./schema/generate.sh
 ```
+
+## Adding Allowed Arguments for "Enumtypes"
+
+This section if for you who are developing and want to extend the set of allowed arguments for a property a given property.
+Let's take an example working with `HyperCubeDef`. This definition has a property called `qMode` which is represented by an enum called `NxHypercubeMode`.
+
+In `enigma.go`, the allowed arguments will be restricted based on the different values that `NxHypercubeMode` can have. So if you want to extend the allowed arguments you can use:
+```
+AddArgumentsForType(NxHypercubeMode(""), []string{"DATA_MODE_FLUFFY"})
+```
+which will allow you to set `qMode: "DATA_MODE_FLUFFY"` when creating your `HyperCubeDef`.
+Further information can be found in the comments in [enums.go](/enums.go) and examples in the related unittests: [enums_test.go](/enums_test.go).
