@@ -17,10 +17,10 @@ ACCEPT_EULA=<yes/no> ./schema/generate.sh
 
 ## Adding Allowed Arguments for "Enumtypes"
 
-This section if for you who are developing and want to extend the set of allowed arguments for a property a given property.
-Let's take an example working with `HyperCubeDef`. This definition has a property called `qMode` which is represented by an enum called `NxHypercubeMode`.
+This section is for you who are developing and want to extend the set of allowed arguments for a property a given property.
+Let's take an example working with a [HyperCubeDef](https://core.qlik.com/services/qix-engine/apis/qix/definitions/#hypercubedef). This definition has a property called `qMode` which is represented by an enum called `NxHypercubeMode`.
 
-In `enigma.go`, the allowed arguments will be restricted based on the different values that `NxHypercubeMode` can have. So if you want to extend the allowed arguments you can use:
+The allowed arguments will be restricted based on the different values that `NxHypercubeMode` can have. So if you want to extend the allowed arguments you can use:
 ```
 AddArgumentsForType(NxHypercubeMode(""), []string{"DATA_MODE_FLUFFY"})
 ```
