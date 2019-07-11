@@ -65,7 +65,11 @@ func (r *RemoteObject) signalClosed() {
 func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse interface{}, params ...interface{}) error {
 	invocationResponse := r.interceptorChain(ctx, &Invocation{RemoteObject: r, Method: method, Params: params})
 	if invocationResponse.Error != nil {
-		return invocationResponse.Error
+    err := invocationResponse.Error
+    if qe, ok := err.(*qixError); ok {
+      return qe.Verbose(params...)
+    }
+		return err
 	}
 	if apiResponse != nil {
 		err := json.Unmarshal(invocationResponse.Result, apiResponse)
