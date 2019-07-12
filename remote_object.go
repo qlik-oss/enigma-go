@@ -67,7 +67,7 @@ func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse inter
 	if invocationResponse.Error != nil {
     err := invocationResponse.Error
     if qe, ok := err.(*qixError); ok {
-      return qe.Verbose(params...)
+      qe.callParams = params
     }
 		return err
 	}

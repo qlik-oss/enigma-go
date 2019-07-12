@@ -2,80 +2,102 @@ package enigma
 
 import (
 	"fmt"
+  "encoding/json"
+  "reflect"
   "runtime/debug"
   "strings"
-  "reflect"
 )
 
 type (
-	// Error extends the built in error type with extra error information provided by the Qlik Associative Engine
+	// Error extends the built in error type with extra error information provided by the Qlik Associative Engine.
+  // Code returns the provided error code from engine.
+  // Parameter gives some context for the error.
+  // Message returns the error message from Engine.
+  // CallParams returns contains the parameters used when calling engine if any.
+  // Trace returns the stack trace of the error, omitting some superfluous lines.
+  // Caller returns the first call in the stack, containing function and file.
 	Error interface {
 		error
 		Code() int
 		Parameter() string
 		Message() string
+    CallParams() string
+    Trace() string
+    Caller() string
 	}
 
-	qixError struct {
-		ErrorCode      int    `json:"code"`
-		ErrorParameter string `json:"parameter"`
-		ErrorMessage   string `json:"message"`
-	}
-
-  //VerboseError contains the stacktrace leading to the error, the parameters used when
+  //qixError contains the stacktrace leading to the error and may contain the parameters used when
   //the error occurred as well as the underlying error informat from engine.
-  VerboseError struct {
-    *qixError
+	qixError struct {
+		code      int    `json:"code"`
+		parameter string `json:"parameter"`
+		message   string `json:"message"`
     stack []byte
-    params []interface{}
-  }
+    callParams []interface{}
+	}
 )
 
-func (err *qixError) Error() string {
-	return fmt.Sprintf("%s: %s (%d)", err.ErrorParameter, err.ErrorMessage, err.ErrorCode)
+func (e *qixError) Error() string {
+	return fmt.Sprintf("%s: %s (%d)", e.parameter, e.message, e.code)
 }
 
-func (err *qixError) Code() int {
-	return err.ErrorCode
+func (e *qixError) Code() int {
+	return e.code
 }
 
-func (err *qixError) Parameter() string {
-	return err.ErrorParameter
+func (e *qixError) Parameter() string {
+	return e.parameter
 }
 
-func (err *qixError) Message() string {
-	return err.ErrorMessage
+func (e *qixError) Message() string {
+	return e.message
 }
 
-func (err *qixError) Verbose(params ...interface{}) *VerboseError {
-  ve := &VerboseError{
-    err,
-    debug.Stack(),
-    params,
+func (e *qixError) UnmarshalJSON(text []byte) error {
+  m := map[string]interface{}{}
+  if err := json.Unmarshal(text, &m); err != nil {
+    return err
   }
-  return ve
+  e.unmarshalMap(m)
+  e.stack = debug.Stack()
+  return nil
 }
+
+func (e *qixError) unmarshalMap(m map[string]interface{}) error {
+  e.parameter = m["parameter"].(string)
+  e.message = m["message"].(string)
+  defer func () {
+    if r := recover(); r != nil {
+      f:= m["code"].(float64)
+      e.code = int(f)
+    }
+  }()
+  code := m["code"].(int)
+  e.code = code
+  return nil
+}
+
 
 // Trace returns the full stack trace leading to the error
-func (e *VerboseError) Trace() string {
+func (e *qixError) Trace() string {
   // Exclude the five first lines as they contain cluttering implementation
   // specific information.
-  s := strings.Split(string(e.stack), "\n")[5:]
+  s := strings.Split(string(e.stack), "\n")
   msg := "Stacktrace:\n"
   msg += strings.Join(s[:len(s)-1], "\n")
   return msg
 }
 
 // Caller returns a string containing the calling method along with the file it's in.
-func (e *VerboseError) Caller() string {
+func (e *qixError) Caller() string {
   method, line := e.trace()
   return fmt.Sprintf("Calling func: %s\n\tat: %s", method, line)
 }
 
 // Params returns a string representation of the parameters used when this error occured.
-func (e *VerboseError) Params() string {
+func (e *qixError) CallParams() string {
   str := "Parameters:\n"
-  for _, p := range e.params {
+  for _, p := range e.callParams {
     str += pp(p)
   }
   return str
@@ -172,7 +194,7 @@ func fieldString(ind, fName string, f reflect.Value) string {
 
 // trace uses the stack trace to return
 // the method and line in a file that caused an error
-func (e *VerboseError) trace() (method, line string) {
+func (e *qixError) trace() (method, line string) {
 	// stack has trailing new line
 	// method is the third last line
 	// file and line is the second last
