@@ -55,6 +55,8 @@ func (e *qixError) Message() string {
 
 func (e *qixError) UnmarshalJSON(text []byte) error {
   m := map[string]interface{}{}
+  // We don't really want to build our own unmarshaler.
+  // We just want to tack on the stack during the unmarshalling.
   if err := json.Unmarshal(text, &m); err != nil {
     return err
   }
@@ -63,10 +65,12 @@ func (e *qixError) UnmarshalJSON(text []byte) error {
   return nil
 }
 
+// Convert the result of unmarshalling into a qixError
 func (e *qixError) unmarshalMap(m map[string]interface{}) error {
   e.parameter = m["parameter"].(string)
   e.message = m["message"].(string)
-  defer func () {
+  // For some reason what looks and should be an int is a float64 so we
+  defer func () { // get a panic that we have to handle with this defer.
     if r := recover(); r != nil {
       f:= m["code"].(float64)
       e.code = int(f)
