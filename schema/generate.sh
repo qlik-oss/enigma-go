@@ -30,6 +30,7 @@ if [[ $JSON_RPC_API != "" ]]; then
     echo "$JSON_RPC_API" > ./schema.json
     go run ./generate.go
     rm ./schema.json
+    go fmt ../qix_generated.go > /dev/null
 else
     echo "Failed to retrieve JSON-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
     exit 1
