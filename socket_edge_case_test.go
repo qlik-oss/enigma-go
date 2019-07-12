@@ -132,9 +132,9 @@ func (ct HandshakeTimeoutHandler) ServeHTTP(w http.ResponseWriter, req *http.Req
 
 func buildErrorServer() Handler {
 	return fakeEngineServer(0, &qixError{
-		ErrorCode:      500,
-		ErrorMessage:   "parameter",
-		ErrorParameter: "error",
+		code:      500,
+		message:   "parameter",
+		parameter: "error",
 	})
 }
 
