@@ -65,10 +65,10 @@ func (r *RemoteObject) signalClosed() {
 func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse interface{}, params ...interface{}) error {
 	invocationResponse := r.interceptorChain(ctx, &Invocation{RemoteObject: r, Method: method, Params: params})
 	if invocationResponse.Error != nil {
-    err := invocationResponse.Error
-    if qe, ok := err.(*qixError); ok {
-      qe.callParams = params
-    }
+		err := invocationResponse.Error
+		if qe, ok := err.(*qixError); ok {
+			qe.callParams = params
+		}
 		return err
 	}
 	if apiResponse != nil {

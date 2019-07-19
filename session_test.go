@@ -61,10 +61,10 @@ func TestRpcInvocationWithChangeListContext(t *testing.T) {
 	assert.Equal(t, "resultstring", resultHolder)
 	assert.Nil(t, rpcerr)
 
-	expectedChanges := []int{1,7,8,9,10,11,12,13,14,15,16,17}
+	expectedChanges := []int{1, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}
 	assert.Equal(t, expectedChanges, cl.Changed)
 
-	expectedCloses := []int{5,6}
+	expectedCloses := []int{5, 6}
 	assert.Equal(t, expectedCloses, cl.Closed)
 
 }
