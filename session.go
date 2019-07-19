@@ -1,6 +1,7 @@
 package enigma
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
@@ -189,7 +190,7 @@ func (q *session) invokeRPC(ctx context.Context, invocation *Invocation) *Invoca
 	pendingCall := q.registerPendingCall(ctx)
 	request := rpcInvocationRequest{Handle: invocation.RemoteObject.Handle, ID: pendingCall.ID, Method: invocation.Method, Params: params}
 	socketOutput := &socketOutput{rpcInvocationRequest: request, JSONRPC: "2.0"}
-	message, err := json.Marshal(socketOutput)
+	message, err := marshal(socketOutput)
 	if err != nil {
 		return &InvocationResponse{Result: nil, RequestID: pendingCall.ID, Error: err}
 	}
@@ -259,6 +260,21 @@ func (q *session) DisconnectFromServer() {
 // Disconnected returns a channel that will be closed once the underlying socket is closed.
 func (q *session) Disconnected() chan struct{} {
 	return q.disconnectedFromServerCh
+}
+
+// marshal works like json.Marshal but it customizes the encoder
+// to not escape html.
+func marshal(i interface{}) ([]byte, error) {
+	var buf bytes.Buffer
+	encoder := json.NewEncoder(&buf)
+	encoder.SetEscapeHTML(false)
+	err := encoder.Encode(i)
+	b := buf.Bytes()
+	// Without html-escaping we might get a trailing newline.
+	if b[len(b)-1] == byte('\n') {
+		b = b[:len(b)-1] // (In that case remove it!)
+	}
+	return b, err
 }
 
 func newSession(dialer *Dialer) *session {
