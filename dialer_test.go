@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"github.com/qlik-oss/enigma-go"
+	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
@@ -133,10 +133,10 @@ func TestCookieJar(t *testing.T) {
 
 	// Have some cookies!
 	header := http.Header{}
-	exp := fmt.Sprintf("%v", time.Now().Local().Add(time.Hour * time.Duration(48)).UTC())
-	header.Add("Set-Cookie","_session=a518840f-893b-4baf-bdf8-10d78ec14bf5; path=/; expires=" + exp + "; secure; httponly")
-	header.Add("Set-Cookie","_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/interaction/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires=" + exp + "; secure; httponly")
-	header.Add("Set-Cookie","_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/auth/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires=" + exp + "; secure; httponly")
+	exp := fmt.Sprintf("%v", time.Now().Local().Add(time.Hour*time.Duration(48)).UTC())
+	header.Add("Set-Cookie", "_session=a518840f-893b-4baf-bdf8-10d78ec14bf5; path=/; expires="+exp+"; secure; httponly")
+	header.Add("Set-Cookie", "_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/interaction/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires="+exp+"; secure; httponly")
+	header.Add("Set-Cookie", "_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/auth/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires="+exp+"; secure; httponly")
 
 	response := http.Response{Header: header}
 	cookies := response.Cookies()
