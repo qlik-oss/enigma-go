@@ -274,7 +274,7 @@ func marshal(i interface{}) ([]byte, error) {
 	if b[len(b)-1] == byte('\n') {
 		b = b[:len(b)-1] // (In that case remove it!)
 	}
-	return buf.Bytes(), err
+	return b, err
 }
 
 func newSession(dialer *Dialer) *session {
