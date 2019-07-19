@@ -262,11 +262,18 @@ func (q *session) Disconnected() chan struct{} {
 	return q.disconnectedFromServerCh
 }
 
+// marshal works like json.Marshal but it customizes the encoder
+// to not escape html.
 func marshal(i interface{}) ([]byte, error) {
 	var buf bytes.Buffer
 	encoder := json.NewEncoder(&buf)
 	encoder.SetEscapeHTML(false)
 	err := encoder.Encode(i)
+	b := buf.Bytes()
+	// Without html-escaping we might get a trailing newline.
+	if b[len(b)-1] == byte('\n') {
+		b = b[:len(b)-1] // (In that case remove it!)
+	}
 	return buf.Bytes(), err
 }
 
