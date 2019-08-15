@@ -24,7 +24,7 @@ func main() {
 	//Set dialer jar
 	dialer.Jar = jar
 
-	//Print all cookies named session at URL "https://www.qlik.com/"
+	//Print all cookies session cookies with the URL "https://www.qlik.com/"
 	urlTest, err := url.Parse("https://www.qlik.com/")
 
 	cookies := dialer.Jar.Cookies(urlTest)
@@ -38,10 +38,10 @@ func main() {
 
 func dummyCookieJar() (jar http.CookieJar, err error) {
 
-	// Fill Jar with cookies
+	// Create empty jar
 	jar, err = cookiejar.New(nil)
 
-	// Have some cookies!
+	//Fill Jar with cookies
 	header := http.Header{}
 	exp := fmt.Sprintf("%v", time.Now().Local().Add(time.Hour*time.Duration(48)).UTC())
 	header.Add("Set-Cookie", "_session=a518840f-893b-4baf-bdf8-10d78ec14bf5; path=/; expires="+exp+"; secure; httponly")
@@ -50,11 +50,9 @@ func dummyCookieJar() (jar http.CookieJar, err error) {
 
 	response := http.Response{Header: header}
 	cookies := response.Cookies()
-	// fmt.Print(cookies)
+
 	// Set the cookies
-
 	url, err := url.Parse("https://www.qlik.com")
-
 	jar.SetCookies(url, cookies)
 
 	return
