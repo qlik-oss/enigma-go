@@ -1,9 +1,7 @@
 package main
 
 import (
-	"context"
 	"fmt"
-
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
@@ -14,46 +12,49 @@ import (
 
 func main() {
 
-	// Set up the dialer and Header
+	// Create dialer
 	dialer := enigma.Dialer{}
 
-	//Create cookiejar
+	//Add a cookiejar
 	jar, err := dummyCookieJar()
 	if err != nil {
 		fmt.Print(err)
 	}
 
+	//Set dialer jar
 	dialer.Jar = jar
 
-	// Create a session with header
-	ctx := context.Background()
-	global, _ := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076/app/engineData", nil)
+	//Print all cookies named session at URL "https://www.qlik.com/"
+	urlTest, err := url.Parse("https://www.qlik.com/")
 
-	if err != nil {
-		fmt.Println("Could not connect", err)
-		panic(err)
+	cookies := dialer.Jar.Cookies(urlTest)
+	for _, cookie := range cookies {
+		if cookie.Name == "_session" {
+			fmt.Println(cookie)
+		}
 	}
-	version, _ := global.EngineVersion(ctx)
-	global.DisconnectFromServer()
-	fmt.Println(fmt.Sprintf("Connected to engine version %s.", version.ComponentVersion))
 
 }
 
-// Creates a cookiejar fills it with cookies
 func dummyCookieJar() (jar http.CookieJar, err error) {
 
 	// Fill Jar with cookies
 	jar, err = cookiejar.New(nil)
+
+	// Have some cookies!
 	header := http.Header{}
 	exp := fmt.Sprintf("%v", time.Now().Local().Add(time.Hour*time.Duration(48)).UTC())
 	header.Add("Set-Cookie", "_session=a518840f-893b-4baf-bdf8-10d78ec14bf5; path=/; expires="+exp+"; secure; httponly")
 	header.Add("Set-Cookie", "_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/interaction/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires="+exp+"; secure; httponly")
 	header.Add("Set-Cookie", "_grant=1d3cdfb9-25d0-42b2-8274-d4b11b97a475; path=/auth/1d3cdfb9-25d0-42b2-8274-d4b11b97a475; expires="+exp+"; secure; httponly")
+
 	response := http.Response{Header: header}
 	cookies := response.Cookies()
-
+	// fmt.Print(cookies)
 	// Set the cookies
-	url, err := url.Parse("ws://localhost:9076/app/engineData")
+
+	url, err := url.Parse("https://www.qlik.com")
+
 	jar.SetCookies(url, cookies)
 
 	return
