@@ -33,7 +33,7 @@ func main() {
 	} else {
 		for _, cookie := range cookies {
 			if cookie.Name == "_session" {
-				fmt.Printf("Session cookie found, id: %v ", cookie)
+				fmt.Printf("Session cookie found, id: %v \n", cookie)
 			} else {
 				fmt.Println("No session cookies found")
 			}
