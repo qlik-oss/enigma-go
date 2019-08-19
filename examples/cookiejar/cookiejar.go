@@ -28,12 +28,18 @@ func main() {
 	urlTest, err := url.Parse("https://www.qlik.com/")
 
 	cookies := dialer.Jar.Cookies(urlTest)
-	for _, cookie := range cookies {
-		if cookie.Name == "_session" {
-			fmt.Println(cookie)
+	if len(cookies) == 0 {
+		fmt.Println("No cookies with this url")
+	} else {
+		for _, cookie := range cookies {
+			if cookie.Name == "_session" {
+				fmt.Printf("Session cookie found, id: %v ", cookie)
+			} else {
+				fmt.Println("No session cookies found")
+			}
 		}
-	}
 
+	}
 }
 
 func dummyCookieJar() (jar http.CookieJar, err error) {
