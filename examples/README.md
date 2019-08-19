@@ -27,3 +27,8 @@ The examples below show various enigma-go use cases.
 
 #### Testing
 * [Mock Mode](./testing/mock_mode/README.md)
+
+
+#### Cookies
+* [Cookie Jar](./cookiejar/README.md)
+
