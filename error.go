@@ -29,9 +29,9 @@ type (
 	//qixError contains the stacktrace leading to the error and may contain the parameters used when
 	//the error occurred as well as the underlying error informat from engine.
 	qixError struct {
-		code       int    `json:"code"`
-		parameter  string `json:"parameter"`
-		message    string `json:"message"`
+		code       int
+		parameter  string
+		message    string
 		stack      []byte
 		callParams []interface{}
 	}
@@ -106,7 +106,7 @@ func (e *qixError) CallParams() string {
 	return str
 }
 
-// pp does the pretty printing work for VerboseError.Params
+// pp does the pretty printing work for qixError.Params
 // if we want to expand non-nil fields we have to go deeper into
 // the reflections
 func pp(i interface{}) string {
