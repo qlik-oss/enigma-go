@@ -17,8 +17,14 @@ jobs:
       - run:
           name: Linting
           command: |
+            go fmt ./...
             go get -u golang.org/x/lint/golint
             golint -set_exit_status
+            # go fmt and golint can alter go.mod and go.sum.
+            # This will cause the git diff to give false negative.
+            # Restore those files before proceeding to avoid saif effect.
+            git checkout go.mod go.sum
+            git diff --exit-code
       - run:
           name: Test
           command: go test -v -race ./...

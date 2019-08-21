@@ -26,7 +26,7 @@ func main() {
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 	// Create a generic object with a hypercube pivot definition containing two dimensions and one measure
-	object, _:= doc.CreateObject(ctx, &enigma.GenericObjectProperties{
+	object, _ := doc.CreateObject(ctx, &enigma.GenericObjectProperties{
 		Info: &enigma.NxInfo{
 			Type: "my-pivot-hypercube",
 		},

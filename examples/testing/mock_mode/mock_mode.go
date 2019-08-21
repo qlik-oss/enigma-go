@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/qlik-oss/enigma-go"
-	"runtime"
 	"path"
+	"runtime"
 )
 
 const script = `
@@ -21,8 +21,8 @@ func main() {
 	_, filename, _, _ := runtime.Caller(0)
 	trafficFileName := path.Dir(filename) + "/socket.traffic"
 
-	liveDialer := &enigma.Dialer{TrafficDumpFile:trafficFileName, MockMode:false}
-	mockDialer := &enigma.Dialer{TrafficDumpFile:trafficFileName, MockMode:true}
+	liveDialer := &enigma.Dialer{TrafficDumpFile: trafficFileName, MockMode: false}
+	mockDialer := &enigma.Dialer{TrafficDumpFile: trafficFileName, MockMode: true}
 
 	fmt.Println("Running scenario against live Qlik Associative Engine while recording traffic")
 	runScenarioWithDialer(liveDialer)
@@ -32,7 +32,6 @@ func main() {
 }
 
 func runScenarioWithDialer(dialer *enigma.Dialer) {
-
 
 	// Open the session and create a session document:
 	ctx := context.Background()

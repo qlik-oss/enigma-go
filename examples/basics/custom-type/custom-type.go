@@ -37,7 +37,6 @@ func main() {
 	d, _ := global.CreateSessionApp(ctx)
 	doc := customDoc{d}
 
-
 	// Create a custom object
 	properties := &customObjectProperties{
 		GenericObjectProperties: enigma.GenericObjectProperties{
