@@ -92,7 +92,7 @@ func (dialer Dialer) Dial(ctx context.Context, url string, httpHeader http.Heade
 	} else {
 		// Create default CreateSocket function if omitted
 		if dialer.CreateSocket == nil {
-			setupDefaultDialer(dialer)
+			setupDefaultDialer(&dialer)
 		}
 		if dialer.TrafficDumpFile != "" {
 			dialer.TrafficLogger = newFileTrafficLogger(dialer.TrafficDumpFile)

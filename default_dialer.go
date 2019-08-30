@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func setupDefaultDialer(dialer Dialer) {
+func setupDefaultDialer(dialer *Dialer) {
 	dialer.CreateSocket = func(ctx context.Context, url string, httpHeader http.Header) (Socket, error) {
 		gorillaDialer := websocket.Dialer{
 			TLSClientConfig: dialer.TLSClientConfig,

@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"go/ast"
@@ -25,31 +24,44 @@ func isExported(name string) bool {
 	return name[0] == byte(unicode.ToUpper(rune(name[0])))
 }
 
+type Info struct {
+	Name        string `json:"name,omitempty"`
+	Version     string `json:"version,omitempty"`
+	Description string `json:"description,omitempty"`
+	License     string `json:"license,omitempty"`
+	Stability   string `json:"stability,omitempty"`
+	Visibility  string `json:"x-qlik-visibility,omitempty"`
+}
 type Spec struct {
-	Definitions map[string]interface{}
+	OAppy       string                 `json:"oappy,omitempty"`
+	Info        Info                   `json:"info,omitempty"`
+	Definitions map[string]Describable `json:"definitions,omitempty"`
 }
-type ClassSpec struct {
-	Name        string
-	Description string
-	Kind        string
-	Entries     map[string]interface{}
-}
-type FunctionSpec struct {
-	Name        string
-	Description string
-	Kind        string
-	Params      []*ParamSpec
+type SpecNode struct {
+	Kind        string `json:"kind,omitempty"`
+	name        string
+	Description string                 `json:"description,omitempty"`
+	Type        string                 `json:"type,omitempty"`
+	Embedded    bool                   `json:"embedded,omitempty"`
+	Entries     map[string]Describable `json:"entries,omitempty"`
+	Items       *SpecNode              `json:"items,omitempty"`
+	Generics    []*SpecNode            `json:"generics,omitempty"`
+	RefKind     string                 `json:"refkind,omitempty"`
+	Params      []*SpecNode            `json:"params,omitempty"`
+	Returns     []*SpecNode            `json:"returns,omitempty"`
 }
 
-type ParamSpec struct {
-	Name string
-	Type string
+type Describable interface {
+	setDescription(description string)
+	getEntry(string) Describable
 }
-type FieldSpec struct {
-	Kind        string
-	Name        string
-	Description string
-	Type        string
+
+func (f *SpecNode) setDescription(description string) {
+	f.Description = description
+}
+
+func (f *SpecNode) getEntry(name string) Describable {
+	return f.Entries[name]
 }
 
 func receiver(f *ast.FuncDecl) string {
@@ -70,159 +82,47 @@ func receiver(f *ast.FuncDecl) string {
 func main() {
 
 	spec := Spec{
-		Definitions: make(map[string]interface{}),
+		OAppy: "1.0.0",
+		Info: Info{
+			Name:       "enigma-go",
+			Version:    "0.0.1",
+			Stability:  "experimental",
+			Visibility: "public",
+			License:    "MIT",
+
+			Description: "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
+		},
+		Definitions: make(map[string]Describable),
 	}
 
-	f, err := os.Create("./output.txt")
-	defer f.Close()
-
-	w := bufio.NewWriter(f)
-
-	path := "."
-	fset := token.NewFileSet()
-	pkgs, err := parser.ParseDir(fset, ".", filter, parser.ParseComments)
-
-	var pkg *ast.Package
-	for _, v := range pkgs {
-		pkg = v
-	}
-
-	conf := &types.Config{Importer: importer.Default(), Error: func(err error) {
-
-	}}
-
-	files := make([]*ast.File, len(pkg.Files))
-	i := 0
-	for _, file := range pkg.Files {
-		files[i] = file
-		for _, d := range file.Decls {
-
-			switch d.(type) {
-
-			case *ast.FuncDecl:
-				f := d.(*ast.FuncDecl)
-				name := f.Name.Name
-				unicode.ToUpper(rune(name[0]))
-				if isExported(name) {
-					owner := receiver(f)
-					fmt.Fprintln(w, owner, f.Name)
-					if owner != "" {
-						definition := spec.Definitions[owner]
-						if definition != nil {
-
-						} else {
-							fmt.Println("Non matching doc")
-						}
-					}
-					fmt.Fprintln(w, f.Doc.Text())
-					if f.Name.Name == "GetProperties" {
-					}
-
-				}
-			case *ast.GenDecl:
-				//fmt.Println(d.(*ast.GenDecl).Specs)
-				d.End()
-			default:
-				d.End()
-			}
-		}
-		i++
-	}
-	conf.Error = func(err error) {
-
-	}
-	p, err := conf.Check(path, fset, files, nil)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	scope := p.Scope()
-
-	fmt.Fprintln(w, "--------------------------Second level-------------------------")
+	astPackage, scope := compilePackage()
 	for _, name := range scope.Names() {
 		o := scope.Lookup(name)
 		if o.Exported() {
-
-			//if (reflect.TypeOf(o.Type()).Name())
-
-			fmt.Println(reflect.TypeOf(o.Type()))
-			if o.Name() == "RemoteObject" {
-				fmt.Println("dialer")
-			}
-
-			if o.Name() == "NxPage" {
-				otype := o.Type()
-				fmt.Fprintln(w, o.Pkg().Name()+"."+o.Name(), otype)
-			}
-
 			switch o.Type().(type) {
-
 			case *types.Named:
-
-				clazz := getOrCreateClassSpec(spec, o)
-
 				namedType := o.Type().(*types.Named)
-				methodCount := namedType.NumMethods()
-				namedType.Underlying()
 				underlying := namedType.Underlying()
-				for i = 0; i < methodCount; i++ {
-					m := namedType.Method(i)
-					if isExported(m.Name()) {
-						signature, _ := m.Type().(*types.Signature)
-						params := toSpecParams(signature.Params())
-						methodSpec := &FunctionSpec{Kind: "Function", Name: m.Name(), Params: params}
-						clazz.Entries[m.Name()] = methodSpec
-
-						fmt.Fprintln(w, "   "+m.Name()+"()")
-					}
-				}
-				switch underlying.(type) {
-				case *types.Struct:
-					strukt := underlying.(*types.Struct)
-					fieldCount := strukt.NumFields()
-					for i = 0; i < fieldCount; i++ {
-						m := strukt.Field(i)
-						if isExported(m.Name()) {
-							mt := toSpecType(m.Type())
-							if m.Embedded() {
-								fieldSpec := &FieldSpec{Kind: "Field", Name: m.Name(), Type: mt}
-								clazz.Entries[m.Name()] = fieldSpec
-							} else {
-								fieldSpec := &FieldSpec{Kind: "Embedded", Name: m.Name(), Type: mt}
-								clazz.Entries[m.Name()] = fieldSpec
-							}
-
-							fmt.Fprintln(w, "   "+m.Name()+"()")
-						}
-					}
-
-				}
-				//			m := o.(*types.Named).Method(0)
-
+				specNode := translateDeclaration(underlying)
+				fillInMethods(namedType, specNode)
+				spec.Definitions[name] = specNode
 			case *types.Signature:
 				signature := o.Type().(*types.Signature)
-
-				functionn := FunctionSpec{Kind: "function", Name: o.Name()}
-				spec.Definitions[o.Name()] = functionn
-				functionn.Params = toSpecParams(signature.Params())
-				fmt.Fprintln(w, "   signature: ", signature.String())
-
+				specNode := translateDeclaration(signature)
+				specNode.Kind = "function"
+				spec.Definitions[o.Name()] = specNode
 			default:
-				werwrwerwer := reflect.TypeOf(o.Type())
-				fmt.Fprintln(w, "UNKOWN TYPE:", werwrwerwer)
-
+				panic("Unknown otype")
 			}
 		}
 	}
 
-	i = 0
-	for _, file := range pkg.Files {
-		files[i] = file
-		for _, d := range file.Decls {
-
-			switch d.(type) {
+	fmt.Println("--------------- Appending comments ---------------")
+	for _, file := range astPackage.Files {
+		for _, astDecl := range file.Decls {
+			switch astDecl.(type) {
 			case *ast.FuncDecl:
-				f := d.(*ast.FuncDecl)
+				f := astDecl.(*ast.FuncDecl)
 				name := f.Name.Name
 				if isExported(name) {
 					fnReceiver := receiver(f)
@@ -231,124 +131,325 @@ func main() {
 						var methodSpec interface{}
 						classSpec := spec.Definitions[fnReceiver]
 						if classSpec != nil {
-							methodSpec = classSpec.(*ClassSpec).Entries[fnName]
+							methodSpec = classSpec.(*SpecNode).Entries[fnName]
 						}
 						if methodSpec != nil {
 							switch methodSpec.(type) {
-							//case ClassSpec:
-							//	classSpec := methodSpec.(ClassSpec)
-							//	classSpec.Description = f.Doc.Text()
-							case *FunctionSpec:
-								functionSpec := methodSpec.(*FunctionSpec)
+							case *SpecNode:
+								SpecNode := methodSpec.(*SpecNode)
 								text := f.Doc.Text()
-								functionSpec.Description = text
-
-								if name == "AbortModal" {
-									fmt.Println("here")
-								}
+								SpecNode.Description = text
 							}
 						} else {
-							fmt.Println("Non matching doc")
+							fmt.Println("Non matching doc for method: ", fnName)
 						}
 					}
-					fmt.Fprintln(w, f.Doc.Text())
-					if f.Name.Name == "GetProperties" {
-					}
-
 				}
 			case *ast.GenDecl:
-				specs := d.(*ast.GenDecl).Specs
+				specs := astDecl.(*ast.GenDecl).Specs
 				for _, astSpec := range specs {
-					fmt.Println("---------", reflect.TypeOf(astSpec).String())
 					switch astSpec.(type) {
 					case *ast.TypeSpec:
 						typeSpec := astSpec.(*ast.TypeSpec)
-						fmt.Println("TYPE SPEC:", typeSpec.Name)
-						definition := spec.Definitions[typeSpec.Name.Name]
-						if definition != nil {
+						if isExported(typeSpec.Name.Name) {
+							definition := spec.Definitions[typeSpec.Name.Name]
 							if definition != nil {
-								switch definition.(type) {
-								case *ClassSpec:
-									classSpec := definition.(*ClassSpec)
-									text := typeSpec.Doc.Text()
-									classSpec.Description = text
-									//case FunctionSpec:
-									//	functionSpec := definition.(FunctionSpec)
-									//	functionSpec.Description = f.Doc.Text()
+								definition.setDescription(typeSpec.Doc.Text())
+								switch typeSpec.Type.(type) {
+								case *ast.StructType:
+									astStruct := typeSpec.Type.(*ast.StructType)
+									for _, y := range astStruct.Fields.List {
+										if len(y.Names) > 0 {
+											fieldName := y.Names[0].Name
+
+											fieldSpec := definition.getEntry(fieldName)
+											if fieldSpec != nil {
+												fieldSpec.setDescription(y.Doc.Text())
+											} else if isExported(y.Names[0].Name) {
+												fmt.Println("Non matching field: ", y.Names[0].Name)
+											}
+										} else {
+											if len(y.Doc.Text()) > 0 {
+												fmt.Println("Embedded with doc: ", y)
+											}
+										}
+
+									}
+								case *ast.InterfaceType:
+									astInterface := typeSpec.Type.(*ast.InterfaceType)
+									for _, y := range astInterface.Methods.List {
+										if len(y.Names) > 0 {
+											fieldName := y.Names[0].Name
+
+											fieldSpec := definition.getEntry(fieldName)
+											if fieldSpec != nil {
+												fieldSpec.setDescription(y.Doc.Text())
+											} else if isExported(y.Names[0].Name) {
+												fmt.Println("Non matching method: ", y.Names[0].Name)
+											}
+										} else {
+											if len(y.Doc.Text()) > 0 {
+												fmt.Println("Embedded with doc: ", y)
+											}
+										}
+
+									}
+								case *ast.ArrayType:
+									//No extra doc needed
+								case *ast.Ident:
+									//No extra doc needed
+								case *ast.FuncType:
+									//No extra doc needed
+								default:
+									panic("Unknown doc decl: ")
 								}
 							} else {
-								fmt.Println("Non matching doc")
+								fmt.Println("Non matching doc for ", typeSpec.Name)
 							}
 						}
+					case *ast.ImportSpec:
 					default:
-						fmt.Println("gendecl")
+						panic("MISSED ON LEVEL 2:" + reflect.TypeOf(astSpec).String())
+
 					}
 				}
-				fmt.Println(d)
 			default:
+				panic("MISSED ON LEVEL 1:" + reflect.TypeOf(astDecl).String())
 			}
 		}
-		i++
 	}
 
-	fmt.Println(spec)
-
-	specFile, _ := json.MarshalIndent(spec, "", " ")
-
-	_ = ioutil.WriteFile("output.json", specFile, 0644)
+	specFile, _ := json.MarshalIndent(spec, "", "   ")
+	_ = ioutil.WriteFile("api-spec.json", specFile, 0644)
 }
 
-func getOrCreateClassSpec(spec Spec, o types.Object) *ClassSpec {
-
-	clazz := spec.Definitions[o.Name()]
-	if clazz == nil {
-		clazz = &ClassSpec{Kind: "class", Name: o.Name(), Entries: make(map[string]interface{})}
-		spec.Definitions[o.Name()] = clazz
+func fillInStructMembers(strukt *types.Struct, clazz *SpecNode) {
+	fieldCount := strukt.NumFields()
+	for i := 0; i < fieldCount; i++ {
+		m := strukt.Field(i)
+		if isExported(m.Name()) {
+			mt := translateTypeReference(m.Type())
+			if m.Embedded() {
+				mt.Embedded = true
+			}
+			clazz.Entries[m.Name()] = mt
+		}
 	}
-	return clazz.(*ClassSpec)
 }
 
-func toSpecParams(tuple *types.Tuple) []*ParamSpec {
-	result := make([]*ParamSpec, tuple.Len())
+func fillInMethods(namedType MethodContainer, clazz *SpecNode) {
+	methodCount := namedType.NumMethods()
+	for i := 0; i < methodCount; i++ {
+		m := namedType.Method(i)
+		if isExported(m.Name()) {
+			methodSpec := translateDeclaration(m.Type())
+			methodSpec.Kind = "method"
+			if clazz.Entries == nil {
+				clazz.Entries = make(map[string]Describable)
+			}
+			clazz.Entries[m.Name()] = methodSpec
+		}
+	}
+}
+
+//
+//func translateFuncToSpec(m *types.Func) *SpecNode {
+//	signature, _ := m.Type().(*types.Signature)
+//	params := translateTupleToSpec(signature.Params())
+//	results := translateTupleToSpec(signature.Results())
+//	methodSpec := &SpecNode{Kind: "function", name: m.Name(), Params: params, Returns: results}
+//	return methodSpec
+//}
+
+type MethodContainer interface {
+	NumMethods() int
+	Method(i int) *types.Func
+}
+
+func fillInEmbeddedMethods(namedType types.Named, clazz *SpecNode) {
+	methodCount := namedType.NumMethods()
+	for i := 0; i < methodCount; i++ {
+		m := namedType.Method(i)
+		if isExported(m.Name()) {
+			signature, _ := m.Type().(*types.Signature)
+			params := translateTupleToSpec(signature.Params())
+			results := translateTupleToSpec(signature.Results())
+			methodSpec := &SpecNode{Kind: "function", name: m.Name(), Params: params, Returns: results}
+			if clazz.Entries == nil {
+				clazz.Entries = make(map[string]Describable)
+			}
+			clazz.Entries[m.Name()] = methodSpec
+		}
+	}
+	//var x types.Interface
+	//var y types.Struct
+
+}
+
+func compilePackage() (*ast.Package, *types.Scope) {
+	path := "."
+	fset := token.NewFileSet()
+	pkgs, err := parser.ParseDir(fset, ".", filter, parser.ParseComments)
+	var pkg *ast.Package
+	for _, v := range pkgs {
+		pkg = v
+	}
+	files := make([]*ast.File, 0)
+	for x, file := range pkg.Files {
+		fmt.Println(file.Name.Name, x)
+		files = append(files, file)
+	}
+	conf := &types.Config{Importer: importer.Default(), Error: func(err error) {
+
+	}}
+	conf.Error = func(err error) {
+
+	}
+	p, err := conf.Check(path, fset, files, nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return pkg, p.Scope()
+}
+
+func translateTupleToSpec(tuple *types.Tuple) []*SpecNode {
+	result := make([]*SpecNode, tuple.Len())
 	for i := 0; i < tuple.Len(); i++ {
 		param := tuple.At(i)
-		result[i] = &ParamSpec{Name: param.Name(), Type: toSpecType(param.Type())}
+		result[i] = translateTypeReference(param.Type())
 	}
 	return result
 }
 
-func toSpecType(typ types.Type) string {
+func translateDeclaration(underlying types.Type) *SpecNode {
+	switch underlying.(type) {
+	case *types.Struct:
+		strukt := underlying.(*types.Struct)
+		clazz := &SpecNode{Kind: "struct", Entries: make(map[string]Describable)}
+		fillInStructMembers(strukt, clazz)
+		return clazz
+	case *types.Signature:
+		return translateSignature(underlying)
+	case *types.Slice:
+		sliceType := underlying.(*types.Slice)
+		arraySpec := &SpecNode{
+			Kind:  "slice",
+			Items: translateTypeReference(sliceType.Elem()),
+		}
+		return arraySpec
+	case *types.Interface:
+		interfac := underlying.(*types.Interface)
+		interfaceSpec := &SpecNode{Kind: "interface", name: interfac.String(), Entries: make(map[string]Describable)}
+		fillInMethods(interfac, interfaceSpec)
+		return interfaceSpec
+	case *types.Basic:
+		basic := underlying.(*types.Basic)
+		basicSpec := &SpecNode{Kind: "basic", Type: basic.String()}
+		return basicSpec
+	default:
+		panic("Unknown type")
+	}
+}
+
+func translateSignature(underlying types.Type) *SpecNode {
+	signature := underlying.(*types.Signature)
+	functionn := &SpecNode{Kind: "signature"}
+	functionn.Params = translateTupleToSpec(signature.Params())
+	functionn.Returns = translateTupleToSpec(signature.Results())
+	return functionn
+}
+
+func defaultIsPointer(typ types.Type) bool {
+
+	switch typ.(type) {
+	case *types.Named:
+		return defaultIsPointer(typ.Underlying())
+	case *types.Struct:
+		return true
+	default:
+		return false
+	}
+}
+func translateTypeReference(typ types.Type) *SpecNode {
 	switch typ.(type) {
 	case *types.Named:
 		namedType := typ.(*types.Named)
-		if namedType.Obj().Pkg() == nil {
-			return namedType.Obj().Name()
-		} else if namedType.Obj().Pkg().Path() == "." {
-			return "#/definitions/" + namedType.Obj().Name()
+		actualName := getNamedName(namedType)
+		if defaultIsPointer(namedType.Underlying()) {
+			return &SpecNode{
+				Type:    actualName,
+				RefKind: "value",
+			}
 		} else {
-			return "GOLANG/" + namedType.Obj().Pkg().Path() + "/" + namedType.Obj().Name()
+			return &SpecNode{
+				Type: actualName,
+			}
 		}
 
 	case *types.Basic:
 		basicType := typ.(*types.Basic)
-		return "BASICTYPE:" + basicType.Name()
+		return &SpecNode{
+			Type: basicType.Name(),
+		}
 	case *types.Slice:
 		sliceType := typ.(*types.Slice)
-		return "Array of " + toSpecType(sliceType.Elem())
+		result := &SpecNode{
+			Kind:  "slice",
+			Items: translateTypeReference(sliceType.Elem()),
+		}
+		return result
 	case *types.Pointer:
 		pointerType := typ.(*types.Pointer)
-		return "Pointer to " + toSpecType(pointerType.Elem())
+		result := translateTypeReference(pointerType.Elem())
+		if defaultIsPointer(pointerType.Elem().Underlying()) {
+			result.RefKind = ""
+		} else {
+			result.RefKind = "pointer"
+		}
+		return result
 	case *types.Interface:
-		return "interface{}"
+		interfaceType := typ.(*types.Interface)
+		if interfaceType.NumMethods() == 0 {
+			return &SpecNode{
+				Type: "interface {}",
+			}
+		} else {
+			panic("Inline interface not supported")
+		}
 	case *types.Chan:
 		chanType := typ.(*types.Chan)
-		return "Chan " + chanType.String()
+		result := &SpecNode{
+			Kind:  "chan",
+			Items: translateTypeReference(chanType.Elem()),
+		}
+		return result
 	case *types.Signature:
-		return "Function"
-	case *types.Map:
-		mapType := typ.(*types.Map)
-		return "Map of " + toSpecType(mapType.Elem())
+		signatureType := typ.(*types.Signature)
+		result := translateSignature(signatureType)
+		result.Kind = "function"
+		return result
+	case *types.Struct:
+		structType := typ.(*types.Struct)
+		if structType.NumFields() == 0 {
+			result := &SpecNode{
+				Type: "struct {}",
+			}
+			return result
+		} else {
+			panic("Inline struct not supported")
+		}
+	default:
+		panic("Unknown type")
 	}
-	os.Exit(1)
-	return typ.String()
+}
+
+func getNamedName(namedType *types.Named) string {
+	if namedType.Obj().Pkg() == nil {
+		return namedType.Obj().Name()
+	} else if namedType.Obj().Pkg().Path() == "." {
+		return "#/definitions/" + namedType.Obj().Name()
+	} else {
+		return "" + namedType.Obj().Pkg().Path() + "." + namedType.Obj().Name()
+	}
+	return ""
 }
