@@ -38,7 +38,7 @@ type Spec struct {
 	Definitions map[string]Describable `json:"definitions,omitempty"`
 }
 type SpecNode struct {
-	Kind        string `json:"kind,omitempty"`
+	//Kind        string `json:"kind,omitempty"`
 	name        string
 	Description string                 `json:"description,omitempty"`
 	Type        string                 `json:"type,omitempty"`
@@ -103,13 +103,13 @@ func main() {
 			case *types.Named:
 				namedType := o.Type().(*types.Named)
 				underlying := namedType.Underlying()
-				specNode := translateDeclaration(underlying)
+				specNode := translateTypeUnified(underlying)
 				fillInMethods(namedType, specNode)
 				spec.Definitions[name] = specNode
 			case *types.Signature:
 				signature := o.Type().(*types.Signature)
-				specNode := translateDeclaration(signature)
-				specNode.Kind = "function"
+				specNode := translateTypeUnified(signature)
+				specNode.Type = "function"
 				spec.Definitions[o.Name()] = specNode
 			default:
 				panic("Unknown otype")
@@ -228,11 +228,15 @@ func fillInStructMembers(strukt *types.Struct, clazz *SpecNode) {
 	for i := 0; i < fieldCount; i++ {
 		m := strukt.Field(i)
 		if isExported(m.Name()) {
-			mt := translateTypeReference(m.Type())
+			mt := translateTypeUnified(m.Type())
 			if m.Embedded() {
 				mt.Embedded = true
 			}
+			if mt.Type == "function-signature" {
+				mt.Type = "function"
+			}
 			clazz.Entries[m.Name()] = mt
+
 		}
 	}
 }
@@ -242,8 +246,8 @@ func fillInMethods(namedType MethodContainer, clazz *SpecNode) {
 	for i := 0; i < methodCount; i++ {
 		m := namedType.Method(i)
 		if isExported(m.Name()) {
-			methodSpec := translateDeclaration(m.Type())
-			methodSpec.Kind = "method"
+			methodSpec := translateTypeUnified(m.Type())
+			methodSpec.Type = "method"
 			if clazz.Entries == nil {
 				clazz.Entries = make(map[string]Describable)
 			}
@@ -251,15 +255,6 @@ func fillInMethods(namedType MethodContainer, clazz *SpecNode) {
 		}
 	}
 }
-
-//
-//func translateFuncToSpec(m *types.Func) *SpecNode {
-//	signature, _ := m.Type().(*types.Signature)
-//	params := translateTupleToSpec(signature.Params())
-//	results := translateTupleToSpec(signature.Results())
-//	methodSpec := &SpecNode{Kind: "function", name: m.Name(), Params: params, Returns: results}
-//	return methodSpec
-//}
 
 type MethodContainer interface {
 	NumMethods() int
@@ -274,7 +269,7 @@ func fillInEmbeddedMethods(namedType types.Named, clazz *SpecNode) {
 			signature, _ := m.Type().(*types.Signature)
 			params := translateTupleToSpec(signature.Params())
 			results := translateTupleToSpec(signature.Results())
-			methodSpec := &SpecNode{Kind: "function", name: m.Name(), Params: params, Returns: results}
+			methodSpec := &SpecNode{Type: "function", name: m.Name(), Params: params, Returns: results}
 			if clazz.Entries == nil {
 				clazz.Entries = make(map[string]Describable)
 			}
@@ -316,44 +311,45 @@ func translateTupleToSpec(tuple *types.Tuple) []*SpecNode {
 	result := make([]*SpecNode, tuple.Len())
 	for i := 0; i < tuple.Len(); i++ {
 		param := tuple.At(i)
-		result[i] = translateTypeReference(param.Type())
+		result[i] = translateTypeUnified(param.Type())
 	}
 	return result
 }
 
-func translateDeclaration(underlying types.Type) *SpecNode {
-	switch underlying.(type) {
-	case *types.Struct:
-		strukt := underlying.(*types.Struct)
-		clazz := &SpecNode{Kind: "struct", Entries: make(map[string]Describable)}
-		fillInStructMembers(strukt, clazz)
-		return clazz
-	case *types.Signature:
-		return translateSignature(underlying)
-	case *types.Slice:
-		sliceType := underlying.(*types.Slice)
-		arraySpec := &SpecNode{
-			Kind:  "slice",
-			Items: translateTypeReference(sliceType.Elem()),
-		}
-		return arraySpec
-	case *types.Interface:
-		interfac := underlying.(*types.Interface)
-		interfaceSpec := &SpecNode{Kind: "interface", name: interfac.String(), Entries: make(map[string]Describable)}
-		fillInMethods(interfac, interfaceSpec)
-		return interfaceSpec
-	case *types.Basic:
-		basic := underlying.(*types.Basic)
-		basicSpec := &SpecNode{Kind: "basic", Type: basic.String()}
-		return basicSpec
-	default:
-		panic("Unknown type")
-	}
-}
+//
+//func translateDeclaration(typ types.Type) *SpecNode {
+//	switch typ.(type) {
+//	case *types.Struct:
+//		strukt := typ.(*types.Struct)
+//		clazz := &SpecNode{Kind: "struct", Entries: make(map[string]Describable)}
+//		fillInStructMembers(strukt, clazz)
+//		return clazz
+//	case *types.Signature:
+//		return translateSignature(typ)
+//	case *types.Slice:
+//		sliceType := typ.(*types.Slice)
+//		arraySpec := &SpecNode{
+//			Kind:  "slice",
+//			Items: translateTypeReference(sliceType.Elem()),
+//		}
+//		return arraySpec
+//	case *types.Interface:
+//		interfac := typ.(*types.Interface)
+//		interfaceSpec := &SpecNode{Kind: "interface", name: interfac.String(), Entries: make(map[string]Describable)}
+//		fillInMethods(interfac, interfaceSpec)
+//		return interfaceSpec
+//	case *types.Basic:
+//		basic := typ.(*types.Basic)
+//		basicSpec := &SpecNode{Kind: "basic", Type: basic.String()}
+//		return basicSpec
+//	default:
+//		panic("Unknown type")
+//	}
+//}
 
 func translateSignature(underlying types.Type) *SpecNode {
 	signature := underlying.(*types.Signature)
-	functionn := &SpecNode{Kind: "signature"}
+	functionn := &SpecNode{Type: "signature"}
 	functionn.Params = translateTupleToSpec(signature.Params())
 	functionn.Returns = translateTupleToSpec(signature.Results())
 	return functionn
@@ -370,7 +366,8 @@ func defaultIsPointer(typ types.Type) bool {
 		return false
 	}
 }
-func translateTypeReference(typ types.Type) *SpecNode {
+
+func translateTypeUnified(typ types.Type) *SpecNode {
 	switch typ.(type) {
 	case *types.Named:
 		namedType := typ.(*types.Named)
@@ -385,7 +382,6 @@ func translateTypeReference(typ types.Type) *SpecNode {
 				Type: actualName,
 			}
 		}
-
 	case *types.Basic:
 		basicType := typ.(*types.Basic)
 		return &SpecNode{
@@ -394,13 +390,13 @@ func translateTypeReference(typ types.Type) *SpecNode {
 	case *types.Slice:
 		sliceType := typ.(*types.Slice)
 		result := &SpecNode{
-			Kind:  "slice",
-			Items: translateTypeReference(sliceType.Elem()),
+			Type:  "slice",
+			Items: translateTypeUnified(sliceType.Elem()),
 		}
 		return result
 	case *types.Pointer:
 		pointerType := typ.(*types.Pointer)
-		result := translateTypeReference(pointerType.Elem())
+		result := translateTypeUnified(pointerType.Elem())
 		if defaultIsPointer(pointerType.Elem().Underlying()) {
 			result.RefKind = ""
 		} else {
@@ -411,37 +407,117 @@ func translateTypeReference(typ types.Type) *SpecNode {
 		interfaceType := typ.(*types.Interface)
 		if interfaceType.NumMethods() == 0 {
 			return &SpecNode{
-				Type: "interface {}",
+				Type: "interface",
 			}
 		} else {
-			panic("Inline interface not supported")
+			interfac := typ.(*types.Interface)
+			interfaceSpec := &SpecNode{Type: "interface", name: interfac.String(), Entries: make(map[string]Describable)}
+			fillInMethods(interfac, interfaceSpec)
+			return interfaceSpec
 		}
 	case *types.Chan:
 		chanType := typ.(*types.Chan)
 		result := &SpecNode{
-			Kind:  "chan",
-			Items: translateTypeReference(chanType.Elem()),
+			Type:  "chan",
+			Items: translateTypeUnified(chanType.Elem()),
 		}
 		return result
 	case *types.Signature:
 		signatureType := typ.(*types.Signature)
 		result := translateSignature(signatureType)
-		result.Kind = "function"
+		result.Type = "function-signature"
 		return result
 	case *types.Struct:
 		structType := typ.(*types.Struct)
 		if structType.NumFields() == 0 {
 			result := &SpecNode{
-				Type: "struct {}",
+				Type: "struct",
 			}
 			return result
 		} else {
-			panic("Inline struct not supported")
+			strukt := typ.(*types.Struct)
+			result := &SpecNode{Type: "struct", Entries: make(map[string]Describable)}
+			fillInStructMembers(strukt, result)
+			return result
 		}
 	default:
 		panic("Unknown type")
 	}
 }
+
+//
+//func translateTypeReference(typ types.Type) *SpecNode {
+//	switch typ.(type) {
+//	case *types.Named:
+//		namedType := typ.(*types.Named)
+//		actualName := getNamedName(namedType)
+//		if defaultIsPointer(namedType.Underlying()) {
+//			return &SpecNode{
+//				Type:    actualName,
+//				RefKind: "value",
+//			}
+//		} else {
+//			return &SpecNode{
+//				Type: actualName,
+//			}
+//		}
+//
+//	case *types.Basic:
+//		basicType := typ.(*types.Basic)
+//		return &SpecNode{
+//			Type: basicType.Name(),
+//		}
+//	case *types.Slice:
+//		sliceType := typ.(*types.Slice)
+//		result := &SpecNode{
+//			Kind:  "slice",
+//			Items: translateTypeReference(sliceType.Elem()),
+//		}
+//		return result
+//	case *types.Pointer:
+//		pointerType := typ.(*types.Pointer)
+//		result := translateTypeReference(pointerType.Elem())
+//		if defaultIsPointer(pointerType.Elem().Underlying()) {
+//			result.RefKind = ""
+//		} else {
+//			result.RefKind = "pointer"
+//		}
+//		return result
+//	case *types.Interface:
+//		interfaceType := typ.(*types.Interface)
+//		if interfaceType.NumMethods() == 0 {
+//			return &SpecNode{
+//				Type: "interface {}",
+//			}
+//		} else {
+//			panic("Inline interface not supported")
+//		}
+//	case *types.Chan:
+//		chanType := typ.(*types.Chan)
+//		result := &SpecNode{
+//			Kind:  "chan",
+//			Items: translateTypeReference(chanType.Elem()),
+//		}
+//		return result
+//	case *types.Signature:
+//		signatureType := typ.(*types.Signature)
+//		result := translateSignature(signatureType)
+//		result.Kind = "function"
+//		return result
+//	case *types.Struct:
+//		structType := typ.(*types.Struct)
+//		if structType.NumFields() == 0 {
+//			result := &SpecNode{
+//				Type: "struct {}",
+//			}
+//			return result
+//		} else {
+//			panic("Inline struct not supported")
+//		}
+//	default:
+//		panic("Unknown type")
+//	}
+//}
 
 func getNamedName(namedType *types.Named) string {
 	if namedType.Obj().Pkg() == nil {
