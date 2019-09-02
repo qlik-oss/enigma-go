@@ -69,15 +69,12 @@ func (e *qixError) UnmarshalJSON(text []byte) error {
 func (e *qixError) unmarshalMap(m map[string]interface{}) error {
 	e.parameter = m["parameter"].(string)
 	e.message = m["message"].(string)
-	// For some reason what looks and should be an int is a float64 so we
-	defer func() { // get a panic that we have to handle with this defer.
-		if r := recover(); r != nil {
-			f := m["code"].(float64)
-			e.code = int(f)
-		}
-	}()
-	code := m["code"].(int)
-	e.code = code
+  switch code := m["code"]; code.(type) {
+    case int:
+      e.code = code.(int)
+    case float64:
+      e.code = int(code.(float64))
+  }
 	return nil
 }
 
