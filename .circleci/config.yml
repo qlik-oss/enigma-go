@@ -27,7 +27,7 @@ jobs:
             git diff --exit-code
       - run:
           name: Test
-          command: go test -v -race ./...
+          command: go test -v -race .
       - setup_remote_docker
       - run:
           name: Execute integration tests
