@@ -69,12 +69,12 @@ func (e *qixError) UnmarshalJSON(text []byte) error {
 func (e *qixError) unmarshalMap(m map[string]interface{}) error {
 	e.parameter = m["parameter"].(string)
 	e.message = m["message"].(string)
-  switch code := m["code"]; code.(type) {
-    case int:
-      e.code = code.(int)
-    case float64:
-      e.code = int(code.(float64))
-  }
+	switch code := m["code"]; code.(type) {
+	case int:
+		e.code = code.(int)
+	case float64:
+		e.code = int(code.(float64))
+	}
 	return nil
 }
 
