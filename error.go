@@ -21,7 +21,8 @@ type (
 )
 
 func (err *qixError) Error() string {
-	return fmt.Sprintf("%s: %s (%d)", err.ErrorParameter, err.ErrorMessage, err.ErrorCode)
+	lookup := ErrorCodeLookup(err.ErrorCode)
+	return fmt.Sprintf("%s: %s (%d = %s)", err.ErrorParameter, err.ErrorMessage, err.ErrorCode, lookup)
 }
 
 func (err *qixError) Code() int {

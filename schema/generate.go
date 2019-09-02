@@ -100,8 +100,8 @@ type Type struct {
 // Option represents a possible value in case of an "enum"
 type Option struct {
 	Description string `json:"description,omitempty"`
-	Title       string `json:"title,omitempty"`
-	ConstValue  int    `json:"x-qlik-const,omitempty"`
+	Title       string `json:"title"`
+	ConstValue  int    `json:"x-qlik-const"`
 }
 
 // OrderAwareKey is a special key construct to retain order from json spec for properties
@@ -456,6 +456,10 @@ func removeRedundantNxInfo(schema *Schema) {
 	}
 }
 
+func printEnum(out *os.File, typeName string) {
+
+}
+
 func printEnumMethods(out *os.File, typeName string) {
 	// Create String() method for type
 	// Using Fprint instead of Fprintln due to lintchecks on trailing newline otherwise
@@ -705,6 +709,7 @@ func getExtraCrossAssignmentLine(methodName string) string {
 		return ""
 	}
 }
+
 func main() {
 	objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
@@ -775,11 +780,18 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
-			fmt.Fprintln(out, "type", defName, "string")
-			fmt.Fprintln(out, "")
-			printEnumMethods(out, defName)
-			argumentInits = append(argumentInits, generateArgumentInitForType(defName, def))
 			// Enums are strings now
+			if defName == "NxLocalizedErrorCode" {
+				fmt.Fprintln(out, "func ErrorCodeLookup(c int) string {")
+				fmt.Fprintln(out, "switch c {")
+				for _, opt := range def.OneOf {
+					fmt.Fprintln(out, "case", opt.ConstValue, ":")
+					fmt.Fprintln(out, "return \""+opt.Title+"\"")
+				}
+				fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
+			} else {
+				fmt.Fprint(out, "type "+defName+" string\n\n")
+			}
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
 			fmt.Fprintln(out, "")
