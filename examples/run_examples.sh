@@ -19,7 +19,7 @@ examples=(
     interceptors/metrics/metrics.go
     logging/traffic-log.go
     reload/monitor-progress/monitor-progress.go
-    testing/mock_mode/mock_mode.go
+    testing/mock-mode/mock-mode.go
 
 )
 
