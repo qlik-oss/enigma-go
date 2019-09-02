@@ -13975,6 +13975,24 @@
          "description": "RemoteObject represents an object inside Qlik Associative Engine.\n",
          "type": "struct",
          "entries": {
+            "ChangeListsChannel": {
+               "description": "ChangeListsChannel returns a channel that receives change and close notifications from Qlik Associative Engine. if the pushedOnly argument is set to true\nonly pushed change lists are put into the channel - not changes that are returned as a response to an API call.\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "bool"
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "#/definitions/ChangeLists",
+                        "refkind": "value"
+                     }
+                  }
+               ]
+            },
             "ChangedChannel": {
                "description": "ChangedChannel returns a channel that will receive changes when the underlying object is invalidated.\n",
                "type": "method",
@@ -13983,6 +14001,32 @@
                      "type": "chan",
                      "items": {
                         "type": "struct"
+                     }
+                  }
+               ]
+            },
+            "CloseChangeListsChannel": {
+               "description": "CloseChangeListsChannel closes and unregisters the supplied event channel from the session.\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "#/definitions/ChangeLists",
+                        "refkind": "value"
+                     }
+                  }
+               ]
+            },
+            "CloseSessionMessageChannel": {
+               "description": "CloseSessionMessageChannel closes and unregisters the supplied event channel from the session.\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "#/definitions/SessionMessage",
+                        "refkind": "value"
                      }
                   }
                ]
@@ -13999,6 +14043,30 @@
                   }
                ]
             },
+            "DisconnectFromServer": {
+               "description": "DisconnectFromServer shuts down the websocket connection to the Qlik Assocative Engine\n",
+               "type": "method"
+            },
+            "Disconnected": {
+               "description": "Disconnected returns a channel that will be closed once the underlying socket is closed.\n",
+               "type": "method",
+               "returns": [
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "struct"
+                     }
+                  }
+               ]
+            },
+            "GetMockSocket": {
+               "type": "method",
+               "returns": [
+                  {
+                     "type": "#/definitions/MockSocket"
+                  }
+               ]
+            },
             "ObjectInterface": {
                "type": "#/definitions/ObjectInterface",
                "embedded": true
@@ -14012,6 +14080,61 @@
                      "items": {
                         "type": "struct"
                      }
+                  }
+               ]
+            },
+            "SessionMessageChannel": {
+               "description": "SessionMessageChannel returns a channel that receives notifications from Qlik Associative Engine. To only receive\ncertain events a list of topics can be supplied. If no topics are supplied all events are received.\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "string"
+                     }
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "#/definitions/SessionMessage",
+                        "refkind": "value"
+                     }
+                  }
+               ]
+            },
+            "SessionState": {
+               "description": "SessionState returns either SESSION_CREATED or SESSION_ATTACHED to describe the status of the current websocket session\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "context.Context"
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "string"
+                  },
+                  {
+                     "type": "error"
+                  }
+               ]
+            },
+            "WithReservedRequestID": {
+               "description": "Creates a new context that contains a reserved JSON RPC protocol level request id.\nIt can be for instance be useful when the request id used for upcoming call needs to be known.\n",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "context.Context"
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "context.Context"
+                  },
+                  {
+                     "type": "int"
                   }
                ]
             }
