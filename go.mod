@@ -10,5 +10,5 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/stretchr/testify v1.4.0
-	golang.org/x/net v0.0.0-20190819065259-74dc4d7220e7
+	golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297
 )
