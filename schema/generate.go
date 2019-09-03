@@ -648,6 +648,16 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
   fmt.Fprintln(out, "")
 }
 
+func printErrorCodeLookup(out *os.File, def *Type) {
+  fmt.Fprintln(out, "func ErrorCodeLookup(c int) string {")
+  fmt.Fprintln(out, "switch c {")
+  for _, opt := range def.OneOf {
+    fmt.Fprintln(out, "case", opt.ConstValue, ":")
+    fmt.Fprintln(out, "return \""+opt.Title+"\"")
+  }
+  fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
+}
+
 func isNonZero(value interface{}) bool {
   return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
@@ -679,6 +689,7 @@ func getExtraCrossAssignmentLine(methodName string) string {
     return ""
   }
 }
+
 func main() {
   objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
@@ -747,13 +758,7 @@ func main() {
     case "string":
       // Enums are strings now and only one of them is of particular interest.
       if defName == "NxLocalizedErrorCode" {
-        fmt.Fprintln(out, "func ErrorCodeLookup(c int) string {")
-        fmt.Fprintln(out, "switch c {")
-        for _, opt := range def.OneOf {
-          fmt.Fprintln(out, "case", opt.ConstValue, ":")
-          fmt.Fprintln(out, "return \""+opt.Title+"\"")
-        }
-        fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
+        printErrorCodeLookup(out, def)
       }
     default:
       fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
