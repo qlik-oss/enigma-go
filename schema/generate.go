@@ -97,11 +97,12 @@ type Type struct {
 	Schema               *Type                   `json:"schema,omitempty"`
 }
 
-// Option represents a possible value in case of an "enum"
+// Option represents a possible value in case of an "enum".
+// Title and ConstValue are, and always should be, present.
 type Option struct {
 	Description string `json:"description,omitempty"`
-	Title       string `json:"title,omitempty"`
-	ConstValue  int    `json:"x-qlik-const,omitempty"`
+	Title       string `json:"title"`
+	ConstValue  int    `json:"x-qlik-const"`
 }
 
 // OrderAwareKey is a special key construct to retain order from json spec for properties
@@ -647,6 +648,16 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	fmt.Fprintln(out, "")
 }
 
+func printErrorCodeLookup(out *os.File, def *Type) {
+	fmt.Fprintln(out, "func errorCodeLookup(c int) string {")
+	fmt.Fprintln(out, "switch c {")
+	for _, opt := range def.OneOf {
+		fmt.Fprintln(out, "case", opt.ConstValue, ":")
+		fmt.Fprintln(out, "return \""+opt.Title+"\"")
+	}
+	fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
+}
+
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
@@ -656,7 +667,7 @@ func isStringEnum(property *Type) bool {
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
-		// "Enums" are have type string but are sent as "objects" with a list of valid options for said "enum".
+		// "Enums" have type string but are sent as "objects" with a list of valid options for said "enum".
 		return name == "string"
 	}
 	return false
@@ -678,6 +689,7 @@ func getExtraCrossAssignmentLine(methodName string) string {
 		return ""
 	}
 }
+
 func main() {
 	objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
@@ -744,7 +756,10 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
-			// Enums are strings now
+			// Enums are strings now and only one of them is of particular interest.
+			if defName == "NxLocalizedErrorCode" {
+				printErrorCodeLookup(out, def)
+			}
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
 			fmt.Fprintln(out, "")
