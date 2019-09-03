@@ -22,7 +22,7 @@ type (
 )
 
 func (err *qixError) Error() string {
-	errorType := ErrorCodeLookup(err.ErrorCode)
+	errorType := errorCodeLookup(err.ErrorCode)
 	if errorType[:7] == "LOCERR_" {
 		errorType = errorType[7:]
 	}

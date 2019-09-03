@@ -649,7 +649,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 }
 
 func printErrorCodeLookup(out *os.File, def *Type) {
-	fmt.Fprintln(out, "func ErrorCodeLookup(c int) string {")
+	fmt.Fprintln(out, "func errorCodeLookup(c int) string {")
 	fmt.Fprintln(out, "switch c {")
 	for _, opt := range def.OneOf {
 		fmt.Fprintln(out, "case", opt.ConstValue, ":")
