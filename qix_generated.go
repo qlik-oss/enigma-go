@@ -2526,18 +2526,18 @@ type NxEngineVersion struct {
 
 // NxDerivedFieldsdata:
 //
-//   +------------------------+--------------------------------+------------------------+
-//   |          NAME          |          DESCRIPTION           |          TYPE          |
-//   +------------------------+--------------------------------+------------------------+
-//   | qDerivedDefinitionName | Name of the derived            | String                 |
-//   |                        | definition.                    |                        |
-//   | qFieldDefs             | List of the derived fields.    | Array of               |
-//   |                        |                                | NxDerivedField         |
-//   | qGroupDefs             | List of the derived groups.    | Array of               |
-//   |                        |                                | NxDerivedGroup         |
-//   | qTags                  | List of tags on the derived    | Array of String        |
-//   |                        | fields.                        |                        |
-//   +------------------------+--------------------------------+------------------------+
+//   +------------------------+--------------------------------+----------------+
+//   |          NAME          |          DESCRIPTION           |      TYPE      |
+//   +------------------------+--------------------------------+----------------+
+//   | qDerivedDefinitionName | Name of the derived            | String         |
+//   |                        | definition.                    |                |
+//   | qFieldDefs             | List of the derived fields.    | Array of       |
+//   |                        |                                | NxDerivedField |
+//   | qGroupDefs             | List of the derived groups.    | Array of       |
+//   |                        |                                | NxDerivedGroup |
+//   | qTags                  | List of tags on the derived    | Array of       |
+//   |                        | fields.                        | String         |
+//   +------------------------+--------------------------------+----------------+
 type NxFieldDescription struct {
 	// If set to true, it means that the field is a semantic.
 	IsSemantic bool `json:"qIsSemantic,omitempty"`
@@ -5474,15 +5474,16 @@ func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//   +--------------------------------+--------------------------------+
-//   |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |
-//   +--------------------------------+--------------------------------+
-//   | < MachineName> AuditActivity   | < MachineName> Service         |
-//   | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |
-//   | Enterprise  < MachineName>     | Enterprise  < MachineName>     |
-//   | AuditActivity Engine.log in    | Service Engine.log in Qlik     |
-//   | Qlik Sense Desktop             | Sense Desktop                  |
-//   +--------------------------------+--------------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 //
 // Where to find the log files:
 //
@@ -5545,15 +5546,16 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//   +--------------------------------+--------------------------------+
-//   |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |
-//   +--------------------------------+--------------------------------+
-//   | < MachineName> AuditActivity   | < MachineName> Service         |
-//   | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |
-//   | Enterprise  < MachineName>     | Enterprise  < MachineName>     |
-//   | AuditActivity Engine.log in    | Service Engine.log in Qlik     |
-//   | Qlik Sense Desktop             | Sense Desktop                  |
-//   +--------------------------------+--------------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 //
 // Where to find the log files:
 //
@@ -7582,12 +7584,13 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 //
 // SearchMatchCombinations:
 //
-//   +--------------------------+-------------------------------+--------------------------------+
-//   |           NAME           |          DESCRIPTION          |              TYPE              |
-//   +--------------------------+-------------------------------+--------------------------------+
-//   | qSearchMatchCombinations | Array of search combinations. | Array of                       |
-//   |                          |                               | SearchMatchCombination         |
-//   +--------------------------+-------------------------------+--------------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -7611,12 +7614,13 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 //
 // SearchMatchCombinations:
 //
-//   +--------------------------+-------------------------------+--------------------------------+
-//   |           NAME           |          DESCRIPTION          |              TYPE              |
-//   +--------------------------+-------------------------------+--------------------------------+
-//   | qSearchMatchCombinations | Array of search combinations. | Array of                       |
-//   |                          |                               | SearchMatchCombination         |
-//   +--------------------------+-------------------------------+--------------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -9451,19 +9455,21 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 //
-//   +-------------+--------------------------------+--------------------------------+
-//   |    NAME     |          DESCRIPTION           |              TYPE              |
-//   +-------------+--------------------------------+--------------------------------+
-//   | qNum        | Maximum number of points that  | String                         |
-//   |             | a cell can contain.            |                                |
-//   | qElemNumber | Is set to 0.                   | Boolean                        |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
-//   +-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 //
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
@@ -9491,12 +9497,14 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Cells are represented as rectangles.
@@ -9524,12 +9532,14 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
@@ -9587,19 +9597,21 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 //
-//   +-------------+--------------------------------+--------------------------------+
-//   |    NAME     |          DESCRIPTION           |              TYPE              |
-//   +-------------+--------------------------------+--------------------------------+
-//   | qNum        | Maximum number of points that  | String                         |
-//   |             | a cell can contain.            |                                |
-//   | qElemNumber | Is set to 0.                   | Boolean                        |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
-//   +-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 //
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
@@ -9627,12 +9639,14 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Cells are represented as rectangles.
@@ -9660,12 +9674,14 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 //   |             | is not stored in the database  |                                |
 //   |             | and can have a positive or a   |                                |
 //   |             | negative value.                |                                |
-//   | qState      | The default value is L.        | One of:   * L for Locked  * S  |
-//   |             |                                | for Selected  * O for Optional |
-//   |             |                                |  * D for Deselected  * A for   |
-//   |             |                                | Alternative  * X for eXcluded  |
-//   |             |                                |  * XS for eXcluded Selected  * |
-//   |             |                                | XL for eXcluded Locked         |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
 //   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
@@ -10768,19 +10784,19 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 //
 // In the representation above:
 //
-//   +--------------------------------+--------------------------------+
-//   | Sum(OrderTotal)                | Are pseudo dimensions.         |
-//   | Count(OrderTotal)              |                                |
-//   | CategoryName                   | Is a left dimension.           |
-//   |                                | Beverages , Condiments ... are |
-//   |                                | left dimension values.         |
-//   | ProductName                    | Is a top dimension.  Chef      |
-//   |                                | Anton's Cajun Seasoning is a   |
-//   |                                | top dimension value.           |
-//   | Numeric values                 | Are calculated values in the   |
-//   |                                | data matrix.  626291,832 is a  |
-//   |                                | calculated value.              |
-//   +--------------------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 //
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
@@ -10828,19 +10844,19 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 //
 // In the representation above:
 //
-//   +--------------------------------+--------------------------------+
-//   | Sum(OrderTotal)                | Are pseudo dimensions.         |
-//   | Count(OrderTotal)              |                                |
-//   | CategoryName                   | Is a left dimension.           |
-//   |                                | Beverages , Condiments ... are |
-//   |                                | left dimension values.         |
-//   | ProductName                    | Is a top dimension.  Chef      |
-//   |                                | Anton's Cajun Seasoning is a   |
-//   |                                | top dimension value.           |
-//   | Numeric values                 | Are calculated values in the   |
-//   |                                | data matrix.  626291,832 is a  |
-//   |                                | calculated value.              |
-//   +--------------------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 //
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
