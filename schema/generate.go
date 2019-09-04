@@ -15,8 +15,11 @@ import (
 
 // QlikExtensions represents Qlik JSON Schema extensinos
 type QlikExtensions struct {
-	QlikStability  string `json:"x-qlik-stability,omitempty"`
-	QlikVisibility string `json:"x-qlik-visibility,omitempty"`
+	QlikStability              string `json:"x-qlik-stability,omitempty"`
+	QlikVisibility             string `json:"x-qlik-visibility,omitempty"`
+	QlikDeprecated1            bool   `json:"deprecated,omitempty"`
+	QlikDeprecated2            bool   `json:"x-qlik-deprecated,omitempty"`
+	QlikDeprecationDescription string `json:"x-qlik-deprecation-description,omitempty"`
 }
 
 // Info represents engine information
@@ -473,6 +476,7 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 	if method.Description != "" {
 		fmt.Fprintln(out, formatComment("", method.Description, method.Parameters))
 	}
+	printExtensionTags(out, "", method.QlikExtensions)
 	fmt.Fprint(out, "func (obj *", serviceName, ") ", methodName, "(ctx context.Context")
 
 	// Generate Parameters
@@ -565,6 +569,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	if method.Description != "" {
 		fmt.Fprintln(out, formatComment("", method.Description, method.Parameters))
 	}
+	printExtensionTags(out, "", method.QlikExtensions)
 	fmt.Fprint(out, "func (obj *", serviceName, ") ", methodName, "Raw(ctx context.Context")
 
 	// Generate Parameters
@@ -647,6 +652,21 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	fmt.Fprintln(out, "")
 }
 
+func printExtensionTags(out *os.File, indent string, extensions QlikExtensions) {
+
+	if extensions.QlikDeprecated1 || extensions.QlikDeprecated2 {
+		if extensions.QlikDeprecationDescription != "" {
+			fmt.Fprintln(out, indent+"// Deprecated: "+extensions.QlikDeprecationDescription)
+		} else {
+			fmt.Fprintln(out, indent+"// Deprecated: "+"This will be removed in a future version")
+		}
+	}
+	if extensions.QlikStability != "" {
+		fmt.Fprintln(out, indent+"// Stability: "+extensions.QlikStability)
+	}
+
+}
+
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
@@ -714,6 +734,7 @@ func main() {
 		if def.Description != "" {
 			fmt.Fprintln(out, formatComment("", def.Description, nil))
 		}
+		printExtensionTags(out, "", def.QlikExtensions)
 		switch def.Type {
 		case "object":
 			fmt.Fprintln(out, "type", defName, "struct {")
@@ -728,7 +749,7 @@ func main() {
 				if property.Description != "" {
 					fmt.Fprintln(out, formatComment("\t", property.Description, nil))
 				}
-
+				printExtensionTags(out, "\t", property.QlikExtensions)
 				if isNonZero(property.Default) && !hasEnumRef(property) {
 					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
@@ -758,6 +779,7 @@ func main() {
 		if service.Description != "" {
 			fmt.Fprintln(out, formatComment("", service.Description, nil))
 		}
+		printExtensionTags(out, "", service.QlikExtensions)
 		var serviceImplName = serviceName
 		fmt.Fprintln(out, "type ", serviceImplName, "struct {")
 		fmt.Fprintln(out, "\t*RemoteObject")

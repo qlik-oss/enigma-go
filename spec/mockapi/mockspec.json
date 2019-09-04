@@ -1,0 +1,168 @@
+{
+   "oappy": "1.0.0",
+   "info": {
+      "name": "enigma-go",
+      "go-package-name": "enigma",
+      "go-package-import-path": "github.com/qlik-oss/enigma-go",
+      "version": "0.0.1",
+      "description": "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
+      "license": "MIT",
+      "x-qlik-visibility": "public",
+      "x-qlik-stability": "locked"
+   },
+   "definitions": {
+      "Dial": {
+         "type": "function",
+         "params": [
+            {
+               "type": "string"
+            }
+         ],
+         "returns": [
+            {
+               "type": "mockapi.Obj"
+            }
+         ]
+      },
+      "Interface1": {
+         "description": "Comment Interface1",
+         "type": "interface",
+         "entries": {
+            "FuncInPrivateEmbeddedInterface": {
+               "type": "method"
+            },
+            "FuncInPublicEmbeddedInterface": {
+               "type": "method"
+            },
+            "InterfaceFunc1": {
+               "type": "method",
+               "params": [
+                  {
+                     "type": "string"
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "string"
+                  }
+               ]
+            }
+         }
+      },
+      "Obj": {
+         "type": "struct",
+         "entries": {
+            "FieldFunc1": {
+               "type": "function",
+               "params": [
+                  {
+                     "type": "string"
+                  },
+                  {
+                     "type": "int"
+                  },
+                  {
+                     "type": "int",
+                     "ref-type": "pointer"
+                  },
+                  {
+                     "type": "mockapi.SubObj"
+                  },
+                  {
+                     "type": "mockapi.SubObj",
+                     "ref-type": "value"
+                  },
+                  {
+                     "type": "mockapi.Interface1"
+                  }
+               ],
+               "returns": [
+                  {
+                     "type": "string"
+                  }
+               ]
+            },
+            "FieldFunc2": {
+               "type": "mockapi.Signature"
+            },
+            "FieldVar1": {
+               "type": "string"
+            },
+            "FieldVar2": {
+               "type": "int"
+            },
+            "FieldVar3": {
+               "type": "int",
+               "ref-type": "pointer"
+            },
+            "FieldVar4": {
+               "type": "mockapi.SubObj"
+            },
+            "FieldVar5": {
+               "type": "mockapi.SubObj",
+               "ref-type": "value"
+            },
+            "FieldVar6": {
+               "type": "mockapi.Interface1"
+            },
+            "FuncInPrivateEmbedded": {
+               "type": "method"
+            },
+            "PublicEmbedded": {
+               "type": "mockapi.PublicEmbedded",
+               "embedded": true
+            }
+         }
+      },
+      "PublicEmbedded": {
+         "type": "struct",
+         "entries": {
+            "FuncInPublicEmbedded": {
+               "type": "method"
+            }
+         }
+      },
+      "PublicEmbeddedInteface": {
+         "description": "Comment PublicEmbeddedInteface",
+         "type": "interface",
+         "entries": {
+            "FuncInPublicEmbeddedInterface": {
+               "type": "method"
+            }
+         }
+      },
+      "Signature": {
+         "type": "function-signature",
+         "params": [
+            {
+               "type": "string"
+            },
+            {
+               "type": "int"
+            },
+            {
+               "type": "int",
+               "ref-type": "pointer"
+            },
+            {
+               "type": "mockapi.SubObj"
+            },
+            {
+               "type": "mockapi.SubObj",
+               "ref-type": "value"
+            },
+            {
+               "type": "mockapi.Interface1"
+            }
+         ],
+         "returns": [
+            {
+               "type": "string"
+            }
+         ]
+      },
+      "SubObj": {
+         "type": "struct"
+      }
+   }
+}

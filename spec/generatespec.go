@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"regexp"
 	"strings"
 	"unicode"
 )
@@ -24,13 +25,22 @@ func isExported(name string) bool {
 	return name[0] == byte(unicode.ToUpper(rune(name[0])))
 }
 
+type DescriptionAndTags struct {
+	Descr             string `json:"description,omitempty"`
+	Stability         string `json:"x-qlik-stability,omitempty"`
+	Deprecated        bool   `json:"deprecated,omitempty"`
+	DeprecatedComment string `json:"x-qlik-deprecation-description,omitempty"`
+}
 type Info struct {
-	Name        string `json:"name,omitempty"`
-	Version     string `json:"version,omitempty"`
-	Description string `json:"description,omitempty"`
-	License     string `json:"license,omitempty"`
-	Stability   string `json:"stability,omitempty"`
-	Visibility  string `json:"x-qlik-visibility,omitempty"`
+	Name                string `json:"name,omitempty"`
+	GoPackageName       string `json:"go-package-name,omitempty"`
+	GoPackageImportPath string `json:"go-package-import-path,omitempty"`
+	Version             string `json:"version,omitempty"`
+	Description         string `json:"description,omitempty"`
+	License             string `json:"license,omitempty"`
+	Visibility          string `json:"x-qlik-visibility,omitempty"`
+	Stability           string `json:"x-qlik-stability,omitempty"`
+	Deprecated          bool   `json:"x-qlik-deprecated,omitempty"`
 }
 type Spec struct {
 	OAppy       string               `json:"oappy,omitempty"`
@@ -39,23 +49,23 @@ type Spec struct {
 }
 type SpecNode struct {
 	//Kind        string `json:"kind,omitempty"`
-	name        string
-	Description string               `json:"description,omitempty"`
-	Type        string               `json:"type,omitempty"`
-	Embedded    bool                 `json:"embedded,omitempty"`
-	Entries     map[string]*SpecNode `json:"entries,omitempty"`
-	Items       *SpecNode            `json:"items,omitempty"`
-	Generics    []*SpecNode          `json:"generics,omitempty"`
-	RefKind     string               `json:"refkind,omitempty"`
-	Params      []*SpecNode          `json:"params,omitempty"`
-	Returns     []*SpecNode          `json:"returns,omitempty"`
+	name string
+	*DescriptionAndTags
+	Type     string               `json:"type,omitempty"`
+	Embedded bool                 `json:"embedded,omitempty"`
+	Entries  map[string]*SpecNode `json:"entries,omitempty"`
+	Items    *SpecNode            `json:"items,omitempty"`
+	Generics []*SpecNode          `json:"generics,omitempty"`
+	RefType  string               `json:"ref-type,omitempty"`
+	Params   []*SpecNode          `json:"params,omitempty"`
+	Returns  []*SpecNode          `json:"returns,omitempty"`
 }
 type MethodContainer interface {
 	NumMethods() int
 	Method(i int) *types.Func
 }
 
-var descriptions map[string]string
+var descriptions map[string]*DescriptionAndTags
 
 func receiver(f *ast.FuncDecl) string {
 	if f.Recv != nil {
@@ -74,17 +84,27 @@ func receiver(f *ast.FuncDecl) string {
 }
 
 func main() {
-	astPackage, scope := compilePackage()
+	workingdir, _ := os.Getwd()
+	if strings.HasSuffix(workingdir, "/spec") {
+		specFile := generateSpec("..", "enigma")
+		_ = ioutil.WriteFile("../api-spec.json", specFile, 0644)
+	} else {
+		specFile := generateSpec(".", "enigma")
+		_ = ioutil.WriteFile("api-spec.json", specFile, 0644)
+	}
+}
+
+func generateSpec(packagePath string, packageName string) []byte {
+	astPackage, scope := compilePackage(packagePath, packageName)
 	descriptions = grabComments(astPackage)
 	spec := buildSpec(scope)
 	specFile, _ := json.MarshalIndent(spec, "", "   ")
-	_ = ioutil.WriteFile("api-spec.json", specFile, 0644)
+	return specFile
 }
 
-func compilePackage() (*ast.Package, *types.Scope) {
-	path := "."
+func compilePackage(path string, packageName string) (*ast.Package, *types.Scope) {
 	fset := token.NewFileSet()
-	pkgs, err := parser.ParseDir(fset, ".", filter, parser.ParseComments)
+	pkgs, err := parser.ParseDir(fset, path, filter, parser.ParseComments)
 	var pkg *ast.Package
 	for _, v := range pkgs {
 		pkg = v
@@ -99,15 +119,39 @@ func compilePackage() (*ast.Package, *types.Scope) {
 	conf.Error = func(err error) {
 
 	}
-	p, err := conf.Check(path, fset, files, nil)
+	p, err := conf.Check(packageName, fset, files, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
 	return pkg, p.Scope()
 }
 
-func grabComments(astPackage *ast.Package) map[string]string {
-	docz := make(map[string]string)
+var DeprecatedRE1 = regexp.MustCompile("(^|\\n)Deprecated: ([^\\n]*)")
+var StabilityRE1 = regexp.MustCompile("(^|\\n)Stability: ([^\\n]*)")
+var TrailingNewlinesRE = regexp.MustCompile("\\n*$")
+
+func splitDoc(doc string) *DescriptionAndTags {
+	node := &DescriptionAndTags{}
+	if strings.Index(doc, "Deprecated") >= 0 {
+		fmt.Println(doc)
+	}
+	if DeprecatedRE1.MatchString(doc) {
+		node.Deprecated = true
+		node.DeprecatedComment = DeprecatedRE1.ReplaceAllString(DeprecatedRE1.FindString(doc), "$2")
+	}
+
+	if StabilityRE1.MatchString(doc) {
+		node.Stability = StabilityRE1.ReplaceAllString(StabilityRE1.FindString(doc), "$2")
+	}
+
+	// Remove tags from comment
+	node.Descr = TrailingNewlinesRE.ReplaceAllString(DeprecatedRE1.ReplaceAllString(StabilityRE1.ReplaceAllString(doc, ""), ""), "")
+
+	return node
+}
+
+func grabComments(astPackage *ast.Package) map[string]*DescriptionAndTags {
+	docz := make(map[string]*DescriptionAndTags)
 	for _, file := range astPackage.Files {
 		for _, astDecl := range file.Decls {
 			switch astDecl.(type) {
@@ -117,22 +161,28 @@ func grabComments(astPackage *ast.Package) map[string]string {
 				if isExported(name) {
 					fnReceiver := receiver(f)
 					fnName := f.Name.Name
-					docz[fnReceiver+"."+fnName] = f.Doc.Text()
+					docz[fnReceiver+"."+fnName] = splitDoc(f.Doc.Text())
 				}
 			case *ast.GenDecl:
-				specs := astDecl.(*ast.GenDecl).Specs
+				genDecl := astDecl.(*ast.GenDecl)
+				specs := genDecl.Specs
 				for _, astSpec := range specs {
 					switch astSpec.(type) {
 					case *ast.TypeSpec:
 						typeSpec := astSpec.(*ast.TypeSpec)
-						docz[typeSpec.Name.Name] = typeSpec.Doc.Text()
+						if typeSpec.Doc.Text() != "" {
+							docz[typeSpec.Name.Name] = splitDoc(typeSpec.Doc.Text())
+						} else {
+							docz[typeSpec.Name.Name] = splitDoc(genDecl.Doc.Text())
+						}
+
 						switch typeSpec.Type.(type) {
 						case *ast.StructType:
 							astStruct := typeSpec.Type.(*ast.StructType)
 							for _, y := range astStruct.Fields.List {
 								if len(y.Names) > 0 {
 									fieldName := y.Names[0].Name
-									docz[typeSpec.Name.Name+"."+fieldName] = y.Doc.Text()
+									docz[typeSpec.Name.Name+"."+fieldName] = splitDoc(y.Doc.Text())
 								}
 
 							}
@@ -141,7 +191,7 @@ func grabComments(astPackage *ast.Package) map[string]string {
 							for _, y := range astInterface.Methods.List {
 								if len(y.Names) > 0 {
 									fieldName := y.Names[0].Name
-									docz[typeSpec.Name.Name+"."+fieldName] = y.Doc.Text()
+									docz[typeSpec.Name.Name+"."+fieldName] = splitDoc(y.Doc.Text())
 								}
 							}
 						case *ast.ArrayType:
@@ -156,7 +206,6 @@ func grabComments(astPackage *ast.Package) map[string]string {
 					case *ast.ImportSpec:
 					default:
 						panic("MISSED ON LEVEL 2:" + reflect.TypeOf(astSpec).String())
-
 					}
 				}
 			default:
@@ -171,13 +220,14 @@ func buildSpec(scope *types.Scope) Spec {
 	spec := Spec{
 		OAppy: "1.0.0",
 		Info: Info{
-			Name:       "enigma-go",
-			Version:    "0.0.1",
-			Stability:  "experimental",
-			Visibility: "public",
-			License:    "MIT",
-
-			Description: "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
+			Name:                "enigma-go",
+			GoPackageImportPath: "github.com/qlik-oss/enigma-go",
+			GoPackageName:       "enigma",
+			Version:             "0.0.1",
+			Stability:           "locked",
+			Visibility:          "public",
+			License:             "MIT",
+			Description:         "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
 		},
 		Definitions: make(map[string]*SpecNode),
 	}
@@ -190,13 +240,13 @@ func buildSpec(scope *types.Scope) Spec {
 				underlying := namedType.Underlying()
 				specNode := translateTypeUnified(name, underlying)
 				fillInMethods(name, namedType, specNode)
-				specNode.Description = descriptions[name]
+				specNode.DescriptionAndTags = descriptions[name]
 				spec.Definitions[name] = specNode
 			case *types.Signature:
 				signature := o.Type().(*types.Signature)
 				specNode := translateTypeUnified("", signature)
 				specNode.Type = "function"
-				specNode.Description = descriptions[name]
+				specNode.DescriptionAndTags = descriptions[name]
 				spec.Definitions[o.Name()] = specNode
 			default:
 				panic("Unknown otype")
@@ -235,7 +285,7 @@ func translateTypeUnified(docNamespace string, typ types.Type) *SpecNode {
 			Type: actualName,
 		}
 		if defaultIsPointer(namedType.Underlying()) {
-			result.RefKind = "value"
+			result.RefType = "value"
 		}
 		return result
 	case *types.Basic:
@@ -254,9 +304,9 @@ func translateTypeUnified(docNamespace string, typ types.Type) *SpecNode {
 		pointerType := typ.(*types.Pointer)
 		result := translateTypeUnified(docNamespace, pointerType.Elem())
 		if defaultIsPointer(pointerType.Elem().Underlying()) {
-			result.RefKind = ""
+			result.RefType = ""
 		} else {
-			result.RefKind = "pointer"
+			result.RefType = "pointer"
 		}
 		return result
 	case *types.Chan:
@@ -309,7 +359,7 @@ func fillInStructFields(docNamespace string, struktType *types.Struct, clazz *Sp
 				mt.Type = "function"
 			}
 
-			mt.Description = descriptions[docNamespace+"."+m.Name()]
+			mt.DescriptionAndTags = descriptions[docNamespace+"."+m.Name()]
 			clazz.Entries[m.Name()] = mt
 		}
 	}
@@ -322,7 +372,7 @@ func fillInMethods(docNamespace string, namedType MethodContainer, clazz *SpecNo
 		if isExported(m.Name()) {
 			methodSpec := translateTypeUnified(docNamespace, m.Type())
 			methodSpec.Type = "method"
-			methodSpec.Description = descriptions[docNamespace+"."+m.Name()]
+			methodSpec.DescriptionAndTags = descriptions[docNamespace+"."+m.Name()]
 
 			if clazz.Entries == nil {
 				clazz.Entries = make(map[string]*SpecNode)
