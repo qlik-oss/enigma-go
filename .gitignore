@@ -2,3 +2,5 @@ vendor
 socket.traffic
 .idea
 .DS_Store
+coverage
+.vscode

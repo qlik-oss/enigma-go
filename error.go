@@ -2,6 +2,7 @@ package enigma
 
 import (
 	"fmt"
+	"strings"
 )
 
 type (
@@ -21,7 +22,12 @@ type (
 )
 
 func (err *qixError) Error() string {
-	return fmt.Sprintf("%s: %s (%d)", err.ErrorParameter, err.ErrorMessage, err.ErrorCode)
+	errorType := errorCodeLookup(err.ErrorCode)
+	if errorType[:7] == "LOCERR_" {
+		errorType = errorType[7:]
+	}
+	errorType = strings.ReplaceAll(errorType, "_", " ")
+	return fmt.Sprintf("%s: %s (%d %s)", err.ErrorParameter, err.ErrorMessage, err.ErrorCode, errorType)
 }
 
 func (err *qixError) Code() int {

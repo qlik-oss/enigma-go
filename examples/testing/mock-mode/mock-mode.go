@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go"
 	"path"
 	"runtime"
+
+	"github.com/qlik-oss/enigma-go"
 )
 
 const script = `
