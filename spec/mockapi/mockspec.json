@@ -58,6 +58,16 @@
          "x-qlik-stability": "Experimental",
          "type": "struct"
       },
+      "Float32": {
+         "description": "Alias for float32 so we can add some methods",
+         "type": "float32",
+         "entries": {
+            "AdditionalMethodOnFloat": {
+               "description": "Method on Float32",
+               "type": "method"
+            }
+         }
+      },
       "Interface1": {
          "description": "Comment Interface1",
          "type": "interface",
@@ -84,12 +94,14 @@
          }
       },
       "NamedSlice": {
+         "description": "Comment for NamedSlice",
          "type": "slice",
          "items": {
             "type": "mockapi.SubObj"
          }
       },
       "Obj": {
+         "description": "Comment for Obj",
          "type": "struct",
          "entries": {
             "Chan1": {
@@ -148,6 +160,7 @@
                "type": "mockapi.DepObj"
             },
             "FieldFunc1": {
+               "description": "Comment for FieldFunc",
                "type": "function",
                "params": [
                   {
@@ -270,7 +283,47 @@
                "type": "mockapi.Signature"
             },
             "FuncInPrivateEmbedded": {
+               "description": "Comment for FuncInPrivateEmbedded",
                "type": "method"
+            },
+            "Member": {
+               "description": "Comment for Member",
+               "type": "method",
+               "params": [
+                  {
+                     "type": "string"
+                  },
+                  {
+                     "type": "int"
+                  },
+                  {
+                     "type": "int",
+                     "ref-type": "pointer"
+                  },
+                  {
+                     "type": "mockapi.SubObj"
+                  },
+                  {
+                     "type": "mockapi.SubObj",
+                     "ref-type": "value"
+                  },
+                  {
+                     "type": "mockapi.Interface1"
+                  },
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "mockapi.SubObj"
+                     }
+                  },
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "mockapi.SubObj",
+                        "ref-type": "value"
+                     }
+                  }
+               ]
             },
             "MemberNonPointerReceiver": {
                "type": "method"
@@ -319,14 +372,17 @@
                "ref-type": "value"
             },
             "Var6": {
+               "description": "Comment for variable",
                "type": "mockapi.Interface1"
             }
          }
       },
       "PublicEmbedded": {
+         "description": "Comment for PublicEmbedded",
          "type": "struct",
          "entries": {
             "FuncInPublicEmbedded": {
+               "description": "Comment for FuncInPublicEmbedded",
                "type": "method"
             }
          }
@@ -341,6 +397,7 @@
          }
       },
       "Signature": {
+         "description": "Comment for signature",
          "type": "function-signature",
          "params": [
             {
