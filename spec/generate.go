@@ -63,19 +63,19 @@ type MethodContainer interface {
 var descriptions map[string]*DescriptionAndTags
 
 func receiver(f *ast.FuncDecl) string {
-  // We could use ast.Inspect. It traverses the AST depth-first from the
-  // starting node as long as the provided function return true.
-  // An implementation would look like this.
-  var recv string
-  if f.Recv != nil {
-    ast.Inspect(f.Recv, func (n ast.Node) bool {
-      if id, ok := n.(*ast.Ident); ok {
-        recv = id.Name
-        return false
-      }
-      return true
-    })
-  }
+	// We could use ast.Inspect. It traverses the AST depth-first from the
+	// starting node as long as the provided function return true.
+	// An implementation would look like this.
+	var recv string
+	if f.Recv != nil {
+		ast.Inspect(f.Recv, func(n ast.Node) bool {
+			if id, ok := n.(*ast.Ident); ok {
+				recv = id.Name
+				return false
+			}
+			return true
+		})
+	}
 	return recv
 }
 
@@ -115,23 +115,26 @@ func compilePackage(path string, packageName string) (*ast.Package, *types.Scope
 	fset := token.NewFileSet()
 	pkgs, err := parser.ParseDir(fset, path, filter, parser.ParseComments)
 	var pkg *ast.Package
-  // There should only be one package in the path. Panic otherwise.
-  if len(pkgs) > 1 {
-    panic("Too many packages")
-  }
-  // Extract the only present package from the map[string]*ast.Package.
-  // Might be a better way of doing this?
+	// There should only be one package in the path. Panic otherwise.
+	if len(pkgs) > 1 {
+		panic("Too many packages")
+	}
+	// Extract the only present package from the map[string]*ast.Package.
+	// Might be a better way of doing this?
 	for _, v := range pkgs {
 		pkg = v
 	}
-  // Convert map[string]*ast.File to slice.
+	// Convert map[string]*ast.File to slice.
 	files := make([]*ast.File, len(pkg.Files))
-  i := 0
+	i := 0
 	for _, file := range pkg.Files {
 		files[i] = file
-    i++
+		i++
 	}
-	conf := &types.Config{Importer: importer.Default(), Error: func(err error) {}}
+	conf := &types.Config{
+		Importer: importer.Default(),
+		Error: func(err error) {},
+	}
 	p, err := conf.Check(packageName, fset, files, nil)
 	if err != nil {
 		fmt.Println(err)
