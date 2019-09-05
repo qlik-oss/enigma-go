@@ -1,16 +1,34 @@
 {
-   "oappy": "1.0.0",
+   "oappy": "0.0.1",
    "info": {
-      "name": "enigma-go",
-      "go-package-name": "enigma",
-      "go-package-import-path": "github.com/qlik-oss/enigma-go",
-      "version": "0.0.1",
-      "description": "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
+      "name": "mockapi",
+      "go-package-name": "mockapi",
+      "go-package-import-path": "github.com/qlik-oss/enigma-go/spec/mockapi",
+      "version": "no particular version",
+      "description": "mockapi is a package used to verify the spec generator itself",
       "license": "MIT",
       "x-qlik-visibility": "public",
       "x-qlik-stability": "locked"
    },
    "definitions": {
+      "DepObj": {
+         "deprecated": true,
+         "x-qlik-deprecation-description": "This will be removed in a future version",
+         "type": "struct",
+         "entries": {
+            "DepMember1": {
+               "deprecated": true,
+               "x-qlik-deprecation-description": "This will be removed in a future version",
+               "type": "method"
+            },
+            "DepMember2": {
+               "description": "Comment preceding deprecation",
+               "deprecated": true,
+               "x-qlik-deprecation-description": "This will be removed in a future version",
+               "type": "method"
+            }
+         }
+      },
       "Dial": {
          "type": "function",
          "params": [
@@ -23,6 +41,22 @@
                "type": "mockapi.Obj"
             }
          ]
+      },
+      "ExperimentalObject1": {
+         "x-qlik-stability": "Experimental",
+         "type": "struct",
+         "entries": {
+            "ExpMember1": {
+               "description": "Experimental comment",
+               "x-qlik-stability": "Experimental",
+               "type": "method"
+            }
+         }
+      },
+      "ExperimentalObject2": {
+         "description": "Experimental comment",
+         "x-qlik-stability": "Experimental",
+         "type": "struct"
       },
       "Interface1": {
          "description": "Comment Interface1",
@@ -49,9 +83,53 @@
             }
          }
       },
+      "NamedSlice": {
+         "type": "slice",
+         "items": {
+            "type": "mockapi.SubObj"
+         }
+      },
       "Obj": {
          "type": "struct",
          "entries": {
+            "Chan1": {
+               "type": "chan",
+               "items": {
+                  "type": "interface"
+               }
+            },
+            "Chan2": {
+               "type": "chan",
+               "items": {
+                  "type": "struct"
+               }
+            },
+            "Chan3": {
+               "type": "chan",
+               "items": {
+                  "type": "struct",
+                  "entries": {
+                     "A": {
+                        "type": "string"
+                     },
+                     "B": {
+                        "type": "string"
+                     }
+                  }
+               }
+            },
+            "Chan4": {
+               "type": "chan",
+               "items": {
+                  "type": "struct"
+               }
+            },
+            "Chan5": {
+               "type": "chan",
+               "items": {
+                  "type": "mockapi.SubObj"
+               }
+            },
             "FieldFunc1": {
                "type": "function",
                "params": [
@@ -108,9 +186,27 @@
             "FuncInPrivateEmbedded": {
                "type": "method"
             },
+            "MemberNonPointerReceiver": {
+               "type": "method"
+            },
             "PublicEmbedded": {
                "type": "mockapi.PublicEmbedded",
                "embedded": true
+            },
+            "Slice1": {
+               "type": "slice",
+               "items": {
+                  "type": "mockapi.SubObj"
+               }
+            },
+            "Slice2": {
+               "type": "slice",
+               "items": {
+                  "type": "int"
+               }
+            },
+            "Slice3": {
+               "type": "mockapi.NamedSlice"
             }
          }
       },

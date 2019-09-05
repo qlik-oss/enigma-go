@@ -1,10 +1,10 @@
 {
-   "oappy": "1.0.0",
+   "oappy": "0.0.1",
    "info": {
-      "name": "enigma-go",
+      "name": "enigma",
       "go-package-name": "enigma",
       "go-package-import-path": "github.com/qlik-oss/enigma-go",
-      "version": "0.0.1",
+      "version": "devbuild",
       "description": "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
       "license": "MIT",
       "x-qlik-visibility": "public",
