@@ -659,7 +659,7 @@ func printExtensionTags(out *os.File, indent string, extensions QlikExtensions) 
 		if extensions.QlikDeprecationDescription != "" {
 			fmt.Fprintln(out, indent+"// Deprecated: "+extensions.QlikDeprecationDescription)
 		} else {
-			fmt.Fprintln(out, indent+"// Deprecated: "+"This will be removed in a future version")
+			fmt.Fprintln(out, indent+"// Deprecated: This will be removed in a future version")
 		}
 	}
 	if extensions.QlikStability != "" {
