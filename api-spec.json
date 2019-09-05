@@ -14132,7 +14132,8 @@
                   {
                      "type": "chan",
                      "items": {
-                        "type": "struct"
+                        "type": "struct",
+                        "ref-type": "value"
                      }
                   }
                ]
@@ -14170,7 +14171,8 @@
                   {
                      "type": "chan",
                      "items": {
-                        "type": "struct"
+                        "type": "struct",
+                        "ref-type": "value"
                      }
                   }
                ]
@@ -14186,7 +14188,8 @@
                   {
                      "type": "chan",
                      "items": {
-                        "type": "struct"
+                        "type": "struct",
+                        "ref-type": "value"
                      }
                   }
                ]
@@ -14210,7 +14213,8 @@
                   {
                      "type": "chan",
                      "items": {
-                        "type": "struct"
+                        "type": "struct",
+                        "ref-type": "value"
                      }
                   }
                ]

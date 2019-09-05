@@ -93,15 +93,13 @@
          "type": "struct",
          "entries": {
             "Chan1": {
-               "type": "chan",
-               "items": {
-                  "type": "interface"
-               }
+               "type": "interface"
             },
             "Chan2": {
                "type": "chan",
                "items": {
-                  "type": "struct"
+                  "type": "struct",
+                  "ref-type": "value"
                }
             },
             "Chan3": {
@@ -115,13 +113,22 @@
                      "B": {
                         "type": "string"
                      }
-                  }
+                  },
+                  "ref-type": "value"
                }
             },
             "Chan4": {
                "type": "chan",
                "items": {
-                  "type": "struct"
+                  "type": "struct",
+                  "entries": {
+                     "A": {
+                        "type": "string"
+                     },
+                     "B": {
+                        "type": "string"
+                     }
+                  }
                }
             },
             "Chan5": {
@@ -130,9 +137,22 @@
                   "type": "mockapi.SubObj"
                }
             },
+            "Chan6": {
+               "type": "chan",
+               "items": {
+                  "type": "mockapi.SubObj",
+                  "ref-type": "value"
+               }
+            },
+            "DepObj": {
+               "type": "mockapi.DepObj"
+            },
             "FieldFunc1": {
                "type": "function",
                "params": [
+                  {
+                     "type": "mockapi.Signature"
+                  },
                   {
                      "type": "string"
                   },
@@ -152,36 +172,102 @@
                   },
                   {
                      "type": "mockapi.Interface1"
+                  },
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "mockapi.SubObj"
+                     }
+                  },
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "mockapi.SubObj",
+                        "ref-type": "value"
+                     }
+                  },
+                  {
+                     "type": "slice",
+                     "items": {
+                        "type": "int"
+                     }
+                  },
+                  {
+                     "type": "mockapi.NamedSlice"
+                  },
+                  {
+                     "type": "interface"
+                  },
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "struct",
+                        "ref-type": "value"
+                     }
+                  },
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "struct",
+                        "entries": {
+                           "A": {
+                              "type": "string"
+                           },
+                           "B": {
+                              "type": "string"
+                           }
+                        },
+                        "ref-type": "value"
+                     }
+                  },
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "struct",
+                        "entries": {
+                           "A": {
+                              "type": "string"
+                           },
+                           "B": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  },
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "mockapi.SubObj"
+                     }
+                  },
+                  {
+                     "type": "chan",
+                     "items": {
+                        "type": "mockapi.SubObj",
+                        "ref-type": "value"
+                     }
+                  },
+                  {
+                     "type": "mockapi.DepObj"
                   }
                ],
                "returns": [
                   {
                      "type": "string"
+                  },
+                  {
+                     "type": "mockapi.Obj"
+                  },
+                  {
+                     "type": "net.Conn"
+                  },
+                  {
+                     "type": "error"
                   }
                ]
             },
-            "FieldFunc2": {
+            "Func2": {
                "type": "mockapi.Signature"
-            },
-            "FieldVar1": {
-               "type": "string"
-            },
-            "FieldVar2": {
-               "type": "int"
-            },
-            "FieldVar3": {
-               "type": "int",
-               "ref-type": "pointer"
-            },
-            "FieldVar4": {
-               "type": "mockapi.SubObj"
-            },
-            "FieldVar5": {
-               "type": "mockapi.SubObj",
-               "ref-type": "value"
-            },
-            "FieldVar6": {
-               "type": "mockapi.Interface1"
             },
             "FuncInPrivateEmbedded": {
                "type": "method"
@@ -202,11 +288,38 @@
             "Slice2": {
                "type": "slice",
                "items": {
-                  "type": "int"
+                  "type": "mockapi.SubObj",
+                  "ref-type": "value"
                }
             },
             "Slice3": {
+               "type": "slice",
+               "items": {
+                  "type": "int"
+               }
+            },
+            "Slice4": {
                "type": "mockapi.NamedSlice"
+            },
+            "Var1": {
+               "type": "string"
+            },
+            "Var2": {
+               "type": "int"
+            },
+            "Var3": {
+               "type": "int",
+               "ref-type": "pointer"
+            },
+            "Var4": {
+               "type": "mockapi.SubObj"
+            },
+            "Var5": {
+               "type": "mockapi.SubObj",
+               "ref-type": "value"
+            },
+            "Var6": {
+               "type": "mockapi.Interface1"
             }
          }
       },

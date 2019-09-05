@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"go/ast"
 	"go/importer"
@@ -44,11 +45,10 @@ type Info struct {
 }
 type Spec struct {
 	OAppy       string               `json:"oappy,omitempty"`
-	Info        Info                 `json:"info,omitempty"`
+	Info        *Info                `json:"info,omitempty"`
 	Definitions map[string]*SpecNode `json:"definitions,omitempty"`
 }
 type SpecNode struct {
-	//Kind        string `json:"kind,omitempty"`
 	name string
 	*DescriptionAndTags
 	Type     string               `json:"type,omitempty"`
@@ -83,21 +83,34 @@ func receiver(f *ast.FuncDecl) string {
 	return "enigma"
 }
 
+var version = flag.String("version", "devbuild", "Specification version")
+
 func main() {
+	info := &Info{
+		Name:                "enigma",
+		GoPackageImportPath: "github.com/qlik-oss/enigma-go",
+		GoPackageName:       "enigma",
+		Version:             *version,
+		Stability:           "locked",
+		Visibility:          "public",
+		License:             "MIT",
+		Description:         "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
+	}
+
 	workingdir, _ := os.Getwd()
 	if strings.HasSuffix(workingdir, "/spec") {
-		specFile := generateSpec("..", "enigma")
+		specFile := generateSpec("..", info)
 		_ = ioutil.WriteFile("../api-spec.json", specFile, 0644)
 	} else {
-		specFile := generateSpec(".", "enigma")
+		specFile := generateSpec(".", info)
 		_ = ioutil.WriteFile("api-spec.json", specFile, 0644)
 	}
 }
 
-func generateSpec(packagePath string, packageName string) []byte {
-	astPackage, scope := compilePackage(packagePath, packageName)
+func generateSpec(packagePath string, info *Info) []byte {
+	astPackage, scope := compilePackage(packagePath, info.GoPackageName)
 	descriptions = grabComments(astPackage)
-	spec := buildSpec(scope)
+	spec := buildSpec(scope, info)
 	specFile, _ := json.MarshalIndent(spec, "", "   ")
 	return specFile
 }
@@ -175,7 +188,6 @@ func grabComments(astPackage *ast.Package) map[string]*DescriptionAndTags {
 						} else {
 							docz[typeSpec.Name.Name] = splitDoc(genDecl.Doc.Text())
 						}
-
 						switch typeSpec.Type.(type) {
 						case *ast.StructType:
 							astStruct := typeSpec.Type.(*ast.StructType)
@@ -184,7 +196,6 @@ func grabComments(astPackage *ast.Package) map[string]*DescriptionAndTags {
 									fieldName := y.Names[0].Name
 									docz[typeSpec.Name.Name+"."+fieldName] = splitDoc(y.Doc.Text())
 								}
-
 							}
 						case *ast.InterfaceType:
 							astInterface := typeSpec.Type.(*ast.InterfaceType)
@@ -201,55 +212,49 @@ func grabComments(astPackage *ast.Package) map[string]*DescriptionAndTags {
 						case *ast.FuncType:
 							//No extra doc needed
 						default:
-							panic("Unknown doc decl: ")
+							panic("Unknown typeSpec: " + reflect.TypeOf(typeSpec.Type).String())
 						}
 					case *ast.ImportSpec:
 					default:
-						panic("MISSED ON LEVEL 2:" + reflect.TypeOf(astSpec).String())
+						panic("Unknown astSpec: " + reflect.TypeOf(astSpec).String())
 					}
 				}
 			default:
-				panic("MISSED ON LEVEL 1:" + reflect.TypeOf(astDecl).String())
+				panic("Unknown astDecl:" + reflect.TypeOf(astDecl).String())
 			}
 		}
 	}
 	return docz
 }
 
-func buildSpec(scope *types.Scope) Spec {
+func buildSpec(scope *types.Scope, info *Info) Spec {
 	spec := Spec{
-		OAppy: "1.0.0",
-		Info: Info{
-			Name:                "enigma-go",
-			GoPackageImportPath: "github.com/qlik-oss/enigma-go",
-			GoPackageName:       "enigma",
-			Version:             "0.0.1",
-			Stability:           "locked",
-			Visibility:          "public",
-			License:             "MIT",
-			Description:         "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
-		},
+		OAppy:       "0.0.1",
+		Info:        info,
 		Definitions: make(map[string]*SpecNode),
 	}
 	for _, name := range scope.Names() {
-		o := scope.Lookup(name)
-		if o.Exported() {
-			switch o.Type().(type) {
+		namedLangEntity := scope.Lookup(name)
+		if namedLangEntity.Exported() {
+			switch namedLangEntity.Type().(type) {
 			case *types.Named:
-				namedType := o.Type().(*types.Named)
+				namedType := namedLangEntity.Type().(*types.Named)
 				underlying := namedType.Underlying()
 				specNode := translateTypeUnified(name, underlying)
+				if defaultIsPointer(underlying) && specNode.RefType == "value" {
+					specNode.RefType = "" //Reset the value RefType for types where value is not default behaviour
+				}
 				fillInMethods(name, namedType, specNode)
 				specNode.DescriptionAndTags = descriptions[name]
 				spec.Definitions[name] = specNode
 			case *types.Signature:
-				signature := o.Type().(*types.Signature)
+				signature := namedLangEntity.Type().(*types.Signature)
 				specNode := translateTypeUnified("", signature)
 				specNode.Type = "function"
 				specNode.DescriptionAndTags = descriptions[name]
-				spec.Definitions[o.Name()] = specNode
+				spec.Definitions[namedLangEntity.Name()] = specNode
 			default:
-				panic("Unknown otype")
+				panic("Unknown namedLangEntity: " + reflect.TypeOf(namedLangEntity.Type()).String())
 			}
 		}
 	}
@@ -285,6 +290,9 @@ func translateTypeUnified(docNamespace string, typ types.Type) *SpecNode {
 			Type: actualName,
 		}
 		if defaultIsPointer(namedType.Underlying()) {
+			// For types where default ref type is pointer set the ref type to "value". This allows it to be
+			// reset to "" by the *types.Pointer case below. Leaving only the non-pointer uses to "value"
+			// It is also reset to "" in all named language entities.
 			result.RefType = "value"
 		}
 		return result
@@ -329,6 +337,7 @@ func translateTypeUnified(docNamespace string, typ types.Type) *SpecNode {
 		result := &SpecNode{
 			Type:    "struct",
 			Entries: make(map[string]*SpecNode),
+			RefType: "value",
 		}
 		fillInStructFields(docNamespace, structType, result)
 		fillInEmbeddedMethods(structType, result)
@@ -342,7 +351,7 @@ func translateTypeUnified(docNamespace string, typ types.Type) *SpecNode {
 		fillInMethods(docNamespace, interfaceType, interfaceSpec)
 		return interfaceSpec
 	default:
-		panic("Unknown type")
+		panic("Unknown type: " + reflect.TypeOf(typ).String())
 	}
 }
 
@@ -412,10 +421,7 @@ func fillInEmbeddedMethods(typ types.Type, clazz *SpecNode) {
 func getNamedName(namedType *types.Named) string {
 	if namedType.Obj().Pkg() == nil {
 		return namedType.Obj().Name()
-	} else if namedType.Obj().Pkg().Path() == "." {
-		return "#/definitions/" + namedType.Obj().Name()
 	} else {
 		return "" + namedType.Obj().Pkg().Path() + "." + namedType.Obj().Name()
 	}
-	return ""
 }
