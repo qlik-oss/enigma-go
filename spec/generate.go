@@ -133,7 +133,7 @@ func compilePackage(path string, packageName string) (*ast.Package, *types.Scope
 	}
 	conf := &types.Config{
 		Importer: importer.Default(),
-		Error: func(err error) {},
+		Error:    func(err error) {},
 	}
 	p, err := conf.Check(packageName, fset, files, nil)
 	if err != nil {
