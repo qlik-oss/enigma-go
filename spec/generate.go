@@ -14,16 +14,11 @@ import (
 	"reflect"
 	"regexp"
 	"strings"
-	"unicode"
 )
 
 // filter is used to filter out go test files.
 func filter(fi os.FileInfo) bool {
 	return !strings.Contains(fi.Name(), "test")
-}
-
-func isExported(name string) bool {
-	return name[0] == byte(unicode.ToUpper(rune(name[0])))
 }
 
 type DescriptionAndTags struct {
@@ -77,10 +72,10 @@ func receiver(f *ast.FuncDecl) string {
 			t := f.Recv.List[0].Type.(*ast.Ident)
 			return "" + t.Name
 		default:
-			return "unknown"
+			panic("Unknown case in receiver finding")
 		}
 	}
-	return "enigma"
+	return ""
 }
 
 var version = flag.String("version", "devbuild", "Specification version")
@@ -140,9 +135,6 @@ var TrailingNewlinesRE = regexp.MustCompile("\\n*$")
 
 func splitDoc(doc string) *DescriptionAndTags {
 	node := &DescriptionAndTags{}
-	if strings.Index(doc, "Deprecated") >= 0 {
-		fmt.Println(doc)
-	}
 	if DeprecatedRE1.MatchString(doc) {
 		node.Deprecated = true
 		node.DeprecatedComment = DeprecatedRE1.ReplaceAllString(DeprecatedRE1.FindString(doc), "$2")
@@ -165,12 +157,9 @@ func grabComments(astPackage *ast.Package) map[string]*DescriptionAndTags {
 			switch astDecl.(type) {
 			case *ast.FuncDecl:
 				f := astDecl.(*ast.FuncDecl)
-				name := f.Name.Name
-				if isExported(name) {
-					fnReceiver := receiver(f)
-					fnName := f.Name.Name
-					docz[fnReceiver+"."+fnName] = splitDoc(f.Doc.Text())
-				}
+				fnReceiver := receiver(f)
+				fnName := f.Name.Name
+				docz[fnReceiver+"."+fnName] = splitDoc(f.Doc.Text())
 			case *ast.GenDecl:
 				genDecl := astDecl.(*ast.GenDecl)
 				specs := genDecl.Specs
@@ -354,7 +343,7 @@ func fillInStructFields(docNamespace string, struktType *types.Struct, clazz *Sp
 	fieldCount := struktType.NumFields()
 	for i := 0; i < fieldCount; i++ {
 		m := struktType.Field(i)
-		if isExported(m.Name()) {
+		if m.Exported() {
 			mt := translateTypeUnified(docNamespace, m.Type())
 			if m.Embedded() {
 				mt.Embedded = true
@@ -373,7 +362,7 @@ func fillInMethods(docNamespace string, namedType MethodContainer, clazz *SpecNo
 	methodCount := namedType.NumMethods()
 	for i := 0; i < methodCount; i++ {
 		m := namedType.Method(i)
-		if isExported(m.Name()) {
+		if m.Exported() {
 			methodSpec := translateTypeUnified(docNamespace, m.Type())
 			methodSpec.Type = "method"
 			methodSpec.DescriptionAndTags = descriptions[docNamespace+"."+m.Name()]
