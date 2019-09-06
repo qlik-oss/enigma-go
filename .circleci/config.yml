@@ -18,7 +18,7 @@ aliases:
       ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
       ENGINE_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ENGINE_CONTAINER_ID)
       docker cp ./examples/reload/monitor-progress/testdata/ $ENGINE_CONTAINER_ID:/testdata
-      TEST_CONTAINER_ID=$(docker run -e "CGO_ENABLED=0" -d golang:1.12-alpine tail -f /dev/null)
+      TEST_CONTAINER_ID=$(docker run -e "CGO_ENABLED=0" -d golang:$GOLANG_VERSION-alpine tail -f /dev/null)
       docker cp /go/pkg $TEST_CONTAINER_ID:/go/pkg
       docker cp . $TEST_CONTAINER_ID:/enigma-go
       docker exec $TEST_CONTAINER_ID /bin/sh -c 'apk update && apk add --no-cache socat bash'
@@ -31,6 +31,8 @@ jobs:
   golang-1.11:
     docker:
       - image: circleci/golang:1.11
+    environment:
+      GOLANG_VERSION: "1.11"
     steps:
       - checkout
       - restore_cache:
@@ -52,6 +54,8 @@ jobs:
   golang-1.12:
     docker:
       - image: circleci/golang:1.12
+    environment:
+      GOLANG_VERSION: "1.12"
     steps:
       - checkout
       - restore_cache:
@@ -73,6 +77,8 @@ jobs:
   golang-1.13:
     docker:
       - image: circleci/golang:1.13
+    environment:
+      GOLANG_VERSION: "1.13"
     steps:
       - checkout
       - restore_cache:
