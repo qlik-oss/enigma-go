@@ -1,6 +1,8 @@
 package mockapi
 
-import "net"
+import (
+	"net/http/httputil"
+)
 
 func Dial(param1 string) *Obj {
 	return nil
@@ -54,7 +56,7 @@ type Obj struct {
 		chan6 chan SubObj,
 		depObj *DepObj,
 
-	) (string, *Obj, net.Conn, error)
+	) (string, *Obj, httputil.BufferPool, error)
 	Func2 Signature
 	Var1  string
 	Var2  int

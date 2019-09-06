@@ -16,8 +16,6 @@ func Test(t *testing.T) {
 		GoPackageImportPath: "github.com/qlik-oss/enigma-go/spec/mockapi",
 		GoPackageName:       "mockapi",
 		Version:             "no particular version",
-		Stability:           "locked",
-		Visibility:          "public",
 		License:             "MIT",
 		Description:         "mockapi is a package used to verify the spec generator itself",
 	}

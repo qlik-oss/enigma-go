@@ -34,17 +34,16 @@ type Info struct {
 	Version             string `json:"version,omitempty"`
 	Description         string `json:"description,omitempty"`
 	License             string `json:"license,omitempty"`
-	Visibility          string `json:"x-qlik-visibility,omitempty"`
-	Stability           string `json:"x-qlik-stability,omitempty"`
 	Deprecated          bool   `json:"x-qlik-deprecated,omitempty"`
 }
 type Spec struct {
 	OAppy       string               `json:"oappy,omitempty"`
 	Info        *Info                `json:"info,omitempty"`
+	Visibility  string               `json:"x-qlik-visibility,omitempty"`
+	Stability   string               `json:"x-qlik-stability,omitempty"`
 	Definitions map[string]*SpecNode `json:"definitions,omitempty"`
 }
 type SpecNode struct {
-	name string
 	*DescriptionAndTags
 	Type     string               `json:"type,omitempty"`
 	Embedded bool                 `json:"embedded,omitempty"`
@@ -80,6 +79,7 @@ func receiver(f *ast.FuncDecl) string {
 }
 
 var version = flag.String("version", "devbuild", "Specification version")
+var currentPackage string
 
 func main() {
 	info := &Info{
@@ -87,8 +87,6 @@ func main() {
 		GoPackageImportPath: "github.com/qlik-oss/enigma-go",
 		GoPackageName:       "enigma",
 		Version:             *version,
-		Stability:           "locked",
-		Visibility:          "public",
 		License:             "MIT",
 		Description:         "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
 	}
@@ -105,9 +103,10 @@ func main() {
 
 func generateSpec(packagePath string, info *Info) []byte {
 	astPackage, scope := compilePackage(packagePath, info.GoPackageName)
+	currentPackage = info.GoPackageName
 	descriptions = grabComments(astPackage)
 	spec := buildSpec(scope, info)
-	specFile, _ := json.MarshalIndent(spec, "", "   ")
+	specFile, _ := json.MarshalIndent(spec, "", "  ")
 	return specFile
 }
 
@@ -228,6 +227,8 @@ func buildSpec(scope *types.Scope, info *Info) Spec {
 	spec := Spec{
 		OAppy:       "0.0.1",
 		Info:        info,
+		Stability:   "locked",
+		Visibility:  "public",
 		Definitions: make(map[string]*SpecNode),
 	}
 	for _, name := range scope.Names() {
@@ -418,7 +419,10 @@ func fillInEmbeddedMethods(typ types.Type, clazz *SpecNode) {
 func getNamedName(namedType *types.Named) string {
 	if namedType.Obj().Pkg() == nil {
 		return namedType.Obj().Name()
-	} else {
-		return "" + namedType.Obj().Pkg().Path() + "." + namedType.Obj().Name()
 	}
+	pkg := namedType.Obj().Pkg().Path()
+	if pkg == currentPackage {
+		return "#/definitions/" + namedType.Obj().Name()
+	}
+	return "https://golang.org/pkg/" + namedType.Obj().Pkg().Path() + "/" + namedType.Obj().Name()
 }
