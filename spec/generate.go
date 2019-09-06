@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
+  "go/doc"
 	"go/importer"
 	"go/parser"
 	"go/token"
@@ -62,9 +63,6 @@ type methodContainer interface {
 var descriptions map[string]*descriptionAndTags
 
 func receiver(f *ast.FuncDecl) string {
-	// We could use ast.Inspect. It traverses the AST depth-first from the
-	// starting node as long as the provided function return true.
-	// An implementation would look like this.
 	var recv string
 	if f.Recv != nil {
 		ast.Inspect(f.Recv, func(n ast.Node) bool {
@@ -104,8 +102,8 @@ func main() {
 func generateSpec(packagePath string, info *info) []byte {
 	astPackage, scope := compilePackage(packagePath, info.GoPackageName)
 	currentPackage = info.GoPackageName
-	descriptions = grabComments(astPackage)
-	spec := buildSpec(scope, info)
+	//descriptions = grabComments(astPackage)
+	spec := buildSpec(scope, info, astPackage)
 	specFile, _ := json.MarshalIndent(spec, "", "  ")
 	return specFile
 }
@@ -131,7 +129,7 @@ func compilePackage(path string, packageName string) (*ast.Package, *types.Scope
 		i++
 	}
 	conf := &types.Config{
-		Importer: importer.Default(),
+		Importer: importer.ForCompiler(fset, "source", nil),
 		Error:    func(err error) {},
 	}
 	p, err := conf.Check(packageName, fset, files, nil)
@@ -162,6 +160,7 @@ func splitDoc(doc string) *descriptionAndTags {
 	return node
 }
 
+/*
 func grabComments(astPackage *ast.Package) map[string]*descriptionAndTags {
 	docz := make(map[string]*descriptionAndTags)
 	for _, file := range astPackage.Files {
@@ -222,15 +221,31 @@ func grabComments(astPackage *ast.Package) map[string]*descriptionAndTags {
 	}
 	return docz
 }
+*/
 
-func buildSpec(scope *types.Scope, info *info) spec {
-	spec := spec{
+func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
+	spec := &spec{
 		OAppy:       "0.0.1",
 		Info:        info,
 		Stability:   "locked",
 		Visibility:  "public",
 		Definitions: make(map[string]*specNode),
 	}
+  docPkg := doc.New(astPkg, "", 0)
+  for _, c := range docPkg.Consts {
+    createNamedSpecNodes(scope, spec, c.Names, c.Doc)
+  }
+  for _, v := range docPkg.Vars {
+    createNamedSpecNodes(scope, spec, v.Names, v.Doc)
+  }
+  for _, t := range docPkg.Types {
+    names := []string{t.Name}
+    createNamedSpecNodes(scope, spec, names, t.Doc)
+    createSignatureSpecNodes(scope, spec, t.Funcs)
+    //createSignatureSpecNodes(scope, spec, t.Methods) TODO this for method docs
+  }
+  createSignatureSpecNodes(scope, spec, docPkg.Funcs)
+  /*
 	for _, name := range scope.Names() {
 		namedLangEntity := scope.Lookup(name)
 		if namedLangEntity.Exported() {
@@ -256,7 +271,35 @@ func buildSpec(scope *types.Scope, info *info) spec {
 			}
 		}
 	}
+  */
+  fmt.Printf("%#v\n", spec.Definitions)
 	return spec
+}
+
+func createNamedSpecNodes(scope *types.Scope, spec *spec, names []string, docstr string) {
+  for _, name := range names {
+    obj := scope.Lookup(name)
+    typ := obj.Type()
+    utyp := typ.Underlying()
+    specNode := translateTypeUnified(name, utyp)
+    if defaultIsPointer(utyp) && specNode.RefType == "value" {
+      specNode.RefType = "" //Reset the value RefType for types where value is not default behaviour
+    }
+    fillInMethods(name, typ.(*types.Named), specNode)
+    specNode.descriptionAndTags = splitDoc(docstr)
+    spec.Definitions[name] = specNode
+  }
+}
+
+func createSignatureSpecNodes(scope *types.Scope, spec *spec, funcs []*doc.Func) {
+  for _, f := range funcs {
+    obj := scope.Lookup(f.Name)
+    signature := obj.Type().(*types.Signature)
+    specNode := translateTypeUnified("", signature)
+    specNode.Type = "function"
+    specNode.descriptionAndTags = splitDoc(f.Doc)
+    spec.Definitions[f.Name] = specNode
+  }
 }
 
 func translateTupleToSpec(tuple *types.Tuple) []*specNode {
