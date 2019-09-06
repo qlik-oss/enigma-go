@@ -1,16 +1,8 @@
 aliases:
 
-  - &restore-cache
-    key: dependency-cache-$GOLANG_VERSION{{ checksum "go.sum" }}
-
   - &build
     |
       go build
-
-  - &save-cache
-    key: dependency-cache-$GOLANG_VERSION{{ checksum "go.sum" }}
-    paths:
-      - "/go/pkg/mod"
 
   - &lint
     |
@@ -51,9 +43,13 @@ jobs:
       GOLANG_VERSION: "1.11"
     steps:
       - checkout
-      - restore_cache: *restore-cache
+      - restore_cache:
+          key: dependency-cache-1.11{{ checksum "go.sum" }}
       - run: *build
-      - save_cache: *save-cache
+      - save_cache:
+          key: dependency-cache-1.11{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
       - run: *lint
       - run: *test
       - setup_remote_docker
@@ -66,9 +62,13 @@ jobs:
       GOLANG_VERSION: "1.12"
     steps:
       - checkout
-      - restore_cache: *restore-cache
+      - restore_cache:
+          key: dependency-cache-1.12{{ checksum "go.sum" }}
       - run: *build
-      - save_cache: *save-cache
+      - save_cache:
+          key: dependency-cache-1.12{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
       - run: *lint
       - run: *test
       - setup_remote_docker
@@ -81,9 +81,13 @@ jobs:
       GOLANG_VERSION: "1.13"
     steps:
       - checkout
-      - restore_cache: *restore-cache
+      - restore_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
       - run: *build
-      - save_cache: *save-cache
+      - save_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
       - run: *lint
       - run: *test
       - setup_remote_docker
