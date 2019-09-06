@@ -11,7 +11,7 @@ var updateSpecGoldenfile = flag.Bool("update", false, "updateSpecGoldenfile gold
 
 func Test(t *testing.T) {
 
-	info := &Info{
+	info := &info{
 		Name:                "mockapi",
 		GoPackageImportPath: "github.com/qlik-oss/enigma-go/spec/mockapi",
 		GoPackageName:       "mockapi",

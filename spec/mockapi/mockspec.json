@@ -38,7 +38,7 @@
       ],
       "returns": [
         {
-          "type": "#/definitions/mockapi/Obj"
+          "type": "#/definitions/Obj"
         }
       ]
     },
@@ -97,7 +97,7 @@
       "description": "Comment for NamedSlice",
       "type": "slice",
       "items": {
-        "type": "#/definitions/mockapi/SubObj"
+        "type": "#/definitions/SubObj"
       }
     },
     "Obj": {
@@ -146,25 +146,25 @@
         "Chan5": {
           "type": "chan",
           "items": {
-            "type": "#/definitions/mockapi/SubObj"
+            "type": "#/definitions/SubObj"
           }
         },
         "Chan6": {
           "type": "chan",
           "items": {
-            "type": "#/definitions/mockapi/SubObj",
+            "type": "#/definitions/SubObj",
             "ref-type": "value"
           }
         },
         "DepObj": {
-          "type": "#/definitions/mockapi/DepObj"
+          "type": "#/definitions/DepObj"
         },
         "FieldFunc1": {
           "description": "Comment for FieldFunc",
           "type": "function",
           "params": [
             {
-              "type": "#/definitions/mockapi/Signature"
+              "type": "#/definitions/Signature"
             },
             {
               "type": "string"
@@ -177,25 +177,25 @@
               "ref-type": "pointer"
             },
             {
-              "type": "#/definitions/mockapi/SubObj"
+              "type": "#/definitions/SubObj"
             },
             {
-              "type": "#/definitions/mockapi/SubObj",
+              "type": "#/definitions/SubObj",
               "ref-type": "value"
             },
             {
-              "type": "#/definitions/mockapi/Interface1"
+              "type": "#/definitions/Interface1"
             },
             {
               "type": "slice",
               "items": {
-                "type": "#/definitions/mockapi/SubObj"
+                "type": "#/definitions/SubObj"
               }
             },
             {
               "type": "slice",
               "items": {
-                "type": "#/definitions/mockapi/SubObj",
+                "type": "#/definitions/SubObj",
                 "ref-type": "value"
               }
             },
@@ -206,7 +206,7 @@
               }
             },
             {
-              "type": "#/definitions/mockapi/NamedSlice"
+              "type": "#/definitions/NamedSlice"
             },
             {
               "type": "interface"
@@ -250,18 +250,18 @@
             {
               "type": "chan",
               "items": {
-                "type": "#/definitions/mockapi/SubObj"
+                "type": "#/definitions/SubObj"
               }
             },
             {
               "type": "chan",
               "items": {
-                "type": "#/definitions/mockapi/SubObj",
+                "type": "#/definitions/SubObj",
                 "ref-type": "value"
               }
             },
             {
-              "type": "#/definitions/mockapi/DepObj"
+              "type": "#/definitions/DepObj"
             }
           ],
           "returns": [
@@ -269,7 +269,7 @@
               "type": "string"
             },
             {
-              "type": "#/definitions/mockapi/Obj"
+              "type": "#/definitions/Obj"
             },
             {
               "type": "https://golang.org/pkg/net/http/httputil/BufferPool"
@@ -280,7 +280,7 @@
           ]
         },
         "Func2": {
-          "type": "#/definitions/mockapi/Signature"
+          "type": "#/definitions/Signature"
         },
         "FuncInPrivateEmbedded": {
           "description": "Comment for FuncInPrivateEmbedded",
@@ -301,25 +301,25 @@
               "ref-type": "pointer"
             },
             {
-              "type": "#/definitions/mockapi/SubObj"
+              "type": "#/definitions/SubObj"
             },
             {
-              "type": "#/definitions/mockapi/SubObj",
+              "type": "#/definitions/SubObj",
               "ref-type": "value"
             },
             {
-              "type": "#/definitions/mockapi/Interface1"
+              "type": "#/definitions/Interface1"
             },
             {
               "type": "slice",
               "items": {
-                "type": "#/definitions/mockapi/SubObj"
+                "type": "#/definitions/SubObj"
               }
             },
             {
               "type": "slice",
               "items": {
-                "type": "#/definitions/mockapi/SubObj",
+                "type": "#/definitions/SubObj",
                 "ref-type": "value"
               }
             }
@@ -329,19 +329,19 @@
           "type": "method"
         },
         "PublicEmbedded": {
-          "type": "#/definitions/mockapi/PublicEmbedded",
+          "type": "#/definitions/PublicEmbedded",
           "embedded": true
         },
         "Slice1": {
           "type": "slice",
           "items": {
-            "type": "#/definitions/mockapi/SubObj"
+            "type": "#/definitions/SubObj"
           }
         },
         "Slice2": {
           "type": "slice",
           "items": {
-            "type": "#/definitions/mockapi/SubObj",
+            "type": "#/definitions/SubObj",
             "ref-type": "value"
           }
         },
@@ -352,7 +352,7 @@
           }
         },
         "Slice4": {
-          "type": "#/definitions/mockapi/NamedSlice"
+          "type": "#/definitions/NamedSlice"
         },
         "Var1": {
           "type": "string"
@@ -365,15 +365,15 @@
           "ref-type": "pointer"
         },
         "Var4": {
-          "type": "#/definitions/mockapi/SubObj"
+          "type": "#/definitions/SubObj"
         },
         "Var5": {
-          "type": "#/definitions/mockapi/SubObj",
+          "type": "#/definitions/SubObj",
           "ref-type": "value"
         },
         "Var6": {
           "description": "Comment for variable",
-          "type": "#/definitions/mockapi/Interface1"
+          "type": "#/definitions/Interface1"
         }
       }
     },
@@ -411,14 +411,14 @@
           "ref-type": "pointer"
         },
         {
-          "type": "#/definitions/mockapi/SubObj"
+          "type": "#/definitions/SubObj"
         },
         {
-          "type": "#/definitions/mockapi/SubObj",
+          "type": "#/definitions/SubObj",
           "ref-type": "value"
         },
         {
-          "type": "#/definitions/mockapi/Interface1"
+          "type": "#/definitions/Interface1"
         }
       ],
       "returns": [
