@@ -1,11 +1,9 @@
 aliases:
 
   - &build
-    |
       go build
 
-  - &lint
-    |
+  - &lint |
       go fmt ./...
       go get -u golang.org/x/lint/golint
       golint -set_exit_status
@@ -16,11 +14,9 @@ aliases:
       git diff --exit-code
 
   - &test
-    |
       go test -v -race .
 
-  - &examples
-    |
+  - &examples |
       ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
       echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
       ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
