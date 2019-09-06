@@ -1,5 +1,17 @@
 aliases:
 
+  - &restore-cache
+    key: dependency-cache-{{ checksum "go.sum" }}
+
+  - &build
+    |
+      go build
+
+  - &save-cache
+    key: dependency-cache-{{ checksum "go.sum" }}
+    paths:
+      - "/go/pkg/mod"
+
   - &lint
     |
       go fmt ./...
@@ -10,6 +22,10 @@ aliases:
       # Restore those files before proceeding to avoid saif effect.
       git checkout go.mod go.sum
       git diff --exit-code
+
+  - &test
+    |
+      go test -v -race .
 
   - &examples
     |
@@ -35,19 +51,11 @@ jobs:
       GOLANG_VERSION: "1.11"
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-      - run:
-          name: Build
-          command: go build
-      - save_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
+      - restore_cache: *restore-cache
+      - run: *build
+      - save_cache: *save-cache
       - run: *lint
-      - run:
-          name: Test
-          command: go test -v -race .
+      - run: *test
       - setup_remote_docker
       - run: *examples
 
@@ -58,19 +66,11 @@ jobs:
       GOLANG_VERSION: "1.12"
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-      - run:
-          name: Build
-          command: go build
-      - save_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
+      - restore_cache: *restore-cache
+      - run: *build
+      - save_cache: *save-cache
       - run: *lint
-      - run:
-          name: Test
-          command: go test -v -race .
+      - run: *test
       - setup_remote_docker
       - run: *examples
 
@@ -81,19 +81,11 @@ jobs:
       GOLANG_VERSION: "1.13"
     steps:
       - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-      - run:
-          name: Build
-          command: go build
-      - save_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
+      - restore_cache: *restore-cache
+      - run: *build
+      - save_cache: *save-cache
       - run: *lint
-      - run:
-          name: Test
-          command: go test -v -race .
+      - run: *test
       - setup_remote_docker
       - run: *examples
 
