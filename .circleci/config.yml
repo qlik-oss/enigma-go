@@ -1,14 +1,14 @@
 aliases:
 
   - &restore-cache
-    key: dependency-cache-{{ checksum "go.sum" }}
+    key: dependency-cache-$GOLANG_VERSION{{ checksum "go.sum" }}
 
   - &build
     |
       go build
 
   - &save-cache
-    key: dependency-cache-{{ checksum "go.sum" }}
+    key: dependency-cache-$GOLANG_VERSION{{ checksum "go.sum" }}
     paths:
       - "/go/pkg/mod"
 
