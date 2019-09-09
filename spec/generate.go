@@ -5,7 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
-  "go/doc"
+	"go/doc"
 	"go/importer"
 	"go/parser"
 	"go/token"
@@ -102,7 +102,7 @@ func main() {
 func generateSpec(packagePath string, info *info) []byte {
 	astPackage, scope := compilePackage(packagePath, info.GoPackageName)
 	currentPackage = info.GoPackageName
-	//descriptions = grabComments(astPackage)
+	buildDescriptions(astPackage)
 	spec := buildSpec(scope, info, astPackage)
 	specFile, _ := json.MarshalIndent(spec, "", "  ")
 	return specFile
@@ -130,7 +130,6 @@ func compilePackage(path string, packageName string) (*ast.Package, *types.Scope
 	}
 	conf := &types.Config{
 		Importer: importer.ForCompiler(fset, "source", nil),
-		Error:    func(err error) {},
 	}
 	p, err := conf.Check(packageName, fset, files, nil)
 	if err != nil {
@@ -155,73 +154,72 @@ func splitDoc(doc string) *descriptionAndTags {
 	}
 
 	// Remove tags from comment
-	node.Descr = trailingNewlinesRE.ReplaceAllString(deprecatedRE1.ReplaceAllString(stabilityRE1.ReplaceAllString(doc, ""), ""), "")
+	descr := deprecatedRE1.ReplaceAllString(doc, "")
+	descr = stabilityRE1.ReplaceAllString(descr, "")
+	node.Descr = strings.Trim(descr, " \n")
 
 	return node
 }
 
-/*
-func grabComments(astPackage *ast.Package) map[string]*descriptionAndTags {
-	docz := make(map[string]*descriptionAndTags)
-	for _, file := range astPackage.Files {
-		for _, astDecl := range file.Decls {
-			switch astDecl.(type) {
-			case *ast.FuncDecl:
-				f := astDecl.(*ast.FuncDecl)
-				fnReceiver := receiver(f)
-				fnName := f.Name.Name
-				docz[fnReceiver+"."+fnName] = splitDoc(f.Doc.Text())
-			case *ast.GenDecl:
-				genDecl := astDecl.(*ast.GenDecl)
-				specs := genDecl.Specs
-				for _, astSpec := range specs {
-					switch astSpec.(type) {
-					case *ast.TypeSpec:
-						typeSpec := astSpec.(*ast.TypeSpec)
-						if typeSpec.Doc.Text() != "" {
-							docz[typeSpec.Name.Name] = splitDoc(typeSpec.Doc.Text())
-						} else {
-							docz[typeSpec.Name.Name] = splitDoc(genDecl.Doc.Text())
-						}
-						switch typeSpec.Type.(type) {
-						case *ast.StructType:
-							astStruct := typeSpec.Type.(*ast.StructType)
-							for _, y := range astStruct.Fields.List {
-								if len(y.Names) > 0 {
-									fieldName := y.Names[0].Name
-									docz[typeSpec.Name.Name+"."+fieldName] = splitDoc(y.Doc.Text())
-								}
-							}
-						case *ast.InterfaceType:
-							astInterface := typeSpec.Type.(*ast.InterfaceType)
-							for _, y := range astInterface.Methods.List {
-								if len(y.Names) > 0 {
-									fieldName := y.Names[0].Name
-									docz[typeSpec.Name.Name+"."+fieldName] = splitDoc(y.Doc.Text())
-								}
-							}
-						case *ast.ArrayType:
-							//No extra doc needed
-						case *ast.Ident:
-							//No extra doc needed
-						case *ast.FuncType:
-							//No extra doc needed
-						default:
-							panic("Unknown typeSpec: " + reflect.TypeOf(typeSpec.Type).String())
-						}
-					case *ast.ImportSpec:
-					default:
-						panic("Unknown astSpec: " + reflect.TypeOf(astSpec).String())
-					}
-				}
-			default:
-				panic("Unknown astDecl:" + reflect.TypeOf(astDecl).String())
-			}
-		}
+func buildDescriptions(astPackage *ast.Package) {
+	descriptions = map[string]*descriptionAndTags{}
+	packageDoc := doc.New(astPackage, "", doc.AllDecls)
+	for _, c := range packageDoc.Consts {
+		describeValue(c)
 	}
-	return docz
+	for _, v := range packageDoc.Vars {
+		describeValue(v)
+	}
+	for _, t := range packageDoc.Types {
+		describeType(t)
+	}
+	for _, f := range packageDoc.Funcs {
+		descriptions[f.Name] = splitDoc(f.Doc)
+	}
 }
-*/
+
+func describeValue(v *doc.Value) {
+	desc := splitDoc(v.Doc)
+	for _, name := range v.Names {
+		descriptions[name] = desc
+	}
+}
+
+func describeType(t *doc.Type) {
+	// For the type 't'.
+	descriptions[t.Name] = splitDoc(t.Doc)
+	// For functions returning type 't'.
+	for _, f := range t.Funcs {
+		descriptions[f.Name] = splitDoc(f.Doc)
+	}
+	// For methods (with 't' as receiver).
+	for _, m := range t.Methods {
+		descriptions[t.Name+"."+m.Name] = splitDoc(m.Doc)
+	}
+	// For embedded fields of 't'.
+	ast.Inspect(t.Decl, func(n ast.Node) bool {
+		switch n.(type) {
+		case *ast.GenDecl:
+			if n.(*ast.GenDecl).Tok == token.TYPE {
+				return true
+			}
+		case *ast.TypeSpec:
+			return true
+		case *ast.StructType:
+			return true
+		case *ast.FieldList:
+			return true
+		case *ast.Field:
+			field := n.(*ast.Field)
+			desc := splitDoc(field.Doc.Text())
+			for _, id := range field.Names {
+				descriptions[t.Name+"."+id.Name] = desc
+			}
+			return false
+		}
+		return false
+	})
+}
 
 func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 	spec := &spec{
@@ -231,25 +229,11 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 		Visibility:  "public",
 		Definitions: make(map[string]*specNode),
 	}
-  docPkg := doc.New(astPkg, "", 0)
-  for _, c := range docPkg.Consts {
-    createNamedSpecNodes(scope, spec, c.Names, c.Doc)
-  }
-  for _, v := range docPkg.Vars {
-    createNamedSpecNodes(scope, spec, v.Names, v.Doc)
-  }
-  for _, t := range docPkg.Types {
-    names := []string{t.Name}
-    createNamedSpecNodes(scope, spec, names, t.Doc)
-    createSignatureSpecNodes(scope, spec, t.Funcs)
-    //createSignatureSpecNodes(scope, spec, t.Methods) TODO this for method docs
-  }
-  createSignatureSpecNodes(scope, spec, docPkg.Funcs)
-  /*
 	for _, name := range scope.Names() {
 		namedLangEntity := scope.Lookup(name)
 		if namedLangEntity.Exported() {
 			switch namedLangEntity.Type().(type) {
+			// Type definition.
 			case *types.Named:
 				namedType := namedLangEntity.Type().(*types.Named)
 				underlying := namedType.Underlying()
@@ -260,6 +244,7 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 				fillInMethods(name, namedType, specNode)
 				specNode.descriptionAndTags = descriptions[name]
 				spec.Definitions[name] = specNode
+				// Function definition.
 			case *types.Signature:
 				signature := namedLangEntity.Type().(*types.Signature)
 				specNode := translateTypeUnified("", signature)
@@ -271,35 +256,7 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 			}
 		}
 	}
-  */
-  fmt.Printf("%#v\n", spec.Definitions)
 	return spec
-}
-
-func createNamedSpecNodes(scope *types.Scope, spec *spec, names []string, docstr string) {
-  for _, name := range names {
-    obj := scope.Lookup(name)
-    typ := obj.Type()
-    utyp := typ.Underlying()
-    specNode := translateTypeUnified(name, utyp)
-    if defaultIsPointer(utyp) && specNode.RefType == "value" {
-      specNode.RefType = "" //Reset the value RefType for types where value is not default behaviour
-    }
-    fillInMethods(name, typ.(*types.Named), specNode)
-    specNode.descriptionAndTags = splitDoc(docstr)
-    spec.Definitions[name] = specNode
-  }
-}
-
-func createSignatureSpecNodes(scope *types.Scope, spec *spec, funcs []*doc.Func) {
-  for _, f := range funcs {
-    obj := scope.Lookup(f.Name)
-    signature := obj.Type().(*types.Signature)
-    specNode := translateTypeUnified("", signature)
-    specNode.Type = "function"
-    specNode.descriptionAndTags = splitDoc(f.Doc)
-    spec.Definitions[f.Name] = specNode
-  }
 }
 
 func translateTupleToSpec(tuple *types.Tuple) []*specNode {
@@ -408,7 +365,6 @@ func fillInStructFields(docNamespace string, struktType *types.Struct, clazz *sp
 			if mt.Type == "function-signature" {
 				mt.Type = "function"
 			}
-
 			mt.descriptionAndTags = descriptions[docNamespace+"."+m.Name()]
 			clazz.Entries[m.Name()] = mt
 		}
@@ -431,6 +387,7 @@ func fillInMethods(docNamespace string, namedType methodContainer, clazz *specNo
 		}
 	}
 }
+
 func fillInEmbeddedMethods(typ types.Type, clazz *specNode) {
 	switch typ.(type) {
 	case *types.Struct:
@@ -440,19 +397,15 @@ func fillInEmbeddedMethods(typ types.Type, clazz *specNode) {
 			field := struktType.Field(i)
 			if field.Embedded() && !field.Exported() {
 				embeddedFieldType := field.Type()
-				switch embeddedFieldType.(type) {
-				case *types.Pointer:
-					embeddedFieldType = embeddedFieldType.(*types.Pointer).Elem()
+				if ptr, ok := embeddedFieldType.(*types.Pointer); ok {
+					embeddedFieldType = ptr.Elem()
 				}
-				switch embeddedFieldType.(type) {
-				case *types.Named:
-					embeddedNamedType := embeddedFieldType.(*types.Named)
+				if embeddedNamedType, ok := embeddedFieldType.(*types.Named); ok {
 					fillInMethods(field.Name(), embeddedNamedType, clazz)
-					embeddedFieldType = embeddedFieldType.(*types.Named).Underlying()
+					embeddedFieldType = embeddedNamedType.Underlying()
 				}
-				switch embeddedFieldType.(type) {
-				case *types.Struct:
-					fillInEmbeddedMethods(embeddedFieldType.(*types.Struct), clazz)
+				if strct, ok := embeddedFieldType.(*types.Struct); ok {
+					fillInEmbeddedMethods(strct, clazz)
 				}
 			}
 		}

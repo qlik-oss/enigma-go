@@ -11508,6 +11508,7 @@
       }
     },
     "NewMockSocket": {
+      "description": "NewMockSocket creates a new MockSocket instance",
       "type": "function",
       "params": [
         {
@@ -15621,6 +15622,7 @@
       }
     },
     "WithMetricsCollector": {
+      "description": "WithMetricsCollector provides a new context with the a MetricsCollector that records performance metrics for invocations",
       "type": "function",
       "params": [
         {
