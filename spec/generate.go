@@ -23,6 +23,7 @@ func filter(fi os.FileInfo) bool {
 
 type descriptionAndTags struct {
 	Descr             string `json:"description,omitempty"`
+	Constant          bool   `json:"constant,omitempty"`
 	Stability         string `json:"x-qlik-stability,omitempty"`
 	Deprecated        bool   `json:"deprecated,omitempty"`
 	DeprecatedComment string `json:"x-qlik-deprecation-description,omitempty"`
@@ -211,6 +212,14 @@ func grabComments(astPackage *ast.Package) map[string]*descriptionAndTags {
 							panic("Unknown typeSpec: " + reflect.TypeOf(typeSpec.Type).String())
 						}
 					case *ast.ImportSpec:
+					case *ast.ValueSpec:
+						v := astSpec.(*ast.ValueSpec)
+						for _, x := range v.Names {
+							docz[x.Name] = splitDoc(v.Doc.Text())
+							if x.Obj.Kind == ast.Con {
+								docz[x.Name].Constant = true
+							}
+						}
 					default:
 						panic("Unknown astSpec: " + reflect.TypeOf(astSpec).String())
 					}
@@ -251,6 +260,11 @@ func buildSpec(scope *types.Scope, info *info) spec {
 				specNode.Type = "function"
 				specNode.descriptionAndTags = descriptions[name]
 				spec.Definitions[namedLangEntity.Name()] = specNode
+			case *types.Basic:
+				basic := namedLangEntity.Type().(*types.Basic)
+				specNode := translateTypeUnified("", basic)
+				specNode.descriptionAndTags = descriptions[name]
+				spec.Definitions[namedLangEntity.Name()] = specNode
 			default:
 				panic("Unknown namedLangEntity: " + reflect.TypeOf(namedLangEntity.Type()).String())
 			}
@@ -278,7 +292,12 @@ func defaultIsPointer(typ types.Type) bool {
 		return false
 	}
 }
-
+func removeUntyped(typ string) string {
+	if strings.HasPrefix(typ, "untyped ") {
+		return typ[8:]
+	}
+	return typ
+}
 func translateTypeUnified(docNamespace string, typ types.Type) *specNode {
 	switch typ.(type) {
 	case *types.Named:
@@ -297,7 +316,7 @@ func translateTypeUnified(docNamespace string, typ types.Type) *specNode {
 	case *types.Basic:
 		basicType := typ.(*types.Basic)
 		return &specNode{
-			Type: basicType.Name(),
+			Type: removeUntyped(basicType.Name()),
 		}
 	case *types.Slice:
 		sliceType := typ.(*types.Slice)
@@ -342,12 +361,12 @@ func translateTypeUnified(docNamespace string, typ types.Type) *specNode {
 		return result
 	case *types.Interface:
 		interfaceType := typ.(*types.Interface)
-		interfaceSpec := &specNode{
+		result := &specNode{
 			Type:    "interface",
 			Entries: make(map[string]*specNode),
 		}
-		fillInMethods(docNamespace, interfaceType, interfaceSpec)
-		return interfaceSpec
+		fillInMethods(docNamespace, interfaceType, result)
+		return result
 	default:
 		panic("Unknown type: " + reflect.TypeOf(typ).String())
 	}
