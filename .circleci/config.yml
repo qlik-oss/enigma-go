@@ -16,6 +16,11 @@ aliases:
   - &test
       go test -v -race .
 
+  - &spec_test |
+      go test -v -race ./spec
+      go run ./spec/generate.go
+      git diff api-spec.json --exit-code
+
   - &examples |
       ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
       echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
@@ -48,6 +53,7 @@ jobs:
             - "/go/pkg/mod"
       - run: *lint
       - run: *test
+      - run: *spec_test
       - setup_remote_docker
       - run: *examples
 
@@ -67,6 +73,7 @@ jobs:
             - "/go/pkg/mod"
       - run: *lint
       - run: *test
+      - run: *spec_test
       - setup_remote_docker
       - run: *examples
 
@@ -86,6 +93,7 @@ jobs:
             - "/go/pkg/mod"
       - run: *lint
       - run: *test
+      - run: *spec_test
       - setup_remote_docker
       - run: *examples
 
