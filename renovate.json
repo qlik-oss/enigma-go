@@ -3,5 +3,6 @@
     "qlik-oss",
     "qlik-oss:groupMinorPatch"
   ],
-  "postUpdateOptions": ["gomodTidy"]
+  "postUpdateOptions": ["gomodTidy"],
+  "ignoreDeps": ["circleci/golang"]
 }
