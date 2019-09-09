@@ -181,7 +181,7 @@ func buildDescriptions(astPackage *ast.Package) {
 
 func describeValue(v *doc.Value, constant bool) {
 	desc := splitDoc(v.Doc)
-  desc.Constant = constant
+	desc.Constant = constant
 	for _, name := range v.Names {
 		descriptions[name] = desc
 	}
