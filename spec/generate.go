@@ -29,6 +29,7 @@ type descriptionAndTags struct {
 	Deprecated        bool   `json:"deprecated,omitempty"`
 	DeprecatedComment string `json:"x-qlik-deprecation-description,omitempty"`
 }
+
 type info struct {
 	Name                string `json:"name,omitempty"`
 	GoPackageName       string `json:"go-package-name,omitempty"`
@@ -38,6 +39,7 @@ type info struct {
 	License             string `json:"license,omitempty"`
 	Deprecated          bool   `json:"x-qlik-deprecated,omitempty"`
 }
+
 type spec struct {
 	OAppy       string               `json:"oappy,omitempty"`
 	Info        *info                `json:"info,omitempty"`
@@ -45,6 +47,7 @@ type spec struct {
 	Stability   string               `json:"x-qlik-stability,omitempty"`
 	Definitions map[string]*specNode `json:"definitions,omitempty"`
 }
+
 type specNode struct {
 	*descriptionAndTags
 	Type     string               `json:"type,omitempty"`
@@ -56,6 +59,7 @@ type specNode struct {
 	Params   []*specNode          `json:"params,omitempty"`
 	Returns  []*specNode          `json:"returns,omitempty"`
 }
+
 type methodContainer interface {
 	NumMethods() int
 	Method(i int) *types.Func
@@ -234,10 +238,10 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 	for _, name := range scope.Names() {
 		namedLangEntity := scope.Lookup(name)
 		if namedLangEntity.Exported() {
-			switch namedLangEntity.Type().(type) {
+			switch typ := namedLangEntity.Type(); typ.(type) {
 			// Type definition.
 			case *types.Named:
-				namedType := namedLangEntity.Type().(*types.Named)
+				namedType := typ.(*types.Named)
 				underlying := namedType.Underlying()
 				specNode := translateTypeUnified(name, underlying)
 				if defaultIsPointer(underlying) && specNode.RefType == "value" {
@@ -248,18 +252,18 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 				spec.Definitions[name] = specNode
 			// Function definition.
 			case *types.Signature:
-				signature := namedLangEntity.Type().(*types.Signature)
+				signature := typ.(*types.Signature)
 				specNode := translateTypeUnified("", signature)
 				specNode.Type = "function"
 				specNode.descriptionAndTags = descriptions[name]
 				spec.Definitions[namedLangEntity.Name()] = specNode
 			case *types.Basic:
-				basic := namedLangEntity.Type().(*types.Basic)
+				basic := typ.(*types.Basic)
 				specNode := translateTypeUnified("", basic)
 				specNode.descriptionAndTags = descriptions[name]
 				spec.Definitions[namedLangEntity.Name()] = specNode
 			default:
-				panic("Unknown namedLangEntity: " + reflect.TypeOf(namedLangEntity.Type()).String())
+				panic("Unknown namedLangEntity: " + fmt.Sprintf("%T", typ))
 			}
 		}
 	}
@@ -285,12 +289,14 @@ func defaultIsPointer(typ types.Type) bool {
 		return false
 	}
 }
+
 func removeUntyped(typ string) string {
 	if strings.HasPrefix(typ, "untyped ") {
 		return typ[8:]
 	}
 	return typ
 }
+
 func translateTypeUnified(docNamespace string, typ types.Type) *specNode {
 	switch typ.(type) {
 	case *types.Named:
@@ -365,25 +371,25 @@ func translateTypeUnified(docNamespace string, typ types.Type) *specNode {
 	}
 }
 
-func fillInStructFields(docNamespace string, struktType *types.Struct, clazz *specNode) {
-	fieldCount := struktType.NumFields()
+func fillInStructFields(docNamespace string, structType *types.Struct, node *specNode) {
+	fieldCount := structType.NumFields()
 	for i := 0; i < fieldCount; i++ {
-		m := struktType.Field(i)
-		if m.Exported() {
-			mt := translateTypeUnified(docNamespace, m.Type())
-			if m.Embedded() {
-				mt.Embedded = true
+		f := structType.Field(i)
+		if f.Exported() {
+			ft := translateTypeUnified(docNamespace, f.Type())
+			if f.Embedded() {
+				ft.Embedded = true
 			}
-			if mt.Type == "function-signature" {
-				mt.Type = "function"
+			if ft.Type == "function-signature" {
+				ft.Type = "function"
 			}
-			mt.descriptionAndTags = descriptions[docNamespace+"."+m.Name()]
-			clazz.Entries[m.Name()] = mt
+			ft.descriptionAndTags = descriptions[docNamespace+"."+f.Name()]
+			node.Entries[f.Name()] = ft
 		}
 	}
 }
 
-func fillInMethods(docNamespace string, namedType methodContainer, clazz *specNode) {
+func fillInMethods(docNamespace string, namedType methodContainer, node *specNode) {
 	methodCount := namedType.NumMethods()
 	for i := 0; i < methodCount; i++ {
 		m := namedType.Method(i)
@@ -392,32 +398,32 @@ func fillInMethods(docNamespace string, namedType methodContainer, clazz *specNo
 			methodSpec.Type = "method"
 			methodSpec.descriptionAndTags = descriptions[docNamespace+"."+m.Name()]
 
-			if clazz.Entries == nil {
-				clazz.Entries = make(map[string]*specNode)
+			if node.Entries == nil {
+				node.Entries = make(map[string]*specNode)
 			}
-			clazz.Entries[m.Name()] = methodSpec
+			node.Entries[m.Name()] = methodSpec
 		}
 	}
 }
 
-func fillInEmbeddedMethods(typ types.Type, clazz *specNode) {
+func fillInEmbeddedMethods(typ types.Type, node *specNode) {
 	switch typ.(type) {
 	case *types.Struct:
-		struktType := typ.(*types.Struct)
-		fieldCount := struktType.NumFields()
+		structType := typ.(*types.Struct)
+		fieldCount := structType.NumFields()
 		for i := 0; i < fieldCount; i++ {
-			field := struktType.Field(i)
+			field := structType.Field(i)
 			if field.Embedded() && !field.Exported() {
 				embeddedFieldType := field.Type()
 				if ptr, ok := embeddedFieldType.(*types.Pointer); ok {
 					embeddedFieldType = ptr.Elem()
 				}
 				if embeddedNamedType, ok := embeddedFieldType.(*types.Named); ok {
-					fillInMethods(field.Name(), embeddedNamedType, clazz)
+					fillInMethods(field.Name(), embeddedNamedType, node)
 					embeddedFieldType = embeddedNamedType.Underlying()
 				}
 				if strct, ok := embeddedFieldType.(*types.Struct); ok {
-					fillInEmbeddedMethods(strct, clazz)
+					fillInEmbeddedMethods(strct, node)
 				}
 			}
 		}
