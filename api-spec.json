@@ -14044,6 +14044,7 @@
       }
     },
     "QIX_SCHEMA_VERSION": {
+      "description": "Version of the schema used to generate the enigma.go QIX API",
       "constant": true,
       "type": "string"
     },
