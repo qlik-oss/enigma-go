@@ -246,7 +246,7 @@ func buildSpec(scope *types.Scope, info *info, astPkg *ast.Package) *spec {
 				fillInMethods(name, namedType, specNode)
 				specNode.descriptionAndTags = descriptions[name]
 				spec.Definitions[name] = specNode
-				// Function definition.
+			// Function definition.
 			case *types.Signature:
 				signature := namedLangEntity.Type().(*types.Signature)
 				specNode := translateTypeUnified("", signature)
