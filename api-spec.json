@@ -11508,6 +11508,7 @@
       }
     },
     "NewMockSocket": {
+      "description": "NewMockSocket creates a new MockSocket instance",
       "type": "function",
       "params": [
         {
@@ -14043,6 +14044,7 @@
       }
     },
     "QIX_SCHEMA_VERSION": {
+      "description": "Version of the schema used to generate the enigma.go QIX API",
       "constant": true,
       "type": "string"
     },
@@ -15625,6 +15627,7 @@
       }
     },
     "WithMetricsCollector": {
+      "description": "WithMetricsCollector provides a new context with the a MetricsCollector that records performance metrics for invocations",
       "type": "function",
       "params": [
         {
