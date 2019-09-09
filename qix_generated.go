@@ -7,6 +7,9 @@ import (
 	"encoding/json"
 )
 
+// Version of the schema used to generate the enigma.go QIX API
+const QIX_SCHEMA_VERSION = "12.429.0"
+
 // Deprecated: This will be removed in a future version
 type AlfaNumString struct {
 	// Calculated value.
