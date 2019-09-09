@@ -738,6 +738,8 @@ func main() {
 	fmt.Fprintln(out, "\t\"context\"")
 	fmt.Fprintln(out, "\t\"encoding/json\"")
 	fmt.Fprint(out, ")\n\n")
+	fmt.Fprintln(out, "// Version of the schema used to generate the enigma.go QIX API")
+	fmt.Fprintf(out, "const QIX_SCHEMA_VERSION = \"%s\"\n\n", schema.Info.Version)
 
 	// Generate definition data type structs
 	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])

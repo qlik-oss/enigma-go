@@ -14043,6 +14043,10 @@
         }
       }
     },
+    "QIX_SCHEMA_VERSION": {
+      "constant": true,
+      "type": "string"
+    },
     "Range": {
       "type": "struct",
       "entries": {
