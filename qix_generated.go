@@ -7,6 +7,10 @@ import (
 	"encoding/json"
 )
 
+// Version of the schema used to generate the enigma.go QIX API
+const QIX_SCHEMA_VERSION = "12.429.0"
+
+// Deprecated: This will be removed in a future version
 type AlfaNumString struct {
 	// Calculated value.
 	String string `json:"qString,omitempty"`
@@ -103,7 +107,7 @@ type AssociationScore struct {
 
 type BNFDef struct {
 	// Array of token references that all together build up the definition of the current token.
-	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
+	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
 	Bnf []int `json:"qBnf,omitempty"`
 	// Number of the current token definition.
 	Nbr int `json:"qNbr,omitempty"`
@@ -330,11 +334,11 @@ type Connection struct {
 	Name string `json:"qName,omitempty"`
 	// One of:
 	//
-	// • ODBC CONNECT TO [<provider name>]
+	// • ODBC CONNECT TO [<provider name>]
 	//
-	// • OLEDB CONNECT TO [<provider name>]
+	// • OLEDB CONNECT TO [<provider name>]
 	//
-	// • CUSTOM CONNECT TO [<provider name>]
+	// • CUSTOM CONNECT TO [<provider name>]
 	//
 	// • "<local absolute or relative path, UNC path>"
 	//
@@ -1022,7 +1026,7 @@ type FieldValue struct {
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 type FileDataFormat struct {
@@ -1329,9 +1333,10 @@ type GenericObjectLayout struct {
 	NxLibraryMeasure   *NxLibraryMeasure   `json:"qNxLibraryMeasure,omitempty"`
 	SelectionObject    *SelectionObject    `json:"qSelectionObject,omitempty"`
 	StaticContentUrl   *StaticContentUrl   `json:"qStaticContentUrl,omitempty"`
-	TreeData           *TreeData           `json:"qTreeData,omitempty"`
-	UndoInfo           *UndoInfo           `json:"qUndoInfo,omitempty"`
-	VariableList       *VariableList       `json:"qVariableList,omitempty"`
+	// Stability: experimental
+	TreeData     *TreeData     `json:"qTreeData,omitempty"`
+	UndoInfo     *UndoInfo     `json:"qUndoInfo,omitempty"`
+	VariableList *VariableList `json:"qVariableList,omitempty"`
 }
 
 type GenericObjectProperties struct {
@@ -1363,10 +1368,11 @@ type GenericObjectProperties struct {
 	SelectionObjectDef    *SelectionObjectDef    `json:"qSelectionObjectDef,omitempty"`
 	StaticContentUrlDef   *StaticContentUrlDef   `json:"qStaticContentUrlDef,omitempty"`
 	StringExpression      *StringExpression      `json:"qStringExpression,omitempty"`
-	TreeDataDef           *TreeDataDef           `json:"qTreeDataDef,omitempty"`
-	UndoInfoDef           *UndoInfoDef           `json:"qUndoInfoDef,omitempty"`
-	ValueExpression       *ValueExpression       `json:"qValueExpression,omitempty"`
-	VariableListDef       *VariableListDef       `json:"qVariableListDef,omitempty"`
+	// Stability: experimental
+	TreeDataDef     *TreeDataDef     `json:"qTreeDataDef,omitempty"`
+	UndoInfoDef     *UndoInfoDef     `json:"qUndoInfoDef,omitempty"`
+	ValueExpression *ValueExpression `json:"qValueExpression,omitempty"`
+	VariableListDef *VariableListDef `json:"qVariableListDef,omitempty"`
 }
 
 // Is the layout for GenericVariableProperties.
@@ -1728,7 +1734,7 @@ type LineageInfo struct {
 	//
 	// • AUTOGENERATE: the data is generated from the load script (no external table of data source).
 	//
-	// • Provider: the data comes from a data connection. The connector source name is listed.
+	// • Provider: the data comes from a data connection. The connector source name is listed.
 	//
 	// • [webfile]: the data comes from a web-based file.
 	//
@@ -1841,7 +1847,7 @@ type LocaleInfo struct {
 	//
 	// • ...
 	//
-	// • 6 = Sunday
+	// • 6 = Sunday
 	//
 	// If this property has not been set in a script, the returned value comes from the Windows operating system.
 	FirstWeekDay int `json:"qFirstWeekDay,omitempty"`
@@ -1872,7 +1878,7 @@ type LocaleInfo struct {
 	// _< language>-<REGION>_
 	// Where:
 	//
-	// • language is a lowercase ISO  639 language code
+	// • language is a lowercase ISO 639 language code
 	//
 	// • REGION specifies an uppercase ISO 3166 country code.
 	//
@@ -2433,6 +2439,7 @@ type NxDimensionInfo struct {
 	// Length of the longest value in the field.
 	ApprMaxGlyphCount int `json:"qApprMaxGlyphCount,omitempty"`
 	// Number of distinct field values.
+	// Deprecated: This will be removed in a future version
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Is set to true if the field is locked.
 	Locked bool `json:"qLocked,omitempty"`
@@ -2586,7 +2593,7 @@ type NxFieldSelectionInfo struct {
 	//
 	// • NORMAL for a selection in normal mode.
 	//
-	// • AND for a selection in AND mode.
+	// • AND for a selection in AND mode.
 	//
 	// • NOT for a selection NOT in AND mode.
 	// One of:
@@ -2693,7 +2700,7 @@ type NxInlineMeasureDef struct {
 	// This parameter is optional.
 	Description string `json:"qDescription,omitempty"`
 	// Name connected to the measure that is used for search purposes.
-	// A measure can have several tags.
+	// A measure can have several tags.
 	// This parameter is optional.
 	Tags []string `json:"qTags,omitempty"`
 	// Default value is no grouping.
@@ -3856,6 +3863,7 @@ type NxStateCounts struct {
 }
 
 // This struct is deprecated (not recommended to use).
+// Deprecated: This will be removed in a future version
 type NxStreamListEntry struct {
 	// Name of the stream.
 	Name string `json:"qName,omitempty"`
@@ -3882,6 +3890,7 @@ type NxTreeDataOption struct {
 	TreeLevels *NxPageTreeLevel `json:"qTreeLevels,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeDimensionDef struct {
 	// Refers to a dimension stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
@@ -3928,6 +3937,7 @@ type NxTreeDimensionDef struct {
 	AttributeDimensions []*NxAttrDimDef `json:"qAttributeDimensions,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeDimensionInfo struct {
 	// Corresponds to the label of the dimension that is selected.
 	// If the label is not defined then the field name is used.
@@ -3935,6 +3945,7 @@ type NxTreeDimensionInfo struct {
 	// Length of the longest value in the field.
 	ApprMaxGlyphCount int `json:"qApprMaxGlyphCount,omitempty"`
 	// Number of distinct field values.
+	// Deprecated: This will be removed in a future version
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Is set to true if the field is locked.
 	Locked bool `json:"qLocked,omitempty"`
@@ -4023,6 +4034,7 @@ type NxTreeDimensionInfo struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeMultiRangeSelectInfo struct {
 	// An array of Ranges.
 	Ranges []*NxTreeRangeSelectInfo `json:"qRanges,omitempty"`
@@ -4111,6 +4123,7 @@ type NxTreeNode struct {
 	State string `json:"qState,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeRangeSelectInfo struct {
 	// Range of values.
 	Range *Range `json:"qRange,omitempty"`
@@ -4181,6 +4194,7 @@ type NxVariableListItem struct {
 	IsScriptCreated bool `json:"qIsScriptCreated,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type NxVariableProperties struct {
 	// Name of the variable.
 	Name string `json:"qName,omitempty"`
@@ -4219,9 +4233,9 @@ type ObjectInterface struct {
 }
 
 type OdbcDsn struct {
-	// Name of the ODBC connection.
+	// Name of the ODBC connection.
 	Name string `json:"qName,omitempty"`
-	// Description of the ODBC connection.
+	// Description of the ODBC connection.
 	Description string `json:"qDescription,omitempty"`
 	// Is set to true if the version of ODBC is 32-bit.
 	// This parameter is optional. Default is false.
@@ -4452,6 +4466,7 @@ type ScriptSyntaxError struct {
 	SecondaryFailure bool `json:"qSecondaryFailure,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchAssociationResult struct {
 	// List of the fields that contains search associations.
 	FieldNames []string `json:"qFieldNames,omitempty"`
@@ -4517,6 +4532,7 @@ type SearchCombinationOptions struct {
 	Attributes []string `json:"qAttributes,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchFieldDictionary struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
@@ -4526,6 +4542,7 @@ type SearchFieldDictionary struct {
 	Result []*SearchTermResult `json:"qResult,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchFieldMatch struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
@@ -4649,6 +4666,7 @@ type SearchGroupOptions struct {
 	Count *int `json:"qCount,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchMatchCombination struct {
 	// Index of the search result, starting from 0.
 	Id int `json:"qId,omitempty"`
@@ -4718,6 +4736,7 @@ type SearchSuggestionResult struct {
 	FieldNames []string `json:"qFieldNames,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchTermResult struct {
 	// Text of the associated value.
 	Text string `json:"qText,omitempty"`
@@ -4990,6 +5009,7 @@ type TextMacro struct {
 // Renders the properties of a TreeData object. Is the layout for TreeDataDef.
 // For more information about the definition of TreeData, see Generic object.
 // To retrieve data from the TreeData object, use the method called GetHyperCubeTreeData.
+// Stability: experimental
 type TreeData struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
@@ -5020,6 +5040,7 @@ type TreeData struct {
 
 // Defines the properties of a TreeData object.
 // For more information about the definition of a TreeData object, see Generic object.
+// Stability: experimental
 type TreeDataDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
@@ -5426,6 +5447,7 @@ func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 //
 // ◾ id   -   Identifier of the draft to commit.
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) CommitDraft(ctx context.Context, id string) error {
 	err := obj.rpc(ctx, "CommitDraft", nil, id)
 	return err
@@ -5541,6 +5563,7 @@ func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*Gene
 //
 // ◾ id   -   Identifier of the object to create a draft from.
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) CreateDraft(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		DraftId string `json:"qDraftId"`
@@ -5733,6 +5756,7 @@ func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) 
 //
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
+// Deprecated: Use _Doc::CreateVariableEx_ method instead
 func (obj *Doc) CreateVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -5858,6 +5882,7 @@ func (obj *Doc) DestroyDimension(ctx context.Context, id string) (bool, error) {
 //
 // ◾ sourceId   -   Identifier of the source object (the object from which a draft was created).
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) DestroyDraft(ctx context.Context, id string, sourceId string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6637,7 +6662,7 @@ func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, er
 	return result.List, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6651,7 +6676,7 @@ func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*Data
 	return result.Info, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6697,7 +6722,7 @@ func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, d
 	return result.Owners, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6719,7 +6744,7 @@ func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string,
 	return result.Fields, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6741,7 +6766,7 @@ func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId stri
 	return result.Fields, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6766,7 +6791,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 	return result.Preview, result.RowCount, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6791,7 +6816,7 @@ func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId str
 	return result.Preview, result.RowCount, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6811,7 +6836,7 @@ func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, data
 	return result.Tables, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -7029,7 +7054,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7042,7 +7067,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataField, string, error) {
 	result := &struct {
@@ -7077,7 +7102,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7090,7 +7115,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -7125,7 +7150,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7138,7 +7163,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataRecord, string, error) {
 	result := &struct {
@@ -7173,7 +7198,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7186,7 +7211,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -7221,7 +7246,7 @@ func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string,
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7265,7 +7290,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7547,6 +7572,7 @@ func (obj *Doc) GetMeasure(ctx context.Context, id string) (*GenericMeasure, err
 }
 
 // Lists the media files.
+// Deprecated: Use _GetLibraryContent_ method instead
 func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 	result := &struct {
 		List   *MediaList `json:"qList"`
@@ -7557,6 +7583,7 @@ func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 }
 
 // Lists the media files.
+// Deprecated: Use _GetLibraryContent_ method instead
 func (obj *Doc) GetMediaListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		List   json.RawMessage `json:"qList"`
@@ -7816,6 +7843,7 @@ func (obj *Doc) GetTextMacrosRaw(ctx context.Context) (json.RawMessage, error) {
 //
 // ◾ name   -   Name of the variable.
 //
+// Deprecated: Use _Doc::GetVariableById_ method or _Doc::GetVariableByName_ method instead
 func (obj *Doc) GetVariable(ctx context.Context, name string) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7932,7 +7960,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7958,7 +7986,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7997,7 +8025,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -8023,7 +8051,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -8130,6 +8158,7 @@ func (obj *Doc) RemoveAlternateState(ctx context.Context, stateName string) erro
 //
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
+// Deprecated: Use _Doc::DestroyVariableById_ method or _Doc::DestroyVariableByName_ method instead
 func (obj *Doc) RemoveVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8186,6 +8215,7 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Deprecated: Use _SearchResults_ method instead
 func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinationOptions, terms []string, page *SearchPage) (*SearchAssociationResult, error) {
 	result := &struct {
 		Results *SearchAssociationResult `json:"qResults"`
@@ -8216,6 +8246,7 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Deprecated: Use _SearchResults_ method instead
 func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Results json.RawMessage `json:"qResults"`
@@ -10453,7 +10484,7 @@ func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path str
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -10524,7 +10555,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -10623,6 +10654,7 @@ func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path str
 //
 // ◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.
 //
+// Stability: experimental
 func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string, nodeOptions *NxTreeDataOption) ([]*NxTreeNode, error) {
 	result := &struct {
 		Nodes []*NxTreeNode `json:"qNodes"`
@@ -10640,6 +10672,7 @@ func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string,
 //
 // ◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.
 //
+// Stability: experimental
 func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path string, nodeOptions interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Nodes json.RawMessage `json:"qNodes"`
@@ -10677,7 +10710,7 @@ func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, erro
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -10700,7 +10733,7 @@ func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, 
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -10906,6 +10939,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context
 	return result.Success, err
 }
 
+// Stability: experimental
 func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, path string, ranges []*NxTreeMultiRangeSelectInfo, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -10914,6 +10948,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, pa
 	return result.Success, err
 }
 
+// Stability: experimental
 func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context, path string, ranges interface{}, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11057,7 +11092,7 @@ func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, 
 // ◾ path                      -   Path to the definition of the object to be selected.
 // For example, /qHyperCubeDef .
 //
-// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
+// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
 // If the array is empty [ ] , all rows are selected.
 //
 // ◾ colIndices                -   Indexes of the columns to select, starting from 0.
@@ -11353,7 +11388,7 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -11413,7 +11448,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -11828,7 +11863,7 @@ func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool
 // If the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.
 // Script-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.
 // To get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.
-// The following example returns the QRS identifiers of all the objects in a specified app:
+// The following example returns the QRS identifiers of all the objects in a specified app:
 // GET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13
 // Where
 // _9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.
@@ -12150,6 +12185,7 @@ func (obj *Global) GetAuthenticatedUser(ctx context.Context) (string, error) {
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Deprecated: Use the _GetBaseBNF_ method instead
 func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error) {
 	result := &struct {
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
@@ -12175,6 +12211,7 @@ func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Deprecated: Use the _GetBaseBNF_ method instead
 func (obj *Global) GetBNFRaw(ctx context.Context, bnfType string) (json.RawMessage, error) {
 	result := &struct {
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
@@ -12734,6 +12771,7 @@ func (obj *Global) GetProgressRaw(ctx context.Context, requestId int) (json.RawM
 }
 
 // Lists the streams.
+// Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
 func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, error) {
 	result := &struct {
 		StreamList []*NxStreamListEntry `json:"qStreamList"`
@@ -12743,6 +12781,7 @@ func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, err
 }
 
 // Lists the streams.
+// Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
 func (obj *Global) GetStreamListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		StreamList json.RawMessage `json:"qStreamList"`
@@ -12817,6 +12856,7 @@ func (obj *Global) IsDesktopMode(ctx context.Context) (bool, error) {
 }
 
 // Indicates whether or not the user is working in personal mode (Qlik Sense Desktop).
+// Deprecated: Use _IsDesktopMode_ method instead
 func (obj *Global) IsPersonalMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -12916,6 +12956,7 @@ func (obj *Global) OpenDoc(ctx context.Context, docName string, userName string,
 }
 
 // Returns the Qlik Sense version number.
+// Deprecated: Use _EngineVersion_ method instead
 func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -12949,6 +12990,7 @@ func (obj *Global) QTProduct(ctx context.Context) (string, error) {
 }
 
 // Returns the Qlik Sense version number.
+// Deprecated: Use the _EngineVersion_ method instead
 func (obj *Global) QvVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13016,12 +13058,14 @@ type Variable struct {
 //
 // ◾ d   -   Numeric representation of a dual value.
 //
+// Deprecated: Use _GenericVariable::SetProperties_ method instead
 func (obj *Variable) ForceContent(ctx context.Context, s string, d Float64) error {
 	err := obj.rpc(ctx, "ForceContent", nil, s, d)
 	return err
 }
 
 // Returns the calculated value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 	result := &struct {
 		Content *AlfaNumString `json:"qContent"`
@@ -13031,6 +13075,7 @@ func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 }
 
 // Returns the calculated value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Content json.RawMessage `json:"qContent"`
@@ -13040,6 +13085,7 @@ func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error)
 }
 
 // Gets the properties of a variable.
+// Deprecated: Use _GetProperties_ method instead
 func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties, error) {
 	result := &struct {
 		Properties *NxVariableProperties `json:"qProperties"`
@@ -13049,6 +13095,7 @@ func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties
 }
 
 // Gets the properties of a variable.
+// Deprecated: Use _GetProperties_ method instead
 func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
@@ -13058,6 +13105,7 @@ func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, e
 }
 
 // Returns the raw value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13074,6 +13122,7 @@ func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 //
 // ◾ updateMRU   -   If set to true, the value is added to the Most Recently Used (MRU) list.
 //
+// Deprecated: Use _GenericVariable::SetProperties_ method instead
 func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13088,6 +13137,7 @@ func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU b
 //
 // ◾ properties   -   Information about the properties of the variable
 //
+// Deprecated: Use _SetProperties_ method instead
 func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariableProperties) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, properties)
 	return err
@@ -13099,6 +13149,7 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 //
 // ◾ properties   -   Information about the properties of the variable
 //
+// Deprecated: Use _SetProperties_ method instead
 func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, ensureEncodable(properties))
 	return err

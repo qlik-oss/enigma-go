@@ -252,6 +252,7 @@ func (q *session) GetMockSocket() *MockSocket {
 	return q.socket.(*MockSocket)
 }
 
+// DisconnectFromServer shuts down the websocket connection to the Qlik Assocative Engine
 func (q *session) DisconnectFromServer() {
 	q.socket.Close()
 	<-q.Disconnected()
