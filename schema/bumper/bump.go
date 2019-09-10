@@ -54,7 +54,7 @@ func bump(ver [3]int, flag int) string {
 	case patch:
 		ver[2]++
 	}
-	version := fmt.Sprintf("%d.%d.%d", ver[0], ver[1], ver[2])
+	version := fmt.Sprintf("v%d.%d.%d", ver[0], ver[1], ver[2])
 	return version
 }
 
