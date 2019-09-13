@@ -10,19 +10,11 @@ import (
 type version map[string]string
 
 func compare(v, w version) int {
-	comp := func(s1, s2 string) int64 {
-		a, _ := strconv.ParseInt(s1, 10, 32)
-		b, _ := strconv.ParseInt(s2, 10, 32)
-		return a - b
-	}
-
 	if c := comp(v["major"], w["major"]); c < 0 {
 		return -1
 	} else if c > 0 {
 		return 1
 	}
-
-	log("equal major")
 
 	if c := comp(v["minor"], w["minor"]); c < 0 {
 		return -1
@@ -30,30 +22,31 @@ func compare(v, w version) int {
 		return 1
 	}
 
-	log("equal minor")
-
 	if c := comp(v["patch"], w["patch"]); c < 0 {
 		return -1
 	} else if c > 0 {
 		return 1
 	}
 
-	log("equal patch")
-
-	if v["prelease"] == "" && w["prerelease"] != "" {
+	if v["prerelease"] == "" && w["prerelease"] != "" {
 		return 1
 	}
 
-	if v["prelease"] != "" && w["prerelease"] == "" {
+	if v["prerelease"] != "" && w["prerelease"] == "" {
 		return -1
 	}
 
-	log("both pre-release")
 	return 0
 }
 
+func comp(s1, s2 string) int64 {
+  a, _ := strconv.ParseInt(s1, 10, 32)
+  b, _ := strconv.ParseInt(s2, 10, 32)
+  return a - b
+}
+
 func (v version) String() string {
-	str := fmt.Sprintf("v%s.%s.%s", v["major"], v["minor"], v["patch"])
+	str := fmt.Sprintf("%s.%s.%s", v["major"], v["minor"], v["patch"])
 	if v["prerelease"] != "" {
 		str += "-" + v["prerelease"]
 	}
@@ -63,7 +56,19 @@ func (v version) String() string {
 	return str
 }
 
-func parse(str string) version {
+func (v version) valid() bool {
+  switch {
+  case v["major"] == "":
+    return false
+  case v["minor"] == "":
+    return false
+  case v["patch"] == "":
+    return false
+  }
+  return true
+}
+
+func parse(str string) (version, error) {
 	// Regex for semver: https://semver.org/
 	// Example: https://regex101.com/r/Ly7O1x/3/
 	r := regexp.MustCompile("^(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$")
@@ -73,20 +78,24 @@ func parse(str string) version {
 	for i := 1; i < len(matches); i++ {
 		v[groups[i]] = matches[i]
 	}
-	return v
-}
-
-func compareStr(a, b string) int {
-	return compare(parse(a), parse(b))
+  if !v.valid() {
+    return v, fmt.Errorf("'%s' is not a valid version", str)
+  }
+	return v, nil
 }
 
 func main() {
 	if len(os.Args) != 3 {
-		fmt.Println("Wrong number of arguments, should be two!")
-		os.Exit(1)
+    exit("Wrong number of arguments, should be two!")
 	}
-	v := parse(os.Args[1])
-	w := parse(os.Args[2])
+	v, err := parse(os.Args[1])
+  if err != nil {
+    exit(err.Error())
+  }
+	w, err := parse(os.Args[2])
+  if err != nil {
+    exit(err.Error())
+  }
 	c := compare(v, w)
 	switch c {
 	case -1:
@@ -98,6 +107,7 @@ func main() {
 	}
 }
 
-func log(msg string) {
-	fmt.Println("log:", msg)
+func exit(a ...interface{}) {
+  fmt.Println(a...)
+  os.Exit(1)
 }
