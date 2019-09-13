@@ -107,7 +107,7 @@ type AssociationScore struct {
 
 type BNFDef struct {
 	// Array of token references that all together build up the definition of the current token.
-	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
+	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
 	Bnf []int `json:"qBnf,omitempty"`
 	// Number of the current token definition.
 	Nbr int `json:"qNbr,omitempty"`
@@ -334,11 +334,11 @@ type Connection struct {
 	Name string `json:"qName,omitempty"`
 	// One of:
 	//
-	// • ODBC CONNECT TO [<provider name>]
+	// • ODBC CONNECT TO [<provider name>]
 	//
-	// • OLEDB CONNECT TO [<provider name>]
+	// • OLEDB CONNECT TO [<provider name>]
 	//
-	// • CUSTOM CONNECT TO [<provider name>]
+	// • CUSTOM CONNECT TO [<provider name>]
 	//
 	// • "<local absolute or relative path, UNC path>"
 	//
@@ -1026,7 +1026,7 @@ type FieldValue struct {
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 type FileDataFormat struct {
@@ -1734,7 +1734,7 @@ type LineageInfo struct {
 	//
 	// • AUTOGENERATE: the data is generated from the load script (no external table of data source).
 	//
-	// • Provider: the data comes from a data connection. The connector source name is listed.
+	// • Provider: the data comes from a data connection. The connector source name is listed.
 	//
 	// • [webfile]: the data comes from a web-based file.
 	//
@@ -1847,7 +1847,7 @@ type LocaleInfo struct {
 	//
 	// • ...
 	//
-	// • 6 = Sunday
+	// • 6 = Sunday
 	//
 	// If this property has not been set in a script, the returned value comes from the Windows operating system.
 	FirstWeekDay int `json:"qFirstWeekDay,omitempty"`
@@ -1878,7 +1878,7 @@ type LocaleInfo struct {
 	// _< language>-<REGION>_
 	// Where:
 	//
-	// • language is a lowercase ISO  639 language code
+	// • language is a lowercase ISO 639 language code
 	//
 	// • REGION specifies an uppercase ISO 3166 country code.
 	//
@@ -2593,7 +2593,7 @@ type NxFieldSelectionInfo struct {
 	//
 	// • NORMAL for a selection in normal mode.
 	//
-	// • AND for a selection in AND mode.
+	// • AND for a selection in AND mode.
 	//
 	// • NOT for a selection NOT in AND mode.
 	// One of:
@@ -2700,7 +2700,7 @@ type NxInlineMeasureDef struct {
 	// This parameter is optional.
 	Description string `json:"qDescription,omitempty"`
 	// Name connected to the measure that is used for search purposes.
-	// A measure can have several tags.
+	// A measure can have several tags.
 	// This parameter is optional.
 	Tags []string `json:"qTags,omitempty"`
 	// Default value is no grouping.
@@ -4233,9 +4233,9 @@ type ObjectInterface struct {
 }
 
 type OdbcDsn struct {
-	// Name of the ODBC connection.
+	// Name of the ODBC connection.
 	Name string `json:"qName,omitempty"`
-	// Description of the ODBC connection.
+	// Description of the ODBC connection.
 	Description string `json:"qDescription,omitempty"`
 	// Is set to true if the version of ODBC is 32-bit.
 	// This parameter is optional. Default is false.
@@ -6662,7 +6662,7 @@ func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, er
 	return result.List, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6676,7 +6676,7 @@ func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*Data
 	return result.Info, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6722,7 +6722,7 @@ func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, d
 	return result.Owners, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6744,7 +6744,7 @@ func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string,
 	return result.Fields, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6766,7 +6766,7 @@ func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId stri
 	return result.Fields, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6791,7 +6791,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 	return result.Preview, result.RowCount, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6816,7 +6816,7 @@ func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId str
 	return result.Preview, result.RowCount, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6836,7 +6836,7 @@ func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, data
 	return result.Tables, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -7054,7 +7054,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7067,7 +7067,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataField, string, error) {
 	result := &struct {
@@ -7102,7 +7102,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7115,7 +7115,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -7150,7 +7150,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7163,7 +7163,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataRecord, string, error) {
 	result := &struct {
@@ -7198,7 +7198,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7211,7 +7211,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -7246,7 +7246,7 @@ func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string,
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7290,7 +7290,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7960,7 +7960,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7986,7 +7986,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -8025,7 +8025,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -8051,7 +8051,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -10484,7 +10484,7 @@ func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path str
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -10555,7 +10555,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -10710,7 +10710,7 @@ func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, erro
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -10733,7 +10733,7 @@ func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, 
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -11092,7 +11092,7 @@ func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, 
 // ◾ path                      -   Path to the definition of the object to be selected.
 // For example, /qHyperCubeDef .
 //
-// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
+// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
 // If the array is empty [ ] , all rows are selected.
 //
 // ◾ colIndices                -   Indexes of the columns to select, starting from 0.
@@ -11388,7 +11388,7 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -11448,7 +11448,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -11863,7 +11863,7 @@ func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool
 // If the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.
 // Script-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.
 // To get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.
-// The following example returns the QRS identifiers of all the objects in a specified app:
+// The following example returns the QRS identifiers of all the objects in a specified app:
 // GET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13
 // Where
 // _9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.
