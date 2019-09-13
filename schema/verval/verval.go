@@ -40,9 +40,9 @@ func compare(v, w version) int {
 }
 
 func comp(s1, s2 string) int64 {
-  a, _ := strconv.ParseInt(s1, 10, 32)
-  b, _ := strconv.ParseInt(s2, 10, 32)
-  return a - b
+	a, _ := strconv.ParseInt(s1, 10, 32)
+	b, _ := strconv.ParseInt(s2, 10, 32)
+	return a - b
 }
 
 func (v version) String() string {
@@ -57,15 +57,15 @@ func (v version) String() string {
 }
 
 func (v version) valid() bool {
-  switch {
-  case v["major"] == "":
-    return false
-  case v["minor"] == "":
-    return false
-  case v["patch"] == "":
-    return false
-  }
-  return true
+	switch {
+	case v["major"] == "":
+		return false
+	case v["minor"] == "":
+		return false
+	case v["patch"] == "":
+		return false
+	}
+	return true
 }
 
 func parse(str string) (version, error) {
@@ -78,24 +78,24 @@ func parse(str string) (version, error) {
 	for i := 1; i < len(matches); i++ {
 		v[groups[i]] = matches[i]
 	}
-  if !v.valid() {
-    return v, fmt.Errorf("'%s' is not a valid version", str)
-  }
+	if !v.valid() {
+		return v, fmt.Errorf("'%s' is not a valid version", str)
+	}
 	return v, nil
 }
 
 func main() {
 	if len(os.Args) != 3 {
-    exit("Wrong number of arguments, should be two!")
+		exit("Wrong number of arguments, should be two!")
 	}
 	v, err := parse(os.Args[1])
-  if err != nil {
-    exit(err.Error())
-  }
+	if err != nil {
+		exit(err.Error())
+	}
 	w, err := parse(os.Args[2])
-  if err != nil {
-    exit(err.Error())
-  }
+	if err != nil {
+		exit(err.Error())
+	}
 	c := compare(v, w)
 	switch c {
 	case -1:
@@ -108,6 +108,6 @@ func main() {
 }
 
 func exit(a ...interface{}) {
-  fmt.Println(a...)
-  os.Exit(1)
+	fmt.Println(a...)
+	os.Exit(1)
 }
