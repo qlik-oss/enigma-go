@@ -26,4 +26,9 @@ The examples below show various enigma-go use cases.
 * [Traffic Log](./logging/README.md)
 
 #### Testing
-* [Mock Mode](./testing/mock_mode/README.md)
+* [Mock Mode](./testing/mock-mode/README.md)
+
+
+#### Cookies
+* [Cookie Jar](./cookiejar/README.md)
+

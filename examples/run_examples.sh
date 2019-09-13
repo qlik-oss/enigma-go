@@ -9,6 +9,7 @@ examples=(
     basics/lists/app-object-list/app-object-list.go
     basics/lists/field-list/field-list.go
     basics/events/events.go
+    cookiejar/cookiejar.go
     data/hypercubes/pivot/hypercube-pivot.go
     data/hypercubes/stacked/hypercube-stacked.go
     data/hypercubes/straight/hypercube-straight.go
@@ -18,7 +19,8 @@ examples=(
     interceptors/metrics/metrics.go
     logging/traffic-log.go
     reload/monitor-progress/monitor-progress.go
-    testing/mock_mode/mock_mode.go
+    testing/mock-mode/mock-mode.go
+
 )
 
 for example in ${examples[@]}; do
