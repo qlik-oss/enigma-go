@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+  "strings"
 	"testing"
 )
 
@@ -96,6 +97,28 @@ func TestCompare(t *testing.T) {
 	}
 }
 
+func TestBump(t *testing.T) {
+  v, _ := parse("1.9.7-beta+alfa")
+  w, _ := parse("2.1.1")
+  err := v.bump("foo")
+  exp := "invalid field"
+  if !strings.Contains(err.Error(), exp) {
+    t.Errorf("error did not contain substring '%s'", exp)
+  }
+  err = v.bump("buildmetadata")
+  exp = "cannot bump"
+  if !strings.Contains(err.Error(), exp) {
+    t.Errorf("error did not contain substring '%s'", exp)
+  }
+  bumps := []string{"minor", "major", "patch", "patch", "minor", "patch"}
+  for _, b := range bumps {
+    _ = v.bump(b)
+  }
+  if compare(v, w) != 0 {
+    t.Errorf("expected '%s' to be equal to '%s'", v.String(), w.String())
+  }
+}
+
 func TestString(t *testing.T) {
 	tests := []string{
 		"1.0.0",
@@ -116,9 +139,10 @@ func TestString(t *testing.T) {
 
 func TestRun(t *testing.T) {
 	pass := [][]string{
-		[]string{"1.0.1", "1.0.1-beta"},
-		[]string{"1.9.0", "1.9.0"},
-		[]string{"2.0.0", "1.9.1-beta"},
+    []string{"1.0.1", "1.0.1-beta", "1"},
+    []string{"1.9.0", "1.9.0", "0"},
+    []string{"2.0.0", "1.9.1-beta", "1"},
+    []string{"2.0.0", "2.1.0-beta+alfa", "-1"},
 	}
 	fail := [][]string{
 		[]string{},
@@ -134,12 +158,18 @@ func TestRun(t *testing.T) {
 
 	bin := "./verval"
 
-	for _, args := range pass {
-		cmd := exec.Command(bin, args...)
-		err := cmd.Run()
-		if err != nil {
-			t.Errorf("cmd: %v failed with error '%s'", args, err.Error())
-		}
+  for _, args := range pass {
+    cmd := exec.Command(bin, args[:2]...)
+		out, err := cmd.Output()
+    if err != nil {
+      t.Error(err.Error())
+    }
+    if err != nil {
+      t.Error(err.Error())
+    }
+    if res := string(out); res != args[2] {
+      t.Errorf("expected '%s' but got '%s'", args[2], res)
+    }
 	}
 	for _, args := range fail {
 		cmd := exec.Command(bin, args...)
@@ -148,5 +178,22 @@ func TestRun(t *testing.T) {
 			t.Errorf("cmd: %v passed but should've failed.", args)
 		}
 	}
+
+  bumps := [][2]string{
+    [2]string{"1.0.0", "1.1.0"},
+    [2]string{"0.5.7", "0.6.0"},
+    [2]string{"1.7.9-beta+asdasd", "1.8.0"},
+  }
+  for _, test := range bumps {
+    cmd := exec.Command(bin, "bump", test[0])
+    out, err := cmd.Output()
+    if err != nil {
+      t.Error(err.Error())
+    }
+    res := string(out)
+    if res != test[1] {
+      t.Errorf("expected '%s' to be '%s'", res, test[1])
+    }
+  }
 	os.Remove(bin)
 }

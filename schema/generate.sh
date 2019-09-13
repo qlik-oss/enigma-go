@@ -35,21 +35,3 @@ else
     echo "Failed to retrieve JSON-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
     exit 1
 fi
-
-# To bump version, we could use something like this
-# (which uses the bump.go file in bumper/ )
-__version() {
-  local ver
-  local next_ver
-  # relying on git describe requires us to always apply tags directly
-  # to master
-  ver=$(git describe 2> /dev/null)
-  # 128 means that no tags were found, probably due to the fact that
-  # there are none, so version is: 0.0.0.
-  if [[ $? -eq 128 ]]; then
-    ver="0.0.0"
-  fi
-  # Next version should be 0.1.0, bumped minor from 0.0.0
-  next_ver=$(go run ./bumper/bump.go $ver -m)
-  echo $next_ver
-}
