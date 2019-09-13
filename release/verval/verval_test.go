@@ -98,7 +98,7 @@ func TestCompare(t *testing.T) {
 }
 
 func TestBump(t *testing.T) {
-	v, _ := parse("1.9.7-beta+alfa")
+	v, _ := parse("v1.9.7-beta+alfa")
 	w, _ := parse("2.1.1")
 	err := v.bump("foo")
 	exp := "invalid field"
@@ -179,20 +179,22 @@ func TestRun(t *testing.T) {
 		}
 	}
 
-	bumps := [][2]string{
-		[2]string{"1.0.0", "1.1.0"},
-		[2]string{"0.5.7", "0.6.0"},
-		[2]string{"1.7.9-beta+asdasd", "1.8.0"},
+	bumps := [][3]string{
+		[3]string{"minor", "v1.0.0", "1.1.0"},
+		[3]string{"minor", "0.5.7", "0.6.0"},
+		[3]string{"minor", "1.7.9-beta+asdasd", "1.8.0"},
+		[3]string{"patch", "0.5.7", "0.5.8"},
+		[3]string{"major", "0.5.7", "1.0.0"},
 	}
 	for _, test := range bumps {
-		cmd := exec.Command(bin, "bump", test[0])
+		cmd := exec.Command(bin, "bump", test[0], test[1])
 		out, err := cmd.Output()
 		if err != nil {
 			t.Error(err.Error())
 		}
 		res := string(out)
-		if res != test[1] {
-			t.Errorf("expected '%s' to be '%s'", res, test[1])
+		if res != test[2] {
+			t.Errorf("expected '%s' to be '%s'", res, test[2])
 		}
 	}
 	os.Remove(bin)

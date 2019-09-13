@@ -1,5 +1,11 @@
-# To bump version, we could use something like this
-# (which uses the bump.go file in bumper/ )
+# !/bin/bash
+# This script bumps the version based on the previous tag
+# and appends engine version as metadata. If no tags are
+# present, this will be interpreted '0.0.0'.
+
+# After the version has been generated the tag will be added.
+# Pushing the tag is left as an exercise to the reader.
+
 VERSION=""
 __bump_version() {
   local ver
@@ -20,7 +26,7 @@ __bump_version() {
   else
     echo "Found tag, bumping from '$ver'"
   fi
-  new_ver=$(go run ./verval/verval.go bump $ver)
+  new_ver=$(go run ./verval/verval.go bump $1 $ver)
   ecode=$?
   if [[ $ecode -ne 0 ]]; then
     echo $new_ver
@@ -30,7 +36,20 @@ __bump_version() {
   VERSION=v$new_ver+$(grep -oP "QIX_SCHEMA_VERSION.+?\K\d+\.\d+\.\d+" ../qix_generated.go)
 }
 
-__bump_version
-echo $VERSION
-echo "git tag -a ${VERSION} -m Release ${VERSION}"
-git tag -a $VERSION -m "Release ${VERSION}"
+if [[ $# -ne 1 ]]; then
+  echo "use: release.sh <major|minor|patch>"
+  exit 1
+fi
+
+case $1 in
+  "major"|"minor"|"patch")
+    __bump_version $1
+    echo $VERSION
+    echo "git tag -a ${VERSION} -m Release ${VERSION}"
+    git tag -a $VERSION -m "Release ${VERSION}"
+    ;;
+  *)
+    echo "Argument must be one of 'major', 'minor' or 'patch'."
+    exit 1
+    ;;
+esac

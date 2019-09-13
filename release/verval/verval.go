@@ -110,32 +110,58 @@ func parse(str string) (version, error) {
 	return v, nil
 }
 
+var use = `verval can do two things, either bump a version or compare two versions.
+
+Bumping:
+
+  go run verval.go bump <field> <version>
+
+where <field> can be one of 'major', 'minor' or 'patch' depending on
+what you want to bump. Lastly, <version> is the semantic version which
+you want to bump. Any meta or prerelease information will be removed
+and is left to the user to handle.
+
+Comparing:
+
+  go run verval.go <version1> <version2>
+
+where the two versions must be semantic versions. This will return
+one of '1', '0' or '-1' meaning version1 is greater, equal or less
+than version2 respectively. Prerelease tags are obeyed to the extent
+that '1.0.0' succeeds '1.0.0-beta' but the value of the prerelease
+field is not evaluated itself. ('1.0.0-beta' == '1.0.0-alpha')
+`
+
 func main() {
-	if len(os.Args) != 3 {
-		exit("Wrong number of arguments, should be two!")
-	}
-	if os.Args[1] == "bump" {
-		v, err := parse(os.Args[2])
-		if err != nil {
-			exit(err.Error())
-		}
-		v.bump("minor")
-		fmt.Print(v.String())
-	} else {
-		v, err := parse(os.Args[1])
-		if err != nil {
-			exit(err.Error())
-		}
-		w, err := parse(os.Args[2])
-		if err != nil {
-			exit(err.Error())
-		}
-		c := compare(v, w)
-		fmt.Print(c)
-	}
+  if l := len(os.Args); l < 3 || l > 4 {
+    exit("Expected 3 or 4 arguments.", use)
+  }
+  if os.Args[1] == "bump" {
+    if len(os.Args) != 4 {
+      exit("Bumping requires exactly 4 arguments.", use)
+    }
+    mode := os.Args[2]
+    v, err := parse(os.Args[3])
+    if err != nil {
+      exit(err.Error())
+    }
+    v.bump(mode)
+    fmt.Print(v.String())
+  } else {
+    v, err := parse(os.Args[1])
+    if err != nil {
+      exit(err.Error())
+    }
+    w, err := parse(os.Args[2])
+    if err != nil {
+      exit(err.Error())
+    }
+    c := compare(v, w)
+    fmt.Print(c)
+  }
 }
 
 func exit(a ...interface{}) {
-	fmt.Println(a...)
+	fmt.Fprintln(os.Stderr, a...)
 	os.Exit(1)
 }
