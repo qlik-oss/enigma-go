@@ -57,26 +57,26 @@ func (v version) String() string {
 }
 
 func (v version) bump(field string) error {
-  val, ok := v[field]
-  if !ok {
-    return fmt.Errorf("'%s' is an invalid field", field)
-  }
-  nbr, err := strconv.ParseInt(val, 10, 32)
-  if err != nil {
-    return fmt.Errorf("cannot bump field '%s'", field)
-  }
-  nbr++
-  v[field] = fmt.Sprint(nbr)
-  switch field {
-  case "major":
-    v["minor"] = "0"
-    v["patch"] = "0"
+	val, ok := v[field]
+	if !ok {
+		return fmt.Errorf("'%s' is an invalid field", field)
+	}
+	nbr, err := strconv.ParseInt(val, 10, 32)
+	if err != nil {
+		return fmt.Errorf("cannot bump field '%s'", field)
+	}
+	nbr++
+	v[field] = fmt.Sprint(nbr)
+	switch field {
+	case "major":
+		v["minor"] = "0"
+		v["patch"] = "0"
 	case "minor":
-    v["patch"] = "0"
-  }
-  v["prerelease"] = ""
-  v["buildmetadata"] = ""
-  return nil
+		v["patch"] = "0"
+	}
+	v["prerelease"] = ""
+	v["buildmetadata"] = ""
+	return nil
 }
 
 func (v version) valid() bool {
@@ -92,9 +92,9 @@ func (v version) valid() bool {
 }
 
 func parse(str string) (version, error) {
-  if len(str) > 0 && str[0] == 'v' {
-    str = str[1:]
-  }
+	if len(str) > 0 && str[0] == 'v' {
+		str = str[1:]
+	}
 	// Regex for semver: https://semver.org/
 	// Example: https://regex101.com/r/Ly7O1x/3/
 	r := regexp.MustCompile("^(?P<major>0|[1-9]\\d*)\\.(?P<minor>0|[1-9]\\d*)\\.(?P<patch>0|[1-9]\\d*)(?:-(?P<prerelease>(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$")
@@ -114,25 +114,25 @@ func main() {
 	if len(os.Args) != 3 {
 		exit("Wrong number of arguments, should be two!")
 	}
-  if os.Args[1] == "bump" {
-    v, err := parse(os.Args[2])
-    if err != nil {
-      exit(err.Error())
-    }
-    v.bump("minor")
-    fmt.Print(v.String())
-  } else {
-    v, err := parse(os.Args[1])
-    if err != nil {
-      exit(err.Error())
-    }
-    w, err := parse(os.Args[2])
-    if err != nil {
-      exit(err.Error())
-    }
-    c := compare(v, w)
-    fmt.Print(c)
-  }
+	if os.Args[1] == "bump" {
+		v, err := parse(os.Args[2])
+		if err != nil {
+			exit(err.Error())
+		}
+		v.bump("minor")
+		fmt.Print(v.String())
+	} else {
+		v, err := parse(os.Args[1])
+		if err != nil {
+			exit(err.Error())
+		}
+		w, err := parse(os.Args[2])
+		if err != nil {
+			exit(err.Error())
+		}
+		c := compare(v, w)
+		fmt.Print(c)
+	}
 }
 
 func exit(a ...interface{}) {
