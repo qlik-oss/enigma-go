@@ -149,6 +149,11 @@ func TestRun(t *testing.T) {
 		[]string{"1.0.0"},
 		[]string{"1.9.1-beta"},
 		[]string{"1"},
+		[]string{"1", "1.0.0"},
+		[]string{"bump", "1.0.0"},
+		[]string{"bump", "major"},
+		[]string{"bump", "major", "1"},
+		[]string{"bump", "major", "1.0.0", "1.0.0"},
 	}
 	cmd := exec.Command("go", "build")
 	err := cmd.Run()
