@@ -41,12 +41,34 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 
+# TODO check sanity!
+
 case $1 in
   "major"|"minor"|"patch")
     __bump_version $1
     echo $VERSION
+    WD=$(pwd)
+    cd ../spec
+    echo -n "Generating spec..."
+    go run generate.go -version=$VERSION
+    if [[ $? -ne 0 ]]; then
+      echo "FAIL"
+      echo "Failed to generate API specification, aborting"
+      exit 1
+    fi
+    echo "Done"
+    echo "git add ../api-spec.json"
+    git add ../api-spec.json > /dev/null
+    echo "git commit -m \"Release: $VERSION\""
+    git commit -m "Release: $VERSION" > /dev/null
     echo "git tag -a ${VERSION} -m Release ${VERSION}"
-    git tag -a $VERSION -m "Release ${VERSION}"
+    git tag -a $VERSION -m "Release ${VERSION}" > /dev/null
+    echo
+    echo "If everything looks OK run the following command to release:"
+    echo
+    echo "  git push --follow-tags"
+    echo
+    cd $WD
     ;;
   *)
     echo "Argument must be one of 'major', 'minor' or 'patch'."
