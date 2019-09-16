@@ -53,6 +53,7 @@ as metadata. For example bumping minor when there are no previous tags will resu
 2. Generates a new API specification using the new version.
 3. Adds the resulting `api-spec.json` file to a commit with the message `Release: <version>`.
 4. Creates a tag containing the version with the same message as in step 3.
+
 After the script has run, check the results. If everything looks good run:
 ```bash
 git push --follow-tags
