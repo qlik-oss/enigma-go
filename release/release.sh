@@ -76,8 +76,8 @@ case $1 in
     git add ../api-spec.json > /dev/null
     echo "git commit -m \"Release: $VERSION\""
     git commit -m "Release: $VERSION" > /dev/null
-    echo "git tag -a ${VERSION} -m Release ${VERSION}"
-    git tag -a $VERSION -m "Release ${VERSION}" > /dev/null
+    echo "git tag -a ${VERSION} -m Release: ${VERSION}"
+    git tag -a $VERSION -m "Release: ${VERSION}" > /dev/null
     echo
     echo "If everything looks OK run the following command to release:"
     echo
