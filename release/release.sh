@@ -55,6 +55,10 @@ sanity_check() {
     git diff origin/master --name-only
     exit 1
   fi
+  if [[ $(git branch | grep -oP "\*\s\K.+") != "master" ]]; then
+    echo "This script should only be run from the master branch. Aborting."
+    exit 1
+  fi
 }
 
 case $1 in
