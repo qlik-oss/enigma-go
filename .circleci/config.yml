@@ -18,7 +18,12 @@ aliases:
 
   - &spec_test |
       go test -v -race ./spec
-      go run ./spec/generate.go
+      TAG=$(git describe --tags --abbrev=0)
+      if [[ $(git rev-list -n 1 $TAG) == $(git rev-parse HEAD) ]]; then
+        go run ./spec/generate.go -version $TAG
+      else
+        go run ./spec/generate.go
+      fi
       git diff --exit-code api-spec.json
 
   - &examples |
