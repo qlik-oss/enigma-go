@@ -34,7 +34,7 @@ type info struct {
 	Name                string `json:"name,omitempty"`
 	GoPackageName       string `json:"go-package-name,omitempty"`
 	GoPackageImportPath string `json:"go-package-import-path,omitempty"`
-	Version             string `json:"version,omitempty"`
+	Version             string `json:"version"`
 	Description         string `json:"description,omitempty"`
 	License             string `json:"license,omitempty"`
 	Deprecated          bool   `json:"x-qlik-deprecated,omitempty"`
