@@ -49,8 +49,8 @@ sanity_check() {
   fi
   local_branch=$(git branch | grep -oP "\*\s\K.+")
   if [[ $local_branch != "master" ]]; then
-    echo "This script should only be run from the master branch."
-    echo "You are on $local_branch. Aborting."
+    echo "This script can only be run from the master branch."
+    echo "You are on '$local_branch'. Aborting."
     exit 1
   fi
   # Check if local branch is up-to-date with remote master branch
