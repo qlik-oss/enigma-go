@@ -92,6 +92,7 @@ jobs:
       - run: *lint
       - run: *test
       - run: *spec_test
+      - run: go test -v -race ./release/verval
       - setup_remote_docker
       - run: *examples
 

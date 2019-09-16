@@ -60,9 +60,10 @@ sanity_check() {
 case $1 in
   "major"|"minor"|"patch")
     sanity_check
+    WD=$(pwd)
+    cd $(dirname "$0")
     bump_version $1
     echo $VERSION
-    WD=$(pwd)
     cd ../spec
     echo -n "Generating spec..."
     go run generate.go -version=$VERSION
