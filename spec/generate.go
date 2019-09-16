@@ -85,6 +85,7 @@ var version = flag.String("version", "devbuild", "Specification version")
 var currentPackage string
 
 func main() {
+	flag.Parse() // This reads in the value of the passed flags.
 	info := &info{
 		Name:                "enigma",
 		GoPackageImportPath: "github.com/qlik-oss/enigma-go",
