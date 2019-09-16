@@ -7,7 +7,7 @@
 # Pushing the tag is left as an exercise to the reader.
 
 VERSION=""
-__bump_version() {
+bump_version() {
   local ver
   local new_ver
   # relying on git describe requires us to always apply tags directly
@@ -41,11 +41,26 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 
-# TODO check sanity!
+sanity_check() {
+  if [[ ! -z $(git status --porcelain) ]]; then
+    echo "There are uncommitted changes. Please make sure branch is clean."
+    git status --porcelain
+    exit 1
+  fi
+  # Check if local branch is up-to-date with remote master branch
+  git fetch origin master
+  git diff origin/master --exit-code > /dev/null
+  if [[ $? -ne 0 ]]; then
+    echo "Local branch is not up-to-date with remote master. Please pull the latest changes."
+    git diff origin/master --name-only
+    exit 1
+  fi
+}
 
 case $1 in
   "major"|"minor"|"patch")
-    __bump_version $1
+    sanity_check
+    bump_version $1
     echo $VERSION
     WD=$(pwd)
     cd ../spec
