@@ -47,16 +47,16 @@ sanity_check() {
     git status --porcelain
     exit 1
   fi
+  if [[ $(git branch | grep -oP "\*\s\K.+") != "master" ]]; then
+    echo "This script should only be run from the master branch. Aborting."
+    exit 1
+  fi
   # Check if local branch is up-to-date with remote master branch
   git fetch origin master
   git diff origin/master --exit-code > /dev/null
   if [[ $? -ne 0 ]]; then
     echo "Local branch is not up-to-date with remote master. Please pull the latest changes."
     git diff origin/master --name-only
-    exit 1
-  fi
-  if [[ $(git branch | grep -oP "\*\s\K.+") != "master" ]]; then
-    echo "This script should only be run from the master branch. Aborting."
     exit 1
   fi
 }
