@@ -3,7 +3,10 @@
 # If no tags are present, this will be interpreted '0.0.0'.
 #
 # After the version has been generated the tag will be added.
+# Finally, a commit bumping the api spec to version=latest is added.
 # Pushing the tag is left as an exercise to the reader.
+#
+# NOTE: This script should generate exactly 2 commits and 1 tag.
 
 VERSION=""
 bump_version() {
@@ -35,11 +38,6 @@ bump_version() {
   VERSION=v$new_ver
 }
 
-if [[ $# -ne 1 ]]; then
-  echo "use: release.sh <major|minor|patch>"
-  exit 1
-fi
-
 sanity_check() {
   if [[ ! -z $(git status --porcelain) ]]; then
     echo "There are uncommitted changes. Please make sure branch is clean."
@@ -61,6 +59,11 @@ sanity_check() {
     exit 1
   fi
 }
+
+if [[ $# -ne 1 ]]; then
+  echo "use: release.sh <major|minor|patch>"
+  exit 1
+fi
 
 case $1 in
   "major"|"minor"|"patch")
@@ -86,6 +89,10 @@ case $1 in
     git commit -m $MSG > /dev/null
     echo "git tag -a ${VERSION} -m $MSG"
     git tag -a $VERSION -m $MSG > /dev/null
+    # Set version to latest on master
+    go run generate.go
+    echo "git commit -m \"Post-release: bumping version to latest\""
+    git commit -m "Post-release: bumping version to latest" > /dev/null
     echo
     echo "If everything looks OK run the following command to release:"
     echo
