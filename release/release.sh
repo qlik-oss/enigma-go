@@ -82,13 +82,13 @@ case $1 in
     fi
     echo "Done"
     QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
-    MSG="\"Release: $VERSION for QIX schema version $QIX_VERSION\""
+    MSG="Release: $VERSION for QIX schema version $QIX_VERSION"
     echo "git add ../api-spec.json"
     git add ../api-spec.json > /dev/null
-    echo "git commit -m $MSG"
-    git commit -m $MSG > /dev/null
-    echo "git tag -a ${VERSION} -m $MSG"
-    git tag -a $VERSION -m $MSG > /dev/null
+    echo "git commit -m \"$MSG\""
+    git commit -m "$MSG" > /dev/null
+    echo "git tag -a ${VERSION} -m \"$MSG\""
+    git tag -a $VERSION -m "$MSG" > /dev/null
     # Set version to latest on master
     echo "Bumping version of spec again, now to latest"
     go run generate.go
