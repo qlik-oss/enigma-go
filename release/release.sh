@@ -67,7 +67,7 @@ fi
 
 case $1 in
   "major"|"minor"|"patch")
-    #sanity_check
+    sanity_check
     WD=$(pwd)
     cd $(dirname "$0")
     bump_version $1
