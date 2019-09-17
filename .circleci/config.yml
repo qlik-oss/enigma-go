@@ -109,4 +109,8 @@ workflows:
     jobs:
       - golang-1.11
       - golang-1.12
-      - golang-1.13
+      - golang-1.13:
+          filters:
+            tags:
+              only:
+                - /v.*/

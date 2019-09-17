@@ -1,10 +1,12 @@
 # !/bin/bash
-# This script bumps the version based on the previous tag
-# and appends engine version as metadata. If no tags are
-# present, this will be interpreted '0.0.0'.
-
+# This script bumps the version based on the previous tag.
+# If no tags are present, this will be interpreted '0.0.0'.
+#
 # After the version has been generated the tag will be added.
+# Finally, a commit bumping the api spec to version=latest is added.
 # Pushing the tag is left as an exercise to the reader.
+#
+# NOTE: This script should generate exactly 2 commits and 1 tag.
 
 VERSION=""
 bump_version() {
@@ -33,13 +35,8 @@ bump_version() {
     exit $ecode
   fi
   echo "New version: $new_ver"
-  VERSION=v$new_ver+$(grep -oP "QIX_SCHEMA_VERSION.+?\K\d+\.\d+\.\d+" ../qix_generated.go)
+  VERSION=v$new_ver
 }
-
-if [[ $# -ne 1 ]]; then
-  echo "use: release.sh <major|minor|patch>"
-  exit 1
-fi
 
 sanity_check() {
   if [[ ! -z $(git status --porcelain) ]]; then
@@ -63,6 +60,11 @@ sanity_check() {
   fi
 }
 
+if [[ $# -ne 1 ]]; then
+  echo "use: release.sh <major|minor|patch>"
+  exit 1
+fi
+
 case $1 in
   "major"|"minor"|"patch")
     sanity_check
@@ -79,12 +81,21 @@ case $1 in
       exit 1
     fi
     echo "Done"
+    QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
+    MSG="Release: $VERSION for QIX schema version $QIX_VERSION"
     echo "git add ../api-spec.json"
     git add ../api-spec.json > /dev/null
-    echo "git commit -m \"Release: $VERSION\""
-    git commit -m "Release: $VERSION" > /dev/null
-    echo "git tag -a ${VERSION} -m Release: ${VERSION}"
-    git tag -a $VERSION -m "Release: ${VERSION}" > /dev/null
+    echo "git commit -m $MSG"
+    git commit -m $MSG > /dev/null
+    echo "git tag -a ${VERSION} -m $MSG"
+    git tag -a $VERSION -m $MSG > /dev/null
+    # Set version to latest on master
+    echo "Bumping version of spec again, now to latest"
+    go run generate.go
+    echo "git add ../api-spec.json"
+    git add ../api-spec.json > /dev/null
+    echo "git commit -m \"Post-release: bumping version to latest\""
+    git commit -m "Post-release: bumping version to latest" > /dev/null
     echo
     echo "If everything looks OK run the following command to release:"
     echo
