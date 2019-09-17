@@ -51,8 +51,9 @@ where the argument specifies what should be bumped. The release-script does a co
 1. Creates a new version based on previous version-tag (if any, otherwise 0.0.0) and suffixes it with the QIX schema version
 as metadata. For example bumping minor when there are no previous tags will result in the version `0.1.0+12.429.0`.
 2. Generates a new API specification using the new version.
-3. Adds the resulting `api-spec.json` file to a commit with the message `Release: <version>`.
+3. Adds the resulting `api-spec.json` file to a commit with the message `Release: <version> for QIX schema version <qix_version>`.
 4. Creates a tag containing the version with the same message as in step 3.
+5. Afterwards, adds another commit bumping the `api-spec.json` to latest again.
 
 After the script has run, check the results. If everything looks good run:
 ```bash
