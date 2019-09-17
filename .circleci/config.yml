@@ -22,6 +22,7 @@ aliases:
       # If we don't have any tags we will get exit code 128.
       # Ignore it, the last diff is what's important here.
       TAG=$(git describe --tags --abbrev=0 2> /dev/null)
+      set -e
       if [[ ! -z $TAG && ($(git rev-list -n 1 $TAG) == $(git rev-parse HEAD)) ]]; then
         go run ./spec/generate.go -version $TAG
       else
