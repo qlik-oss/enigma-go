@@ -81,7 +81,7 @@ func receiver(f *ast.FuncDecl) string {
 	return recv
 }
 
-var version = flag.String("version", "devbuild", "Specification version")
+var version = flag.String("version", "latest", "Specification version")
 var currentPackage string
 
 func main() {
