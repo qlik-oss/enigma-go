@@ -67,7 +67,7 @@ fi
 
 case $1 in
   "major"|"minor"|"patch")
-    sanity_check
+    #sanity_check
     WD=$(pwd)
     cd $(dirname "$0")
     bump_version $1
@@ -81,14 +81,18 @@ case $1 in
       exit 1
     fi
     echo "Done"
-    QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
-    MSG="\"Release: $VERSION for QIX schema version $QIX_VERSION\""
+    QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" ../qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
+    if [[ -z $QIX_VERSION ]]; then
+      echo "Couldn't find QIX schema version"
+      exit 1
+    fi
+    MSG="Release: ${VERSION} for QIX schema version ${QIX_VERSION}"
     echo "git add ../api-spec.json"
     git add ../api-spec.json > /dev/null
-    echo "git commit -m \"$MSG\""
-    git commit -m "$MSG" > /dev/null
-    echo "git tag -a ${VERSION} -m \"$MSG\""
-    git tag -a $VERSION -m "$MSG" > /dev/null
+    echo "git commit -m \"${MSG}\""
+    git commit -m "${MSG}" > /dev/null
+    echo "git tag -a ${VERSION} -m \"${MSG}\""
+    git tag -a ${VERSION} -m "${MSG}" > /dev/null
     # Set version to latest on master
     echo "Bumping version of spec again, now to latest"
     go run generate.go
