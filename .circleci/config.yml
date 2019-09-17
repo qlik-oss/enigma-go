@@ -110,7 +110,8 @@ workflows:
       - golang-1.11
       - golang-1.12
       - golang-1.13
-    fitlers:
-      tags:
-        only:
-          - /v.*/
+      - golang-1.13
+          filters:
+            tags:
+              only:
+                - /v.*/
