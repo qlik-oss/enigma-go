@@ -90,7 +90,10 @@ case $1 in
     echo "git tag -a ${VERSION} -m $MSG"
     git tag -a $VERSION -m $MSG > /dev/null
     # Set version to latest on master
+    echo "Bumping version of spec again, now to latest"
     go run generate.go
+    echo "git add ../api-spec.json"
+    git add ../api-spec.json > /dev/null
     echo "git commit -m \"Post-release: bumping version to latest\""
     git commit -m "Post-release: bumping version to latest" > /dev/null
     echo
