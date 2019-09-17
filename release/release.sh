@@ -82,7 +82,7 @@ case $1 in
     fi
     echo "Done"
     QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
-    MSG="Release: $VERSION for QIX schema version $QIX_VERSION"
+    MSG="\"Release: $VERSION for QIX schema version $QIX_VERSION\""
     echo "git add ../api-spec.json"
     git add ../api-spec.json > /dev/null
     echo "git commit -m \"$MSG\""
