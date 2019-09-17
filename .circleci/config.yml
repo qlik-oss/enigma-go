@@ -18,7 +18,14 @@ aliases:
 
   - &spec_test |
       go test -v -race ./spec
-      go run ./spec/generate.go
+      set +e # If we don't have any tags we will get exit code 128.
+      TAG=$(git describe --tags --abbrev=0 2> /dev/null)
+      set -e # Reset -e just in case
+      if [[ ! -z $TAG && ($(git rev-list -n 1 $TAG) == $(git rev-parse HEAD)) ]]; then
+        go run ./spec/generate.go -version $TAG
+      else
+        go run ./spec/generate.go
+      fi
       git diff --exit-code api-spec.json
 
   - &examples |

@@ -47,6 +47,12 @@ sanity_check() {
     git status --porcelain
     exit 1
   fi
+  local_branch=$(git rev-parse --abbrev-ref HEAD)
+  if [[ $local_branch != "master" ]]; then
+    echo "This script can only be run from the master branch."
+    echo "You are on '$local_branch'. Aborting."
+    exit 1
+  fi
   # Check if local branch is up-to-date with remote master branch
   git fetch origin master
   git diff origin/master --exit-code > /dev/null
