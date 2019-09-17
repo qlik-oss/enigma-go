@@ -47,7 +47,7 @@ sanity_check() {
     git status --porcelain
     exit 1
   fi
-  local_branch=$(git branch | grep -oP "\*\s\K.+")
+  local_branch=$(git rev-parse --abbrev-ref HEAD)
   if [[ $local_branch != "master" ]]; then
     echo "This script can only be run from the master branch."
     echo "You are on '$local_branch'. Aborting."
