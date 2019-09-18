@@ -73,7 +73,7 @@ case $1 in
     bump_version $1
     echo $VERSION
     cd ../spec
-    echo -n "Generating spec..."
+    echo "Generating spec..."
     go run generate.go -version=$VERSION
     if [[ $? -ne 0 ]]; then
       echo "FAIL"
