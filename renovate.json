@@ -2,5 +2,7 @@
   "extends": [
     "qlik-oss",
     "qlik-oss:groupMinorPatch"
-  ]
+  ],
+  "postUpdateOptions": ["gomodTidy"],
+  "ignoreDeps": ["circleci/golang"]
 }

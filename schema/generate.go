@@ -15,8 +15,11 @@ import (
 
 // QlikExtensions represents Qlik JSON Schema extensinos
 type QlikExtensions struct {
-	QlikStability  string `json:"x-qlik-stability,omitempty"`
-	QlikVisibility string `json:"x-qlik-visibility,omitempty"`
+	QlikStability              string `json:"x-qlik-stability,omitempty"`
+	QlikVisibility             string `json:"x-qlik-visibility,omitempty"`
+	QlikDeprecated1            bool   `json:"deprecated,omitempty"`
+	QlikDeprecated2            bool   `json:"x-qlik-deprecated,omitempty"`
+	QlikDeprecationDescription string `json:"x-qlik-deprecation-description,omitempty"`
 }
 
 // Info represents engine information
@@ -97,11 +100,12 @@ type Type struct {
 	Schema               *Type                   `json:"schema,omitempty"`
 }
 
-// Option represents a possible value in case of an "enum"
+// Option represents a possible value in case of an "enum".
+// Title and ConstValue are, and always should be, present.
 type Option struct {
 	Description string `json:"description,omitempty"`
-	Title       string `json:"title,omitempty"`
-	ConstValue  int    `json:"x-qlik-const,omitempty"`
+	Title       string `json:"title"`
+	ConstValue  int    `json:"x-qlik-const"`
 }
 
 // OrderAwareKey is a special key construct to retain order from json spec for properties
@@ -473,6 +477,7 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 	if method.Description != "" {
 		fmt.Fprintln(out, formatComment("", method.Description, method.Parameters))
 	}
+	printExtensionTags(out, "", method.QlikExtensions)
 	fmt.Fprint(out, "func (obj *", serviceName, ") ", methodName, "(ctx context.Context")
 
 	// Generate Parameters
@@ -565,6 +570,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	if method.Description != "" {
 		fmt.Fprintln(out, formatComment("", method.Description, method.Parameters))
 	}
+	printExtensionTags(out, "", method.QlikExtensions)
 	fmt.Fprint(out, "func (obj *", serviceName, ") ", methodName, "Raw(ctx context.Context")
 
 	// Generate Parameters
@@ -647,6 +653,31 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	fmt.Fprintln(out, "")
 }
 
+func printExtensionTags(out *os.File, indent string, extensions QlikExtensions) {
+
+	if extensions.QlikDeprecated1 || extensions.QlikDeprecated2 {
+		if extensions.QlikDeprecationDescription != "" {
+			fmt.Fprintln(out, indent+"// Deprecated: "+extensions.QlikDeprecationDescription)
+		} else {
+			fmt.Fprintln(out, indent+"// Deprecated: This will be removed in a future version")
+		}
+	}
+	if extensions.QlikStability != "" {
+		fmt.Fprintln(out, indent+"// Stability: "+extensions.QlikStability)
+	}
+
+}
+
+func printErrorCodeLookup(out *os.File, def *Type) {
+	fmt.Fprintln(out, "func errorCodeLookup(c int) string {")
+	fmt.Fprintln(out, "switch c {")
+	for _, opt := range def.OneOf {
+		fmt.Fprintln(out, "case", opt.ConstValue, ":")
+		fmt.Fprintln(out, "return \""+opt.Title+"\"")
+	}
+	fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
+}
+
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
@@ -656,7 +687,7 @@ func isStringEnum(property *Type) bool {
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
-		// "Enums" are have type string but are sent as "objects" with a list of valid options for said "enum".
+		// "Enums" have type string but are sent as "objects" with a list of valid options for said "enum".
 		return name == "string"
 	}
 	return false
@@ -678,6 +709,7 @@ func getExtraCrossAssignmentLine(methodName string) string {
 		return ""
 	}
 }
+
 func main() {
 	objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
@@ -706,6 +738,8 @@ func main() {
 	fmt.Fprintln(out, "\t\"context\"")
 	fmt.Fprintln(out, "\t\"encoding/json\"")
 	fmt.Fprint(out, ")\n\n")
+	fmt.Fprintln(out, "// Version of the schema used to generate the enigma.go QIX API")
+	fmt.Fprintf(out, "const QIX_SCHEMA_VERSION = \"%s\"\n\n", schema.Info.Version)
 
 	// Generate definition data type structs
 	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])
@@ -714,6 +748,7 @@ func main() {
 		if def.Description != "" {
 			fmt.Fprintln(out, formatComment("", def.Description, nil))
 		}
+		printExtensionTags(out, "", def.QlikExtensions)
 		switch def.Type {
 		case "object":
 			fmt.Fprintln(out, "type", defName, "struct {")
@@ -728,7 +763,7 @@ func main() {
 				if property.Description != "" {
 					fmt.Fprintln(out, formatComment("\t", property.Description, nil))
 				}
-
+				printExtensionTags(out, "\t", property.QlikExtensions)
 				if isNonZero(property.Default) && !hasEnumRef(property) {
 					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
 					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
@@ -744,7 +779,10 @@ func main() {
 			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		case "string":
-			// Enums are strings now
+			// Enums are strings now and only one of them is of particular interest.
+			if defName == "NxLocalizedErrorCode" {
+				printErrorCodeLookup(out, def)
+			}
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
 			fmt.Fprintln(out, "")
@@ -758,6 +796,7 @@ func main() {
 		if service.Description != "" {
 			fmt.Fprintln(out, formatComment("", service.Description, nil))
 		}
+		printExtensionTags(out, "", service.QlikExtensions)
 		var serviceImplName = serviceName
 		fmt.Fprintln(out, "type ", serviceImplName, "struct {")
 		fmt.Fprintln(out, "\t*RemoteObject")

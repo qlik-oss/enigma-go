@@ -1,45 +1,124 @@
+aliases:
+
+  - &build
+      go build
+
+  - &lint |
+      go fmt ./...
+      go get -u golang.org/x/lint/golint
+      golint -set_exit_status
+      # go fmt and golint can alter go.mod and go.sum.
+      # This will cause the git diff to give false negative.
+      # Restore those files before proceeding to avoid saif effect.
+      git checkout go.mod go.sum
+      git diff --exit-code
+
+  - &test
+      go test -v -race .
+
+  - &spec_test |
+      go test -v -race ./spec
+      set +e # If we don't have any tags we will get exit code 128.
+      TAG=$(git describe --tags --abbrev=0 2> /dev/null)
+      set -e # Reset -e just in case
+      if [[ ! -z $TAG && ($(git rev-list -n 1 $TAG) == $(git rev-parse HEAD)) ]]; then
+        go run ./spec/generate.go -version $TAG
+      else
+        go run ./spec/generate.go
+      fi
+      git diff --exit-code api-spec.json
+
+  - &examples |
+      ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
+      echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
+      ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
+      ENGINE_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ENGINE_CONTAINER_ID)
+      docker cp ./examples/reload/monitor-progress/testdata/ $ENGINE_CONTAINER_ID:/testdata
+      TEST_CONTAINER_ID=$(docker run -e "CGO_ENABLED=0" -d golang:$GOLANG_VERSION-alpine tail -f /dev/null)
+      docker cp /go/pkg $TEST_CONTAINER_ID:/go/pkg
+      docker cp . $TEST_CONTAINER_ID:/enigma-go
+      docker exec $TEST_CONTAINER_ID /bin/sh -c 'apk update && apk add --no-cache socat bash'
+      docker exec -d $TEST_CONTAINER_ID /bin/bash -c "socat TCP-LISTEN:9076,fork TCP:$ENGINE_IP:9076"
+      docker exec $TEST_CONTAINER_ID /bin/bash -c '/enigma-go/examples/run_examples.sh'
+
 version: 2
 jobs:
-  build:
+
+  golang-1.11:
     docker:
-      - image: circleci/golang:1.12
+      - image: circleci/golang:1.11
+    environment:
+      GOLANG_VERSION: "1.11"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
-      - run:
-          name: Build
-          command: go build
+          key: dependency-cache-1.11{{ checksum "go.sum" }}
+      - run: *build
       - save_cache:
-          key: dependency-cache-{{ checksum "go.sum" }}
+          key: dependency-cache-1.11{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
-      - run:
-          name: Linting
-          command: |
-            go fmt ./...
-            go get -u golang.org/x/lint/golint
-            golint -set_exit_status
-            # go fmt and golint can alter go.mod and go.sum.
-            # This will cause the git diff to give false negative.
-            # Restore those files before proceeding to avoid saif effect.
-            git checkout go.mod go.sum
-            git diff --exit-code
-      - run:
-          name: Test
-          command: go test -v -race ./...
+      - run: *lint
+      - run: *test
       - setup_remote_docker
-      - run:
-          name: Execute integration tests
-          command: |
-            ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
-            echo "Will start Qlik Associative Engine version '$ENGINE_VERSION'"
-            ENGINE_CONTAINER_ID=$(docker run -d qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=yes)
-            ENGINE_IP=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' $ENGINE_CONTAINER_ID)
-            docker cp ./examples/reload/monitor-progress/testdata/ $ENGINE_CONTAINER_ID:/testdata
-            TEST_CONTAINER_ID=$(docker run -e "CGO_ENABLED=0" -d golang:1.12-alpine tail -f /dev/null)
-            docker cp /go/pkg $TEST_CONTAINER_ID:/go/pkg
-            docker cp . $TEST_CONTAINER_ID:/enigma-go
-            docker exec $TEST_CONTAINER_ID /bin/sh -c 'apk update && apk add --no-cache socat bash'
-            docker exec -d $TEST_CONTAINER_ID /bin/bash -c "socat TCP-LISTEN:9076,fork TCP:$ENGINE_IP:9076"
-            docker exec $TEST_CONTAINER_ID /bin/bash -c '/enigma-go/examples/run_examples.sh'
+      - run: *examples
+
+  golang-1.12:
+    docker:
+      - image: circleci/golang:1.12
+    environment:
+      GOLANG_VERSION: "1.12"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.12{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.12{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - setup_remote_docker
+      - run: *examples
+
+  golang-1.13:
+    docker:
+      - image: circleci/golang:1.13
+    environment:
+      GOLANG_VERSION: "1.13"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - setup_remote_docker
+      - run: *examples
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - golang-1.11:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.12:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.13:
+          filters:
+            tags:
+              only:
+                - /v.*/

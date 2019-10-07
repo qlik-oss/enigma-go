@@ -7,6 +7,10 @@ import (
 	"encoding/json"
 )
 
+// Version of the schema used to generate the enigma.go QIX API
+const QIX_SCHEMA_VERSION = "12.429.0"
+
+// Deprecated: This will be removed in a future version
 type AlfaNumString struct {
 	// Calculated value.
 	String string `json:"qString,omitempty"`
@@ -103,7 +107,7 @@ type AssociationScore struct {
 
 type BNFDef struct {
 	// Array of token references that all together build up the definition of the current token.
-	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
+	// Generally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).
 	Bnf []int `json:"qBnf,omitempty"`
 	// Number of the current token definition.
 	Nbr int `json:"qNbr,omitempty"`
@@ -330,11 +334,11 @@ type Connection struct {
 	Name string `json:"qName,omitempty"`
 	// One of:
 	//
-	// • ODBC CONNECT TO [<provider name>]
+	// • ODBC CONNECT TO [<provider name>]
 	//
-	// • OLEDB CONNECT TO [<provider name>]
+	// • OLEDB CONNECT TO [<provider name>]
 	//
-	// • CUSTOM CONNECT TO [<provider name>]
+	// • CUSTOM CONNECT TO [<provider name>]
 	//
 	// • "<local absolute or relative path, UNC path>"
 	//
@@ -1022,7 +1026,7 @@ type FieldValue struct {
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 type FileDataFormat struct {
@@ -1329,9 +1333,10 @@ type GenericObjectLayout struct {
 	NxLibraryMeasure   *NxLibraryMeasure   `json:"qNxLibraryMeasure,omitempty"`
 	SelectionObject    *SelectionObject    `json:"qSelectionObject,omitempty"`
 	StaticContentUrl   *StaticContentUrl   `json:"qStaticContentUrl,omitempty"`
-	TreeData           *TreeData           `json:"qTreeData,omitempty"`
-	UndoInfo           *UndoInfo           `json:"qUndoInfo,omitempty"`
-	VariableList       *VariableList       `json:"qVariableList,omitempty"`
+	// Stability: experimental
+	TreeData     *TreeData     `json:"qTreeData,omitempty"`
+	UndoInfo     *UndoInfo     `json:"qUndoInfo,omitempty"`
+	VariableList *VariableList `json:"qVariableList,omitempty"`
 }
 
 type GenericObjectProperties struct {
@@ -1363,10 +1368,11 @@ type GenericObjectProperties struct {
 	SelectionObjectDef    *SelectionObjectDef    `json:"qSelectionObjectDef,omitempty"`
 	StaticContentUrlDef   *StaticContentUrlDef   `json:"qStaticContentUrlDef,omitempty"`
 	StringExpression      *StringExpression      `json:"qStringExpression,omitempty"`
-	TreeDataDef           *TreeDataDef           `json:"qTreeDataDef,omitempty"`
-	UndoInfoDef           *UndoInfoDef           `json:"qUndoInfoDef,omitempty"`
-	ValueExpression       *ValueExpression       `json:"qValueExpression,omitempty"`
-	VariableListDef       *VariableListDef       `json:"qVariableListDef,omitempty"`
+	// Stability: experimental
+	TreeDataDef     *TreeDataDef     `json:"qTreeDataDef,omitempty"`
+	UndoInfoDef     *UndoInfoDef     `json:"qUndoInfoDef,omitempty"`
+	ValueExpression *ValueExpression `json:"qValueExpression,omitempty"`
+	VariableListDef *VariableListDef `json:"qVariableListDef,omitempty"`
 }
 
 // Is the layout for GenericVariableProperties.
@@ -1728,7 +1734,7 @@ type LineageInfo struct {
 	//
 	// • AUTOGENERATE: the data is generated from the load script (no external table of data source).
 	//
-	// • Provider: the data comes from a data connection. The connector source name is listed.
+	// • Provider: the data comes from a data connection. The connector source name is listed.
 	//
 	// • [webfile]: the data comes from a web-based file.
 	//
@@ -1841,7 +1847,7 @@ type LocaleInfo struct {
 	//
 	// • ...
 	//
-	// • 6 = Sunday
+	// • 6 = Sunday
 	//
 	// If this property has not been set in a script, the returned value comes from the Windows operating system.
 	FirstWeekDay int `json:"qFirstWeekDay,omitempty"`
@@ -1872,7 +1878,7 @@ type LocaleInfo struct {
 	// _< language>-<REGION>_
 	// Where:
 	//
-	// • language is a lowercase ISO  639 language code
+	// • language is a lowercase ISO 639 language code
 	//
 	// • REGION specifies an uppercase ISO 3166 country code.
 	//
@@ -2433,6 +2439,7 @@ type NxDimensionInfo struct {
 	// Length of the longest value in the field.
 	ApprMaxGlyphCount int `json:"qApprMaxGlyphCount,omitempty"`
 	// Number of distinct field values.
+	// Deprecated: This will be removed in a future version
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Is set to true if the field is locked.
 	Locked bool `json:"qLocked,omitempty"`
@@ -2586,7 +2593,7 @@ type NxFieldSelectionInfo struct {
 	//
 	// • NORMAL for a selection in normal mode.
 	//
-	// • AND for a selection in AND mode.
+	// • AND for a selection in AND mode.
 	//
 	// • NOT for a selection NOT in AND mode.
 	// One of:
@@ -2693,7 +2700,7 @@ type NxInlineMeasureDef struct {
 	// This parameter is optional.
 	Description string `json:"qDescription,omitempty"`
 	// Name connected to the measure that is used for search purposes.
-	// A measure can have several tags.
+	// A measure can have several tags.
 	// This parameter is optional.
 	Tags []string `json:"qTags,omitempty"`
 	// Default value is no grouping.
@@ -2854,6 +2861,592 @@ type NxListObjectExpressionDef struct {
 	Expr string `json:"qExpr,omitempty"`
 	// Refers to an expression stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
+}
+
+func errorCodeLookup(c int) string {
+	switch c {
+	case -128:
+		return "LOCERR_INTERNAL_ERROR"
+	case -1:
+		return "LOCERR_GENERIC_UNKNOWN"
+	case 0:
+		return "LOCERR_GENERIC_OK"
+	case 1:
+		return "LOCERR_GENERIC_NOT_SET"
+	case 2:
+		return "LOCERR_GENERIC_NOT_FOUND"
+	case 3:
+		return "LOCERR_GENERIC_ALREADY_EXISTS"
+	case 4:
+		return "LOCERR_GENERIC_INVALID_PATH"
+	case 5:
+		return "LOCERR_GENERIC_ACCESS_DENIED"
+	case 6:
+		return "LOCERR_GENERIC_OUT_OF_MEMORY"
+	case 7:
+		return "LOCERR_GENERIC_NOT_INITIALIZED"
+	case 8:
+		return "LOCERR_GENERIC_INVALID_PARAMETERS"
+	case 9:
+		return "LOCERR_GENERIC_EMPTY_PARAMETERS"
+	case 10:
+		return "LOCERR_GENERIC_INTERNAL_ERROR"
+	case 11:
+		return "LOCERR_GENERIC_CORRUPT_DATA"
+	case 12:
+		return "LOCERR_GENERIC_MEMORY_INCONSISTENCY"
+	case 13:
+		return "LOCERR_GENERIC_INVISIBLE_OWNER_ABORT"
+	case 14:
+		return "LOCERR_GENERIC_PROHIBIT_VALIDATE"
+	case 15:
+		return "LOCERR_GENERIC_ABORTED"
+	case 16:
+		return "LOCERR_GENERIC_CONNECTION_LOST"
+	case 17:
+		return "LOCERR_GENERIC_UNSUPPORTED_IN_PRODUCT_VERSION"
+	case 18:
+		return "LOCERR_GENERIC_REST_CONNECTION_FAILURE"
+	case 19:
+		return "LOCERR_GENERIC_MEMORY_LIMIT_REACHED"
+	case 20:
+		return "LOCERR_GENERIC_NOT_IMPLEMENTED"
+	case 400:
+		return "LOCERR_HTTP_400"
+	case 401:
+		return "LOCERR_HTTP_401"
+	case 402:
+		return "LOCERR_HTTP_402"
+	case 403:
+		return "LOCERR_HTTP_403"
+	case 404:
+		return "LOCERR_HTTP_404"
+	case 405:
+		return "LOCERR_HTTP_405"
+	case 406:
+		return "LOCERR_HTTP_406"
+	case 407:
+		return "LOCERR_HTTP_407"
+	case 408:
+		return "LOCERR_HTTP_408"
+	case 409:
+		return "LOCERR_HTTP_409"
+	case 410:
+		return "LOCERR_HTTP_410"
+	case 411:
+		return "LOCERR_HTTP_411"
+	case 412:
+		return "LOCERR_HTTP_412"
+	case 413:
+		return "LOCERR_HTTP_413"
+	case 414:
+		return "LOCERR_HTTP_414"
+	case 415:
+		return "LOCERR_HTTP_415"
+	case 416:
+		return "LOCERR_HTTP_416"
+	case 417:
+		return "LOCERR_HTTP_417"
+	case 422:
+		return "LOCERR_HTTP_422"
+	case 429:
+		return "LOCERR_HTTP_429"
+	case 500:
+		return "LOCERR_HTTP_500"
+	case 501:
+		return "LOCERR_HTTP_501"
+	case 502:
+		return "LOCERR_HTTP_502"
+	case 503:
+		return "LOCERR_HTTP_503"
+	case 504:
+		return "LOCERR_HTTP_504"
+	case 505:
+		return "LOCERR_HTTP_505"
+	case 509:
+		return "LOCERR_HTTP_509"
+	case 700:
+		return "LOCERR_HTTP_COULD_NOT_RESOLVE_HOST"
+	case 1000:
+		return "LOCERR_APP_ALREADY_EXISTS"
+	case 1001:
+		return "LOCERR_APP_INVALID_NAME"
+	case 1002:
+		return "LOCERR_APP_ALREADY_OPEN"
+	case 1003:
+		return "LOCERR_APP_NOT_FOUND"
+	case 1004:
+		return "LOCERR_APP_IMPORT_FAILED"
+	case 1005:
+		return "LOCERR_APP_SAVE_FAILED"
+	case 1006:
+		return "LOCERR_APP_CREATE_FAILED"
+	case 1007:
+		return "LOCERR_APP_INVALID"
+	case 1008:
+		return "LOCERR_APP_CONNECT_FAILED"
+	case 1009:
+		return "LOCERR_APP_ALREADY_OPEN_IN_DIFFERENT_MODE"
+	case 1010:
+		return "LOCERR_APP_MIGRATION_COULD_NOT_CONTACT_MIGRATION_SERVICE"
+	case 1011:
+		return "LOCERR_APP_MIGRATION_COULD_NOT_START_MIGRATION"
+	case 1012:
+		return "LOCERR_APP_MIGRATION_FAILURE"
+	case 1013:
+		return "LOCERR_APP_SCRIPT_MISSING"
+	case 1014:
+		return "LOCERR_APP_EXPORT_FAILED"
+	case 2000:
+		return "LOCERR_CONNECTION_ALREADY_EXISTS"
+	case 2001:
+		return "LOCERR_CONNECTION_NOT_FOUND"
+	case 2002:
+		return "LOCERR_CONNECTION_FAILED_TO_LOAD"
+	case 2003:
+		return "LOCERR_CONNECTION_FAILED_TO_IMPORT"
+	case 2004:
+		return "LOCERR_CONNECTION_NAME_IS_INVALID"
+	case 2300:
+		return "LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT"
+	case 2301:
+		return "LOCERR_CONNECTOR_FILESIZE_EXCEEDED_BUFFER_SIZE"
+	case 3000:
+		return "LOCERR_FILE_ACCESS_DENIED"
+	case 3001:
+		return "LOCERR_FILE_NAME_INVALID"
+	case 3002:
+		return "LOCERR_FILE_CORRUPT"
+	case 3003:
+		return "LOCERR_FILE_NOT_FOUND"
+	case 3004:
+		return "LOCERR_FILE_FORMAT_UNSUPPORTED"
+	case 3005:
+		return "LOCERR_FILE_OPENED_IN_UNSUPPORTED_MODE"
+	case 3006:
+		return "LOCERR_FILE_TABLE_NOT_FOUND"
+	case 4000:
+		return "LOCERR_USER_ACCESS_DENIED"
+	case 4001:
+		return "LOCERR_USER_IMPERSONATION_FAILED"
+	case 5000:
+		return "LOCERR_SERVER_OUT_OF_SESSION_AND_USER_CALS"
+	case 5001:
+		return "LOCERR_SERVER_OUT_OF_SESSION_CALS"
+	case 5002:
+		return "LOCERR_SERVER_OUT_OF_USAGE_CALS"
+	case 5003:
+		return "LOCERR_SERVER_OUT_OF_CALS"
+	case 5004:
+		return "LOCERR_SERVER_OUT_OF_NAMED_CALS"
+	case 5005:
+		return "LOCERR_SERVER_OFF_DUTY"
+	case 5006:
+		return "LOCERR_SERVER_BUSY"
+	case 5007:
+		return "LOCERR_SERVER_LICENSE_EXPIRED"
+	case 5008:
+		return "LOCERR_SERVER_AJAX_DISABLED"
+	case 5009:
+		return "LOCERR_SERVER_NO_TOKEN"
+	case 6000:
+		return "LOCERR_HC_INVALID_OBJECT"
+	case 6001:
+		return "LOCERR_HC_RESULT_TOO_LARGE"
+	case 6002:
+		return "LOCERR_HC_INVALID_OBJECT_STATE"
+	case 6003:
+		return "LOCERR_HC_MODAL_OBJECT_ERROR"
+	case 7000:
+		return "LOCERR_CALC_INVALID_DEF"
+	case 7001:
+		return "LOCERR_CALC_NOT_IN_LIB"
+	case 7002:
+		return "LOCERR_CALC_HEAP_ERROR"
+	case 7003:
+		return "LOCERR_CALC_TOO_LARGE"
+	case 7004:
+		return "LOCERR_CALC_TIMEOUT"
+	case 7005:
+		return "LOCERR_CALC_EVAL_CONDITION_FAILED"
+	case 7006:
+		return "LOCERR_CALC_MIXED_LINKED_AGGREGATION"
+	case 7007:
+		return "LOCERR_CALC_MISSING_LINKED"
+	case 7008:
+		return "LOCERR_CALC_INVALID_COL_SORT"
+	case 7009:
+		return "LOCERR_CALC_PAGES_TOO_LARGE"
+	case 7010:
+		return "LOCERR_CALC_SEMANTIC_FIELD_NOT_ALLOWED"
+	case 7011:
+		return "LOCERR_CALC_VALIDATION_STATE_INVALID"
+	case 7012:
+		return "LOCERR_CALC_PIVOT_DIMENSIONS_ALREADY_EXISTS"
+	case 7013:
+		return "LOCERR_CALC_MISSING_LINKED_FIELD"
+	case 7014:
+		return "LOCERR_CALC_NOT_CALCULATED"
+	case 8000:
+		return "LOCERR_LAYOUT_EXTENDS_INVALID_ID"
+	case 8001:
+		return "LOCERR_LAYOUT_LINKED_OBJECT_NOT_FOUND"
+	case 8002:
+		return "LOCERR_LAYOUT_LINKED_OBJECT_INVALID"
+	case 9000:
+		return "LOCERR_PERSISTENCE_WRITE_FAILED"
+	case 9001:
+		return "LOCERR_PERSISTENCE_READ_FAILED"
+	case 9002:
+		return "LOCERR_PERSISTENCE_DELETE_FAILED"
+	case 9003:
+		return "LOCERR_PERSISTENCE_NOT_FOUND"
+	case 9004:
+		return "LOCERR_PERSISTENCE_UNSUPPORTED_VERSION"
+	case 9005:
+		return "LOCERR_PERSISTENCE_MIGRATION_FAILED_READ_ONLY"
+	case 9006:
+		return "LOCERR_PERSISTENCE_MIGRATION_CANCELLED"
+	case 9007:
+		return "LOCERR_PERSISTENCE_MIGRATION_BACKUP_FAILED"
+	case 9008:
+		return "LOCERR_PERSISTENCE_DISK_FULL"
+	case 9009:
+		return "LOCERR_PERSISTENCE_NOT_SUPPORTED_FOR_SESSION_APP"
+	case 9010:
+		return "LOCERR_PERSISTENCE_MOVE_FAILED"
+	case 9510:
+		return "LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS"
+	case 9511:
+		return "LOCERR_PERSISTENCE_SYNC_GET_CHUNK_INVALID_PARAMETERS"
+	case 10000:
+		return "LOCERR_SCRIPT_DATASOURCE_ACCESS_DENIED"
+	case 11000:
+		return "LOCERR_RELOAD_IN_PROGRESS"
+	case 11001:
+		return "LOCERR_RELOAD_TABLE_X_NOT_FOUND"
+	case 11002:
+		return "LOCERR_RELOAD_UNKNOWN_STATEMENT"
+	case 11003:
+		return "LOCERR_RELOAD_EXPECTED_SOMETHING_FOUND_UNKNOWN"
+	case 11004:
+		return "LOCERR_RELOAD_EXPECTED_NOTHING_FOUND_UNKNOWN"
+	case 11005:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_1_TOKENS_FOUND_UNKNOWN"
+	case 11006:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_2_TOKENS_FOUND_UNKNOWN"
+	case 11007:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_3_TOKENS_FOUND_UNKNOWN"
+	case 11008:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_4_TOKENS_FOUND_UNKNOWN"
+	case 11009:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_5_TOKENS_FOUND_UNKNOWN"
+	case 11010:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_6_TOKENS_FOUND_UNKNOWN"
+	case 11011:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_7_TOKENS_FOUND_UNKNOWN"
+	case 11012:
+		return "LOCERR_RELOAD_EXPECTED_ONE_OF_8_OR_MORE_TOKENS_FOUND_UNKNOWN"
+	case 11013:
+		return "LOCERR_RELOAD_FIELD_X_NOT_FOUND"
+	case 11014:
+		return "LOCERR_RELOAD_MAPPING_TABLE_X_NOT_FOUND"
+	case 11015:
+		return "LOCERR_RELOAD_LIB_CONNECTION_X_NOT_FOUND"
+	case 11016:
+		return "LOCERR_RELOAD_NAME_ALREADY_TAKEN"
+	case 11017:
+		return "LOCERR_RELOAD_WRONG_FILE_FORMAT_DIF"
+	case 11018:
+		return "LOCERR_RELOAD_WRONG_FILE_FORMAT_BIFF"
+	case 11019:
+		return "LOCERR_RELOAD_WRONG_FILE_FORMAT_ENCRYPTED"
+	case 11020:
+		return "LOCERR_RELOAD_OPEN_FILE_ERROR"
+	case 11021:
+		return "LOCERR_RELOAD_AUTO_GENERATE_COUNT"
+	case 11022:
+		return "LOCERR_RELOAD_PE_ILLEGAL_PREFIX_COMB"
+	case 11023:
+		return "LOCERR_RELOAD_MATCHING_CONTROL_STATEMENT_ERROR"
+	case 11024:
+		return "LOCERR_RELOAD_MATCHING_LIBPATH_X_NOT_FOUND"
+	case 11025:
+		return "LOCERR_RELOAD_MATCHING_LIBPATH_X_INVALID"
+	case 11026:
+		return "LOCERR_RELOAD_MATCHING_LIBPATH_X_OUTSIDE"
+	case 11027:
+		return "LOCERR_RELOAD_NO_QUALIFIED_PATH_FOR_FILE"
+	case 11028:
+		return "LOCERR_RELOAD_MODE_STATEMENT_ONLY_FOR_LIB_PATHS"
+	case 11029:
+		return "LOCERR_RELOAD_INCONSISTENT_USE_OF_SEMANTIC_FIELDS"
+	case 11030:
+		return "LOCERR_RELOAD_NO_OPEN_DATABASE"
+	case 11031:
+		return "LOCERR_RELOAD_AGGREGATION_REQUIRED_BY_GROUP_BY"
+	case 11032:
+		return "LOCERR_RELOAD_CONNECT_MUST_USE_LIB_PREFIX_IN_THIS_MODE"
+	case 11033:
+		return "LOCERR_RELOAD_ODBC_CONNECT_FAILED"
+	case 11034:
+		return "LOCERR_RELOAD_OLEDB_CONNECT_FAILED"
+	case 11035:
+		return "LOCERR_RELOAD_CUSTOM_CONNECT_FAILED"
+	case 11036:
+		return "LOCERR_RELOAD_ODBC_READ_FAILED"
+	case 11037:
+		return "LOCERR_RELOAD_OLEDB_READ_FAILED"
+	case 11038:
+		return "LOCERR_RELOAD_CUSTOM_READ_FAILED"
+	case 11039:
+		return "LOCERR_RELOAD_BINARY_LOAD_PROHIBITED"
+	case 11040:
+		return "LOCERR_RELOAD_CONNECTOR_START_FAILED"
+	case 11041:
+		return "LOCERR_RELOAD_CONNECTOR_NOT_RESPONDING"
+	case 11042:
+		return "LOCERR_RELOAD_CONNECTOR_REPLY_ERROR"
+	case 11043:
+		return "LOCERR_RELOAD_CONNECTOR_CONNECT_ERROR"
+	case 11044:
+		return "LOCERR_RELOAD_CONNECTOR_NOT_FOUND_ERROR"
+	case 11045:
+		return "LOCERR_RELOAD_INPUT_FIELD_WITH_DUPLICATE_KEYS"
+	case 11046:
+		return "LOCERR_RELOAD_CONCATENATE_LOAD_NO_PREVIOUS_TABLE"
+	case 11047:
+		return "LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD"
+	case 12000:
+		return "LOCERR_PERSONAL_NEW_VERSION_AVAILABLE"
+	case 12001:
+		return "LOCERR_PERSONAL_VERSION_EXPIRED"
+	case 12002:
+		return "LOCERR_PERSONAL_SECTION_ACCESS_DETECTED"
+	case 12003:
+		return "LOCERR_PERSONAL_APP_DELETION_FAILED"
+	case 12004:
+		return "LOCERR_USER_AUTHENTICATION_FAILURE"
+	case 13000:
+		return "LOCERR_EXPORT_OUT_OF_MEMORY"
+	case 13001:
+		return "LOCERR_EXPORT_NO_DATA"
+	case 14000:
+		return "LOCERR_SYNC_INVALID_OFFSET"
+	case 15000:
+		return "LOCERR_SEARCH_TIMEOUT"
+	case 16000:
+		return "LOCERR_DIRECT_DISCOVERY_LINKED_EXPRESSION_FAIL"
+	case 16001:
+		return "LOCERR_DIRECT_DISCOVERY_ROWCOUNT_OVERFLOW"
+	case 16002:
+		return "LOCERR_DIRECT_DISCOVERY_EMPTY_RESULT"
+	case 16003:
+		return "LOCERR_DIRECT_DISCOVERY_DB_CONNECTION_FAILED"
+	case 16004:
+		return "LOCERR_DIRECT_DISCOVERY_MEASURE_NOT_ALLOWED"
+	case 16005:
+		return "LOCERR_DIRECT_DISCOVERY_DETAIL_NOT_ALLOWED"
+	case 16006:
+		return "LOCERR_DIRECT_DISCOVERY_NOT_SYNTH_CIRCULAR_ALLOWED"
+	case 16007:
+		return "LOCERR_DIRECT_DISCOVERY_ONLY_ONE_DD_TABLE_ALLOWED"
+	case 16008:
+		return "LOCERR_DIRECT_DISCOVERY_DB_AUTHORIZATION_FAILED"
+	case 17000:
+		return "LOCERR_SMART_LOAD_TABLE_NOT_FOUND"
+	case 17001:
+		return "LOCERR_SMART_LOAD_TABLE_DUPLICATED"
+	case 18000:
+		return "LOCERR_VARIABLE_NO_NAME"
+	case 18001:
+		return "LOCERR_VARIABLE_DUPLICATE_NAME"
+	case 18002:
+		return "LOCERR_VARIABLE_INCONSISTENCY"
+	case 19000:
+		return "LOCERR_MEDIA_LIBRARY_LIST_FAILED"
+	case 19001:
+		return "LOCERR_MEDIA_LIBRARY_CONTENT_FAILED"
+	case 19002:
+		return "LOCERR_MEDIA_BUNDLING_FAILED"
+	case 19003:
+		return "LOCERR_MEDIA_UNBUNDLING_FAILED"
+	case 19004:
+		return "LOCERR_MEDIA_LIBRARY_NOT_FOUND"
+	case 20000:
+		return "LOCERR_FEATURE_DISABLED"
+	case -32600:
+		return "LOCERR_JSON_RPC_INVALID_REQUEST"
+	case -32601:
+		return "LOCERR_JSON_RPC_METHOD_NOT_FOUND"
+	case -32602:
+		return "LOCERR_JSON_RPC_INVALID_PARAMETERS"
+	case -32603:
+		return "LOCERR_JSON_RPC_INTERNAL_ERROR"
+	case -32700:
+		return "LOCERR_JSON_RPC_PARSE_ERROR"
+	case 33000:
+		return "LOCERR_MQ_SOCKET_CONNECT_FAILURE"
+	case 33001:
+		return "LOCERR_MQ_SOCKET_OPEN_FAILURE"
+	case 33002:
+		return "LOCERR_MQ_PROTOCOL_NO_RESPONE"
+	case 33003:
+		return "LOCERR_MQ_PROTOCOL_LIBRARY_EXCEPTION"
+	case 33004:
+		return "LOCERR_MQ_PROTOCOL_CONNECTION_CLOSED"
+	case 33005:
+		return "LOCERR_MQ_PROTOCOL_CHANNEL_CLOSED"
+	case 33006:
+		return "LOCERR_MQ_PROTOCOL_UNKNOWN_ERROR"
+	case 33007:
+		return "LOCERR_MQ_PROTOCOL_INVALID_STATUS"
+	case 22000:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_OK"
+	case 22001:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_CANCELLED"
+	case 22002:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_UNKNOWN"
+	case 22003:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_INVALID_ARGUMENT"
+	case 22004:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_DEADLINE_EXCEEDED"
+	case 22005:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_NOT_FOUND"
+	case 22006:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_ALREADY_EXISTS"
+	case 22007:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_PERMISSION_DENIED"
+	case 22008:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_RESOURCE_EXHAUSTED"
+	case 22009:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_FAILED_PRECONDITION"
+	case 22010:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_ABORTED"
+	case 22011:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_OUT_OF_RANGE"
+	case 22012:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_UNIMPLEMENTED"
+	case 22013:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_INTERNAL"
+	case 22014:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_UNAVAILABLE"
+	case 22015:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_DATA_LOSS"
+	case 22016:
+		return "LOCERR_EXTENGINE_GRPC_STATUS_UNAUTHENTICATED"
+	case 23001:
+		return "LOCERR_LXW_INVALID_OBJ"
+	case 23002:
+		return "LOCERR_LXW_INVALID_FILE"
+	case 23003:
+		return "LOCERR_LXW_INVALID_SHEET"
+	case 23004:
+		return "LOCERR_LXW_INVALID_EXPORT_RANGE"
+	case 23005:
+		return "LOCERR_LXW_ERROR"
+	case 23006:
+		return "LOCERR_LXW_ERROR_MEMORY_MALLOC_FAILED"
+	case 23007:
+		return "LOCERR_LXW_ERROR_CREATING_XLSX_FILE"
+	case 23008:
+		return "LOCERR_LXW_ERROR_CREATING_TMPFILE"
+	case 23009:
+		return "LOCERR_LXW_ERROR_ZIP_FILE_OPERATION"
+	case 23010:
+		return "LOCERR_LXW_ERROR_ZIP_FILE_ADD"
+	case 23011:
+		return "LOCERR_LXW_ERROR_ZIP_CLOSE"
+	case 23012:
+		return "LOCERR_LXW_ERROR_NULL_PARAMETER_IGNORED"
+	case 23013:
+		return "LOCERR_LXW_ERROR_MAX_STRING_LENGTH_EXCEEDED"
+	case 23014:
+		return "LOCERR_LXW_ERROR_255_STRING_LENGTH_EXCEEDED"
+	case 23015:
+		return "LOCERR_LXW_ERROR_SHARED_STRING_INDEX_NOT_FOUND"
+	case 23016:
+		return "LOCERR_LXW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE"
+	case 23017:
+		return "LOCERR_LXW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED"
+	case 24000:
+		return "LOCERR_BDI_STATUS_OK"
+	case 24001:
+		return "LOCERR_BDI_GENERIC_ERROR_NOT_TRANSLATED"
+	case 30000:
+		return "LOCERR_CURL_UNSUPPORTED_PROTOCOL"
+	case 30001:
+		return "LOCERR_CURL_COULDNT_RESOLVE_PROXY"
+	case 30002:
+		return "LOCERR_CURL_COULDNT_CONNECT"
+	case 30003:
+		return "LOCERR_CURL_REMOTE_ACCESS_DENIED"
+	case 30004:
+		return "LOCERR_CURL_FTP_ACCEPT_FAILED"
+	case 30005:
+		return "LOCERR_CURL_FTP_ACCEPT_TIMEOUT"
+	case 30006:
+		return "LOCERR_CURL_FTP_CANT_GET_HOST"
+	case 30007:
+		return "LOCERR_CURL_PARTIAL_FILE"
+	case 30008:
+		return "LOCERR_CURL_QUOTE_ERROR"
+	case 30009:
+		return "LOCERR_CURL_WRITE_ERROR"
+	case 30010:
+		return "LOCERR_CURL_UPLOAD_FAILED"
+	case 30011:
+		return "LOCERR_CURL_OUT_OF_MEMORY"
+	case 30012:
+		return "LOCERR_CURL_OPERATION_TIMEDOUT"
+	case 30013:
+		return "LOCERR_CURL_FTP_COULDNT_USE_REST"
+	case 30014:
+		return "LOCERR_CURL_HTTP_POST_ERROR"
+	case 30015:
+		return "LOCERR_CURL_SSL_CONNECT_ERROR"
+	case 30016:
+		return "LOCERR_CURL_FILE_COULDNT_READ_FILE"
+	case 30017:
+		return "LOCERR_CURL_LDAP_CANNOT_BIND"
+	case 30018:
+		return "LOCERR_CURL_LDAP_SEARCH_FAILED"
+	case 30019:
+		return "LOCERR_CURL_TOO_MANY_REDIRECTS"
+	case 30020:
+		return "LOCERR_CURL_PEER_FAILED_VERIFICATION"
+	case 30021:
+		return "LOCERR_CURL_GOT_NOTHING"
+	case 30022:
+		return "LOCERR_CURL_SSL_ENGINE_NOTFOUND"
+	case 30023:
+		return "LOCERR_CURL_SSL_ENGINE_SETFAILED"
+	case 30024:
+		return "LOCERR_CURL_SSL_CERTPROBLEM"
+	case 30025:
+		return "LOCERR_CURL_SSL_CIPHER"
+	case 30026:
+		return "LOCERR_CURL_SSL_CACERT"
+	case 30027:
+		return "LOCERR_CURL_BAD_CONTENT_ENCODING"
+	case 30028:
+		return "LOCERR_CURL_LDAP_INVALID_URL"
+	case 30029:
+		return "LOCERR_CURL_USE_SSL_FAILED"
+	case 30030:
+		return "LOCERR_CURL_SSL_ENGINE_INITFAILED"
+	case 30031:
+		return "LOCERR_CURL_LOGIN_DENIED"
+	case 30032:
+		return "LOCERR_CURL_TFTP_NOTFOUND"
+	case 30033:
+		return "LOCERR_CURL_TFTP_ILLEGAL"
+	case 30034:
+		return "LOCERR_CURL_SSH"
+	case 30100:
+		return "LOCERR_SETEXPRESSION_TOO_LARGE"
+	}
+	return ""
 }
 
 type NxMatchingFieldInfo struct {
@@ -3270,6 +3863,7 @@ type NxStateCounts struct {
 }
 
 // This struct is deprecated (not recommended to use).
+// Deprecated: This will be removed in a future version
 type NxStreamListEntry struct {
 	// Name of the stream.
 	Name string `json:"qName,omitempty"`
@@ -3296,6 +3890,7 @@ type NxTreeDataOption struct {
 	TreeLevels *NxPageTreeLevel `json:"qTreeLevels,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeDimensionDef struct {
 	// Refers to a dimension stored in the library.
 	LibraryId string `json:"qLibraryId,omitempty"`
@@ -3342,6 +3937,7 @@ type NxTreeDimensionDef struct {
 	AttributeDimensions []*NxAttrDimDef `json:"qAttributeDimensions,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeDimensionInfo struct {
 	// Corresponds to the label of the dimension that is selected.
 	// If the label is not defined then the field name is used.
@@ -3349,6 +3945,7 @@ type NxTreeDimensionInfo struct {
 	// Length of the longest value in the field.
 	ApprMaxGlyphCount int `json:"qApprMaxGlyphCount,omitempty"`
 	// Number of distinct field values.
+	// Deprecated: This will be removed in a future version
 	Cardinal int `json:"qCardinal,omitempty"`
 	// Is set to true if the field is locked.
 	Locked bool `json:"qLocked,omitempty"`
@@ -3437,6 +4034,7 @@ type NxTreeDimensionInfo struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeMultiRangeSelectInfo struct {
 	// An array of Ranges.
 	Ranges []*NxTreeRangeSelectInfo `json:"qRanges,omitempty"`
@@ -3525,6 +4123,7 @@ type NxTreeNode struct {
 	State string `json:"qState,omitempty"`
 }
 
+// Stability: experimental
 type NxTreeRangeSelectInfo struct {
 	// Range of values.
 	Range *Range `json:"qRange,omitempty"`
@@ -3595,6 +4194,7 @@ type NxVariableListItem struct {
 	IsScriptCreated bool `json:"qIsScriptCreated,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type NxVariableProperties struct {
 	// Name of the variable.
 	Name string `json:"qName,omitempty"`
@@ -3633,9 +4233,9 @@ type ObjectInterface struct {
 }
 
 type OdbcDsn struct {
-	// Name of the ODBC connection.
+	// Name of the ODBC connection.
 	Name string `json:"qName,omitempty"`
-	// Description of the ODBC connection.
+	// Description of the ODBC connection.
 	Description string `json:"qDescription,omitempty"`
 	// Is set to true if the version of ODBC is 32-bit.
 	// This parameter is optional. Default is false.
@@ -3866,6 +4466,7 @@ type ScriptSyntaxError struct {
 	SecondaryFailure bool `json:"qSecondaryFailure,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchAssociationResult struct {
 	// List of the fields that contains search associations.
 	FieldNames []string `json:"qFieldNames,omitempty"`
@@ -3931,6 +4532,7 @@ type SearchCombinationOptions struct {
 	Attributes []string `json:"qAttributes,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchFieldDictionary struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
@@ -3940,6 +4542,7 @@ type SearchFieldDictionary struct {
 	Result []*SearchTermResult `json:"qResult,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchFieldMatch struct {
 	// Position of the field in the list of fields, starting from 0.
 	// The list of fields is defined in qResults/qFieldNames and contains the search associations.
@@ -4063,6 +4666,7 @@ type SearchGroupOptions struct {
 	Count *int `json:"qCount,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchMatchCombination struct {
 	// Index of the search result, starting from 0.
 	Id int `json:"qId,omitempty"`
@@ -4132,6 +4736,7 @@ type SearchSuggestionResult struct {
 	FieldNames []string `json:"qFieldNames,omitempty"`
 }
 
+// Deprecated: This will be removed in a future version
 type SearchTermResult struct {
 	// Text of the associated value.
 	Text string `json:"qText,omitempty"`
@@ -4404,6 +5009,7 @@ type TextMacro struct {
 // Renders the properties of a TreeData object. Is the layout for TreeDataDef.
 // For more information about the definition of TreeData, see Generic object.
 // To retrieve data from the TreeData object, use the method called GetHyperCubeTreeData.
+// Stability: experimental
 type TreeData struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
@@ -4434,6 +5040,7 @@ type TreeData struct {
 
 // Defines the properties of a TreeData object.
 // For more information about the definition of a TreeData object, see Generic object.
+// Stability: experimental
 type TreeDataDef struct {
 	// Name of the alternate state.
 	// Default is current selections $ .
@@ -4840,6 +5447,7 @@ func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 //
 // ◾ id   -   Identifier of the draft to commit.
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) CommitDraft(ctx context.Context, id string) error {
 	err := obj.rpc(ctx, "CommitDraft", nil, id)
 	return err
@@ -4955,6 +5563,7 @@ func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*Gene
 //
 // ◾ id   -   Identifier of the object to create a draft from.
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) CreateDraft(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		DraftId string `json:"qDraftId"`
@@ -5147,6 +5756,7 @@ func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) 
 //
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
+// Deprecated: Use _Doc::CreateVariableEx_ method instead
 func (obj *Doc) CreateVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -5272,6 +5882,7 @@ func (obj *Doc) DestroyDimension(ctx context.Context, id string) (bool, error) {
 //
 // ◾ sourceId   -   Identifier of the source object (the object from which a draft was created).
 //
+// Deprecated: This will be removed in a future version
 func (obj *Doc) DestroyDraft(ctx context.Context, id string, sourceId string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6049,7 +6660,7 @@ func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, er
 	return result.List, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6063,7 +6674,7 @@ func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*Data
 	return result.Info, err
 }
 
-// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
+// Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.
 //
 // Parameters:
 //
@@ -6109,7 +6720,7 @@ func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, d
 	return result.Owners, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6131,7 +6742,7 @@ func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string,
 	return result.Fields, err
 }
 
-// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6153,7 +6764,7 @@ func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId stri
 	return result.Fields, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6178,7 +6789,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 	return result.Preview, result.RowCount, err
 }
 
-// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
+// Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6203,7 +6814,7 @@ func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId str
 	return result.Preview, result.RowCount, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6223,7 +6834,7 @@ func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, data
 	return result.Tables, err
 }
 
-// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
+// Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.
 //
 // Parameters:
 //
@@ -6441,7 +7052,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6454,7 +7065,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataField, string, error) {
 	result := &struct {
@@ -6489,7 +7100,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6502,7 +7113,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -6537,7 +7148,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6550,7 +7161,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataRecord, string, error) {
 	result := &struct {
@@ -6585,7 +7196,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6598,7 +7209,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 // ◾ dataFormat     -   Type of the file.
 //
 // ◾ table          -   Name of the table.
-// This parameter must be set for XLS , XLSX , HTML   and XML files.
+// This parameter must be set for XLS , XLSX , HTML and XML files.
 //
 func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
@@ -6633,7 +7244,7 @@ func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string,
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6677,7 +7288,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -6959,6 +7570,7 @@ func (obj *Doc) GetMeasure(ctx context.Context, id string) (*GenericMeasure, err
 }
 
 // Lists the media files.
+// Deprecated: Use _GetLibraryContent_ method instead
 func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 	result := &struct {
 		List   *MediaList `json:"qList"`
@@ -6969,6 +7581,7 @@ func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 }
 
 // Lists the media files.
+// Deprecated: Use _GetLibraryContent_ method instead
 func (obj *Doc) GetMediaListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		List   json.RawMessage `json:"qList"`
@@ -7228,6 +7841,7 @@ func (obj *Doc) GetTextMacrosRaw(ctx context.Context) (json.RawMessage, error) {
 //
 // ◾ name   -   Name of the variable.
 //
+// Deprecated: Use _Doc::GetVariableById_ method or _Doc::GetVariableByName_ method instead
 func (obj *Doc) GetVariable(ctx context.Context, name string) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7344,7 +7958,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7370,7 +7984,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7409,7 +8023,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7435,7 +8049,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // • QVX for QVX file
 //
-// • JSON for JSON format
+// • JSON for JSON format
 //
 // • KML for KML file
 //
@@ -7542,6 +8156,7 @@ func (obj *Doc) RemoveAlternateState(ctx context.Context, stateName string) erro
 //
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
+// Deprecated: Use _Doc::DestroyVariableById_ method or _Doc::DestroyVariableByName_ method instead
 func (obj *Doc) RemoveVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -7597,6 +8212,7 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Deprecated: Use _SearchResults_ method instead
 func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinationOptions, terms []string, page *SearchPage) (*SearchAssociationResult, error) {
 	result := &struct {
 		Results *SearchAssociationResult `json:"qResults"`
@@ -7626,6 +8242,7 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Deprecated: Use _SearchResults_ method instead
 func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Results json.RawMessage `json:"qResults"`
@@ -9851,7 +10468,7 @@ func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path str
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -9922,7 +10539,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 // Scatter plot chart data reduction:
 //
 // The reduction mode must be set to C.
-// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
+// This reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.
 // The number of centroids can be defined in the parameter qZoomFactor.
 //
 // Scatter plot chart resolution reduction:
@@ -10021,6 +10638,7 @@ func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path str
 //
 // ◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.
 //
+// Stability: experimental
 func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string, nodeOptions *NxTreeDataOption) ([]*NxTreeNode, error) {
 	result := &struct {
 		Nodes []*NxTreeNode `json:"qNodes"`
@@ -10038,6 +10656,7 @@ func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string,
 //
 // ◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.
 //
+// Stability: experimental
 func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path string, nodeOptions interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Nodes json.RawMessage `json:"qNodes"`
@@ -10075,7 +10694,7 @@ func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, erro
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -10098,7 +10717,7 @@ func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, 
 //
 // A GetLayout call on A returns information on the objects A, B and C.
 // A GetLayout call on B returns information on the objects B, D and E.
-// A  GetLayout call on C returns information on the object C.
+// A GetLayout call on C returns information on the object C.
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
@@ -10304,6 +10923,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context
 	return result.Success, err
 }
 
+// Stability: experimental
 func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, path string, ranges []*NxTreeMultiRangeSelectInfo, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -10312,6 +10932,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, pa
 	return result.Success, err
 }
 
+// Stability: experimental
 func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context, path string, ranges interface{}, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -10455,7 +11076,7 @@ func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, 
 // ◾ path                      -   Path to the definition of the object to be selected.
 // For example, /qHyperCubeDef .
 //
-// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
+// ◾ rowIndices                -   Array of row indexes to select, starting from 0.
 // If the array is empty [ ] , all rows are selected.
 //
 // ◾ colIndices                -   Indexes of the columns to select, starting from 0.
@@ -10751,7 +11372,7 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -10811,7 +11432,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 	return result.Success, err
 }
 
-// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .
+// This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .
 //
 // Pivot table:
 //
@@ -11226,7 +11847,7 @@ func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool
 // If the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.
 // Script-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.
 // To get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.
-// The following example returns the QRS identifiers of all the objects in a specified app:
+// The following example returns the QRS identifiers of all the objects in a specified app:
 // GET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13
 // Where
 // _9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.
@@ -11548,6 +12169,7 @@ func (obj *Global) GetAuthenticatedUser(ctx context.Context) (string, error) {
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Deprecated: Use the _GetBaseBNF_ method instead
 func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error) {
 	result := &struct {
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
@@ -11573,6 +12195,7 @@ func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Deprecated: Use the _GetBaseBNF_ method instead
 func (obj *Global) GetBNFRaw(ctx context.Context, bnfType string) (json.RawMessage, error) {
 	result := &struct {
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
@@ -12132,6 +12755,7 @@ func (obj *Global) GetProgressRaw(ctx context.Context, requestId int) (json.RawM
 }
 
 // Lists the streams.
+// Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
 func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, error) {
 	result := &struct {
 		StreamList []*NxStreamListEntry `json:"qStreamList"`
@@ -12141,6 +12765,7 @@ func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, err
 }
 
 // Lists the streams.
+// Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
 func (obj *Global) GetStreamListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		StreamList json.RawMessage `json:"qStreamList"`
@@ -12215,6 +12840,7 @@ func (obj *Global) IsDesktopMode(ctx context.Context) (bool, error) {
 }
 
 // Indicates whether or not the user is working in personal mode (Qlik Sense Desktop).
+// Deprecated: Use _IsDesktopMode_ method instead
 func (obj *Global) IsPersonalMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -12314,6 +12940,7 @@ func (obj *Global) OpenDoc(ctx context.Context, docName string, userName string,
 }
 
 // Returns the Qlik Sense version number.
+// Deprecated: Use _EngineVersion_ method instead
 func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -12347,6 +12974,7 @@ func (obj *Global) QTProduct(ctx context.Context) (string, error) {
 }
 
 // Returns the Qlik Sense version number.
+// Deprecated: Use the _EngineVersion_ method instead
 func (obj *Global) QvVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -12414,12 +13042,14 @@ type Variable struct {
 //
 // ◾ d   -   Numeric representation of a dual value.
 //
+// Deprecated: Use _GenericVariable::SetProperties_ method instead
 func (obj *Variable) ForceContent(ctx context.Context, s string, d Float64) error {
 	err := obj.rpc(ctx, "ForceContent", nil, s, d)
 	return err
 }
 
 // Returns the calculated value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 	result := &struct {
 		Content *AlfaNumString `json:"qContent"`
@@ -12429,6 +13059,7 @@ func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 }
 
 // Returns the calculated value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Content json.RawMessage `json:"qContent"`
@@ -12438,6 +13069,7 @@ func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error)
 }
 
 // Gets the properties of a variable.
+// Deprecated: Use _GetProperties_ method instead
 func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties, error) {
 	result := &struct {
 		Properties *NxVariableProperties `json:"qProperties"`
@@ -12447,6 +13079,7 @@ func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties
 }
 
 // Gets the properties of a variable.
+// Deprecated: Use _GetProperties_ method instead
 func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
@@ -12456,6 +13089,7 @@ func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, e
 }
 
 // Returns the raw value of a variable.
+// Deprecated: Use _GenericVariable::GetProperties_ method instead
 func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -12472,6 +13106,7 @@ func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 //
 // ◾ updateMRU   -   If set to true, the value is added to the Most Recently Used (MRU) list.
 //
+// Deprecated: Use _GenericVariable::SetProperties_ method instead
 func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -12486,6 +13121,7 @@ func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU b
 //
 // ◾ properties   -   Information about the properties of the variable
 //
+// Deprecated: Use _SetProperties_ method instead
 func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariableProperties) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, properties)
 	return err
@@ -12497,6 +13133,7 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 //
 // ◾ properties   -   Information about the properties of the variable
 //
+// Deprecated: Use _SetProperties_ method instead
 func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, ensureEncodable(properties))
 	return err
