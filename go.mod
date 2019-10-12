@@ -10,7 +10,7 @@ require (
 	github.com/pkg/errors v0.8.1
 	github.com/ssor/bom v0.0.0-20170718123548-6386211fdfcf // indirect
 	github.com/stretchr/testify v1.4.0
-	golang.org/x/net v0.0.0-20191003171128-d98b1b443823
+	golang.org/x/net v0.0.0-20191011234655-491137f69257
 )
 
 go 1.13
