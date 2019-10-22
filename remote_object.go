@@ -76,6 +76,49 @@ func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse inter
 	return nil
 }
 
+////// Invokes a method on the remote object
+//func (r *RemoteObject) Rpc11(ctx context.Context, method string, data interface{}) (error,json.RawMessage,int) {
+//	switch v := val.(type) {
+//	case []byte:
+//		dataArr := map[string]interface{}{}
+//		err := json.Unmarshal([]byte(data), &dataArr)
+//		var params [] interface{}
+//		for _, v := range dataArr {
+//			params=append(params,v)
+//		}
+//		return  r.Rpc1(ctx, method, result, params...)
+//	default:
+//		return  r.Rpc1(ctx, method, result, data)
+//	}
+//
+//	//if(prop==nil){
+//	//	return  r.Rpc1(ctx, method, result)
+//	//}else{
+//	//	return  r.Rpc1(ctx, method, result, ensureEncodable(prop))
+//	//}
+//}
+
+//// Invokes a method on the remote object
+func (r *RemoteObject) InvokesRpc(ctx context.Context, method string, data []byte) (error, json.RawMessage, int) {
+	dataArr := make(map[string]interface{})
+	json.Unmarshal(data, &dataArr)
+	params := make([]interface{}, 0)
+	for _, v := range dataArr {
+		params = append(params, v)
+	}
+	return r.invokesRpc(ctx, method, params...)
+}
+
+// Invokes a method on the remote object
+func (r *RemoteObject) invokesRpc(ctx context.Context, method string, params ...interface{}) (error, json.RawMessage, int) {
+	invocationResponse := r.interceptorChain(ctx, &Invocation{RemoteObject: r, Method: method, Params: params})
+	if invocationResponse.Error != nil {
+		return invocationResponse.Error, nil, -1
+	} else {
+		return invocationResponse.Error, invocationResponse.Result, invocationResponse.RequestID
+	}
+}
+
 // newRemoteObject creates a new RemoteObject instance
 func newRemoteObject(session *session, objectInterface *ObjectInterface) *RemoteObject {
 	remoteObject := &RemoteObject{
