@@ -4708,7 +4708,7 @@ type SearchGroupItemMatch struct {
 	Text string `json:"qText,omitempty"`
 	// Selection mode of a field.
 	// Suppressed by default. One and always one field value is selected when set to OneAndOnlyOne.
-	FieldSelectionMode `json:"qFieldSelectionMode,omitempty"`
+	FieldSelectionMode string `json:"qFieldSelectionMode,omitempty"`
 	// List of ranges.
 	// For example, if the search terms are Price and Make, and the search group item value is Make by Price vs Mileage, then there are two ranges: one for Price and one for Make.
 	Ranges []*SearchCharRange `json:"qRanges,omitempty"`
