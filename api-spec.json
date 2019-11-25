@@ -157,7 +157,7 @@
           "type": "bool"
         },
         "Bnf": {
-          "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).",
+          "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).",
           "type": "slice",
           "items": {
             "type": "int"
@@ -434,7 +434,7 @@
       "type": "struct",
       "entries": {
         "ConnectionString": {
-          "description": "One of:\n\n• ODBC CONNECT TO [\u003cprovider name\u003e]\n\n• OLEDB CONNECT TO [\u003cprovider name\u003e]\n\n• CUSTOM CONNECT TO [\u003cprovider name\u003e]\n\n• \"\u003clocal absolute or relative path, UNC path\u003e\"\n\n• \"\u003cURL\u003e\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection.",
+          "description": "One of:\n\n• ODBC CONNECT TO [\u003cprovider name\u003e]\n\n• OLEDB CONNECT TO [\u003cprovider name\u003e]\n\n• CUSTOM CONNECT TO [\u003cprovider name\u003e]\n\n• \"\u003clocal absolute or relative path, UNC path\u003e\"\n\n• \"\u003cURL\u003e\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection.",
           "type": "string"
         },
         "Id": {
@@ -1876,7 +1876,7 @@
           ]
         },
         "DoReloadEx": {
-          "description": "Reloads the script that is set in an app and returns the path to the script log file.\nA log file is created per reload.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +--------------------------------+--------------------------------+\n  |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |\n  +--------------------------------+--------------------------------+\n  | \u003c MachineName\u003e AuditActivity   | \u003c MachineName\u003e Service         |\n  | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |\n  | Enterprise  \u003c MachineName\u003e     | Enterprise  \u003c MachineName\u003e     |\n  | AuditActivity Engine.log in    | Service Engine.log in Qlik     |\n  | Qlik Sense Desktop             | Sense Desktop                  |\n  +--------------------------------+--------------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nDoReloadExParams:\n\n  +----------+--------------------------------+---------+\n  |   NAME   |          DESCRIPTION           |  TYPE   |\n  +----------+--------------------------------+---------+\n  | qMode    | Error handling mode  One of:   | Integer |\n  |          |    * 0: for default mode.  *   |         |\n  |          | 1: for ABEND; the reload of    |         |\n  |          | the script ends if an error    |         |\n  |          | occurs.  * 2: for ignore; the  |         |\n  |          | reload of the script continues |         |\n  |          | even if an error is detected   |         |\n  |          | in the script.                 |         |\n  | qPartial | Set to true for partial        | Boolean |\n  |          | reload.  The default value is  |         |\n  |          | false.                         |         |\n  | qDebug   | Set to true if debug           | Boolean |\n  |          | breakpoints are to be honored. |         |\n  |          | The execution of the script    |         |\n  |          | will be in debug mode.  The    |         |\n  |          | default value is false.        |         |\n  +----------+--------------------------------+---------+\n\nDoReloadExResult:\n\n  +----------------+--------------------------------+---------+\n  |      NAME      |          DESCRIPTION           |  TYPE   |\n  +----------------+--------------------------------+---------+\n  | qSuccess       | The operation is successful if | Boolean |\n  |                | qSuccess is set to True.       |         |\n  | qScriptLogFile | Path to the script log file.   | String  |\n  +----------------+--------------------------------+---------+\n\nIf the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.",
+          "description": "Reloads the script that is set in an app and returns the path to the script log file.\nA log file is created per reload.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +--------------------------+--------------------------+\n  |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |\n  +--------------------------+--------------------------+\n  | \u003c MachineName\u003e           | \u003c MachineName\u003e Service   |\n  | AuditActivity Engine.txt | Engine.txt in Qlik       |\n  | in Qlik Sense Enterprise | Sense Enterprise  \u003c      |\n  |  \u003c MachineName\u003e          | MachineName\u003e Service     |\n  | AuditActivity Engine.log | Engine.log in Qlik Sense |\n  | in Qlik Sense Desktop    | Desktop                  |\n  +--------------------------+--------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nDoReloadExParams:\n\n  +----------+--------------------------------+---------+\n  |   NAME   |          DESCRIPTION           |  TYPE   |\n  +----------+--------------------------------+---------+\n  | qMode    | Error handling mode  One of:   | Integer |\n  |          |    * 0: for default mode.  *   |         |\n  |          | 1: for ABEND; the reload of    |         |\n  |          | the script ends if an error    |         |\n  |          | occurs.  * 2: for ignore; the  |         |\n  |          | reload of the script continues |         |\n  |          | even if an error is detected   |         |\n  |          | in the script.                 |         |\n  | qPartial | Set to true for partial        | Boolean |\n  |          | reload.  The default value is  |         |\n  |          | false.                         |         |\n  | qDebug   | Set to true if debug           | Boolean |\n  |          | breakpoints are to be honored. |         |\n  |          | The execution of the script    |         |\n  |          | will be in debug mode.  The    |         |\n  |          | default value is false.        |         |\n  +----------+--------------------------------+---------+\n\nDoReloadExResult:\n\n  +----------------+--------------------------------+---------+\n  |      NAME      |          DESCRIPTION           |  TYPE   |\n  +----------------+--------------------------------+---------+\n  | qSuccess       | The operation is successful if | Boolean |\n  |                | qSuccess is set to True.       |         |\n  | qScriptLogFile | Path to the script log file.   | String  |\n  +----------------+--------------------------------+---------+\n\nIf the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.",
           "type": "method",
           "params": [
             {
@@ -1896,7 +1896,7 @@
           ]
         },
         "DoReloadExRaw": {
-          "description": "Reloads the script that is set in an app and returns the path to the script log file.\nA log file is created per reload.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +--------------------------------+--------------------------------+\n  |       AUDIT ACTIVITY LOG       |       SYSTEM SERVICE LOG       |\n  +--------------------------------+--------------------------------+\n  | \u003c MachineName\u003e AuditActivity   | \u003c MachineName\u003e Service         |\n  | Engine.txt in Qlik Sense       | Engine.txt in Qlik Sense       |\n  | Enterprise  \u003c MachineName\u003e     | Enterprise  \u003c MachineName\u003e     |\n  | AuditActivity Engine.log in    | Service Engine.log in Qlik     |\n  | Qlik Sense Desktop             | Sense Desktop                  |\n  +--------------------------------+--------------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nDoReloadExParams:\n\n  +----------+--------------------------------+---------+\n  |   NAME   |          DESCRIPTION           |  TYPE   |\n  +----------+--------------------------------+---------+\n  | qMode    | Error handling mode  One of:   | Integer |\n  |          |    * 0: for default mode.  *   |         |\n  |          | 1: for ABEND; the reload of    |         |\n  |          | the script ends if an error    |         |\n  |          | occurs.  * 2: for ignore; the  |         |\n  |          | reload of the script continues |         |\n  |          | even if an error is detected   |         |\n  |          | in the script.                 |         |\n  | qPartial | Set to true for partial        | Boolean |\n  |          | reload.  The default value is  |         |\n  |          | false.                         |         |\n  | qDebug   | Set to true if debug           | Boolean |\n  |          | breakpoints are to be honored. |         |\n  |          | The execution of the script    |         |\n  |          | will be in debug mode.  The    |         |\n  |          | default value is false.        |         |\n  +----------+--------------------------------+---------+\n\nDoReloadExResult:\n\n  +----------------+--------------------------------+---------+\n  |      NAME      |          DESCRIPTION           |  TYPE   |\n  +----------------+--------------------------------+---------+\n  | qSuccess       | The operation is successful if | Boolean |\n  |                | qSuccess is set to True.       |         |\n  | qScriptLogFile | Path to the script log file.   | String  |\n  +----------------+--------------------------------+---------+\n\nIf the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.",
+          "description": "Reloads the script that is set in an app and returns the path to the script log file.\nA log file is created per reload.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +--------------------------+--------------------------+\n  |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |\n  +--------------------------+--------------------------+\n  | \u003c MachineName\u003e           | \u003c MachineName\u003e Service   |\n  | AuditActivity Engine.txt | Engine.txt in Qlik       |\n  | in Qlik Sense Enterprise | Sense Enterprise  \u003c      |\n  |  \u003c MachineName\u003e          | MachineName\u003e Service     |\n  | AuditActivity Engine.log | Engine.log in Qlik Sense |\n  | in Qlik Sense Desktop    | Desktop                  |\n  +--------------------------+--------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nDoReloadExParams:\n\n  +----------+--------------------------------+---------+\n  |   NAME   |          DESCRIPTION           |  TYPE   |\n  +----------+--------------------------------+---------+\n  | qMode    | Error handling mode  One of:   | Integer |\n  |          |    * 0: for default mode.  *   |         |\n  |          | 1: for ABEND; the reload of    |         |\n  |          | the script ends if an error    |         |\n  |          | occurs.  * 2: for ignore; the  |         |\n  |          | reload of the script continues |         |\n  |          | even if an error is detected   |         |\n  |          | in the script.                 |         |\n  | qPartial | Set to true for partial        | Boolean |\n  |          | reload.  The default value is  |         |\n  |          | false.                         |         |\n  | qDebug   | Set to true if debug           | Boolean |\n  |          | breakpoints are to be honored. |         |\n  |          | The execution of the script    |         |\n  |          | will be in debug mode.  The    |         |\n  |          | default value is false.        |         |\n  +----------+--------------------------------+---------+\n\nDoReloadExResult:\n\n  +----------------+--------------------------------+---------+\n  |      NAME      |          DESCRIPTION           |  TYPE   |\n  +----------------+--------------------------------+---------+\n  | qSuccess       | The operation is successful if | Boolean |\n  |                | qSuccess is set to True.       |         |\n  | qScriptLogFile | Path to the script log file.   | String  |\n  +----------------+--------------------------------+---------+\n\nIf the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.",
           "type": "method",
           "params": [
             {
@@ -2427,7 +2427,7 @@
           ]
         },
         "GetDatabaseInfo": {
-          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
+          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
           "type": "method",
           "params": [
             {
@@ -2447,7 +2447,7 @@
           ]
         },
         "GetDatabaseInfoRaw": {
-          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
+          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
           "type": "method",
           "params": [
             {
@@ -2516,7 +2516,7 @@
           ]
         },
         "GetDatabaseTableFields": {
-          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
+          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
           "type": "method",
           "params": [
             {
@@ -2548,7 +2548,7 @@
           ]
         },
         "GetDatabaseTableFieldsRaw": {
-          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
+          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
           "type": "method",
           "params": [
             {
@@ -2577,7 +2577,7 @@
           ]
         },
         "GetDatabaseTablePreview": {
-          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
+          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
           "type": "method",
           "params": [
             {
@@ -2615,7 +2615,7 @@
           ]
         },
         "GetDatabaseTablePreviewRaw": {
-          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
+          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
           "type": "method",
           "params": [
             {
@@ -2650,7 +2650,7 @@
           ]
         },
         "GetDatabaseTables": {
-          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
+          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
           "type": "method",
           "params": [
             {
@@ -2679,7 +2679,7 @@
           ]
         },
         "GetDatabaseTablesRaw": {
-          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
+          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
           "type": "method",
           "params": [
             {
@@ -2949,7 +2949,7 @@
           ]
         },
         "GetFileTableFields": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "type": "method",
           "params": [
             {
@@ -2984,7 +2984,7 @@
           ]
         },
         "GetFileTableFieldsRaw": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "type": "method",
           "params": [
             {
@@ -3016,7 +3016,7 @@
           ]
         },
         "GetFileTablePreview": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "type": "method",
           "params": [
             {
@@ -3051,7 +3051,7 @@
           ]
         },
         "GetFileTablePreviewRaw": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "type": "method",
           "params": [
             {
@@ -3083,7 +3083,7 @@
           ]
         },
         "GetFileTables": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "type": "method",
           "params": [
             {
@@ -3167,7 +3167,7 @@
           ]
         },
         "GetFileTablesRaw": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "type": "method",
           "params": [
             {
@@ -3991,7 +3991,7 @@
           ]
         },
         "GuessFileType": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "type": "method",
           "params": [
             {
@@ -4014,7 +4014,7 @@
           ]
         },
         "GuessFileTypeRaw": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "type": "method",
           "params": [
             {
@@ -4225,7 +4225,7 @@
           ]
         },
         "SearchAssociations": {
-          "description": "Returns the search matches for one or more search terms.\nThe search results depend on the search context.\n_SearchCombinationOptions_\n\nSearchMatchCombinations:\n\n  +--------------------------+-------------------------------+--------------------------------+\n  |           NAME           |          DESCRIPTION          |              TYPE              |\n  +--------------------------+-------------------------------+--------------------------------+\n  | qSearchMatchCombinations | Array of search combinations. | Array of                       |\n  |                          |                               | SearchMatchCombination         |\n  +--------------------------+-------------------------------+--------------------------------+\n\nParameters:\n\n◾ options   -   Information about the search fields and the search context.\n\n◾ terms     -   List of terms to search for.\n\n◾ page      -   Array of pages to retrieve.",
+          "description": "Returns the search matches for one or more search terms.\nThe search results depend on the search context.\n_SearchCombinationOptions_\n\nSearchMatchCombinations:\n\n  +--------------------------+-------------------------------+------------------------+\n  |           NAME           |          DESCRIPTION          |          TYPE          |\n  +--------------------------+-------------------------------+------------------------+\n  | qSearchMatchCombinations | Array of search combinations. | Array of               |\n  |                          |                               | SearchMatchCombination |\n  |                          |                               |                        |\n  +--------------------------+-------------------------------+------------------------+\n\nParameters:\n\n◾ options   -   Information about the search fields and the search context.\n\n◾ terms     -   List of terms to search for.\n\n◾ page      -   Array of pages to retrieve.",
           "deprecated": true,
           "x-qlik-deprecation-description": "Use _SearchResults_ method instead",
           "type": "method",
@@ -4256,7 +4256,7 @@
           ]
         },
         "SearchAssociationsRaw": {
-          "description": "Returns the search matches for one or more search terms.\nThe search results depend on the search context.\n_SearchCombinationOptions_\n\nSearchMatchCombinations:\n\n  +--------------------------+-------------------------------+--------------------------------+\n  |           NAME           |          DESCRIPTION          |              TYPE              |\n  +--------------------------+-------------------------------+--------------------------------+\n  | qSearchMatchCombinations | Array of search combinations. | Array of                       |\n  |                          |                               | SearchMatchCombination         |\n  +--------------------------+-------------------------------+--------------------------------+\n\nParameters:\n\n◾ options   -   Information about the search fields and the search context.\n\n◾ terms     -   List of terms to search for.\n\n◾ page      -   Array of pages to retrieve.",
+          "description": "Returns the search matches for one or more search terms.\nThe search results depend on the search context.\n_SearchCombinationOptions_\n\nSearchMatchCombinations:\n\n  +--------------------------+-------------------------------+------------------------+\n  |           NAME           |          DESCRIPTION          |          TYPE          |\n  +--------------------------+-------------------------------+------------------------+\n  | qSearchMatchCombinations | Array of search combinations. | Array of               |\n  |                          |                               | SearchMatchCombination |\n  |                          |                               |                        |\n  +--------------------------+-------------------------------+------------------------+\n\nParameters:\n\n◾ options   -   Information about the search fields and the search context.\n\n◾ terms     -   List of terms to search for.\n\n◾ page      -   Array of pages to retrieve.",
           "deprecated": true,
           "x-qlik-deprecation-description": "Use _SearchResults_ method instead",
           "type": "method",
@@ -5673,7 +5673,7 @@
       }
     },
     "FileDataFormat": {
-      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file",
+      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file",
       "type": "struct",
       "entries": {
         "CodePage": {
@@ -7444,7 +7444,7 @@
           ]
         },
         "GetEffectiveProperties": {
-          "description": "Returns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.\nGetEffectiveProperties method\nReturns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.",
+          "description": "Returns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.",
           "type": "method",
           "params": [
             {
@@ -7461,7 +7461,7 @@
           ]
         },
         "GetEffectivePropertiesRaw": {
-          "description": "Returns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.\nGetEffectiveProperties method\nReturns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.",
+          "description": "Returns the identifier, the type and the properties of the object.\nIf the object contains some soft properties, the soft properties are returned.\nIf the object is linked to another object, the properties of the linking object are returned.",
           "type": "method",
           "params": [
             {
@@ -7512,7 +7512,7 @@
           ]
         },
         "GetHyperCubeBinnedData": {
-          "description": "This method supports data binning.\nWhen a generic object with two or three measures and one dimension contains a lot of data, groups of points (for example, cells) can be rendered instead of points.\nA zone of interest can be refined (for zooming in) up to a maximum refinement level (set in the qQueryLevel parameter) or coarsened (for zoom out).\nThe grid of cells is adaptive (not static), meaning that it adapts to different length scales.\nThe GetHyperCubeBinnedData method gives information about the adaptive grid and the values of the generic object.\nThe number of points in a cell and the coordinates (expressed in the measure range) of each cell are returned.\nDimension values and measure values are rendered at point level (highest detailed level).\nThe generic object should contain two or three measures and one dimension. When the refinement is high, the first two measures are represented on the x-axis and on the y-axis, while the third measure is visualized as color or point size.\n\nAdaptive Grid:\n\nMore details about the properties of the adaptive grid are given in this paragraph.\nWhen the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.\nThe first array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qNum        | Maximum number of points that  | String                         |\n  |             | a cell can contain.            |                                |\n  | qElemNumber | Is set to 0.                   | Boolean                        |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nThe next arrays give the coordinates of each cell in the page.\nEach array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Coordinates of a cell in       | String                         |\n  |             | the measure range.  “qText”:   |                                |\n  |             | “[[\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,     |                                |\n  |             | \u003cbottom\u003e], [\u003cleft\u003e, \u003ctop\u003e,     |                                |\n  |             | \u003cright\u003e, \u003cbottom\u003e], ....       |                                |\n  |             | [\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,       |                                |\n  |             | \u003cbottom\u003e]]  Where:  \u003c left     |                                |\n  |             | \u003e, \u003c top \u003e, \u003c right \u003e and \u003c    |                                |\n  |             | bottom \u003e are the coordinates   |                                |\n  |             | of the cell in the measure     |                                |\n  |             | range.                         |                                |\n  | qNum        | Number of points in the cell.  | Double precision floating      |\n  |             |                                | point                          |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nCells are represented as rectangles.\n\nDimension values and measures values:\n\nMore details about the properties, when dimension and measure values are returned, are given in this paragraph.\nWhen the refinement is high, points are rendered (not cells) and dimension and measure values for each cell are returned.\nThe first array is empty because no information on the adaptive grid is needed.\nThe next arrays bring information about the dimension and the measure values.\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Text value of the dimension or | String                         |\n  |             | the measure.                   |                                |\n  | qNum        | Numerical value of the         | Double precision floating      |\n  |             | dimension or the measure.  Is  | point                          |\n  |             | set to 0 if the value is only  |                                |\n  |             | text.                          |                                |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nParameters:\n\n◾ path            -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages to retrieve.\nSince the generic object contains two measures and one dimension, qWidth should be set to 3.\nIf the value of a measure is Null, the value cannot be rendered. Therefore, the number of elements rendered in a page can be less than the number defined in the property qHeight .\n\n◾ viewport        -   Defines the canvas and the zoom level.\nThis parameter is not yet used and is optional.\n\n◾ dataRanges      -   Range of the data to render.\nThis range applies to the measure values.\nThe lowest and highest values of a measure can be retrieved by using the GetLayout method (in /qHyperCube/qMeasureInfo ).\n\n◾ maxNbrCells     -   Maximum number of cells in the grid.\n\n◾ queryLevel      -   Level of details. The higher the level, the more detailed information you get (zoom-in).\nWhen the number of points to render falls below a certain threshold, the values are no longer rendered as cells but as points.\nThe query level should be no greater than 20.\n\n◾ binningMethod   -   Selects the algorithm.\nThe default value is 0.\nOne of:\n\n• 0: Adaptive grid\n\n• 1: Hexagonal grid\n\n• 2: Uniform grid",
+          "description": "This method supports data binning.\nWhen a generic object with two or three measures and one dimension contains a lot of data, groups of points (for example, cells) can be rendered instead of points.\nA zone of interest can be refined (for zooming in) up to a maximum refinement level (set in the qQueryLevel parameter) or coarsened (for zoom out).\nThe grid of cells is adaptive (not static), meaning that it adapts to different length scales.\nThe GetHyperCubeBinnedData method gives information about the adaptive grid and the values of the generic object.\nThe number of points in a cell and the coordinates (expressed in the measure range) of each cell are returned.\nDimension values and measure values are rendered at point level (highest detailed level).\nThe generic object should contain two or three measures and one dimension. When the refinement is high, the first two measures are represented on the x-axis and on the y-axis, while the third measure is visualized as color or point size.\n\nAdaptive Grid:\n\nMore details about the properties of the adaptive grid are given in this paragraph.\nWhen the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.\nThe first array contains the following properties:\n\n  +-------------+--------------------------------+----------------------------+\n  |    NAME     |          DESCRIPTION           |            TYPE            |\n  +-------------+--------------------------------+----------------------------+\n  | qNum        | Maximum number of points that  | String                     |\n  |             | a cell can contain.            |                            |\n  | qElemNumber | Is set to 0.                   | Boolean                    |\n  | qState      | The default value is L.        | One of:   * L for Locked   |\n  |             |                                |  * S for Selected  *       |\n  |             |                                | O for Optional  * D        |\n  |             |                                | for Deselected  * A        |\n  |             |                                | for Alternative  * X       |\n  |             |                                | for eXcluded  * XS for     |\n  |             |                                | eXcluded Selected  * XL    |\n  |             |                                | for eXcluded Locked        |\n  +-------------+--------------------------------+----------------------------+\n\nThe next arrays give the coordinates of each cell in the page.\nEach array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Coordinates of a cell in       | String                         |\n  |             | the measure range.  “qText”:   |                                |\n  |             | “[[\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,     |                                |\n  |             | \u003cbottom\u003e], [\u003cleft\u003e, \u003ctop\u003e,     |                                |\n  |             | \u003cright\u003e, \u003cbottom\u003e], ....       |                                |\n  |             | [\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,       |                                |\n  |             | \u003cbottom\u003e]]  Where:  \u003c left     |                                |\n  |             | \u003e, \u003c top \u003e, \u003c right \u003e and \u003c    |                                |\n  |             | bottom \u003e are the coordinates   |                                |\n  |             | of the cell in the measure     |                                |\n  |             | range.                         |                                |\n  | qNum        | Number of points in the cell.  | Double precision floating      |\n  |             |                                | point                          |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked       |\n  |             |                                |  * S for Selected  *           |\n  |             |                                | O for Optional  * D            |\n  |             |                                | for Deselected  * A            |\n  |             |                                | for Alternative  * X           |\n  |             |                                | for eXcluded  * XS for         |\n  |             |                                | eXcluded Selected  * XL        |\n  |             |                                | for eXcluded Locked            |\n  +-------------+--------------------------------+--------------------------------+\n\nCells are represented as rectangles.\n\nDimension values and measures values:\n\nMore details about the properties, when dimension and measure values are returned, are given in this paragraph.\nWhen the refinement is high, points are rendered (not cells) and dimension and measure values for each cell are returned.\nThe first array is empty because no information on the adaptive grid is needed.\nThe next arrays bring information about the dimension and the measure values.\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Text value of the dimension or | String                         |\n  |             | the measure.                   |                                |\n  | qNum        | Numerical value of the         | Double precision floating      |\n  |             | dimension or the measure.  Is  | point                          |\n  |             | set to 0 if the value is only  |                                |\n  |             | text.                          |                                |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked       |\n  |             |                                |  * S for Selected  *           |\n  |             |                                | O for Optional  * D            |\n  |             |                                | for Deselected  * A            |\n  |             |                                | for Alternative  * X           |\n  |             |                                | for eXcluded  * XS for         |\n  |             |                                | eXcluded Selected  * XL        |\n  |             |                                | for eXcluded Locked            |\n  +-------------+--------------------------------+--------------------------------+\n\nParameters:\n\n◾ path            -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages to retrieve.\nSince the generic object contains two measures and one dimension, qWidth should be set to 3.\nIf the value of a measure is Null, the value cannot be rendered. Therefore, the number of elements rendered in a page can be less than the number defined in the property qHeight .\n\n◾ viewport        -   Defines the canvas and the zoom level.\nThis parameter is not yet used and is optional.\n\n◾ dataRanges      -   Range of the data to render.\nThis range applies to the measure values.\nThe lowest and highest values of a measure can be retrieved by using the GetLayout method (in /qHyperCube/qMeasureInfo ).\n\n◾ maxNbrCells     -   Maximum number of cells in the grid.\n\n◾ queryLevel      -   Level of details. The higher the level, the more detailed information you get (zoom-in).\nWhen the number of points to render falls below a certain threshold, the values are no longer rendered as cells but as points.\nThe query level should be no greater than 20.\n\n◾ binningMethod   -   Selects the algorithm.\nThe default value is 0.\nOne of:\n\n• 0: Adaptive grid\n\n• 1: Hexagonal grid\n\n• 2: Uniform grid",
           "type": "method",
           "params": [
             {
@@ -7559,7 +7559,7 @@
           ]
         },
         "GetHyperCubeBinnedDataRaw": {
-          "description": "This method supports data binning.\nWhen a generic object with two or three measures and one dimension contains a lot of data, groups of points (for example, cells) can be rendered instead of points.\nA zone of interest can be refined (for zooming in) up to a maximum refinement level (set in the qQueryLevel parameter) or coarsened (for zoom out).\nThe grid of cells is adaptive (not static), meaning that it adapts to different length scales.\nThe GetHyperCubeBinnedData method gives information about the adaptive grid and the values of the generic object.\nThe number of points in a cell and the coordinates (expressed in the measure range) of each cell are returned.\nDimension values and measure values are rendered at point level (highest detailed level).\nThe generic object should contain two or three measures and one dimension. When the refinement is high, the first two measures are represented on the x-axis and on the y-axis, while the third measure is visualized as color or point size.\n\nAdaptive Grid:\n\nMore details about the properties of the adaptive grid are given in this paragraph.\nWhen the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.\nThe first array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qNum        | Maximum number of points that  | String                         |\n  |             | a cell can contain.            |                                |\n  | qElemNumber | Is set to 0.                   | Boolean                        |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nThe next arrays give the coordinates of each cell in the page.\nEach array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Coordinates of a cell in       | String                         |\n  |             | the measure range.  “qText”:   |                                |\n  |             | “[[\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,     |                                |\n  |             | \u003cbottom\u003e], [\u003cleft\u003e, \u003ctop\u003e,     |                                |\n  |             | \u003cright\u003e, \u003cbottom\u003e], ....       |                                |\n  |             | [\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,       |                                |\n  |             | \u003cbottom\u003e]]  Where:  \u003c left     |                                |\n  |             | \u003e, \u003c top \u003e, \u003c right \u003e and \u003c    |                                |\n  |             | bottom \u003e are the coordinates   |                                |\n  |             | of the cell in the measure     |                                |\n  |             | range.                         |                                |\n  | qNum        | Number of points in the cell.  | Double precision floating      |\n  |             |                                | point                          |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nCells are represented as rectangles.\n\nDimension values and measures values:\n\nMore details about the properties, when dimension and measure values are returned, are given in this paragraph.\nWhen the refinement is high, points are rendered (not cells) and dimension and measure values for each cell are returned.\nThe first array is empty because no information on the adaptive grid is needed.\nThe next arrays bring information about the dimension and the measure values.\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Text value of the dimension or | String                         |\n  |             | the measure.                   |                                |\n  | qNum        | Numerical value of the         | Double precision floating      |\n  |             | dimension or the measure.  Is  | point                          |\n  |             | set to 0 if the value is only  |                                |\n  |             | text.                          |                                |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked  * S  |\n  |             |                                | for Selected  * O for Optional |\n  |             |                                |  * D for Deselected  * A for   |\n  |             |                                | Alternative  * X for eXcluded  |\n  |             |                                |  * XS for eXcluded Selected  * |\n  |             |                                | XL for eXcluded Locked         |\n  +-------------+--------------------------------+--------------------------------+\n\nParameters:\n\n◾ path            -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages to retrieve.\nSince the generic object contains two measures and one dimension, qWidth should be set to 3.\nIf the value of a measure is Null, the value cannot be rendered. Therefore, the number of elements rendered in a page can be less than the number defined in the property qHeight .\n\n◾ viewport        -   Defines the canvas and the zoom level.\nThis parameter is not yet used and is optional.\n\n◾ dataRanges      -   Range of the data to render.\nThis range applies to the measure values.\nThe lowest and highest values of a measure can be retrieved by using the GetLayout method (in /qHyperCube/qMeasureInfo ).\n\n◾ maxNbrCells     -   Maximum number of cells in the grid.\n\n◾ queryLevel      -   Level of details. The higher the level, the more detailed information you get (zoom-in).\nWhen the number of points to render falls below a certain threshold, the values are no longer rendered as cells but as points.\nThe query level should be no greater than 20.\n\n◾ binningMethod   -   Selects the algorithm.\nThe default value is 0.\nOne of:\n\n• 0: Adaptive grid\n\n• 1: Hexagonal grid\n\n• 2: Uniform grid",
+          "description": "This method supports data binning.\nWhen a generic object with two or three measures and one dimension contains a lot of data, groups of points (for example, cells) can be rendered instead of points.\nA zone of interest can be refined (for zooming in) up to a maximum refinement level (set in the qQueryLevel parameter) or coarsened (for zoom out).\nThe grid of cells is adaptive (not static), meaning that it adapts to different length scales.\nThe GetHyperCubeBinnedData method gives information about the adaptive grid and the values of the generic object.\nThe number of points in a cell and the coordinates (expressed in the measure range) of each cell are returned.\nDimension values and measure values are rendered at point level (highest detailed level).\nThe generic object should contain two or three measures and one dimension. When the refinement is high, the first two measures are represented on the x-axis and on the y-axis, while the third measure is visualized as color or point size.\n\nAdaptive Grid:\n\nMore details about the properties of the adaptive grid are given in this paragraph.\nWhen the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.\nThe first array contains the following properties:\n\n  +-------------+--------------------------------+----------------------------+\n  |    NAME     |          DESCRIPTION           |            TYPE            |\n  +-------------+--------------------------------+----------------------------+\n  | qNum        | Maximum number of points that  | String                     |\n  |             | a cell can contain.            |                            |\n  | qElemNumber | Is set to 0.                   | Boolean                    |\n  | qState      | The default value is L.        | One of:   * L for Locked   |\n  |             |                                |  * S for Selected  *       |\n  |             |                                | O for Optional  * D        |\n  |             |                                | for Deselected  * A        |\n  |             |                                | for Alternative  * X       |\n  |             |                                | for eXcluded  * XS for     |\n  |             |                                | eXcluded Selected  * XL    |\n  |             |                                | for eXcluded Locked        |\n  +-------------+--------------------------------+----------------------------+\n\nThe next arrays give the coordinates of each cell in the page.\nEach array contains the following properties:\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Coordinates of a cell in       | String                         |\n  |             | the measure range.  “qText”:   |                                |\n  |             | “[[\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,     |                                |\n  |             | \u003cbottom\u003e], [\u003cleft\u003e, \u003ctop\u003e,     |                                |\n  |             | \u003cright\u003e, \u003cbottom\u003e], ....       |                                |\n  |             | [\u003cleft\u003e, \u003ctop\u003e, \u003cright\u003e,       |                                |\n  |             | \u003cbottom\u003e]]  Where:  \u003c left     |                                |\n  |             | \u003e, \u003c top \u003e, \u003c right \u003e and \u003c    |                                |\n  |             | bottom \u003e are the coordinates   |                                |\n  |             | of the cell in the measure     |                                |\n  |             | range.                         |                                |\n  | qNum        | Number of points in the cell.  | Double precision floating      |\n  |             |                                | point                          |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked       |\n  |             |                                |  * S for Selected  *           |\n  |             |                                | O for Optional  * D            |\n  |             |                                | for Deselected  * A            |\n  |             |                                | for Alternative  * X           |\n  |             |                                | for eXcluded  * XS for         |\n  |             |                                | eXcluded Selected  * XL        |\n  |             |                                | for eXcluded Locked            |\n  +-------------+--------------------------------+--------------------------------+\n\nCells are represented as rectangles.\n\nDimension values and measures values:\n\nMore details about the properties, when dimension and measure values are returned, are given in this paragraph.\nWhen the refinement is high, points are rendered (not cells) and dimension and measure values for each cell are returned.\nThe first array is empty because no information on the adaptive grid is needed.\nThe next arrays bring information about the dimension and the measure values.\n\n  +-------------+--------------------------------+--------------------------------+\n  |    NAME     |          DESCRIPTION           |              TYPE              |\n  +-------------+--------------------------------+--------------------------------+\n  | qText       | Text value of the dimension or | String                         |\n  |             | the measure.                   |                                |\n  | qNum        | Numerical value of the         | Double precision floating      |\n  |             | dimension or the measure.  Is  | point                          |\n  |             | set to 0 if the value is only  |                                |\n  |             | text.                          |                                |\n  | qElemNumber | Unique identifier for each     | Integer                        |\n  |             | cell, calculated by the engine |                                |\n  |             | during the construction of     |                                |\n  |             | the grid.  This element number |                                |\n  |             | is not stored in the database  |                                |\n  |             | and can have a positive or a   |                                |\n  |             | negative value.                |                                |\n  | qState      | The default value is L.        | One of:   * L for Locked       |\n  |             |                                |  * S for Selected  *           |\n  |             |                                | O for Optional  * D            |\n  |             |                                | for Deselected  * A            |\n  |             |                                | for Alternative  * X           |\n  |             |                                | for eXcluded  * XS for         |\n  |             |                                | eXcluded Selected  * XL        |\n  |             |                                | for eXcluded Locked            |\n  +-------------+--------------------------------+--------------------------------+\n\nParameters:\n\n◾ path            -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages to retrieve.\nSince the generic object contains two measures and one dimension, qWidth should be set to 3.\nIf the value of a measure is Null, the value cannot be rendered. Therefore, the number of elements rendered in a page can be less than the number defined in the property qHeight .\n\n◾ viewport        -   Defines the canvas and the zoom level.\nThis parameter is not yet used and is optional.\n\n◾ dataRanges      -   Range of the data to render.\nThis range applies to the measure values.\nThe lowest and highest values of a measure can be retrieved by using the GetLayout method (in /qHyperCube/qMeasureInfo ).\n\n◾ maxNbrCells     -   Maximum number of cells in the grid.\n\n◾ queryLevel      -   Level of details. The higher the level, the more detailed information you get (zoom-in).\nWhen the number of points to render falls below a certain threshold, the values are no longer rendered as cells but as points.\nThe query level should be no greater than 20.\n\n◾ binningMethod   -   Selects the algorithm.\nThe default value is 0.\nOne of:\n\n• 0: Adaptive grid\n\n• 1: Hexagonal grid\n\n• 2: Uniform grid",
           "type": "method",
           "params": [
             {
@@ -7762,7 +7762,7 @@
           ]
         },
         "GetHyperCubeReducedData": {
-          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
+          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
           "type": "method",
           "params": [
             {
@@ -7797,7 +7797,7 @@
           ]
         },
         "GetHyperCubeReducedDataRaw": {
-          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
+          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
           "type": "method",
           "params": [
             {
@@ -7885,7 +7885,7 @@
         },
         "GetHyperCubeTreeData": {
           "description": "Retrieves data for nodes in a tree structure. It is possible to retrieve specific pages of data.\nThis method works for a treedata object or a hypercube in DATA_MODE_TREE.\n\nParameters:\n\n◾ path          -   Path to the definition of the object to be selected.\n\n◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.",
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "method",
           "params": [
             {
@@ -7912,7 +7912,7 @@
         },
         "GetHyperCubeTreeDataRaw": {
           "description": "Retrieves data for nodes in a tree structure. It is possible to retrieve specific pages of data.\nThis method works for a treedata object or a hypercube in DATA_MODE_TREE.\n\nParameters:\n\n◾ path          -   Path to the definition of the object to be selected.\n\n◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.",
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "method",
           "params": [
             {
@@ -7969,7 +7969,7 @@
           ]
         },
         "GetLayout": {
-          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
+          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA  GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
           "type": "method",
           "params": [
             {
@@ -7986,7 +7986,7 @@
           ]
         },
         "GetLayoutRaw": {
-          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
+          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA  GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
           "type": "method",
           "params": [
             {
@@ -8244,7 +8244,7 @@
           ]
         },
         "MultiRangeSelectTreeDataValues": {
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "method",
           "params": [
             {
@@ -8276,7 +8276,7 @@
           ]
         },
         "MultiRangeSelectTreeDataValuesRaw": {
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "method",
           "params": [
             {
@@ -8433,7 +8433,7 @@
           ]
         },
         "SelectHyperCubeCells": {
-          "description": "Makes selections in multiple dimensions and measures.\nThis method applies to hypercubes, such as bar charts, tables and scatter plots.\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ rowIndices                -   Array of row indexes to select, starting from 0.\nIf the array is empty [ ] , all rows are selected.\n\n◾ colIndices                -   Indexes of the columns to select, starting from 0.\nA column corresponds to a dimension in the order they are added to the hypercube.\nIf a column is hidden it is ignored, qColIndex n refers to the n:th visible column (starting from zero).\nExample:\nIf the hypercube has two dimensions:\n\n• [0] selects the first column (i.e the first dimension).\n\n• [1] selects the second column (i.e the second dimension).\n\nIf the array is empty [ ] , all columns are selected.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "Makes selections in multiple dimensions and measures.\nThis method applies to hypercubes, such as bar charts, tables and scatter plots.\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ rowIndices                -   Array of row indexes to select, starting from 0.\nIf the array is empty [ ] , all rows are selected.\n\n◾ colIndices                -   Indexes of the columns to select, starting from 0.\nA column corresponds to a dimension in the order they are added to the hypercube.\nIf a column is hidden it is ignored, qColIndex n refers to the n:th visible column (starting from zero).\nExample:\nIf the hypercube has two dimensions:\n\n• [0] selects the first column (i.e the first dimension).\n\n• [1] selects the second column (i.e the second dimension).\n\nIf the array is empty [ ] , all columns are selected.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "type": "method",
           "params": [
             {
@@ -8737,7 +8737,7 @@
           ]
         },
         "SelectPivotCells": {
-          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +--------------------------------+--------------------------------+\n  | Sum(OrderTotal)                | Are pseudo dimensions.         |\n  | Count(OrderTotal)              |                                |\n  | CategoryName                   | Is a left dimension.           |\n  |                                | Beverages , Condiments ... are |\n  |                                | left dimension values.         |\n  | ProductName                    | Is a top dimension.  Chef      |\n  |                                | Anton's Cajun Seasoning is a   |\n  |                                | top dimension value.           |\n  | Numeric values                 | Are calculated values in the   |\n  |                                | data matrix.  626291,832 is a  |\n  |                                | calculated value.              |\n  +--------------------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "type": "method",
           "params": [
             {
@@ -8769,7 +8769,7 @@
           ]
         },
         "SelectPivotCellsRaw": {
-          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +--------------------------------+--------------------------------+\n  | Sum(OrderTotal)                | Are pseudo dimensions.         |\n  | Count(OrderTotal)              |                                |\n  | CategoryName                   | Is a left dimension.           |\n  |                                | Beverages , Condiments ... are |\n  |                                | left dimension values.         |\n  | ProductName                    | Is a top dimension.  Chef      |\n  |                                | Anton's Cajun Seasoning is a   |\n  |                                | top dimension value.           |\n  | Numeric values                 | Are calculated values in the   |\n  |                                | data matrix.  626291,832 is a  |\n  |                                | calculated value.              |\n  +--------------------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "type": "method",
           "params": [
             {
@@ -9036,7 +9036,7 @@
           "type": "#/definitions/StaticContentUrl"
         },
         "TreeData": {
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "#/definitions/TreeData"
         },
         "UndoInfo": {
@@ -9118,7 +9118,7 @@
           "type": "#/definitions/StringExpression"
         },
         "TreeDataDef": {
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "stable",
           "type": "#/definitions/TreeDataDef"
         },
         "UndoInfoDef": {
@@ -9269,6 +9269,23 @@
           "returns": [
             {
               "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetRawContent": {
+          "description": "Returns the raw value of a variable.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
             },
             {
               "type": "error"
@@ -9534,7 +9551,7 @@
           ]
         },
         "CopyApp": {
-          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository. See the [Qlik Sense Repository Service API](\n\ncsh-RepositoryServiceAPI-Introduction) for more information.:\n\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
+          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository. See the [Qlik Sense Repository Service API](\n\ncsh-RepositoryServiceAPI-Introduction) for more information.:\n\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
           "type": "method",
           "params": [
             {
@@ -10775,6 +10792,26 @@
             }
           ]
         },
+        "SaveAs": {
+          "description": "Save a copy of an app with a different name.\nCan be used to save a session app as an ordinary app.\n\nParameters:\n\n◾ newAppName   -   \u003cName of the saved app\u003e",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "ShutdownProcess": {
           "description": "Shuts down the Qlik engine.\nThis operation is possible only in Qlik Sense Desktop.",
           "type": "method",
@@ -11193,7 +11230,7 @@
       "type": "struct",
       "entries": {
         "Discriminator": {
-          "description": "A string indicating the origin of the data:\n\n• [filename]: the data comes from a local file.\n\n• INLINE: the data is entered inline in the load script.\n\n• RESIDENT: the data comes from a resident table. The table name is listed.\n\n• AUTOGENERATE: the data is generated from the load script (no external table of data source).\n\n• Provider: the data comes from a data connection. The connector source name is listed.\n\n• [webfile]: the data comes from a web-based file.\n\n• STORE: path to QVD or TXT file where data is stored.\n\n• EXTENSION: the data comes from a Server Side Extension (SSE).",
+          "description": "A string indicating the origin of the data:\n\n• [filename]: the data comes from a local file.\n\n• INLINE: the data is entered inline in the load script.\n\n• RESIDENT: the data comes from a resident table. The table name is listed.\n\n• AUTOGENERATE: the data is generated from the load script (no external table of data source).\n\n• Provider: the data comes from a data connection. The connector source name is listed.\n\n• [webfile]: the data comes from a web-based file.\n\n• STORE: path to QVD or TXT file where data is stored.\n\n• EXTENSION: the data comes from a Server Side Extension (SSE).",
           "type": "string"
         },
         "Statement": {
@@ -11294,7 +11331,7 @@
           "type": "#/definitions/CalendarStrings"
         },
         "Collation": {
-          "description": "Locale name (following language tagging convention RFC 4646):\n_\u003c language\u003e-\u003cREGION\u003e_\nWhere:\n\n• language is a lowercase ISO 639 language code\n\n• REGION specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
+          "description": "Locale name (following language tagging convention RFC 4646):\n_\u003c language\u003e-\u003cREGION\u003e_\nWhere:\n\n• language is a lowercase ISO  639 language code\n\n• REGION specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
           "type": "string"
         },
         "CurrentYear": {
@@ -11314,7 +11351,7 @@
           "type": "int"
         },
         "FirstWeekDay": {
-          "description": "First day of the week, starting from 0.\nAccording to ISO 8601, Monday is the first day of the week.\n\n• 0 = Monday\n\n• 1 = Tuesday\n\n• ...\n\n• 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
+          "description": "First day of the week, starting from 0.\nAccording to ISO 8601, Monday is the first day of the week.\n\n• 0 = Monday\n\n• 1 = Tuesday\n\n• ...\n\n• 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
           "type": "int"
         },
         "ListSep": {
@@ -11542,6 +11579,10 @@
         },
         "IsOpenedWithoutData": {
           "description": "If set to true, it means that the app was opened without loading its data.",
+          "type": "bool"
+        },
+        "IsSessionApp": {
+          "description": "If set to true, the app is a Session App, i.e. not persistent.",
           "type": "bool"
         },
         "LastReloadTime": {
@@ -12385,7 +12426,7 @@
       }
     },
     "NxFieldDescription": {
-      "description": "NxDerivedFieldsdata:\n\n  +------------------------+--------------------------------+------------------------+\n  |          NAME          |          DESCRIPTION           |          TYPE          |\n  +------------------------+--------------------------------+------------------------+\n  | qDerivedDefinitionName | Name of the derived            | String                 |\n  |                        | definition.                    |                        |\n  | qFieldDefs             | List of the derived fields.    | Array of               |\n  |                        |                                | NxDerivedField         |\n  | qGroupDefs             | List of the derived groups.    | Array of               |\n  |                        |                                | NxDerivedGroup         |\n  | qTags                  | List of tags on the derived    | Array of String        |\n  |                        | fields.                        |                        |\n  +------------------------+--------------------------------+------------------------+",
+      "description": "NxDerivedFieldsdata:\n\n  +------------------------+--------------------------------+----------------+\n  |          NAME          |          DESCRIPTION           |      TYPE      |\n  +------------------------+--------------------------------+----------------+\n  | qDerivedDefinitionName | Name of the derived            | String         |\n  |                        | definition.                    |                |\n  | qFieldDefs             | List of the derived fields.    | Array of       |\n  |                        |                                | NxDerivedField |\n  | qGroupDefs             | List of the derived groups.    | Array of       |\n  |                        |                                | NxDerivedGroup |\n  | qTags                  | List of tags on the derived    | Array of       |\n  |                        | fields.                        | String         |\n  +------------------------+--------------------------------+----------------+",
       "type": "struct",
       "entries": {
         "AndMode": {
@@ -12453,7 +12494,7 @@
       "type": "struct",
       "entries": {
         "FieldSelectionMode": {
-          "description": "Selection mode.\n\nProperties:\n\nOne of:\n\n• NORMAL for a selection in normal mode.\n\n• AND for a selection in AND mode.\n\n• NOT for a selection NOT in AND mode.\nOne of:\n\n• NORMAL or SELECTION_MODE_NORMAL\n\n• AND or SELECTION_MODE_AND\n\n• NOT or SELECTION_MODE_NOT",
+          "description": "Selection mode.\n\nProperties:\n\nOne of:\n\n• NORMAL for a selection in normal mode.\n\n• AND for a selection in AND mode.\n\n• NOT for a selection NOT in AND mode.\nOne of:\n\n• NORMAL or SELECTION_MODE_NORMAL\n\n• AND or SELECTION_MODE_AND\n\n• NOT or SELECTION_MODE_NOT",
           "type": "string"
         },
         "Name": {
@@ -12644,7 +12685,7 @@
           "type": "bool"
         },
         "Tags": {
-          "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
+          "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
           "type": "slice",
           "items": {
             "type": "string"
@@ -12865,6 +12906,13 @@
         "SortBy": {
           "description": "Defines the sort criteria.\nThe default value is sort by ascending alphabetic order.\nThis property is optional.",
           "type": "#/definitions/SortCriteria"
+        },
+        "TrendLines": {
+          "description": "Specifies trendlines for this measure.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxTrendlineDef"
+          }
         }
       }
     },
@@ -12933,6 +12981,13 @@
         "SortIndicator": {
           "description": "Sort indicator.\nThe default value is no sorting.\nThis parameter is optional.\n\nOne of:\n\n• N or NX_SORT_INDICATE_NONE\n\n• A or NX_SORT_INDICATE_ASC\n\n• D or NX_SORT_INDICATE_DESC",
           "type": "string"
+        },
+        "TrendLines": {
+          "description": "Calculated trendlines",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxTrendline"
+          }
         }
       }
     },
@@ -12989,6 +13044,7 @@
       }
     },
     "NxPageTreeLevel": {
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "Depth": {
@@ -13004,6 +13060,7 @@
     },
     "NxPageTreeNode": {
       "description": "Defines an area of the tree to be fetched.",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "AllValues": {
@@ -13377,6 +13434,7 @@
     },
     "NxTreeDataOption": {
       "description": "Specifies all the paging filters needed to define the tree to be fetched.",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "MaxNbrOfNodes": {
@@ -13397,7 +13455,7 @@
       }
     },
     "NxTreeDimensionDef": {
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "AttributeDimensions": {
@@ -13456,7 +13514,7 @@
       }
     },
     "NxTreeDimensionInfo": {
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "ApprMaxGlyphCount": {
@@ -13602,7 +13660,7 @@
       }
     },
     "NxTreeMultiRangeSelectInfo": {
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "Ranges": {
@@ -13616,6 +13674,7 @@
     },
     "NxTreeNode": {
       "description": "Represents a dimension in the tree.",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "AttrDims": {
@@ -13638,6 +13697,14 @@
           "description": "Element number.",
           "type": "int"
         },
+        "GroupPos": {
+          "description": "The position of this node inside it's group in the complete tree, i.e. Not dependant om what part is fetched.",
+          "type": "int"
+        },
+        "GroupSize": {
+          "description": "Nbr of nodes connected to this node on the next level of the tree. Not dependant on what part is fetched.",
+          "type": "int"
+        },
         "MaxPos": {
           "description": "Total of the positive values in the current group of cells.",
           "type": "slice",
@@ -13652,20 +13719,12 @@
             "type": "#/definitions/Float64"
           }
         },
-        "NodeNr": {
-          "description": "A generated number applicable to this page only. Used so that children can easily identify who their parents are.",
-          "type": "int"
-        },
         "Nodes": {
-          "description": "The children of this node in the tree structure.",
+          "description": "The children of this node in the fetched tree structure.",
           "type": "slice",
           "items": {
             "type": "#/definitions/NxTreeNode"
           }
-        },
-        "ParentNode": {
-          "description": "The qNodeNr of this node's parent for the current page.",
-          "type": "int"
         },
         "Row": {
           "description": "Row index in the data matrix.\nThe indexing starts from 0.",
@@ -13678,6 +13737,13 @@
         "Text": {
           "description": "The text version of the value, if available.",
           "type": "string"
+        },
+        "TreePath": {
+          "description": "The GroupPos of all prior nodes connected to this one, one position for each level of the tree.\nIf this node is attached directly to the root, this array is empty.",
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
         },
         "Type": {
           "description": "Type of the cell.\n\nOne of:\n\n• V or NX_DIM_CELL_VALUE\n\n• E or NX_DIM_CELL_EMPTY\n\n• N or NX_DIM_CELL_NORMAL\n\n• T or NX_DIM_CELL_TOTAL\n\n• O or NX_DIM_CELL_OTHER\n\n• A or NX_DIM_CELL_AGGR\n\n• P or NX_DIM_CELL_PSEUDO\n\n• R or NX_DIM_CELL_ROOT\n\n• U or NX_DIM_CELL_NULL\n\n• G or NX_DIM_CELL_GENERATED",
@@ -13697,7 +13763,7 @@
       }
     },
     "NxTreeRangeSelectInfo": {
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "DimensionIx": {
@@ -13716,6 +13782,7 @@
     },
     "NxTreeValue": {
       "description": "Represents a measure.",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "AttrDims": {
@@ -13733,6 +13800,76 @@
         "Value": {
           "description": "Value of the cell.\nIs set to NaN , if the value is not a number.",
           "type": "#/definitions/Float64"
+        }
+      }
+    },
+    "NxTrendline": {
+      "description": "Information about the calculated trendline.",
+      "x-qlik-stability": "stable",
+      "type": "struct",
+      "entries": {
+        "Coeff": {
+          "description": "Coefficent c0..cN depending on the trendline type.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/Float64"
+          }
+        },
+        "ElemNo": {
+          "description": "Inner Dim elem no",
+          "type": "int"
+        },
+        "Error": {
+          "description": "This parameter is optional and is displayed in case of error.",
+          "type": "#/definitions/NxValidationError"
+        },
+        "Expression": {
+          "description": "Trendline expression",
+          "type": "string"
+        },
+        "R2": {
+          "description": "R2 score. Value between 0..1 that shows the correlation between the trendline and the data. Higher value means higher correlation.",
+          "type": "#/definitions/Float64"
+        },
+        "SolvedDegree": {
+          "description": "Degree that was solved.",
+          "type": "int"
+        },
+        "Type": {
+          "description": "Type of trendline\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL or Polynomial\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
+          "type": "string"
+        }
+      }
+    },
+    "NxTrendlineDef": {
+      "description": "Trendline input definition",
+      "x-qlik-stability": "stable",
+      "type": "struct",
+      "entries": {
+        "CalcR2": {
+          "description": "Set to true to calulatate the R2 score",
+          "type": "bool"
+        },
+        "ContinuousXAxis": {
+          "description": "Set if the numerical value of x axis dimension should be used\n\nOne of:\n\n• Never or CONTINUOUS_NEVER\n\n• Possible or CONTINUOUS_IF_POSSIBLE",
+          "type": "string"
+        },
+        "MultiDimMode": {
+          "description": "If you have a hypercube with two dimensions and qXColIx refers to a dimension\nThis determines if you get one trendline of each value in the other dimension or\nOr trendline based on the sum of the value in the other dimension\nThe sum variant is only supported when qXColIx is 0 and qMode (on the hypercube) is K or T\n\nOne of:\n\n• Multi or TRENDLINE_MULTILINE\n\n• Sum or TRENDLINE_SUM",
+          "type": "string"
+        },
+        "PolynomialDegree": {
+          "description": "For a polynomial type the degree can be between 2..4",
+          "type": "int"
+        },
+        "Type": {
+          "description": "The type of trendline to calculate\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL or Polynomial\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
+          "type": "string"
+        },
+        "XColIx": {
+          "description": "The column in the hypercube to be used as x axis. Can point to either a dimension (numeric or text) or a measure\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
         }
       }
     },
@@ -13870,11 +14007,11 @@
           "type": "bool"
         },
         "Description": {
-          "description": "Description of the ODBC connection.",
+          "description": "Description of the ODBC connection.",
           "type": "string"
         },
         "Name": {
-          "description": "Name of the ODBC connection.",
+          "description": "Name of the ODBC connection.",
           "type": "string"
         },
         "UserOnly": {
@@ -14544,10 +14681,7 @@
         },
         "FieldSelectionMode": {
           "description": "Selection mode of a field.\nSuppressed by default. One and always one field value is selected when set to OneAndOnlyOne.",
-          "type": "slice",
-          "items": {
-            "type": "string"
-          }
+          "type": "string"
         },
         "Ranges": {
           "description": "List of ranges.\nFor example, if the search terms are Price and Make, and the search group item value is Make by Price vs Mileage, then there are two ranges: one for Price and one for Make.",
@@ -15248,7 +15382,7 @@
     },
     "TreeData": {
       "description": "Renders the properties of a TreeData object. Is the layout for TreeDataDef.\nFor more information about the definition of TreeData, see Generic object.\nTo retrieve data from the TreeData object, use the method called GetHyperCubeTreeData.",
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "CalcCondMsg": {
@@ -15307,7 +15441,7 @@
     },
     "TreeDataDef": {
       "description": "Defines the properties of a TreeData object.\nFor more information about the definition of a TreeData object, see Generic object.",
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "stable",
       "type": "struct",
       "entries": {
         "CalcCondition": {
