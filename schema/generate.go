@@ -236,6 +236,8 @@ func getTypeName(t *Type) string {
 				return "[]" + getInnerType(t)
 			} else if t.Enum != nil {
 				return "string"
+			} else if t.Ref != "" {
+				return getInnerType(t)
 			}
 		}
 		return t.Type
