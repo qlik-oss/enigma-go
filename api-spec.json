@@ -2012,6 +2012,46 @@
             }
           ]
         },
+        "ExportReducedData": {
+          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprice on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "#/definitions/NxDownloadOptions"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/NxDownloadInfo"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ExportReducedDataRaw": {
+          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprice on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "FindMatchingFields": {
           "description": "Retrieves any fields that belong to the same archipelago as the specified field and that match at least one of the specified tags.\nTags set by Qlik Sense are prefixed by the $ sign.\n\nParameters:\n\n◾ fieldName   -   Name of the field.\nThis method looks for fields that belong to the same archipelago as this specified field.\n\n◾ tags        -   List of tags.\nThis method looks for fields that match at least one of the tags in this list.",
           "type": "method",
@@ -11880,7 +11920,7 @@
           "type": "#/definitions/NxAttributeExpressionValues"
         },
         "ElemNumber": {
-          "description": "Rank number of the value, starting from 0.\nIf the element number is a negative number, it means that the returned value is not an element number.\nYou can get the following negative values:\n\n• -1: the cell is a Total cell. It shows a total.\n\n• -2: the cell is collapsed. Applies to pivot tables.\n\n• -3: the cell belongs to the group Others .\n\n• -4: the cell is empty. Applies to pivot tables.",
+          "description": "Rank number of the value, starting from 0.\nIf the element number is a negative number, it means that the returned value is not an element number.\nYou can get the following negative values:\n\n• -1: the cell is a Total cell. It shows a total.\n\n• -2: the cell is a Null cell.\n\n• -3: the cell belongs to the group Others .\n\n• -4: the cell is empty. Applies to pivot tables.",
           "type": "int"
         },
         "Frequency": {
@@ -12413,6 +12453,34 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "NxDownloadInfo": {
+      "type": "struct",
+      "entries": {
+        "FileSize": {
+          "description": "The filesize of the reduced app.\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
+        },
+        "Url": {
+          "description": "URL to download the reduced app on.",
+          "type": "string"
+        }
+      }
+    },
+    "NxDownloadOptions": {
+      "type": "struct",
+      "entries": {
+        "BookmarkId": {
+          "description": "Bookmark Id to apply before reducing the application.",
+          "type": "string"
+        },
+        "Expires": {
+          "description": "Time in seconds for how long the download link is valid.\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
         }
       }
     },
@@ -13805,7 +13873,7 @@
     },
     "NxTrendline": {
       "description": "Information about the calculated trendline.",
-      "x-qlik-stability": "stable",
+      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "Coeff": {
@@ -13831,19 +13899,15 @@
           "description": "R2 score. Value between 0..1 that shows the correlation between the trendline and the data. Higher value means higher correlation.",
           "type": "#/definitions/Float64"
         },
-        "SolvedDegree": {
-          "description": "Degree that was solved.",
-          "type": "int"
-        },
         "Type": {
-          "description": "Type of trendline\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL or Polynomial\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
+          "description": "Type of trendline\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL2 or Polynomial2\n\n• POLYNOMIAL3 or Polynomial3\n\n• POLYNOMIAL4 or Polynomial4\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
           "type": "string"
         }
       }
     },
     "NxTrendlineDef": {
       "description": "Trendline input definition",
-      "x-qlik-stability": "stable",
+      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "CalcR2": {
@@ -13851,19 +13915,15 @@
           "type": "bool"
         },
         "ContinuousXAxis": {
-          "description": "Set if the numerical value of x axis dimension should be used\n\nOne of:\n\n• Never or CONTINUOUS_NEVER\n\n• Possible or CONTINUOUS_IF_POSSIBLE",
+          "description": "Set if the numerical value of x axis dimension should be used\n\nOne of:\n\n• Never or CONTINUOUS_NEVER\n\n• Possible or CONTINUOUS_IF_POSSIBLE\n\n• Time or CONTINUOUS_IF_TIME",
           "type": "string"
         },
         "MultiDimMode": {
           "description": "If you have a hypercube with two dimensions and qXColIx refers to a dimension\nThis determines if you get one trendline of each value in the other dimension or\nOr trendline based on the sum of the value in the other dimension\nThe sum variant is only supported when qXColIx is 0 and qMode (on the hypercube) is K or T\n\nOne of:\n\n• Multi or TRENDLINE_MULTILINE\n\n• Sum or TRENDLINE_SUM",
           "type": "string"
         },
-        "PolynomialDegree": {
-          "description": "For a polynomial type the degree can be between 2..4",
-          "type": "int"
-        },
         "Type": {
-          "description": "The type of trendline to calculate\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL or Polynomial\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
+          "description": "The type of trendline to calculate\n\nOne of:\n\n• AVERAGE or Average\n\n• LINEAR or Linear\n\n• POLYNOMIAL2 or Polynomial2\n\n• POLYNOMIAL3 or Polynomial3\n\n• POLYNOMIAL4 or Polynomial4\n\n• EXPONENTIAL or Exponential\n\n• POWER or Power\n\n• LOG or Logarithmic",
           "type": "string"
         },
         "XColIx": {
