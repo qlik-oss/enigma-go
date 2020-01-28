@@ -92,6 +92,7 @@ func (q *session) mainSessionLoop() {
 				err := socket.WriteMessage(1, outgoingMessage)
 				if err != nil {
 					socketError <- err
+					return
 				}
 			}
 		}
