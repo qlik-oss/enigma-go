@@ -1263,6 +1263,58 @@
             }
           ]
         },
+        "CreateBookmarkEx": {
+          "description": "Creates a bookmark with softpatches.\n\nParameters:\n\n◾ prop               -   Properties for the object.\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "#/definitions/GenericBookmarkProperties"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/GenericBookmark"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "CreateBookmarkExRaw": {
+          "description": "Creates a bookmark with softpatches.\n\nParameters:\n\n◾ prop               -   Properties for the object.\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/GenericBookmark"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "CreateBookmarkRaw": {
           "description": "Creates a bookmark.\n\nParameters:\n\n◾ prop   -   Properties for the object.",
           "type": "method",
@@ -4965,6 +5017,17 @@
         }
       }
     },
+    "ExpansionData": {
+      "type": "struct",
+      "entries": {
+        "ExcludeList": {
+          "type": "bool"
+        },
+        "Pos": {
+          "type": "#/definitions/PositionMark"
+        }
+      }
+    },
     "ExtensionList": {
       "description": "Obsolete, use qrs API's to fetch extensions.",
       "type": "struct",
@@ -4982,7 +5045,6 @@
       "type": "struct"
     },
     "Field": {
-      "description": "This class describes all the methods that apply at field level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the field.",
       "type": "struct",
       "entries": {
         "Clear": {
@@ -5843,7 +5905,6 @@
       }
     },
     "GenericBookmark": {
-      "description": "This class describes all the methods that apply at bookmark level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the bookmark.",
       "type": "struct",
       "entries": {
         "Apply": {
@@ -6205,7 +6266,6 @@
       }
     },
     "GenericDimension": {
-      "description": "This class describes all the methods that apply at dimension level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the dimension.",
       "type": "struct",
       "entries": {
         "ApplyPatches": {
@@ -6585,7 +6645,6 @@
       }
     },
     "GenericMeasure": {
-      "description": "This class describes all the methods that apply at measure level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the measure.",
       "type": "struct",
       "entries": {
         "ApplyPatches": {
@@ -6930,7 +6989,6 @@
       }
     },
     "GenericObject": {
-      "description": "This class describes all the methods that apply at generic object level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the generic object.",
       "type": "struct",
       "entries": {
         "AbortListObjectSearch": {
@@ -9076,7 +9134,6 @@
           "type": "#/definitions/StaticContentUrl"
         },
         "TreeData": {
-          "x-qlik-stability": "stable",
           "type": "#/definitions/TreeData"
         },
         "UndoInfo": {
@@ -9158,7 +9215,6 @@
           "type": "#/definitions/StringExpression"
         },
         "TreeDataDef": {
-          "x-qlik-stability": "stable",
           "type": "#/definitions/TreeDataDef"
         },
         "UndoInfoDef": {
@@ -9173,7 +9229,6 @@
       }
     },
     "GenericVariable": {
-      "description": "This class describes all the methods that apply at generic variable level.\nThe handle member in the JSON request for all methods listed in this section is the handle of the generic variable.",
       "type": "struct",
       "entries": {
         "ApplyPatches": {
@@ -11007,6 +11062,14 @@
             "type": "#/definitions/NxDimension"
           }
         },
+        "ExpansionState": {
+          "description": "Expansion state per dimension for pivot mode ( qMode is P).",
+          "x-qlik-stability": "experimental",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/ExpansionData"
+          }
+        },
         "IndentMode": {
           "description": "This property applies for pivot tables and allows to change the layout of the table. An indentation is added to the beginning of each row.\nThe default value is false.",
           "type": "bool"
@@ -11857,6 +11920,13 @@
     "NxBookmark": {
       "type": "struct",
       "entries": {
+        "Patches": {
+          "description": "Softpatches to be applied with this bookmark.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxPatches"
+          }
+        },
         "StateData": {
           "description": "List of selections for each state.",
           "type": "slice",
@@ -13158,6 +13228,29 @@
         }
       }
     },
+    "NxPatches": {
+      "type": "struct",
+      "entries": {
+        "Children": {
+          "description": "Array with child objects and their patches.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxPatches"
+          }
+        },
+        "Info": {
+          "description": "Identifier and type of the object.",
+          "type": "#/definitions/NxInfo"
+        },
+        "Patches": {
+          "description": "Array with patches.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxPatch"
+          }
+        }
+      }
+    },
     "NxPivotDimensionCell": {
       "type": "struct",
       "entries": {
@@ -14162,6 +14255,26 @@
         "Y": {
           "description": "y-coordinate in pixels.\nThe origin is the top left of the screen.",
           "type": "int"
+        }
+      }
+    },
+    "PositionMark": {
+      "type": "struct",
+      "entries": {
+        "DimName": {
+          "type": "string"
+        },
+        "ElemNo": {
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
+        },
+        "ElemValues": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -15592,7 +15705,6 @@
       }
     },
     "Variable": {
-      "description": "This class describes all the methods that apply at variable level.\nMethods in this class are deprecated. Use methods in the GenericVariableClass instead.\n\nThe handle member in the JSON request for all methods listed in this section is the handle of the variable.",
       "type": "struct",
       "entries": {
         "ForceContent": {
