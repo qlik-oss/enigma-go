@@ -5285,6 +5285,7 @@ type Doc struct {
 //
 // ◾ accept   -   Set this parameter to true to accept the selections before exiting the selection mode.
 //
+// Stability: locked
 func (obj *Doc) AbortModal(ctx context.Context, accept bool) error {
 	err := obj.rpc(ctx, "AbortModal", nil, accept)
 	return err
@@ -5297,6 +5298,7 @@ func (obj *Doc) AbortModal(ctx context.Context, accept bool) error {
 //
 // ◾ stateName   -   Name of the alternate state.
 //
+// Stability: locked
 func (obj *Doc) AddAlternateState(ctx context.Context, stateName string) error {
 	err := obj.rpc(ctx, "AddAlternateState", nil, stateName)
 	return err
@@ -5314,6 +5316,7 @@ func (obj *Doc) AddAlternateState(ctx context.Context, stateName string) error {
 // ◾ expr   -   Expression value.
 // It is not possible to use all aggregation functions. For example, you cannot add a field on the fly with an expression that uses the Sum or Count aggregation functions.
 //
+// Stability: locked
 func (obj *Doc) AddFieldFromExpression(ctx context.Context, name string, expr string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -5329,6 +5332,7 @@ func (obj *Doc) AddFieldFromExpression(ctx context.Context, name string, expr st
 //
 // ◾ id   -   Identifier of the bookmark.
 //
+// Stability: locked
 func (obj *Doc) ApplyBookmark(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -5338,12 +5342,14 @@ func (obj *Doc) ApplyBookmark(ctx context.Context, id string) (bool, error) {
 }
 
 // Loads the last logical operation (if any).
+// Stability: locked
 func (obj *Doc) Back(ctx context.Context) error {
 	err := obj.rpc(ctx, "Back", nil)
 	return err
 }
 
 // Returns the number of entries on the back stack.
+// Stability: locked
 func (obj *Doc) BackCount(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
@@ -5361,6 +5367,7 @@ func (obj *Doc) BackCount(ctx context.Context) (int, error) {
 //
 // ◾ labels   -   List of labels.
 //
+// Stability: locked
 func (obj *Doc) CheckExpression(ctx context.Context, expr string, labels []string) (string, []*NxRange, []*NxRange, error) {
 	result := &struct {
 		ErrorMsg            string     `json:"qErrorMsg"`
@@ -5380,6 +5387,7 @@ func (obj *Doc) CheckExpression(ctx context.Context, expr string, labels []strin
 //
 // ◾ labels   -   List of labels.
 //
+// Stability: locked
 func (obj *Doc) CheckExpressionRaw(ctx context.Context, expr string, labels []string) (string, json.RawMessage, json.RawMessage, error) {
 	result := &struct {
 		ErrorMsg            string          `json:"qErrorMsg"`
@@ -5400,6 +5408,7 @@ func (obj *Doc) CheckExpressionRaw(ctx context.Context, expr string, labels []st
 //
 // ◾ expr   -   Expression to check.
 //
+// Stability: locked
 func (obj *Doc) CheckNumberOrExpression(ctx context.Context, expr string) (string, []*NxRange, error) {
 	result := &struct {
 		ErrorMsg      string     `json:"qErrorMsg"`
@@ -5419,6 +5428,7 @@ func (obj *Doc) CheckNumberOrExpression(ctx context.Context, expr string) (strin
 //
 // ◾ expr   -   Expression to check.
 //
+// Stability: locked
 func (obj *Doc) CheckNumberOrExpressionRaw(ctx context.Context, expr string) (string, json.RawMessage, error) {
 	result := &struct {
 		ErrorMsg      string          `json:"qErrorMsg"`
@@ -5455,6 +5465,7 @@ func (obj *Doc) CheckNumberOrExpressionRaw(ctx context.Context, expr string) (st
 //   |                   | script.                        |         |
 //   | qSecondaryFailure | The default value is false.    | Boolean |
 //   +-------------------+--------------------------------+---------+
+// Stability: locked
 func (obj *Doc) CheckScriptSyntax(ctx context.Context) ([]*ScriptSyntaxError, error) {
 	result := &struct {
 		Errors []*ScriptSyntaxError `json:"qErrors"`
@@ -5490,6 +5501,7 @@ func (obj *Doc) CheckScriptSyntax(ctx context.Context) ([]*ScriptSyntaxError, er
 //   |                   | script.                        |         |
 //   | qSecondaryFailure | The default value is false.    | Boolean |
 //   +-------------------+--------------------------------+---------+
+// Stability: locked
 func (obj *Doc) CheckScriptSyntaxRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Errors json.RawMessage `json:"qErrors"`
@@ -5506,12 +5518,14 @@ func (obj *Doc) CheckScriptSyntaxRaw(ctx context.Context) (json.RawMessage, erro
 //
 // ◾ stateName    -   Alternate state name. When set, applies to alternate state instead of current
 //
+// Stability: locked
 func (obj *Doc) ClearAll(ctx context.Context, lockedAlso bool, stateName string) error {
 	err := obj.rpc(ctx, "ClearAll", nil, lockedAlso, stateName)
 	return err
 }
 
 // Clears entirely the undo and redo buffer.
+// Stability: locked
 func (obj *Doc) ClearUndoBuffer(ctx context.Context) error {
 	err := obj.rpc(ctx, "ClearUndoBuffer", nil)
 	return err
@@ -5524,6 +5538,7 @@ func (obj *Doc) ClearUndoBuffer(ctx context.Context) error {
 //
 // ◾ id   -   Identifier of the object to clone.
 //
+// Stability: locked
 func (obj *Doc) CloneBookmark(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
@@ -5540,6 +5555,7 @@ func (obj *Doc) CloneBookmark(ctx context.Context, id string) (string, error) {
 //
 // ◾ id   -   Identifier of the object to clone.
 //
+// Stability: locked
 func (obj *Doc) CloneDimension(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
@@ -5556,6 +5572,7 @@ func (obj *Doc) CloneDimension(ctx context.Context, id string) (string, error) {
 //
 // ◾ id   -   Identifier of the object to clone.
 //
+// Stability: locked
 func (obj *Doc) CloneMeasure(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
@@ -5575,6 +5592,7 @@ func (obj *Doc) CloneMeasure(ctx context.Context, id string) (string, error) {
 //
 // ◾ id   -   Identifier of the object to clone. The identifier must be a root object.
 //
+// Stability: locked
 func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
@@ -5591,6 +5609,7 @@ func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 // ◾ id   -   Identifier of the draft to commit.
 //
 // Deprecated: This will be removed in a future version
+// Stability: locked
 func (obj *Doc) CommitDraft(ctx context.Context, id string) error {
 	err := obj.rpc(ctx, "CommitDraft", nil, id)
 	return err
@@ -5602,6 +5621,7 @@ func (obj *Doc) CommitDraft(ctx context.Context, id string) error {
 //
 // ◾ prop   -   Properties for the object.
 //
+// Stability: locked
 func (obj *Doc) CreateBookmark(ctx context.Context, prop *GenericBookmarkProperties) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5619,6 +5639,7 @@ func (obj *Doc) CreateBookmark(ctx context.Context, prop *GenericBookmarkPropert
 //
 // ◾ prop   -   Properties for the object.
 //
+// Stability: locked
 func (obj *Doc) CreateBookmarkRaw(ctx context.Context, prop interface{}) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5638,6 +5659,7 @@ func (obj *Doc) CreateBookmarkRaw(ctx context.Context, prop interface{}) (*Gener
 //
 // ◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.
 //
+// Stability: locked
 func (obj *Doc) CreateBookmarkEx(ctx context.Context, prop *GenericBookmarkProperties, objectIdsToPatch []string) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5657,6 +5679,7 @@ func (obj *Doc) CreateBookmarkEx(ctx context.Context, prop *GenericBookmarkPrope
 //
 // ◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.
 //
+// Stability: locked
 func (obj *Doc) CreateBookmarkExRaw(ctx context.Context, prop interface{}, objectIdsToPatch []string) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5675,6 +5698,7 @@ func (obj *Doc) CreateBookmarkExRaw(ctx context.Context, prop interface{}, objec
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Doc) CreateConnection(ctx context.Context, connection *Connection) (string, error) {
 	result := &struct {
 		ConnectionId string `json:"qConnectionId"`
@@ -5690,6 +5714,7 @@ func (obj *Doc) CreateConnection(ctx context.Context, connection *Connection) (s
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Doc) CreateConnectionRaw(ctx context.Context, connection interface{}) (string, error) {
 	result := &struct {
 		ConnectionId string `json:"qConnectionId"`
@@ -5705,6 +5730,7 @@ func (obj *Doc) CreateConnectionRaw(ctx context.Context, connection interface{})
 //
 // ◾ prop   -   Information about the properties.
 //
+// Stability: locked
 func (obj *Doc) CreateDimension(ctx context.Context, prop *GenericDimensionProperties) (*GenericDimension, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5723,6 +5749,7 @@ func (obj *Doc) CreateDimension(ctx context.Context, prop *GenericDimensionPrope
 //
 // ◾ prop   -   Information about the properties.
 //
+// Stability: locked
 func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*GenericDimension, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5745,6 +5772,7 @@ func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*Gene
 // ◾ id   -   Identifier of the object to create a draft from.
 //
 // Deprecated: This will be removed in a future version
+// Stability: locked
 func (obj *Doc) CreateDraft(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		DraftId string `json:"qDraftId"`
@@ -5760,6 +5788,7 @@ func (obj *Doc) CreateDraft(ctx context.Context, id string) (string, error) {
 //
 // ◾ prop   -   Information about the properties.
 //
+// Stability: locked
 func (obj *Doc) CreateMeasure(ctx context.Context, prop *GenericMeasureProperties) (*GenericMeasure, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5778,6 +5807,7 @@ func (obj *Doc) CreateMeasure(ctx context.Context, prop *GenericMeasurePropertie
 //
 // ◾ prop   -   Information about the properties.
 //
+// Stability: locked
 func (obj *Doc) CreateMeasureRaw(ctx context.Context, prop interface{}) (*GenericMeasure, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5799,6 +5829,7 @@ func (obj *Doc) CreateMeasureRaw(ctx context.Context, prop interface{}) (*Generi
 //
 // ◾ prop   -   Information about the object.
 //
+// Stability: locked
 func (obj *Doc) CreateObject(ctx context.Context, prop *GenericObjectProperties) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5820,6 +5851,7 @@ func (obj *Doc) CreateObject(ctx context.Context, prop *GenericObjectProperties)
 //
 // ◾ prop   -   Information about the object.
 //
+// Stability: locked
 func (obj *Doc) CreateObjectRaw(ctx context.Context, prop interface{}) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5841,6 +5873,7 @@ func (obj *Doc) CreateObjectRaw(ctx context.Context, prop interface{}) (*Generic
 //
 // ◾ prop   -   Information about the object.
 //
+// Stability: locked
 func (obj *Doc) CreateSessionObject(ctx context.Context, prop *GenericObjectProperties) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5862,6 +5895,7 @@ func (obj *Doc) CreateSessionObject(ctx context.Context, prop *GenericObjectProp
 //
 // ◾ prop   -   Information about the object.
 //
+// Stability: locked
 func (obj *Doc) CreateSessionObjectRaw(ctx context.Context, prop interface{}) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5891,6 +5925,7 @@ func (obj *Doc) CreateSessionObjectRaw(ctx context.Context, prop interface{}) (*
 //
 // ◾ prop   -   Name of the variable. Variable names are case sensitive.
 //
+// Stability: locked
 func (obj *Doc) CreateSessionVariable(ctx context.Context, prop *GenericVariableProperties) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5920,6 +5955,7 @@ func (obj *Doc) CreateSessionVariable(ctx context.Context, prop *GenericVariable
 //
 // ◾ prop   -   Name of the variable. Variable names are case sensitive.
 //
+// Stability: locked
 func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5938,6 +5974,7 @@ func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) 
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
 // Deprecated: Use _Doc::CreateVariableEx_ method instead
+// Stability: locked
 func (obj *Doc) CreateVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -5966,6 +6003,7 @@ func (obj *Doc) CreateVariable(ctx context.Context, name string) (bool, error) {
 //
 // ◾ prop   -   Name of the variable. Variable names are case sensitive and must be unique.
 //
+// Stability: locked
 func (obj *Doc) CreateVariableEx(ctx context.Context, prop *GenericVariableProperties) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -5997,6 +6035,7 @@ func (obj *Doc) CreateVariableEx(ctx context.Context, prop *GenericVariablePrope
 //
 // ◾ prop   -   Name of the variable. Variable names are case sensitive and must be unique.
 //
+// Stability: locked
 func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop interface{}) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -6015,6 +6054,7 @@ func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop interface{}) (*Var
 //
 // ◾ connectionId   -   Identifier of the connection to remove.
 //
+// Stability: locked
 func (obj *Doc) DeleteConnection(ctx context.Context, connectionId string) error {
 	err := obj.rpc(ctx, "DeleteConnection", nil, connectionId)
 	return err
@@ -6027,6 +6067,7 @@ func (obj *Doc) DeleteConnection(ctx context.Context, connectionId string) error
 //
 // ◾ id   -   Identifier of the bookmark.
 //
+// Stability: locked
 func (obj *Doc) DestroyBookmark(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6043,6 +6084,7 @@ func (obj *Doc) DestroyBookmark(ctx context.Context, id string) (bool, error) {
 //
 // ◾ id   -   Identifier of the dimension to remove.
 //
+// Stability: locked
 func (obj *Doc) DestroyDimension(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6064,6 +6106,7 @@ func (obj *Doc) DestroyDimension(ctx context.Context, id string) (bool, error) {
 // ◾ sourceId   -   Identifier of the source object (the object from which a draft was created).
 //
 // Deprecated: This will be removed in a future version
+// Stability: locked
 func (obj *Doc) DestroyDraft(ctx context.Context, id string, sourceId string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6080,6 +6123,7 @@ func (obj *Doc) DestroyDraft(ctx context.Context, id string, sourceId string) (b
 //
 // ◾ id   -   Identifier of the measure to remove.
 //
+// Stability: locked
 func (obj *Doc) DestroyMeasure(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6097,6 +6141,7 @@ func (obj *Doc) DestroyMeasure(ctx context.Context, id string) (bool, error) {
 //
 // ◾ id   -   Identifier of the object to remove.
 //
+// Stability: locked
 func (obj *Doc) DestroyObject(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6113,6 +6158,7 @@ func (obj *Doc) DestroyObject(ctx context.Context, id string) (bool, error) {
 //
 // ◾ id   -   Identifier of the transient object to remove.
 //
+// Stability: locked
 func (obj *Doc) DestroySessionObject(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6129,6 +6175,7 @@ func (obj *Doc) DestroySessionObject(ctx context.Context, id string) (bool, erro
 //
 // ◾ id   -   Identifier of the variable.
 //
+// Stability: locked
 func (obj *Doc) DestroySessionVariable(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6146,6 +6193,7 @@ func (obj *Doc) DestroySessionVariable(ctx context.Context, id string) (bool, er
 //
 // ◾ id   -   Identifier of the variable.
 //
+// Stability: locked
 func (obj *Doc) DestroySessionVariableById(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6163,6 +6211,7 @@ func (obj *Doc) DestroySessionVariableById(ctx context.Context, id string) (bool
 //
 // ◾ name   -   Name of the variable.
 //
+// Stability: locked
 func (obj *Doc) DestroySessionVariableByName(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6180,6 +6229,7 @@ func (obj *Doc) DestroySessionVariableByName(ctx context.Context, name string) (
 //
 // ◾ id   -   Identifier of the variable.
 //
+// Stability: locked
 func (obj *Doc) DestroyVariableById(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6197,6 +6247,7 @@ func (obj *Doc) DestroyVariableById(ctx context.Context, id string) (bool, error
 //
 // ◾ name   -   Name of the variable.
 //
+// Stability: locked
 func (obj *Doc) DestroyVariableByName(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -6249,6 +6300,7 @@ func (obj *Doc) DestroyVariableByName(ctx context.Context, name string) (bool, e
 // ◾ debug     -   Set to true if debug breakpoints are to be honored. The execution of the script will be in debug mode.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -6321,6 +6373,7 @@ func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool
 //   +----------------+--------------------------------+---------+
 //
 // If the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.
+// Stability: locked
 func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoReloadExResult, error) {
 	result := &struct {
 		Result *DoReloadExResult `json:"qResult"`
@@ -6393,6 +6446,7 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 //   +----------------+--------------------------------+---------+
 //
 // If the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.
+// Stability: locked
 func (obj *Doc) DoReloadExRaw(ctx context.Context, params interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
@@ -6407,6 +6461,7 @@ func (obj *Doc) DoReloadExRaw(ctx context.Context, params interface{}) (json.Raw
 //
 // ◾ fileName   -   Name of the file to save.
 //
+// Stability: locked
 func (obj *Doc) DoSave(ctx context.Context, fileName string) error {
 	err := obj.rpc(ctx, "DoSave", nil, fileName)
 	return err
@@ -6443,6 +6498,7 @@ func (obj *Doc) DoSave(ctx context.Context, fileName string) error {
 //
 // ◾ expression   -   Expression to evaluate.
 //
+// Stability: locked
 func (obj *Doc) Evaluate(ctx context.Context, expression string) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -6482,6 +6538,7 @@ func (obj *Doc) Evaluate(ctx context.Context, expression string) (string, error)
 //
 // ◾ expression   -   Expression to evaluate.
 //
+// Stability: locked
 func (obj *Doc) EvaluateEx(ctx context.Context, expression string) (*FieldValue, error) {
 	result := &struct {
 		Value *FieldValue `json:"qValue"`
@@ -6521,6 +6578,7 @@ func (obj *Doc) EvaluateEx(ctx context.Context, expression string) (*FieldValue,
 //
 // ◾ expression   -   Expression to evaluate.
 //
+// Stability: locked
 func (obj *Doc) EvaluateExRaw(ctx context.Context, expression string) (json.RawMessage, error) {
 	result := &struct {
 		Value json.RawMessage `json:"qValue"`
@@ -6535,6 +6593,7 @@ func (obj *Doc) EvaluateExRaw(ctx context.Context, expression string) (json.RawM
 //
 // ◾ expression   -   The expression string to expand.
 //
+// Stability: locked
 func (obj *Doc) ExpandExpression(ctx context.Context, expression string) (string, error) {
 	result := &struct {
 		ExpandedExpression string `json:"qExpandedExpression"`
@@ -6550,6 +6609,7 @@ func (obj *Doc) ExpandExpression(ctx context.Context, expression string) (string
 //
 // ◾ options   -   BookmarkId used to reduced the app on and an expire time.
 //
+// Stability: locked
 func (obj *Doc) ExportReducedData(ctx context.Context, options *NxDownloadOptions) (*NxDownloadInfo, error) {
 	result := &struct {
 		DownloadInfo *NxDownloadInfo `json:"qDownloadInfo"`
@@ -6565,6 +6625,7 @@ func (obj *Doc) ExportReducedData(ctx context.Context, options *NxDownloadOption
 //
 // ◾ options   -   BookmarkId used to reduced the app on and an expire time.
 //
+// Stability: locked
 func (obj *Doc) ExportReducedDataRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
 	result := &struct {
 		DownloadInfo json.RawMessage `json:"qDownloadInfo"`
@@ -6584,6 +6645,7 @@ func (obj *Doc) ExportReducedDataRaw(ctx context.Context, options interface{}) (
 // ◾ tags        -   List of tags.
 // This method looks for fields that match at least one of the tags in this list.
 //
+// Stability: locked
 func (obj *Doc) FindMatchingFields(ctx context.Context, fieldName string, tags []string) ([]*NxMatchingFieldInfo, error) {
 	result := &struct {
 		FieldNames []*NxMatchingFieldInfo `json:"qFieldNames"`
@@ -6603,6 +6665,7 @@ func (obj *Doc) FindMatchingFields(ctx context.Context, fieldName string, tags [
 // ◾ tags        -   List of tags.
 // This method looks for fields that match at least one of the tags in this list.
 //
+// Stability: locked
 func (obj *Doc) FindMatchingFieldsRaw(ctx context.Context, fieldName string, tags []string) (json.RawMessage, error) {
 	result := &struct {
 		FieldNames json.RawMessage `json:"qFieldNames"`
@@ -6612,12 +6675,14 @@ func (obj *Doc) FindMatchingFieldsRaw(ctx context.Context, fieldName string, tag
 }
 
 // Loads the next logical operation (if any).
+// Stability: locked
 func (obj *Doc) Forward(ctx context.Context) error {
 	err := obj.rpc(ctx, "Forward", nil)
 	return err
 }
 
 // Returns the number of entries on the Forward stack.
+// Stability: locked
 func (obj *Doc) ForwardCount(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
@@ -6627,6 +6692,7 @@ func (obj *Doc) ForwardCount(ctx context.Context) (int, error) {
 }
 
 // Returns the identifier and the type of any generic object in the app.
+// Stability: locked
 func (obj *Doc) GetAllInfos(ctx context.Context) ([]*NxInfo, error) {
 	result := &struct {
 		Infos []*NxInfo `json:"qInfos"`
@@ -6636,6 +6702,7 @@ func (obj *Doc) GetAllInfos(ctx context.Context) ([]*NxInfo, error) {
 }
 
 // Returns the identifier and the type of any generic object in the app.
+// Stability: locked
 func (obj *Doc) GetAllInfosRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Infos json.RawMessage `json:"qInfos"`
@@ -6647,6 +6714,7 @@ func (obj *Doc) GetAllInfosRaw(ctx context.Context) (json.RawMessage, error) {
 // Evaluates an app.
 // Returns dynamic properties (if any) in addition to the engine (fixed) properties.
 // A data set is returned.
+// Stability: locked
 func (obj *Doc) GetAppLayout(ctx context.Context) (*NxAppLayout, error) {
 	result := &struct {
 		Layout *NxAppLayout `json:"qLayout"`
@@ -6658,6 +6726,7 @@ func (obj *Doc) GetAppLayout(ctx context.Context) (*NxAppLayout, error) {
 // Evaluates an app.
 // Returns dynamic properties (if any) in addition to the engine (fixed) properties.
 // A data set is returned.
+// Stability: locked
 func (obj *Doc) GetAppLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -6667,6 +6736,7 @@ func (obj *Doc) GetAppLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 }
 
 // Gets the properties of an app.
+// Stability: locked
 func (obj *Doc) GetAppProperties(ctx context.Context) (*NxAppProperties, error) {
 	result := &struct {
 		Prop *NxAppProperties `json:"qProp"`
@@ -6676,6 +6746,7 @@ func (obj *Doc) GetAppProperties(ctx context.Context) (*NxAppProperties, error) 
 }
 
 // Gets the properties of an app.
+// Stability: locked
 func (obj *Doc) GetAppPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -6693,6 +6764,7 @@ func (obj *Doc) GetAppPropertiesRaw(ctx context.Context) (json.RawMessage, error
 //
 // ◾ table2   -   Name of the second table.
 //
+// Stability: locked
 func (obj *Doc) GetAssociationScores(ctx context.Context, table1 string, table2 string) ([]*AssociationScore, error) {
 	result := &struct {
 		Score []*AssociationScore `json:"qScore"`
@@ -6710,6 +6782,7 @@ func (obj *Doc) GetAssociationScores(ctx context.Context, table1 string, table2 
 //
 // ◾ table2   -   Name of the second table.
 //
+// Stability: locked
 func (obj *Doc) GetAssociationScoresRaw(ctx context.Context, table1 string, table2 string) (json.RawMessage, error) {
 	result := &struct {
 		Score json.RawMessage `json:"qScore"`
@@ -6724,6 +6797,7 @@ func (obj *Doc) GetAssociationScoresRaw(ctx context.Context, table1 string, tabl
 //
 // ◾ id   -   Identifier of the bookmark.
 //
+// Stability: locked
 func (obj *Doc) GetBookmark(ctx context.Context, id string) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -6741,6 +6815,7 @@ func (obj *Doc) GetBookmark(ctx context.Context, id string) (*GenericBookmark, e
 //
 // ◾ options   -   Bookmark type filter and requested properties.
 //
+// Stability: locked
 func (obj *Doc) GetBookmarks(ctx context.Context, options *NxGetBookmarkOptions) ([]*NxContainerEntry, error) {
 	result := &struct {
 		List []*NxContainerEntry `json:"qList"`
@@ -6755,6 +6830,7 @@ func (obj *Doc) GetBookmarks(ctx context.Context, options *NxGetBookmarkOptions)
 //
 // ◾ options   -   Bookmark type filter and requested properties.
 //
+// Stability: locked
 func (obj *Doc) GetBookmarksRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
@@ -6779,6 +6855,7 @@ func (obj *Doc) GetBookmarksRaw(ctx context.Context, options interface{}) (json.
 //
 // ◾ connectionId   -   Identifier of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetConnection(ctx context.Context, connectionId string) (*Connection, error) {
 	result := &struct {
 		Connection *Connection `json:"qConnection"`
@@ -6803,6 +6880,7 @@ func (obj *Doc) GetConnection(ctx context.Context, connectionId string) (*Connec
 //
 // ◾ connectionId   -   Identifier of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetConnectionRaw(ctx context.Context, connectionId string) (json.RawMessage, error) {
 	result := &struct {
 		Connection json.RawMessage `json:"qConnection"`
@@ -6813,6 +6891,7 @@ func (obj *Doc) GetConnectionRaw(ctx context.Context, connectionId string) (json
 
 // Lists the connections in an app.
 // In Qlik Sense Enterprise, there is an additional file connection named AttachedFiles . This connection is stored in the Qlik Sense repository.
+// Stability: locked
 func (obj *Doc) GetConnections(ctx context.Context) ([]*Connection, error) {
 	result := &struct {
 		Connections []*Connection `json:"qConnections"`
@@ -6823,6 +6902,7 @@ func (obj *Doc) GetConnections(ctx context.Context) ([]*Connection, error) {
 
 // Lists the connections in an app.
 // In Qlik Sense Enterprise, there is an additional file connection named AttachedFiles . This connection is stored in the Qlik Sense repository.
+// Stability: locked
 func (obj *Doc) GetConnectionsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Connections json.RawMessage `json:"qConnections"`
@@ -6844,6 +6924,7 @@ func (obj *Doc) GetConnectionsRaw(ctx context.Context) (json.RawMessage, error) 
 // Qlik Sense Desktop:
 //
 // Returns the global content library and the app specific content library from the disk.
+// Stability: locked
 func (obj *Doc) GetContentLibraries(ctx context.Context) (*ContentLibraryList, error) {
 	result := &struct {
 		List *ContentLibraryList `json:"qList"`
@@ -6865,6 +6946,7 @@ func (obj *Doc) GetContentLibraries(ctx context.Context) (*ContentLibraryList, e
 // Qlik Sense Desktop:
 //
 // Returns the global content library and the app specific content library from the disk.
+// Stability: locked
 func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
@@ -6879,6 +6961,7 @@ func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, er
 //
 // ◾ connectionId   -   Name of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*DatabaseInfo, error) {
 	result := &struct {
 		Info *DatabaseInfo `json:"qInfo"`
@@ -6893,6 +6976,7 @@ func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*Data
 //
 // ◾ connectionId   -   Name of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseInfoRaw(ctx context.Context, connectionId string) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -6909,6 +6993,7 @@ func (obj *Doc) GetDatabaseInfoRaw(ctx context.Context, connectionId string) (js
 //
 // ◾ database       -   Name of the database.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseOwners(ctx context.Context, connectionId string, database string) ([]*DatabaseOwner, error) {
 	result := &struct {
 		Owners []*DatabaseOwner `json:"qOwners"`
@@ -6925,6 +7010,7 @@ func (obj *Doc) GetDatabaseOwners(ctx context.Context, connectionId string, data
 //
 // ◾ database       -   Name of the database.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, database string) (json.RawMessage, error) {
 	result := &struct {
 		Owners json.RawMessage `json:"qOwners"`
@@ -6947,6 +7033,7 @@ func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, d
 //
 // ◾ table          -   Name of the table.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string, database string, owner string, table string) ([]*DataField, error) {
 	result := &struct {
 		Fields []*DataField `json:"qFields"`
@@ -6969,6 +7056,7 @@ func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string,
 //
 // ◾ table          -   Name of the table.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId string, database string, owner string, table string) (json.RawMessage, error) {
 	result := &struct {
 		Fields json.RawMessage `json:"qFields"`
@@ -6993,6 +7081,7 @@ func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId stri
 //
 // ◾ conditions     -
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string, database string, owner string, table string, conditions *FilterInfo) ([]*DataRecord, int, error) {
 	result := &struct {
 		Preview  []*DataRecord `json:"qPreview"`
@@ -7018,6 +7107,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 //
 // ◾ conditions     -
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId string, database string, owner string, table string, conditions interface{}) (json.RawMessage, int, error) {
 	result := &struct {
 		Preview  json.RawMessage `json:"qPreview"`
@@ -7039,6 +7129,7 @@ func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId str
 // ◾ owner          -   Owner of the database.
 // If qOwner is not set then qDatabase must be set.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, database string, owner string) ([]*DataTable, error) {
 	result := &struct {
 		Tables []*DataTable `json:"qTables"`
@@ -7059,6 +7150,7 @@ func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, data
 // ◾ owner          -   Owner of the database.
 // If qOwner is not set then qDatabase must be set.
 //
+// Stability: locked
 func (obj *Doc) GetDatabaseTablesRaw(ctx context.Context, connectionId string, database string, owner string) (json.RawMessage, error) {
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
@@ -7073,6 +7165,7 @@ func (obj *Doc) GetDatabaseTablesRaw(ctx context.Context, connectionId string, d
 //
 // ◾ connectionId   -   Identifier of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetDatabases(ctx context.Context, connectionId string) ([]*Database, error) {
 	result := &struct {
 		Databases []*Database `json:"qDatabases"`
@@ -7087,6 +7180,7 @@ func (obj *Doc) GetDatabases(ctx context.Context, connectionId string) ([]*Datab
 //
 // ◾ connectionId   -   Identifier of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetDatabasesRaw(ctx context.Context, connectionId string) (json.RawMessage, error) {
 	result := &struct {
 		Databases json.RawMessage `json:"qDatabases"`
@@ -7101,6 +7195,7 @@ func (obj *Doc) GetDatabasesRaw(ctx context.Context, connectionId string) (json.
 //
 // ◾ id   -   Identifier of the dimension.
 //
+// Stability: locked
 func (obj *Doc) GetDimension(ctx context.Context, id string) (*GenericDimension, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7120,6 +7215,7 @@ func (obj *Doc) GetDimension(ctx context.Context, id string) (*GenericDimension,
 // ◾ localizedMainSection   -   Name of the script section.
 // The default value is Main .
 //
+// Stability: locked
 func (obj *Doc) GetEmptyScript(ctx context.Context, localizedMainSection string) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -7129,6 +7225,7 @@ func (obj *Doc) GetEmptyScript(ctx context.Context, localizedMainSection string)
 }
 
 // Retrieves the variables that are tagged as favorite.
+// Stability: locked
 func (obj *Doc) GetFavoriteVariables(ctx context.Context) ([]string, error) {
 	result := &struct {
 		Names []string `json:"qNames"`
@@ -7146,6 +7243,7 @@ func (obj *Doc) GetFavoriteVariables(ctx context.Context) ([]string, error) {
 // ◾ stateName   -   Name of the alternate state.
 // Default state is current selections.
 //
+// Stability: locked
 func (obj *Doc) GetField(ctx context.Context, fieldName string, stateName string) (*Field, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7170,6 +7268,7 @@ func (obj *Doc) GetField(ctx context.Context, fieldName string, stateName string
 //
 // ◾ randSeed                       -   Optional. Sets the random number seed. Should only be set for test purposes.
 //
+// Stability: locked
 func (obj *Doc) GetFieldAndColumnSamples(ctx context.Context, fieldsOrColumnsWithWildcards []*FieldOrColumn, maxNumberOfValues int, randSeed int) ([]*SampleResult, error) {
 	result := &struct {
 		Result []*SampleResult `json:"qResult"`
@@ -7191,6 +7290,7 @@ func (obj *Doc) GetFieldAndColumnSamples(ctx context.Context, fieldsOrColumnsWit
 //
 // ◾ randSeed                       -   Optional. Sets the random number seed. Should only be set for test purposes.
 //
+// Stability: locked
 func (obj *Doc) GetFieldAndColumnSamplesRaw(ctx context.Context, fieldsOrColumnsWithWildcards interface{}, maxNumberOfValues int, randSeed int) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
@@ -7205,6 +7305,7 @@ func (obj *Doc) GetFieldAndColumnSamplesRaw(ctx context.Context, fieldsOrColumns
 //
 // ◾ fieldName   -   Name of the field.
 //
+// Stability: locked
 func (obj *Doc) GetFieldDescription(ctx context.Context, fieldName string) (*FieldDescription, error) {
 	result := &struct {
 		Return *FieldDescription `json:"qReturn"`
@@ -7219,6 +7320,7 @@ func (obj *Doc) GetFieldDescription(ctx context.Context, fieldName string) (*Fie
 //
 // ◾ fieldName   -   Name of the field.
 //
+// Stability: locked
 func (obj *Doc) GetFieldDescriptionRaw(ctx context.Context, fieldName string) (json.RawMessage, error) {
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
@@ -7233,6 +7335,7 @@ func (obj *Doc) GetFieldDescriptionRaw(ctx context.Context, fieldName string) (j
 //
 // ◾ readableName   -   Readable name of the field-on-the-fly.
 //
+// Stability: locked
 func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string) (string, error) {
 	result := &struct {
 		Name string `json:"qName"`
@@ -7280,6 +7383,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 // ◾ table          -   Name of the table.
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
+// Stability: locked
 func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataField, string, error) {
 	result := &struct {
 		Fields     []*DataField `json:"qFields"`
@@ -7328,6 +7432,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 // ◾ table          -   Name of the table.
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
+// Stability: locked
 func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
 		Fields     json.RawMessage `json:"qFields"`
@@ -7376,6 +7481,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 // ◾ table          -   Name of the table.
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
+// Stability: locked
 func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat, table string) ([]*DataRecord, string, error) {
 	result := &struct {
 		Preview    []*DataRecord `json:"qPreview"`
@@ -7424,6 +7530,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 // ◾ table          -   Name of the table.
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
+// Stability: locked
 func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
 	result := &struct {
 		Preview    json.RawMessage `json:"qPreview"`
@@ -7469,6 +7576,7 @@ func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string,
 //
 // ◾ dataFormat     -   Type of the file.
 //
+// Stability: locked
 func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat) ([]*DataTable, error) {
 	result := &struct {
 		Tables []*DataTable `json:"qTables"`
@@ -7513,6 +7621,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 //
 // ◾ dataFormat     -   Type of the file.
 //
+// Stability: locked
 func (obj *Doc) GetFileTablesRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
@@ -7531,6 +7640,7 @@ func (obj *Doc) GetFileTablesRaw(ctx context.Context, connectionId string, relat
 //
 // ◾ dataFormat     -   Type of the file.
 //
+// Stability: locked
 func (obj *Doc) GetFileTablesEx(ctx context.Context, connectionId string, relativePath string, dataFormat *FileDataFormat) ([]*DataTableEx, error) {
 	result := &struct {
 		Tables []*DataTableEx `json:"qTables"`
@@ -7549,6 +7659,7 @@ func (obj *Doc) GetFileTablesEx(ctx context.Context, connectionId string, relati
 //
 // ◾ dataFormat     -   Type of the file.
 //
+// Stability: locked
 func (obj *Doc) GetFileTablesExRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
@@ -7565,6 +7676,7 @@ func (obj *Doc) GetFileTablesExRaw(ctx context.Context, connectionId string, rel
 //
 // ◾ relativePath   -   Relative path of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetFolderItemsForConnection(ctx context.Context, connectionId string, relativePath string) ([]*FolderItem, error) {
 	result := &struct {
 		FolderItems []*FolderItem `json:"qFolderItems"`
@@ -7581,6 +7693,7 @@ func (obj *Doc) GetFolderItemsForConnection(ctx context.Context, connectionId st
 //
 // ◾ relativePath   -   Relative path of the connection.
 //
+// Stability: locked
 func (obj *Doc) GetFolderItemsForConnectionRaw(ctx context.Context, connectionId string, relativePath string) (json.RawMessage, error) {
 	result := &struct {
 		FolderItems json.RawMessage `json:"qFolderItems"`
@@ -7598,6 +7711,7 @@ func (obj *Doc) GetFolderItemsForConnectionRaw(ctx context.Context, connectionId
 // ["lib://Connection_Name\\\<Folder under your connection>\\\<the name of the file you want to use>.txt"]
 // [ ] should be used when the first variable contains a lib reference.
 //
+// Stability: locked
 func (obj *Doc) GetIncludeFileContent(ctx context.Context, path string) (string, error) {
 	result := &struct {
 		Content string `json:"qContent"`
@@ -7623,6 +7737,7 @@ func (obj *Doc) GetIncludeFileContent(ctx context.Context, path string) (string,
 // ◾ name   -   Name of the content library.
 // It corresponds to the property qContentLibraryListItem/qName returned by the GetContentLibraries method.
 //
+// Stability: locked
 func (obj *Doc) GetLibraryContent(ctx context.Context, name string) (*StaticContentList, error) {
 	result := &struct {
 		List *StaticContentList `json:"qList"`
@@ -7648,6 +7763,7 @@ func (obj *Doc) GetLibraryContent(ctx context.Context, name string) (*StaticCont
 // ◾ name   -   Name of the content library.
 // It corresponds to the property qContentLibraryListItem/qName returned by the GetContentLibraries method.
 //
+// Stability: locked
 func (obj *Doc) GetLibraryContentRaw(ctx context.Context, name string) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
@@ -7658,6 +7774,7 @@ func (obj *Doc) GetLibraryContentRaw(ctx context.Context, name string) (json.Raw
 
 // Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from the data load script associated with this app.
 // An array of lineage information.
+// Stability: locked
 func (obj *Doc) GetLineage(ctx context.Context) ([]*LineageInfo, error) {
 	result := &struct {
 		Lineage []*LineageInfo `json:"qLineage"`
@@ -7668,6 +7785,7 @@ func (obj *Doc) GetLineage(ctx context.Context) ([]*LineageInfo, error) {
 
 // Gets the lineage information of the app. The lineage information includes the LOAD and STORE statements from the data load script associated with this app.
 // An array of lineage information.
+// Stability: locked
 func (obj *Doc) GetLineageRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Lineage json.RawMessage `json:"qLineage"`
@@ -7677,6 +7795,7 @@ func (obj *Doc) GetLineageRaw(ctx context.Context) (json.RawMessage, error) {
 }
 
 // Returns locale information.
+// Stability: locked
 func (obj *Doc) GetLocaleInfo(ctx context.Context) (*LocaleInfo, error) {
 	result := &struct {
 		Return *LocaleInfo `json:"qReturn"`
@@ -7686,6 +7805,7 @@ func (obj *Doc) GetLocaleInfo(ctx context.Context) (*LocaleInfo, error) {
 }
 
 // Returns locale information.
+// Stability: locked
 func (obj *Doc) GetLocaleInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
@@ -7707,6 +7827,7 @@ func (obj *Doc) GetLocaleInfoRaw(ctx context.Context) (json.RawMessage, error) {
 // The last three values in the vector are for internal use.
 //
 // In case of circular references, the engine automatically sets the table state to loosely coupled to avoid creating loops.
+// Stability: locked
 func (obj *Doc) GetLooselyCoupledVector(ctx context.Context) ([]string, error) {
 	result := &struct {
 		V []string `json:"qv"`
@@ -7732,6 +7853,7 @@ func (obj *Doc) GetLooselyCoupledVector(ctx context.Context) ([]string, error) {
 //
 // • MATCHINGFIELDMODE_MATCH_ONE
 //
+// Stability: locked
 func (obj *Doc) GetMatchingFields(ctx context.Context, tags []string, matchingFieldMode string) ([]*NxMatchingFieldInfo, error) {
 	result := &struct {
 		FieldNames []*NxMatchingFieldInfo `json:"qFieldNames"`
@@ -7757,6 +7879,7 @@ func (obj *Doc) GetMatchingFields(ctx context.Context, tags []string, matchingFi
 //
 // • MATCHINGFIELDMODE_MATCH_ONE
 //
+// Stability: locked
 func (obj *Doc) GetMatchingFieldsRaw(ctx context.Context, tags []string, matchingFieldMode string) (json.RawMessage, error) {
 	result := &struct {
 		FieldNames json.RawMessage `json:"qFieldNames"`
@@ -7771,6 +7894,7 @@ func (obj *Doc) GetMatchingFieldsRaw(ctx context.Context, tags []string, matchin
 //
 // ◾ id   -   Identifier of the measure.
 //
+// Stability: locked
 func (obj *Doc) GetMeasure(ctx context.Context, id string) (*GenericMeasure, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7784,6 +7908,7 @@ func (obj *Doc) GetMeasure(ctx context.Context, id string) (*GenericMeasure, err
 
 // Lists the media files.
 // Deprecated: Use _GetLibraryContent_ method instead
+// Stability: locked
 func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 	result := &struct {
 		List   *MediaList `json:"qList"`
@@ -7795,6 +7920,7 @@ func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 
 // Lists the media files.
 // Deprecated: Use _GetLibraryContent_ method instead
+// Stability: locked
 func (obj *Doc) GetMediaListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		List   json.RawMessage `json:"qList"`
@@ -7810,6 +7936,7 @@ func (obj *Doc) GetMediaListRaw(ctx context.Context) (json.RawMessage, error) {
 //
 // ◾ id   -   Identifier of the object to retrieve.
 //
+// Stability: locked
 func (obj *Doc) GetObject(ctx context.Context, id string) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -7827,6 +7954,7 @@ func (obj *Doc) GetObject(ctx context.Context, id string) (*GenericObject, error
 //
 // ◾ options   -   Object type filter and requested properties.
 //
+// Stability: locked
 func (obj *Doc) GetObjects(ctx context.Context, options *NxGetObjectOptions) ([]*NxContainerEntry, error) {
 	result := &struct {
 		List []*NxContainerEntry `json:"qList"`
@@ -7841,6 +7969,7 @@ func (obj *Doc) GetObjects(ctx context.Context, options *NxGetObjectOptions) ([]
 //
 // ◾ options   -   Object type filter and requested properties.
 //
+// Stability: locked
 func (obj *Doc) GetObjectsRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
@@ -7850,6 +7979,7 @@ func (obj *Doc) GetObjectsRaw(ctx context.Context, options interface{}) (json.Ra
 }
 
 // Gets values in script.
+// Stability: locked
 func (obj *Doc) GetScript(ctx context.Context) (string, error) {
 	result := &struct {
 		Script string `json:"qScript"`
@@ -7859,6 +7989,7 @@ func (obj *Doc) GetScript(ctx context.Context) (string, error) {
 }
 
 // Lists the breakpoints in the script of an app.
+// Stability: locked
 func (obj *Doc) GetScriptBreakpoints(ctx context.Context) ([]*EditorBreakpoint, error) {
 	result := &struct {
 		Breakpoints []*EditorBreakpoint `json:"qBreakpoints"`
@@ -7868,6 +7999,7 @@ func (obj *Doc) GetScriptBreakpoints(ctx context.Context) ([]*EditorBreakpoint, 
 }
 
 // Lists the breakpoints in the script of an app.
+// Stability: locked
 func (obj *Doc) GetScriptBreakpointsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Breakpoints json.RawMessage `json:"qBreakpoints"`
@@ -7877,6 +8009,7 @@ func (obj *Doc) GetScriptBreakpointsRaw(ctx context.Context) (json.RawMessage, e
 }
 
 // Gets script and script meta-data.
+// Stability: locked
 func (obj *Doc) GetScriptEx(ctx context.Context) (*AppScript, error) {
 	result := &struct {
 		Script *AppScript `json:"qScript"`
@@ -7886,6 +8019,7 @@ func (obj *Doc) GetScriptEx(ctx context.Context) (*AppScript, error) {
 }
 
 // Gets script and script meta-data.
+// Stability: locked
 func (obj *Doc) GetScriptExRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Script json.RawMessage `json:"qScript"`
@@ -7906,6 +8040,7 @@ func (obj *Doc) GetScriptExRaw(ctx context.Context) (json.RawMessage, error) {
 //
 // ◾ bookmarkId   -   Optional. The Id of the bookmark to get the set analysis expression for. If left empty, the current selection will be retrieved.
 //
+// Stability: locked
 func (obj *Doc) GetSetAnalysis(ctx context.Context, stateName string, bookmarkId string) (string, error) {
 	result := &struct {
 		SetExpression string `json:"qSetExpression"`
@@ -7927,6 +8062,7 @@ func (obj *Doc) GetSetAnalysis(ctx context.Context, stateName string, bookmarkId
 //
 // ◾ tableName       -   Name of the table.
 //
+// Stability: locked
 func (obj *Doc) GetTableData(ctx context.Context, offset int, rows int, syntheticMode bool, tableName string) ([]*TableRow, error) {
 	result := &struct {
 		Data []*TableRow `json:"qData"`
@@ -7948,6 +8084,7 @@ func (obj *Doc) GetTableData(ctx context.Context, offset int, rows int, syntheti
 //
 // ◾ tableName       -   Name of the table.
 //
+// Stability: locked
 func (obj *Doc) GetTableDataRaw(ctx context.Context, offset int, rows int, syntheticMode bool, tableName string) (json.RawMessage, error) {
 	result := &struct {
 		Data json.RawMessage `json:"qData"`
@@ -7982,6 +8119,7 @@ func (obj *Doc) GetTableDataRaw(ctx context.Context, offset int, rows int, synth
 //
 // ◾ includeSysVars   -   If set to true, the system variables are included.
 //
+// Stability: locked
 func (obj *Doc) GetTablesAndKeys(ctx context.Context, windowSize *Size, nullSize *Size, cellHeight int, syntheticMode bool, includeSysVars bool) ([]*TableRecord, []*SourceKeyRecord, error) {
 	result := &struct {
 		Tr []*TableRecord     `json:"qtr"`
@@ -8017,6 +8155,7 @@ func (obj *Doc) GetTablesAndKeys(ctx context.Context, windowSize *Size, nullSize
 //
 // ◾ includeSysVars   -   If set to true, the system variables are included.
 //
+// Stability: locked
 func (obj *Doc) GetTablesAndKeysRaw(ctx context.Context, windowSize interface{}, nullSize interface{}, cellHeight int, syntheticMode bool, includeSysVars bool) (json.RawMessage, json.RawMessage, error) {
 	result := &struct {
 		Tr json.RawMessage `json:"qtr"`
@@ -8029,6 +8168,7 @@ func (obj *Doc) GetTablesAndKeysRaw(ctx context.Context, windowSize interface{},
 // Fetches updated variables after a statement execution.
 //
 // If qRefSeqNo and qSetSeqNo are set to 0, it means that the variables were not updated.
+// Stability: locked
 func (obj *Doc) GetTextMacros(ctx context.Context) ([]*TextMacro, error) {
 	result := &struct {
 		Macros []*TextMacro `json:"qMacros"`
@@ -8040,6 +8180,7 @@ func (obj *Doc) GetTextMacros(ctx context.Context) ([]*TextMacro, error) {
 // Fetches updated variables after a statement execution.
 //
 // If qRefSeqNo and qSetSeqNo are set to 0, it means that the variables were not updated.
+// Stability: locked
 func (obj *Doc) GetTextMacrosRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Macros json.RawMessage `json:"qMacros"`
@@ -8055,6 +8196,7 @@ func (obj *Doc) GetTextMacrosRaw(ctx context.Context) (json.RawMessage, error) {
 // ◾ name   -   Name of the variable.
 //
 // Deprecated: Use _Doc::GetVariableById_ method or _Doc::GetVariableByName_ method instead
+// Stability: locked
 func (obj *Doc) GetVariable(ctx context.Context, name string) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -8072,6 +8214,7 @@ func (obj *Doc) GetVariable(ctx context.Context, name string) (*Variable, error)
 //
 // ◾ id   -   Identifier of the variable.
 //
+// Stability: locked
 func (obj *Doc) GetVariableById(ctx context.Context, id string) (*Variable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -8089,6 +8232,7 @@ func (obj *Doc) GetVariableById(ctx context.Context, id string) (*Variable, erro
 //
 // ◾ name   -   Name of the variable.
 //
+// Stability: locked
 func (obj *Doc) GetVariableByName(ctx context.Context, name string) (*GenericVariable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -8100,6 +8244,7 @@ func (obj *Doc) GetVariableByName(ctx context.Context, name string) (*GenericVar
 	return &GenericVariable{obj.session.getRemoteObject(result.Return)}, err
 }
 
+// Stability: locked
 func (obj *Doc) GetVariables(ctx context.Context, listDef *VariableListDef) ([]*NxVariableListItem, error) {
 	result := &struct {
 		List []*NxVariableListItem `json:"qList"`
@@ -8108,6 +8253,7 @@ func (obj *Doc) GetVariables(ctx context.Context, listDef *VariableListDef) ([]*
 	return result.List, err
 }
 
+// Stability: locked
 func (obj *Doc) GetVariablesRaw(ctx context.Context, listDef interface{}) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
@@ -8125,6 +8271,7 @@ func (obj *Doc) GetVariablesRaw(ctx context.Context, listDef interface{}) (json.
 //
 // The green circles represent the broom points.
 // The red circle represents a connection point.
+// Stability: locked
 func (obj *Doc) GetViewDlgSaveInfo(ctx context.Context) (*TableViewDlgSaveInfo, error) {
 	result := &struct {
 		Return *TableViewDlgSaveInfo `json:"qReturn"`
@@ -8142,6 +8289,7 @@ func (obj *Doc) GetViewDlgSaveInfo(ctx context.Context) (*TableViewDlgSaveInfo, 
 //
 // The green circles represent the broom points.
 // The red circle represents a connection point.
+// Stability: locked
 func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
@@ -8207,6 +8355,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 //
 // ◾ relativePath   -   Path of the connection file.
 //
+// Stability: locked
 func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relativePath string) (*FileDataFormat, error) {
 	result := &struct {
 		DataFormat *FileDataFormat `json:"qDataFormat"`
@@ -8272,6 +8421,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 //
 // ◾ relativePath   -   Path of the connection file.
 //
+// Stability: locked
 func (obj *Doc) GuessFileTypeRaw(ctx context.Context, connectionId string, relativePath string) (json.RawMessage, error) {
 	result := &struct {
 		DataFormat json.RawMessage `json:"qDataFormat"`
@@ -8286,6 +8436,7 @@ func (obj *Doc) GuessFileTypeRaw(ctx context.Context, connectionId string, relat
 //
 // ◾ stateName   -   Alternate state name. When set, applies to alternate state instead of current.
 //
+// Stability: locked
 func (obj *Doc) LockAll(ctx context.Context, stateName string) error {
 	err := obj.rpc(ctx, "LockAll", nil, stateName)
 	return err
@@ -8303,6 +8454,7 @@ func (obj *Doc) LockAll(ctx context.Context, stateName string) error {
 //
 // ◾ overrideCredentials   -   Set this parameter to true to override the user name and password.
 //
+// Stability: locked
 func (obj *Doc) ModifyConnection(ctx context.Context, connectionId string, connection *Connection, overrideCredentials bool) error {
 	err := obj.rpc(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
 	return err
@@ -8320,6 +8472,7 @@ func (obj *Doc) ModifyConnection(ctx context.Context, connectionId string, conne
 //
 // ◾ overrideCredentials   -   Set this parameter to true to override the user name and password.
 //
+// Stability: locked
 func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, connection interface{}, overrideCredentials bool) error {
 	err := obj.rpc(ctx, "ModifyConnection", nil, ensureEncodable(connectionId), ensureEncodable(connection), ensureEncodable(overrideCredentials))
 	return err
@@ -8336,6 +8489,7 @@ func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, co
 // ◾ name       -   Name of the published app.
 // If this parameter is not set, the engine automatically gives a new name to the published app.
 //
+// Stability: locked
 func (obj *Doc) Publish(ctx context.Context, streamId string, name string) error {
 	err := obj.rpc(ctx, "Publish", nil, streamId, name)
 	return err
@@ -8344,6 +8498,7 @@ func (obj *Doc) Publish(ctx context.Context, streamId string, name string) error
 // Redoes the previous operation.
 //
 // The operation is successful if qSuccess is set to true.
+// Stability: locked
 func (obj *Doc) Redo(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -8358,6 +8513,7 @@ func (obj *Doc) Redo(ctx context.Context) (bool, error) {
 //
 // ◾ stateName   -   Name of the alternate state.
 //
+// Stability: locked
 func (obj *Doc) RemoveAlternateState(ctx context.Context, stateName string) error {
 	err := obj.rpc(ctx, "RemoveAlternateState", nil, stateName)
 	return err
@@ -8370,6 +8526,7 @@ func (obj *Doc) RemoveAlternateState(ctx context.Context, stateName string) erro
 // ◾ name   -   Name of the variable. Variable names are case sensitive.
 //
 // Deprecated: Use _Doc::DestroyVariableById_ method or _Doc::DestroyVariableByName_ method instead
+// Stability: locked
 func (obj *Doc) RemoveVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8379,6 +8536,7 @@ func (obj *Doc) RemoveVariable(ctx context.Context, name string) (bool, error) {
 }
 
 // Resumes the app as the user left it.
+// Stability: locked
 func (obj *Doc) Resume(ctx context.Context) error {
 	err := obj.rpc(ctx, "Resume", nil)
 	return err
@@ -8387,6 +8545,7 @@ func (obj *Doc) Resume(ctx context.Context) error {
 // Saves all objects that were modified in the app.
 // Data from the data model are not saved.
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *Doc) SaveObjects(ctx context.Context) error {
 	err := obj.rpc(ctx, "SaveObjects", nil)
 	return err
@@ -8399,6 +8558,7 @@ func (obj *Doc) SaveObjects(ctx context.Context) error {
 //
 // ◾ fieldName   -   Name of the field to scramble.
 //
+// Stability: locked
 func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 	err := obj.rpc(ctx, "Scramble", nil, fieldName)
 	return err
@@ -8427,6 +8587,7 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 // ◾ page      -   Array of pages to retrieve.
 //
 // Deprecated: Use _SearchResults_ method instead
+// Stability: locked
 func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinationOptions, terms []string, page *SearchPage) (*SearchAssociationResult, error) {
 	result := &struct {
 		Results *SearchAssociationResult `json:"qResults"`
@@ -8458,6 +8619,7 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 // ◾ page      -   Array of pages to retrieve.
 //
 // Deprecated: Use _SearchResults_ method instead
+// Stability: locked
 func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Results json.RawMessage `json:"qResults"`
@@ -8476,6 +8638,7 @@ func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, 
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *Doc) SearchObjects(ctx context.Context, options *SearchObjectOptions, terms []string, page *SearchPage) (*SearchResult, error) {
 	result := &struct {
 		Result *SearchResult `json:"qResult"`
@@ -8494,6 +8657,7 @@ func (obj *Doc) SearchObjects(ctx context.Context, options *SearchObjectOptions,
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *Doc) SearchObjectsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
@@ -8532,6 +8696,7 @@ func (obj *Doc) SearchObjectsRaw(ctx context.Context, options interface{}, terms
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *Doc) SearchResults(ctx context.Context, options *SearchCombinationOptions, terms []string, page *SearchPage) (*SearchResult, error) {
 	result := &struct {
 		Result *SearchResult `json:"qResult"`
@@ -8570,6 +8735,7 @@ func (obj *Doc) SearchResults(ctx context.Context, options *SearchCombinationOpt
 //
 // ◾ page      -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *Doc) SearchResultsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
@@ -8586,6 +8752,7 @@ func (obj *Doc) SearchResultsRaw(ctx context.Context, options interface{}, terms
 //
 // ◾ terms     -   Terms to search for.
 //
+// Stability: locked
 func (obj *Doc) SearchSuggest(ctx context.Context, options *SearchCombinationOptions, terms []string) (*SearchSuggestionResult, error) {
 	result := &struct {
 		Result *SearchSuggestionResult `json:"qResult"`
@@ -8602,6 +8769,7 @@ func (obj *Doc) SearchSuggest(ctx context.Context, options *SearchCombinationOpt
 //
 // ◾ terms     -   Terms to search for.
 //
+// Stability: locked
 func (obj *Doc) SearchSuggestRaw(ctx context.Context, options interface{}, terms []string) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
@@ -8624,6 +8792,7 @@ func (obj *Doc) SearchSuggestRaw(ctx context.Context, options interface{}, terms
 //
 // ◾ softLock   -   This parameter is deprecated and should not be set.
 //
+// Stability: locked
 func (obj *Doc) SelectAssociations(ctx context.Context, options *SearchCombinationOptions, terms []string, matchIx int, softLock bool) error {
 	err := obj.rpc(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
 	return err
@@ -8643,6 +8812,7 @@ func (obj *Doc) SelectAssociations(ctx context.Context, options *SearchCombinati
 //
 // ◾ softLock   -   This parameter is deprecated and should not be set.
 //
+// Stability: locked
 func (obj *Doc) SelectAssociationsRaw(ctx context.Context, options interface{}, terms []string, matchIx int, softLock bool) error {
 	err := obj.rpc(ctx, "SelectAssociations", nil, ensureEncodable(options), ensureEncodable(terms), ensureEncodable(matchIx), ensureEncodable(softLock))
 	return err
@@ -8676,6 +8846,7 @@ func (obj *Doc) SelectAssociationsRaw(ctx context.Context, options interface{}, 
 //
 // ◾ appendConnection   -   Name of the connection.
 //
+// Stability: locked
 func (obj *Doc) SendGenericCommandToCustomConnector(ctx context.Context, provider string, command string, method string, parameters []string, appendConnection string) (string, error) {
 	result := &struct {
 		Result string `json:"qResult"`
@@ -8691,6 +8862,7 @@ func (obj *Doc) SendGenericCommandToCustomConnector(ctx context.Context, provide
 //
 // ◾ prop   -   Information about the properties of an app.
 //
+// Stability: locked
 func (obj *Doc) SetAppProperties(ctx context.Context, prop *NxAppProperties) error {
 	err := obj.rpc(ctx, "SetAppProperties", nil, prop)
 	return err
@@ -8703,6 +8875,7 @@ func (obj *Doc) SetAppProperties(ctx context.Context, prop *NxAppProperties) err
 //
 // ◾ prop   -   Information about the properties of an app.
 //
+// Stability: locked
 func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetAppProperties", nil, ensureEncodable(prop))
 	return err
@@ -8714,6 +8887,7 @@ func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop interface{}) error
 //
 // ◾ names   -   Variables to set as favorite.
 //
+// Stability: locked
 func (obj *Doc) SetFavoriteVariables(ctx context.Context, names []string) error {
 	err := obj.rpc(ctx, "SetFavoriteVariables", nil, names)
 	return err
@@ -8727,6 +8901,7 @@ func (obj *Doc) SetFavoriteVariables(ctx context.Context, names []string) error 
 // ◾ limit   -   Fetch limit.
 // Number of rows to load.
 //
+// Stability: locked
 func (obj *Doc) SetFetchLimit(ctx context.Context, limit int) error {
 	err := obj.rpc(ctx, "SetFetchLimit", nil, limit)
 	return err
@@ -8748,6 +8923,7 @@ func (obj *Doc) SetFetchLimit(ctx context.Context, limit int) error {
 //
 // ◾ v   -   The list of table states to set. A state will not be changed if already set to 2.
 //
+// Stability: locked
 func (obj *Doc) SetLooselyCoupledVector(ctx context.Context, v []string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8762,6 +8938,7 @@ func (obj *Doc) SetLooselyCoupledVector(ctx context.Context, v []string) (bool, 
 //
 // ◾ script   -   Script content.
 //
+// Stability: locked
 func (obj *Doc) SetScript(ctx context.Context, script string) error {
 	err := obj.rpc(ctx, "SetScript", nil, script)
 	return err
@@ -8773,6 +8950,7 @@ func (obj *Doc) SetScript(ctx context.Context, script string) error {
 //
 // ◾ breakpoints   -   Information about the breakpoints.
 //
+// Stability: locked
 func (obj *Doc) SetScriptBreakpoints(ctx context.Context, breakpoints []*EditorBreakpoint) error {
 	err := obj.rpc(ctx, "SetScriptBreakpoints", nil, breakpoints)
 	return err
@@ -8784,6 +8962,7 @@ func (obj *Doc) SetScriptBreakpoints(ctx context.Context, breakpoints []*EditorB
 //
 // ◾ breakpoints   -   Information about the breakpoints.
 //
+// Stability: locked
 func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints interface{}) error {
 	err := obj.rpc(ctx, "SetScriptBreakpoints", nil, ensureEncodable(breakpoints))
 	return err
@@ -8803,6 +8982,7 @@ func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints interfa
 //
 // ◾ info   -   Information about the table.
 //
+// Stability: locked
 func (obj *Doc) SetViewDlgSaveInfo(ctx context.Context, info *TableViewDlgSaveInfo) error {
 	err := obj.rpc(ctx, "SetViewDlgSaveInfo", nil, info)
 	return err
@@ -8822,6 +9002,7 @@ func (obj *Doc) SetViewDlgSaveInfo(ctx context.Context, info *TableViewDlgSaveIn
 //
 // ◾ info   -   Information about the table.
 //
+// Stability: locked
 func (obj *Doc) SetViewDlgSaveInfoRaw(ctx context.Context, info interface{}) error {
 	err := obj.rpc(ctx, "SetViewDlgSaveInfo", nil, ensureEncodable(info))
 	return err
@@ -8830,6 +9011,7 @@ func (obj *Doc) SetViewDlgSaveInfoRaw(ctx context.Context, info interface{}) err
 // Undoes the previous operation.
 //
 // The operation is successful if qSuccess is set to true.
+// Stability: locked
 func (obj *Doc) Undo(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -8844,6 +9026,7 @@ func (obj *Doc) Undo(ctx context.Context) (bool, error) {
 //
 // ◾ stateName   -   Alternate state name. When set, applies to alternate state instead of current.
 //
+// Stability: locked
 func (obj *Doc) UnlockAll(ctx context.Context, stateName string) error {
 	err := obj.rpc(ctx, "UnlockAll", nil, stateName)
 	return err
@@ -8854,6 +9037,7 @@ type Field struct {
 }
 
 // Clears the selections in a specific field.
+// Stability: locked
 func (obj *Field) Clear(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8869,6 +9053,7 @@ func (obj *Field) Clear(ctx context.Context) (bool, error) {
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) ClearAllButThis(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8878,6 +9063,7 @@ func (obj *Field) ClearAllButThis(ctx context.Context, softLock bool) (bool, err
 }
 
 // Returns the AND mode status of a field.
+// Stability: locked
 func (obj *Field) GetAndMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8887,6 +9073,7 @@ func (obj *Field) GetAndMode(ctx context.Context) (bool, error) {
 }
 
 // Retrieves the number of distinct values in a field.
+// Stability: locked
 func (obj *Field) GetCardinal(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
@@ -8898,6 +9085,7 @@ func (obj *Field) GetCardinal(ctx context.Context) (int, error) {
 // Gets the properties of a field.
 //
 // The property OneAndOnlyOne is set to true if one and only value has been selected in the field prior setting the property.
+// Stability: locked
 func (obj *Field) GetNxProperties(ctx context.Context) (*NxFieldProperties, error) {
 	result := &struct {
 		Properties *NxFieldProperties `json:"qProperties"`
@@ -8909,6 +9097,7 @@ func (obj *Field) GetNxProperties(ctx context.Context) (*NxFieldProperties, erro
 // Gets the properties of a field.
 //
 // The property OneAndOnlyOne is set to true if one and only value has been selected in the field prior setting the property.
+// Stability: locked
 func (obj *Field) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
@@ -8918,6 +9107,7 @@ func (obj *Field) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, erro
 }
 
 // Locks all selected values of a specific field.
+// Stability: locked
 func (obj *Field) Lock(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8938,6 +9128,7 @@ func (obj *Field) Lock(ctx context.Context) (bool, error) {
 // ◾ softLock     -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) LowLevelSelect(ctx context.Context, values []int, toggleMode bool, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8958,6 +9149,7 @@ func (obj *Field) LowLevelSelect(ctx context.Context, values []int, toggleMode b
 //
 // ◾ excludedValuesMode   -   Include excluded values in search.
 //
+// Stability: locked
 func (obj *Field) Select(ctx context.Context, match string, softLock bool, excludedValuesMode int) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8973,6 +9165,7 @@ func (obj *Field) Select(ctx context.Context, match string, softLock bool, exclu
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectAll(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -8989,6 +9182,7 @@ func (obj *Field) SelectAll(ctx context.Context, softLock bool) (bool, error) {
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectAlternative(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9004,6 +9198,7 @@ func (obj *Field) SelectAlternative(ctx context.Context, softLock bool) (bool, e
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectExcluded(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9019,6 +9214,7 @@ func (obj *Field) SelectExcluded(ctx context.Context, softLock bool) (bool, erro
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectPossible(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9038,6 +9234,7 @@ func (obj *Field) SelectPossible(ctx context.Context, softLock bool) (bool, erro
 // ◾ softLock      -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectValues(ctx context.Context, fieldValues []*FieldValue, toggleMode bool, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9057,6 +9254,7 @@ func (obj *Field) SelectValues(ctx context.Context, fieldValues []*FieldValue, t
 // ◾ softLock      -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues interface{}, toggleMode bool, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9072,6 +9270,7 @@ func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues interface{}, 
 // ◾ andMode   -   Specifies if the AND mode applies to the field.
 // Set this parameter to true to enter the AND mode.
 //
+// Stability: locked
 func (obj *Field) SetAndMode(ctx context.Context, andMode bool) error {
 	err := obj.rpc(ctx, "SetAndMode", nil, andMode)
 	return err
@@ -9083,6 +9282,7 @@ func (obj *Field) SetAndMode(ctx context.Context, andMode bool) error {
 //
 // ◾ properties   -   Information about the properties of the field.
 //
+// Stability: locked
 func (obj *Field) SetNxProperties(ctx context.Context, properties *NxFieldProperties) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, properties)
 	return err
@@ -9094,6 +9294,7 @@ func (obj *Field) SetNxProperties(ctx context.Context, properties *NxFieldProper
 //
 // ◾ properties   -   Information about the properties of the field.
 //
+// Stability: locked
 func (obj *Field) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, ensureEncodable(properties))
 	return err
@@ -9111,6 +9312,7 @@ func (obj *Field) SetNxPropertiesRaw(ctx context.Context, properties interface{}
 //
 // ◾ excludedValuesMode   -   Include excluded values in search.
 //
+// Stability: locked
 func (obj *Field) ToggleSelect(ctx context.Context, match string, softLock bool, excludedValuesMode int) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9120,6 +9322,7 @@ func (obj *Field) ToggleSelect(ctx context.Context, match string, softLock bool,
 }
 
 // Unlocks all selected values of a specific field if the target (or handle ) is a field.
+// Stability: locked
 func (obj *Field) Unlock(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -9135,6 +9338,7 @@ type GenericBookmark struct {
 // Applies a bookmark.
 //
 // The operation is successful if qSuccess is set to true.
+// Stability: locked
 func (obj *GenericBookmark) Apply(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -9150,6 +9354,7 @@ func (obj *GenericBookmark) Apply(ctx context.Context) (bool, error) {
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericBookmark) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, patches)
 	return err
@@ -9162,6 +9367,7 @@ func (obj *GenericBookmark) ApplyPatches(ctx context.Context, patches []*NxPatch
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, ensureEncodable(patches))
 	return err
@@ -9169,6 +9375,7 @@ func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches interfa
 
 // Adds the generic bookmark to the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericBookmark) Approve(ctx context.Context) error {
 	err := obj.rpc(ctx, "Approve", nil)
 	return err
@@ -9198,6 +9405,7 @@ func (obj *GenericBookmark) Approve(ctx context.Context) error {
 //
 // ◾ dataPage            -   Range of returned values.
 //
+// Stability: locked
 func (obj *GenericBookmark) GetFieldValues(ctx context.Context, field string, getExcludedValues bool, dataPage *BookmarkFieldPage) ([]*FieldValue, error) {
 	result := &struct {
 		FieldValues []*FieldValue `json:"qFieldValues"`
@@ -9230,6 +9438,7 @@ func (obj *GenericBookmark) GetFieldValues(ctx context.Context, field string, ge
 //
 // ◾ dataPage            -   Range of returned values.
 //
+// Stability: locked
 func (obj *GenericBookmark) GetFieldValuesRaw(ctx context.Context, field string, getExcludedValues bool, dataPage interface{}) (json.RawMessage, error) {
 	result := &struct {
 		FieldValues json.RawMessage `json:"qFieldValues"`
@@ -9243,6 +9452,7 @@ func (obj *GenericBookmark) GetFieldValuesRaw(ctx context.Context, field string,
 // • The type of the object.
 //
 // • The identifier of the object.
+// Stability: locked
 func (obj *GenericBookmark) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
@@ -9256,6 +9466,7 @@ func (obj *GenericBookmark) GetInfo(ctx context.Context) (*NxInfo, error) {
 // • The type of the object.
 //
 // • The identifier of the object.
+// Stability: locked
 func (obj *GenericBookmark) GetInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -9266,6 +9477,7 @@ func (obj *GenericBookmark) GetInfoRaw(ctx context.Context) (json.RawMessage, er
 
 // Evaluates an object and displays its properties including the dynamic properties.
 // If the member delta is set to true in the request object, only the delta is evaluated.
+// Stability: locked
 func (obj *GenericBookmark) GetLayout(ctx context.Context) (*GenericBookmarkLayout, error) {
 	result := &struct {
 		Layout *GenericBookmarkLayout `json:"qLayout"`
@@ -9276,6 +9488,7 @@ func (obj *GenericBookmark) GetLayout(ctx context.Context) (*GenericBookmarkLayo
 
 // Evaluates an object and displays its properties including the dynamic properties.
 // If the member delta is set to true in the request object, only the delta is evaluated.
+// Stability: locked
 func (obj *GenericBookmark) GetLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -9288,6 +9501,7 @@ func (obj *GenericBookmark) GetLayoutRaw(ctx context.Context) (json.RawMessage, 
 // If the member delta is set to true in the request object, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericBookmark) GetProperties(ctx context.Context) (*GenericBookmarkProperties, error) {
 	result := &struct {
 		Prop *GenericBookmarkProperties `json:"qProp"`
@@ -9300,6 +9514,7 @@ func (obj *GenericBookmark) GetProperties(ctx context.Context) (*GenericBookmark
 // If the member delta is set to true in the request object, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericBookmark) GetPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -9310,6 +9525,7 @@ func (obj *GenericBookmark) GetPropertiesRaw(ctx context.Context) (json.RawMessa
 
 // Publishes a bookmark.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericBookmark) Publish(ctx context.Context) error {
 	err := obj.rpc(ctx, "Publish", nil)
 	return err
@@ -9321,6 +9537,7 @@ func (obj *GenericBookmark) Publish(ctx context.Context) error {
 //
 // ◾ prop   -   Information about the bookmark.
 //
+// Stability: locked
 func (obj *GenericBookmark) SetProperties(ctx context.Context, prop *GenericBookmarkProperties) error {
 	err := obj.rpc(ctx, "SetProperties", nil, prop)
 	return err
@@ -9332,6 +9549,7 @@ func (obj *GenericBookmark) SetProperties(ctx context.Context, prop *GenericBook
 //
 // ◾ prop   -   Information about the bookmark.
 //
+// Stability: locked
 func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetProperties", nil, ensureEncodable(prop))
 	return err
@@ -9339,6 +9557,7 @@ func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop interface
 
 // Removes the generic bookmark from the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericBookmark) UnApprove(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnApprove", nil)
 	return err
@@ -9346,6 +9565,7 @@ func (obj *GenericBookmark) UnApprove(ctx context.Context) error {
 
 // Unpublishes a bookmark.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericBookmark) UnPublish(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnPublish", nil)
 	return err
@@ -9362,6 +9582,7 @@ type GenericDimension struct {
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericDimension) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, patches)
 	return err
@@ -9374,6 +9595,7 @@ func (obj *GenericDimension) ApplyPatches(ctx context.Context, patches []*NxPatc
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, ensureEncodable(patches))
 	return err
@@ -9381,6 +9603,7 @@ func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches interf
 
 // Adds the generic dimension to the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericDimension) Approve(ctx context.Context) error {
 	err := obj.rpc(ctx, "Approve", nil)
 	return err
@@ -9389,6 +9612,7 @@ func (obj *GenericDimension) Approve(ctx context.Context) error {
 // Returns the definition of a dimension.
 //
 // The definition of the dimension is returned.
+// Stability: locked
 func (obj *GenericDimension) GetDimension(ctx context.Context) (*NxLibraryDimensionDef, error) {
 	result := &struct {
 		Dim *NxLibraryDimensionDef `json:"qDim"`
@@ -9400,6 +9624,7 @@ func (obj *GenericDimension) GetDimension(ctx context.Context) (*NxLibraryDimens
 // Returns the definition of a dimension.
 //
 // The definition of the dimension is returned.
+// Stability: locked
 func (obj *GenericDimension) GetDimensionRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Dim json.RawMessage `json:"qDim"`
@@ -9409,6 +9634,7 @@ func (obj *GenericDimension) GetDimensionRaw(ctx context.Context) (json.RawMessa
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericDimension) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
@@ -9418,6 +9644,7 @@ func (obj *GenericDimension) GetInfo(ctx context.Context) (*NxInfo, error) {
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericDimension) GetInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -9427,6 +9654,7 @@ func (obj *GenericDimension) GetInfoRaw(ctx context.Context) (json.RawMessage, e
 }
 
 // Evaluates a dimension and displays its properties, including the dynamic properties.
+// Stability: locked
 func (obj *GenericDimension) GetLayout(ctx context.Context) (*GenericDimensionLayout, error) {
 	result := &struct {
 		Layout *GenericDimensionLayout `json:"qLayout"`
@@ -9436,6 +9664,7 @@ func (obj *GenericDimension) GetLayout(ctx context.Context) (*GenericDimensionLa
 }
 
 // Evaluates a dimension and displays its properties, including the dynamic properties.
+// Stability: locked
 func (obj *GenericDimension) GetLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -9445,6 +9674,7 @@ func (obj *GenericDimension) GetLayoutRaw(ctx context.Context) (json.RawMessage,
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericDimension) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObjectInfo, error) {
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
@@ -9454,6 +9684,7 @@ func (obj *GenericDimension) GetLinkedObjects(ctx context.Context) ([]*NxLinkedO
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericDimension) GetLinkedObjectsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
@@ -9465,6 +9696,7 @@ func (obj *GenericDimension) GetLinkedObjectsRaw(ctx context.Context) (json.RawM
 // Shows the properties of an object.
 // Returns the identifier and the definition of the dimension.
 // If the member delta is set to true in the request object, only the delta is retrieved.
+// Stability: locked
 func (obj *GenericDimension) GetProperties(ctx context.Context) (*GenericDimensionProperties, error) {
 	result := &struct {
 		Prop *GenericDimensionProperties `json:"qProp"`
@@ -9476,6 +9708,7 @@ func (obj *GenericDimension) GetProperties(ctx context.Context) (*GenericDimensi
 // Shows the properties of an object.
 // Returns the identifier and the definition of the dimension.
 // If the member delta is set to true in the request object, only the delta is retrieved.
+// Stability: locked
 func (obj *GenericDimension) GetPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -9486,6 +9719,7 @@ func (obj *GenericDimension) GetPropertiesRaw(ctx context.Context) (json.RawMess
 
 // Publishes a dimension.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericDimension) Publish(ctx context.Context) error {
 	err := obj.rpc(ctx, "Publish", nil)
 	return err
@@ -9497,6 +9731,7 @@ func (obj *GenericDimension) Publish(ctx context.Context) error {
 //
 // ◾ prop   -   Information about the dimension.
 //
+// Stability: locked
 func (obj *GenericDimension) SetProperties(ctx context.Context, prop *GenericDimensionProperties) error {
 	err := obj.rpc(ctx, "SetProperties", nil, prop)
 	return err
@@ -9508,6 +9743,7 @@ func (obj *GenericDimension) SetProperties(ctx context.Context, prop *GenericDim
 //
 // ◾ prop   -   Information about the dimension.
 //
+// Stability: locked
 func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetProperties", nil, ensureEncodable(prop))
 	return err
@@ -9515,6 +9751,7 @@ func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop interfac
 
 // Removes the generic dimension from the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericDimension) UnApprove(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnApprove", nil)
 	return err
@@ -9522,6 +9759,7 @@ func (obj *GenericDimension) UnApprove(ctx context.Context) error {
 
 // Unpublishes a dimension.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericDimension) UnPublish(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnPublish", nil)
 	return err
@@ -9538,6 +9776,7 @@ type GenericMeasure struct {
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericMeasure) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, patches)
 	return err
@@ -9550,6 +9789,7 @@ func (obj *GenericMeasure) ApplyPatches(ctx context.Context, patches []*NxPatch)
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, ensureEncodable(patches))
 	return err
@@ -9557,12 +9797,14 @@ func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches interfac
 
 // Adds the generic measure to the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericMeasure) Approve(ctx context.Context) error {
 	err := obj.rpc(ctx, "Approve", nil)
 	return err
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericMeasure) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
@@ -9572,6 +9814,7 @@ func (obj *GenericMeasure) GetInfo(ctx context.Context) (*NxInfo, error) {
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericMeasure) GetInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -9581,6 +9824,7 @@ func (obj *GenericMeasure) GetInfoRaw(ctx context.Context) (json.RawMessage, err
 }
 
 // Evaluates a measure and displays its properties, including the dynamic properties.
+// Stability: locked
 func (obj *GenericMeasure) GetLayout(ctx context.Context) (*GenericMeasureLayout, error) {
 	result := &struct {
 		Layout *GenericMeasureLayout `json:"qLayout"`
@@ -9590,6 +9834,7 @@ func (obj *GenericMeasure) GetLayout(ctx context.Context) (*GenericMeasureLayout
 }
 
 // Evaluates a measure and displays its properties, including the dynamic properties.
+// Stability: locked
 func (obj *GenericMeasure) GetLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -9599,6 +9844,7 @@ func (obj *GenericMeasure) GetLayoutRaw(ctx context.Context) (json.RawMessage, e
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericMeasure) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObjectInfo, error) {
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
@@ -9608,6 +9854,7 @@ func (obj *GenericMeasure) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObj
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericMeasure) GetLinkedObjectsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
@@ -9617,6 +9864,7 @@ func (obj *GenericMeasure) GetLinkedObjectsRaw(ctx context.Context) (json.RawMes
 }
 
 // Returns the definition of a measure.
+// Stability: locked
 func (obj *GenericMeasure) GetMeasure(ctx context.Context) (*NxLibraryMeasureDef, error) {
 	result := &struct {
 		Measure *NxLibraryMeasureDef `json:"qMeasure"`
@@ -9626,6 +9874,7 @@ func (obj *GenericMeasure) GetMeasure(ctx context.Context) (*NxLibraryMeasureDef
 }
 
 // Returns the definition of a measure.
+// Stability: locked
 func (obj *GenericMeasure) GetMeasureRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Measure json.RawMessage `json:"qMeasure"`
@@ -9639,6 +9888,7 @@ func (obj *GenericMeasure) GetMeasureRaw(ctx context.Context) (json.RawMessage, 
 // If the member delta is set to true in the request object, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericMeasure) GetProperties(ctx context.Context) (*GenericMeasureProperties, error) {
 	result := &struct {
 		Prop *GenericMeasureProperties `json:"qProp"`
@@ -9652,6 +9902,7 @@ func (obj *GenericMeasure) GetProperties(ctx context.Context) (*GenericMeasurePr
 // If the member delta is set to true in the request object, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericMeasure) GetPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -9662,6 +9913,7 @@ func (obj *GenericMeasure) GetPropertiesRaw(ctx context.Context) (json.RawMessag
 
 // Publishes a measure.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericMeasure) Publish(ctx context.Context) error {
 	err := obj.rpc(ctx, "Publish", nil)
 	return err
@@ -9673,6 +9925,7 @@ func (obj *GenericMeasure) Publish(ctx context.Context) error {
 //
 // ◾ prop   -   Information about the measure.
 //
+// Stability: locked
 func (obj *GenericMeasure) SetProperties(ctx context.Context, prop *GenericMeasureProperties) error {
 	err := obj.rpc(ctx, "SetProperties", nil, prop)
 	return err
@@ -9684,6 +9937,7 @@ func (obj *GenericMeasure) SetProperties(ctx context.Context, prop *GenericMeasu
 //
 // ◾ prop   -   Information about the measure.
 //
+// Stability: locked
 func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetProperties", nil, ensureEncodable(prop))
 	return err
@@ -9691,6 +9945,7 @@ func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop interface{
 
 // Removes the generic measure from the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericMeasure) UnApprove(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnApprove", nil)
 	return err
@@ -9698,6 +9953,7 @@ func (obj *GenericMeasure) UnApprove(ctx context.Context) error {
 
 // Unpublishes a measure.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericMeasure) UnPublish(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnPublish", nil)
 	return err
@@ -9716,6 +9972,7 @@ type GenericObject struct {
 // ◾ path   -   Path to the definition of the list object.
 // For example, /qListObjectDef .
 //
+// Stability: locked
 func (obj *GenericObject) AbortListObjectSearch(ctx context.Context, path string) error {
 	err := obj.rpc(ctx, "AbortListObjectSearch", nil, path)
 	return err
@@ -9736,6 +9993,7 @@ func (obj *GenericObject) AbortListObjectSearch(ctx context.Context, path string
 // ◾ softLock     -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) AcceptListObjectSearch(ctx context.Context, path string, toggleMode bool, softLock bool) error {
 	err := obj.rpc(ctx, "AcceptListObjectSearch", nil, path, toggleMode, softLock)
 	return err
@@ -9754,6 +10012,7 @@ func (obj *GenericObject) AcceptListObjectSearch(ctx context.Context, path strin
 // ◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) ApplyPatches(ctx context.Context, patches []*NxPatch, softPatch bool) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, patches, softPatch)
 	return err
@@ -9772,6 +10031,7 @@ func (obj *GenericObject) ApplyPatches(ctx context.Context, patches []*NxPatch, 
 // ◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches interface{}, softPatch bool) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, ensureEncodable(patches), ensureEncodable(softPatch))
 	return err
@@ -9779,6 +10039,7 @@ func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches interface
 
 // Adds the generic object to the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericObject) Approve(ctx context.Context) error {
 	err := obj.rpc(ctx, "Approve", nil)
 	return err
@@ -9800,6 +10061,7 @@ func (obj *GenericObject) Approve(ctx context.Context) error {
 // ◾ paths   -   List of the paths to the definition of the objects to enter selection mode.
 // For example, /qListObjectDef .
 //
+// Stability: locked
 func (obj *GenericObject) BeginSelections(ctx context.Context, paths []string) error {
 	err := obj.rpc(ctx, "BeginSelections", nil, paths)
 	return err
@@ -9816,6 +10078,7 @@ func (obj *GenericObject) BeginSelections(ctx context.Context, paths []string) e
 // Dimension numbers/indexes start from 0.
 // If this parameter is not set, all dimensions are cleared.
 //
+// Stability: locked
 func (obj *GenericObject) ClearSelections(ctx context.Context, path string, colIndices []int) error {
 	err := obj.rpc(ctx, "ClearSelections", nil, path, colIndices)
 	return err
@@ -9823,6 +10086,7 @@ func (obj *GenericObject) ClearSelections(ctx context.Context, path string, colI
 
 // Clears the soft properties of a generic object.
 // For more information on how to add soft properties to a generic object, see ApplyPatches Method.
+// Stability: locked
 func (obj *GenericObject) ClearSoftPatches(ctx context.Context) error {
 	err := obj.rpc(ctx, "ClearSoftPatches", nil)
 	return err
@@ -9845,6 +10109,7 @@ func (obj *GenericObject) ClearSoftPatches(ctx context.Context) error {
 // ◾ all    -   If set to true, it collapses all cells.
 // Parameters qRow and qCol are not used if qAll is set to true, but they need to be set (for example to 0).
 //
+// Stability: locked
 func (obj *GenericObject) CollapseLeft(ctx context.Context, path string, row int, col int, all bool) error {
 	err := obj.rpc(ctx, "CollapseLeft", nil, path, row, col, all)
 	return err
@@ -9867,6 +10132,7 @@ func (obj *GenericObject) CollapseLeft(ctx context.Context, path string, row int
 // ◾ all    -   If set to true, it collapses all cells.
 // Parameters qRow and qCol are not used if qAll is set to true, but they need to be set (for example to 0).
 //
+// Stability: locked
 func (obj *GenericObject) CollapseTop(ctx context.Context, path string, row int, col int, all bool) error {
 	err := obj.rpc(ctx, "CollapseTop", nil, path, row, col, all)
 	return err
@@ -9880,6 +10146,7 @@ func (obj *GenericObject) CollapseTop(ctx context.Context, path string, row int,
 //
 // ◾ fromId   -   Identifier of the object to copy.
 //
+// Stability: locked
 func (obj *GenericObject) CopyFrom(ctx context.Context, fromId string) error {
 	err := obj.rpc(ctx, "CopyFrom", nil, fromId)
 	return err
@@ -9897,6 +10164,7 @@ func (obj *GenericObject) CopyFrom(ctx context.Context, fromId string) error {
 // ◾ propForThis   -   Identifier of the parent's object.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) CreateChild(ctx context.Context, prop *GenericObjectProperties, propForThis *GenericObjectProperties) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -9920,6 +10188,7 @@ func (obj *GenericObject) CreateChild(ctx context.Context, prop *GenericObjectPr
 // ◾ propForThis   -   Identifier of the parent's object.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop interface{}, propForThis interface{}) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -9938,6 +10207,7 @@ func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop interface{}, 
 // ◾ propForThis   -   Identifier of the parent's object and property to update.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) DestroyAllChildren(ctx context.Context, propForThis *GenericObjectProperties) error {
 	err := obj.rpc(ctx, "DestroyAllChildren", nil, propForThis)
 	return err
@@ -9950,6 +10220,7 @@ func (obj *GenericObject) DestroyAllChildren(ctx context.Context, propForThis *G
 // ◾ propForThis   -   Identifier of the parent's object and property to update.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) DestroyAllChildrenRaw(ctx context.Context, propForThis interface{}) error {
 	err := obj.rpc(ctx, "DestroyAllChildren", nil, ensureEncodable(propForThis))
 	return err
@@ -9968,6 +10239,7 @@ func (obj *GenericObject) DestroyAllChildrenRaw(ctx context.Context, propForThis
 // ◾ propForThis   -   Identifier of the parent's object and property to update.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) DestroyChild(ctx context.Context, id string, propForThis *GenericObjectProperties) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -9989,6 +10261,7 @@ func (obj *GenericObject) DestroyChild(ctx context.Context, id string, propForTh
 // ◾ propForThis   -   Identifier of the parent's object and property to update.
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
+// Stability: locked
 func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propForThis interface{}) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -10012,6 +10285,7 @@ func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propFo
 // ◾ nbrSteps   -   Number of steps you want to drill up.
 // The default value is 0.
 //
+// Stability: locked
 func (obj *GenericObject) DrillUp(ctx context.Context, path string, dimNo int, nbrSteps int) error {
 	err := obj.rpc(ctx, "DrillUp", nil, path, dimNo, nbrSteps)
 	return err
@@ -10025,6 +10299,7 @@ func (obj *GenericObject) DrillUp(ctx context.Context, path string, dimNo int, n
 //
 // ◾ id   -   Identifier of the bookmark.
 //
+// Stability: locked
 func (obj *GenericObject) EmbedSnapshotObject(ctx context.Context, id string) error {
 	err := obj.rpc(ctx, "EmbedSnapshotObject", nil, id)
 	return err
@@ -10036,6 +10311,7 @@ func (obj *GenericObject) EmbedSnapshotObject(ctx context.Context, id string) er
 //
 // ◾ accept   -   Set this parameter to true to accept the selections before exiting the selection mode.
 //
+// Stability: locked
 func (obj *GenericObject) EndSelections(ctx context.Context, accept bool) error {
 	err := obj.rpc(ctx, "EndSelections", nil, accept)
 	return err
@@ -10058,6 +10334,7 @@ func (obj *GenericObject) EndSelections(ctx context.Context, accept bool) error 
 // ◾ all    -   If set to true, it expands all cells.
 // Parameters qRow and qCol are not used if qAll is set to true, but they need to be set (for example to 0).
 //
+// Stability: locked
 func (obj *GenericObject) ExpandLeft(ctx context.Context, path string, row int, col int, all bool) error {
 	err := obj.rpc(ctx, "ExpandLeft", nil, path, row, col, all)
 	return err
@@ -10080,6 +10357,7 @@ func (obj *GenericObject) ExpandLeft(ctx context.Context, path string, row int, 
 // ◾ all    -   If set to true, it expands all cells.
 // Parameters qRow and qCol are not used if qAll is set to true, but they need to be set (for example to 0).
 //
+// Stability: locked
 func (obj *GenericObject) ExpandTop(ctx context.Context, path string, row int, col int, all bool) error {
 	err := obj.rpc(ctx, "ExpandTop", nil, path, row, col, all)
 	return err
@@ -10150,6 +10428,7 @@ func (obj *GenericObject) ExpandTop(ctx context.Context, path string, row int, c
 //
 // • A or EXPORT_ALL
 //
+// Stability: locked
 func (obj *GenericObject) ExportData(ctx context.Context, fileType string, path string, fileName string, exportState string) (string, []int, error) {
 	result := &struct {
 		Url      string `json:"qUrl"`
@@ -10165,6 +10444,7 @@ func (obj *GenericObject) ExportData(ctx context.Context, fileType string, path 
 //
 // ◾ id   -   Identifier of the object.
 //
+// Stability: locked
 func (obj *GenericObject) GetChild(ctx context.Context, id string) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -10179,6 +10459,7 @@ func (obj *GenericObject) GetChild(ctx context.Context, id string) (*GenericObje
 // Returns the identifier and the type for each child in an app object. If the child contains extra properties in qInfos , these properties are returned.
 //
 // Full dynamic properties are optional and are returned if they exist in the definition of the object.
+// Stability: locked
 func (obj *GenericObject) GetChildInfos(ctx context.Context) ([]*NxInfo, error) {
 	result := &struct {
 		Infos []*NxInfo `json:"qInfos"`
@@ -10190,6 +10471,7 @@ func (obj *GenericObject) GetChildInfos(ctx context.Context) ([]*NxInfo, error) 
 // Returns the identifier and the type for each child in an app object. If the child contains extra properties in qInfos , these properties are returned.
 //
 // Full dynamic properties are optional and are returned if they exist in the definition of the object.
+// Stability: locked
 func (obj *GenericObject) GetChildInfosRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Infos json.RawMessage `json:"qInfos"`
@@ -10201,6 +10483,7 @@ func (obj *GenericObject) GetChildInfosRaw(ctx context.Context) (json.RawMessage
 // Returns the identifier, the type and the properties of the object.
 // If the object contains some soft properties, the soft properties are returned.
 // If the object is linked to another object, the properties of the linking object are returned.
+// Stability: locked
 func (obj *GenericObject) GetEffectiveProperties(ctx context.Context) (*GenericObjectProperties, error) {
 	result := &struct {
 		Prop *GenericObjectProperties `json:"qProp"`
@@ -10212,6 +10495,7 @@ func (obj *GenericObject) GetEffectiveProperties(ctx context.Context) (*GenericO
 // Returns the identifier, the type and the properties of the object.
 // If the object contains some soft properties, the soft properties are returned.
 // If the object is linked to another object, the properties of the linking object are returned.
+// Stability: locked
 func (obj *GenericObject) GetEffectivePropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -10227,6 +10511,7 @@ func (obj *GenericObject) GetEffectivePropertiesRaw(ctx context.Context) (json.R
 // • The children of the generic object.
 //
 // • The bookmarks/embedded snapshots of the generic object.
+// Stability: locked
 func (obj *GenericObject) GetFullPropertyTree(ctx context.Context) (*GenericObjectEntry, error) {
 	result := &struct {
 		PropEntry *GenericObjectEntry `json:"qPropEntry"`
@@ -10242,6 +10527,7 @@ func (obj *GenericObject) GetFullPropertyTree(ctx context.Context) (*GenericObje
 // • The children of the generic object.
 //
 // • The bookmarks/embedded snapshots of the generic object.
+// Stability: locked
 func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		PropEntry json.RawMessage `json:"qPropEntry"`
@@ -10384,6 +10670,7 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 //
 // • 2: Uniform grid
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path string, pages []*NxPage, viewport *NxViewPort, dataRanges []*NxDataAreaPage, maxNbrCells int, queryLevel int, binningMethod int) ([]*NxDataPage, error) {
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
@@ -10526,6 +10813,7 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 //
 // • 2: Uniform grid
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeBinnedDataRaw(ctx context.Context, path string, pages interface{}, viewport interface{}, dataRanges interface{}, maxNbrCells int, queryLevel int, binningMethod int) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10547,6 +10835,7 @@ func (obj *GenericObject) GetHyperCubeBinnedDataRaw(ctx context.Context, path st
 // ◾ reverseSort   -   If set to true the returned data pages are reverse sorted.
 // Optional.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeContinuousData(ctx context.Context, path string, options *NxContinuousDataOptions, reverseSort bool) ([]*NxDataPage, *NxAxisData, error) {
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
@@ -10569,6 +10858,7 @@ func (obj *GenericObject) GetHyperCubeContinuousData(ctx context.Context, path s
 // ◾ reverseSort   -   If set to true the returned data pages are reverse sorted.
 // Optional.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeContinuousDataRaw(ctx context.Context, path string, options interface{}, reverseSort bool) (json.RawMessage, json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10590,6 +10880,7 @@ func (obj *GenericObject) GetHyperCubeContinuousDataRaw(ctx context.Context, pat
 //
 // ◾ pages   -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeData(ctx context.Context, path string, pages []*NxPage) ([]*NxDataPage, error) {
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
@@ -10610,6 +10901,7 @@ func (obj *GenericObject) GetHyperCubeData(ctx context.Context, path string, pag
 //
 // ◾ pages   -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10628,6 +10920,7 @@ func (obj *GenericObject) GetHyperCubeDataRaw(ctx context.Context, path string, 
 //
 // ◾ pages   -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubePivotData(ctx context.Context, path string, pages []*NxPage) ([]*NxPivotPage, error) {
 	result := &struct {
 		DataPages []*NxPivotPage `json:"qDataPages"`
@@ -10646,6 +10939,7 @@ func (obj *GenericObject) GetHyperCubePivotData(ctx context.Context, path string
 //
 // ◾ pages   -   Array of pages to retrieve.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10717,6 +11011,7 @@ func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path str
 //
 // • ST or DATA_REDUCTION_STACKED
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path string, pages []*NxPage, zoomFactor int, reductionMode string) ([]*NxDataPage, error) {
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
@@ -10788,6 +11083,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 //
 // • ST or DATA_REDUCTION_STACKED
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeReducedDataRaw(ctx context.Context, path string, pages interface{}, zoomFactor int, reductionMode string) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10809,6 +11105,7 @@ func (obj *GenericObject) GetHyperCubeReducedDataRaw(ctx context.Context, path s
 // ◾ maxNbrCells   -   Maximum number of cells at outer level.
 // The default value is 10 000.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeStackData(ctx context.Context, path string, pages []*NxPage, maxNbrCells int) ([]*NxStackPage, error) {
 	result := &struct {
 		DataPages []*NxStackPage `json:"qDataPages"`
@@ -10830,6 +11127,7 @@ func (obj *GenericObject) GetHyperCubeStackData(ctx context.Context, path string
 // ◾ maxNbrCells   -   Maximum number of cells at outer level.
 // The default value is 10 000.
 //
+// Stability: locked
 func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path string, pages interface{}, maxNbrCells int) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10875,6 +11173,7 @@ func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path stri
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericObject) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
@@ -10884,6 +11183,7 @@ func (obj *GenericObject) GetInfo(ctx context.Context) (*NxInfo, error) {
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -10907,6 +11207,7 @@ func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, erro
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
+// Stability: locked
 func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, error) {
 	result := &struct {
 		Layout *GenericObjectLayout `json:"qLayout"`
@@ -10930,6 +11231,7 @@ func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, 
 //
 // In addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.
 // For example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.
+// Stability: locked
 func (obj *GenericObject) GetLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -10939,6 +11241,7 @@ func (obj *GenericObject) GetLayoutRaw(ctx context.Context) (json.RawMessage, er
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericObject) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObjectInfo, error) {
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
@@ -10948,6 +11251,7 @@ func (obj *GenericObject) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObje
 }
 
 // Lists the linked objects to a generic object, a dimension or a measure.
+// Stability: locked
 func (obj *GenericObject) GetLinkedObjectsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
@@ -10966,6 +11270,7 @@ func (obj *GenericObject) GetLinkedObjectsRaw(ctx context.Context) (json.RawMess
 //
 // ◾ pages   -   Array of pages you are interested in.
 //
+// Stability: locked
 func (obj *GenericObject) GetListObjectData(ctx context.Context, path string, pages []*NxPage) ([]*NxDataPage, error) {
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
@@ -10984,6 +11289,7 @@ func (obj *GenericObject) GetListObjectData(ctx context.Context, path string, pa
 //
 // ◾ pages   -   Array of pages you are interested in.
 //
+// Stability: locked
 func (obj *GenericObject) GetListObjectDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
@@ -10993,6 +11299,7 @@ func (obj *GenericObject) GetListObjectDataRaw(ctx context.Context, path string,
 }
 
 // Returns the type of the object and the corresponding handle to the parent object in the hiearchy.
+// Stability: locked
 func (obj *GenericObject) GetParent(ctx context.Context) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -11011,6 +11318,7 @@ func (obj *GenericObject) GetParent(ctx context.Context) (*GenericObject, error)
 // The properties depends on the generic object type, see [properties](genericobject-layout.html).
 //
 // If the member delta is set to true in the request object, only the delta is retrieved.
+// Stability: locked
 func (obj *GenericObject) GetProperties(ctx context.Context) (*GenericObjectProperties, error) {
 	result := &struct {
 		Prop *GenericObjectProperties `json:"qProp"`
@@ -11026,6 +11334,7 @@ func (obj *GenericObject) GetProperties(ctx context.Context) (*GenericObjectProp
 // The properties depends on the generic object type, see [properties](genericobject-layout.html).
 //
 // If the member delta is set to true in the request object, only the delta is retrieved.
+// Stability: locked
 func (obj *GenericObject) GetPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -11035,6 +11344,7 @@ func (obj *GenericObject) GetPropertiesRaw(ctx context.Context) (json.RawMessage
 }
 
 // Returns the type of the object and the corresponding handle.
+// Stability: locked
 func (obj *GenericObject) GetSnapshotObject(ctx context.Context) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -11057,6 +11367,7 @@ func (obj *GenericObject) GetSnapshotObject(ctx context.Context) (*GenericObject
 // Dimension numbers/indexes start from 0.
 // If this parameter is not set, the selected values in all dimensions are locked.
 //
+// Stability: locked
 func (obj *GenericObject) Lock(ctx context.Context, path string, colIndices []int) error {
 	err := obj.rpc(ctx, "Lock", nil, path, colIndices)
 	return err
@@ -11089,6 +11400,7 @@ func (obj *GenericObject) Lock(ctx context.Context, path string, colIndices []in
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) MultiRangeSelectHyperCubeValues(ctx context.Context, path string, ranges []*NxMultiRangeSelectInfo, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11124,6 +11436,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValues(ctx context.Context, p
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges interface{}, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11152,6 +11465,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context,
 
 // Publishes a generic object.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericObject) Publish(ctx context.Context) error {
 	err := obj.rpc(ctx, "Publish", nil)
 	return err
@@ -11188,6 +11502,7 @@ func (obj *GenericObject) Publish(ctx context.Context) error {
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) RangeSelectHyperCubeValues(ctx context.Context, path string, ranges []*NxRangeSelectInfo, columnsToSelect []int, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11227,6 +11542,7 @@ func (obj *GenericObject) RangeSelectHyperCubeValues(ctx context.Context, path s
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) RangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges interface{}, columnsToSelect []int, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11236,6 +11552,7 @@ func (obj *GenericObject) RangeSelectHyperCubeValuesRaw(ctx context.Context, pat
 }
 
 // Resets all selections made in selection mode.
+// Stability: locked
 func (obj *GenericObject) ResetMadeSelections(ctx context.Context) error {
 	err := obj.rpc(ctx, "ResetMadeSelections", nil)
 	return err
@@ -11260,6 +11577,7 @@ func (obj *GenericObject) ResetMadeSelections(ctx context.Context) error {
 //
 // • P U S: retrieves values that start with P, U or S
 //
+// Stability: locked
 func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, match string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11305,6 +11623,7 @@ func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, 
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectHyperCubeCells(ctx context.Context, path string, rowIndices []int, colIndices []int, softLock bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11327,6 +11646,7 @@ func (obj *GenericObject) SelectHyperCubeCells(ctx context.Context, path string,
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectHyperCubeContinuousRange(ctx context.Context, path string, ranges []*NxContinuousRangeSelectInfo, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11349,6 +11669,7 @@ func (obj *GenericObject) SelectHyperCubeContinuousRange(ctx context.Context, pa
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectHyperCubeContinuousRangeRaw(ctx context.Context, path string, ranges interface{}, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11383,6 +11704,7 @@ func (obj *GenericObject) SelectHyperCubeContinuousRangeRaw(ctx context.Context,
 //
 // ◾ toggleMode   -   Set to true to toggle.
 //
+// Stability: locked
 func (obj *GenericObject) SelectHyperCubeValues(ctx context.Context, path string, dimNo int, values []int, toggleMode bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11411,6 +11733,7 @@ func (obj *GenericObject) SelectHyperCubeValues(ctx context.Context, path string
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectAll(ctx context.Context, path string, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11440,6 +11763,7 @@ func (obj *GenericObject) SelectListObjectAll(ctx context.Context, path string, 
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectAlternative(ctx context.Context, path string, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11462,6 +11786,7 @@ func (obj *GenericObject) SelectListObjectAlternative(ctx context.Context, path 
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectContinuousRange(ctx context.Context, path string, ranges []*Range, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11484,6 +11809,7 @@ func (obj *GenericObject) SelectListObjectContinuousRange(ctx context.Context, p
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectContinuousRangeRaw(ctx context.Context, path string, ranges interface{}, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11512,6 +11838,7 @@ func (obj *GenericObject) SelectListObjectContinuousRangeRaw(ctx context.Context
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectExcluded(ctx context.Context, path string, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11540,6 +11867,7 @@ func (obj *GenericObject) SelectListObjectExcluded(ctx context.Context, path str
 // ◾ softLock   -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectPossible(ctx context.Context, path string, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11573,6 +11901,7 @@ func (obj *GenericObject) SelectListObjectPossible(ctx context.Context, path str
 // ◾ softLock     -   Set to true to ignore locks; in that case, locked fields can be selected.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path string, values []int, toggleMode bool, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11633,6 +11962,7 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, selections []*NxSelectionCell, softLock bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11693,6 +12023,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 // ◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.
 // The default value is false.
 //
+// Stability: locked
 func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, selections interface{}, softLock bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -11708,6 +12039,7 @@ func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, 
 //
 // ◾ ids   -   List of the children identifiers.
 //
+// Stability: locked
 func (obj *GenericObject) SetChildArrayOrder(ctx context.Context, ids []string) error {
 	err := obj.rpc(ctx, "SetChildArrayOrder", nil, ids)
 	return err
@@ -11728,6 +12060,7 @@ func (obj *GenericObject) SetChildArrayOrder(ctx context.Context, ids []string) 
 //
 // ◾ propEntry   -   Information about the generic object entry.
 //
+// Stability: locked
 func (obj *GenericObject) SetFullPropertyTree(ctx context.Context, propEntry *GenericObjectEntry) error {
 	err := obj.rpc(ctx, "SetFullPropertyTree", nil, propEntry)
 	return err
@@ -11748,6 +12081,7 @@ func (obj *GenericObject) SetFullPropertyTree(ctx context.Context, propEntry *Ge
 //
 // ◾ propEntry   -   Information about the generic object entry.
 //
+// Stability: locked
 func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry interface{}) error {
 	err := obj.rpc(ctx, "SetFullPropertyTree", nil, ensureEncodable(propEntry))
 	return err
@@ -11760,6 +12094,7 @@ func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry 
 //
 // ◾ prop   -   Information about the generic object.
 //
+// Stability: locked
 func (obj *GenericObject) SetProperties(ctx context.Context, prop *GenericObjectProperties) error {
 	err := obj.rpc(ctx, "SetProperties", nil, prop)
 	return err
@@ -11772,6 +12107,7 @@ func (obj *GenericObject) SetProperties(ctx context.Context, prop *GenericObject
 //
 // ◾ prop   -   Information about the generic object.
 //
+// Stability: locked
 func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetProperties", nil, ensureEncodable(prop))
 	return err
@@ -11779,6 +12115,7 @@ func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop interface{}
 
 // Removes the generic object from the list of approved objects
 // This operation is possible only in Qlik Sense Enterprise.
+// Stability: locked
 func (obj *GenericObject) UnApprove(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnApprove", nil)
 	return err
@@ -11786,6 +12123,7 @@ func (obj *GenericObject) UnApprove(ctx context.Context) error {
 
 // Unpublishes a generic object.
 // This operation is not applicable for Qlik Sense Desktop.
+// Stability: locked
 func (obj *GenericObject) UnPublish(ctx context.Context) error {
 	err := obj.rpc(ctx, "UnPublish", nil)
 	return err
@@ -11802,6 +12140,7 @@ func (obj *GenericObject) UnPublish(ctx context.Context) error {
 // Dimension numbers/indexes start from 0.
 // If this parameter is not set, the locked values in all dimensions are unlocked.
 //
+// Stability: locked
 func (obj *GenericObject) Unlock(ctx context.Context, path string, colIndices []int) error {
 	err := obj.rpc(ctx, "Unlock", nil, path, colIndices)
 	return err
@@ -11818,6 +12157,7 @@ type GenericVariable struct {
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericVariable) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, patches)
 	return err
@@ -11830,12 +12170,14 @@ func (obj *GenericVariable) ApplyPatches(ctx context.Context, patches []*NxPatch
 //
 // ◾ patches   -   Array of patches.
 //
+// Stability: locked
 func (obj *GenericVariable) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
 	err := obj.rpc(ctx, "ApplyPatches", nil, ensureEncodable(patches))
 	return err
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericVariable) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
@@ -11845,6 +12187,7 @@ func (obj *GenericVariable) GetInfo(ctx context.Context) (*NxInfo, error) {
 }
 
 // Returns the type and identifier of the object.
+// Stability: locked
 func (obj *GenericVariable) GetInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
@@ -11855,6 +12198,7 @@ func (obj *GenericVariable) GetInfoRaw(ctx context.Context) (json.RawMessage, er
 
 // Evaluates an object and displays its properties including the dynamic properties.
 // If the member delta is set to true in the request object, only the delta is evaluated.
+// Stability: locked
 func (obj *GenericVariable) GetLayout(ctx context.Context) (*GenericVariableLayout, error) {
 	result := &struct {
 		Layout *GenericVariableLayout `json:"qLayout"`
@@ -11865,6 +12209,7 @@ func (obj *GenericVariable) GetLayout(ctx context.Context) (*GenericVariableLayo
 
 // Evaluates an object and displays its properties including the dynamic properties.
 // If the member delta is set to true in the request object, only the delta is evaluated.
+// Stability: locked
 func (obj *GenericVariable) GetLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
@@ -11877,6 +12222,7 @@ func (obj *GenericVariable) GetLayoutRaw(ctx context.Context) (json.RawMessage, 
 // If the member delta is set to true in the request, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericVariable) GetProperties(ctx context.Context) (*GenericVariableProperties, error) {
 	result := &struct {
 		Prop *GenericVariableProperties `json:"qProp"`
@@ -11889,6 +12235,7 @@ func (obj *GenericVariable) GetProperties(ctx context.Context) (*GenericVariable
 // If the member delta is set to true in the request, only the delta is retrieved.
 //
 // The following is always returned in the output:
+// Stability: locked
 func (obj *GenericVariable) GetPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
@@ -11898,6 +12245,7 @@ func (obj *GenericVariable) GetPropertiesRaw(ctx context.Context) (json.RawMessa
 }
 
 // Returns the raw value of a variable.
+// Stability: locked
 func (obj *GenericVariable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -11915,6 +12263,7 @@ func (obj *GenericVariable) GetRawContent(ctx context.Context) (string, error) {
 //
 // ◾ num    -   Numeric representation of a dual value.
 //
+// Stability: locked
 func (obj *GenericVariable) SetDualValue(ctx context.Context, text string, num Float64) error {
 	err := obj.rpc(ctx, "SetDualValue", nil, text, num)
 	return err
@@ -11927,6 +12276,7 @@ func (obj *GenericVariable) SetDualValue(ctx context.Context, text string, num F
 //
 // ◾ val   -   Value of the variable.
 //
+// Stability: locked
 func (obj *GenericVariable) SetNumValue(ctx context.Context, val Float64) error {
 	err := obj.rpc(ctx, "SetNumValue", nil, val)
 	return err
@@ -11940,6 +12290,7 @@ func (obj *GenericVariable) SetNumValue(ctx context.Context, val Float64) error 
 //
 // ◾ prop   -   Information about the variable.
 //
+// Stability: locked
 func (obj *GenericVariable) SetProperties(ctx context.Context, prop *GenericVariableProperties) error {
 	err := obj.rpc(ctx, "SetProperties", nil, prop)
 	return err
@@ -11953,6 +12304,7 @@ func (obj *GenericVariable) SetProperties(ctx context.Context, prop *GenericVari
 //
 // ◾ prop   -   Information about the variable.
 //
+// Stability: locked
 func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
 	err := obj.rpc(ctx, "SetProperties", nil, ensureEncodable(prop))
 	return err
@@ -11965,6 +12317,7 @@ func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop interface
 //
 // ◾ val   -   Value of the variable. The string can contain an expression.
 //
+// Stability: locked
 func (obj *GenericVariable) SetStringValue(ctx context.Context, val string) error {
 	err := obj.rpc(ctx, "SetStringValue", nil, val)
 	return err
@@ -11979,6 +12332,7 @@ type Global struct {
 // • If an abort flag is set on a pending request, the request is aborted.
 //
 // • If an abort flag is set on an ongoing request, the engine checks to see if it is possible to abort the request.
+// Stability: locked
 func (obj *Global) AbortAll(ctx context.Context) error {
 	err := obj.rpc(ctx, "AbortAll", nil)
 	return err
@@ -11994,12 +12348,14 @@ func (obj *Global) AbortAll(ctx context.Context) error {
 //
 // ◾ requestId   -   Identifier of request to abort.
 //
+// Stability: locked
 func (obj *Global) AbortRequest(ctx context.Context, requestId int) error {
 	err := obj.rpc(ctx, "AbortRequest", nil, requestId)
 	return err
 }
 
 // Indicates whether or not a user is able to create an app.
+// Stability: locked
 func (obj *Global) AllowCreateApp(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -12009,6 +12365,7 @@ func (obj *Global) AllowCreateApp(ctx context.Context) (bool, error) {
 }
 
 // Cancels an ongoing reload. The reload of the app is stopped. The indexation can be canceled and true is still the return value of the reload task.
+// Stability: locked
 func (obj *Global) CancelReload(ctx context.Context) error {
 	err := obj.rpc(ctx, "CancelReload", nil)
 	return err
@@ -12020,6 +12377,7 @@ func (obj *Global) CancelReload(ctx context.Context) error {
 //
 // ◾ requestId   -   Identifier of the request to stop.
 //
+// Stability: locked
 func (obj *Global) CancelRequest(ctx context.Context, requestId int) error {
 	err := obj.rpc(ctx, "CancelRequest", nil, requestId)
 	return err
@@ -12039,6 +12397,7 @@ func (obj *Global) CancelRequest(ctx context.Context, requestId int) error {
 // ◾ interactOnError       -   If set to true, the script execution is halted on error and the engine is waiting for an interaction to be performed. If the result from the interaction is 1 (_qDef.qResult_ is 1), the engine continues the script execution otherwise the execution is halted.
 // This parameter is relevant only if the variable ErrorMode is set to 1 and the script is run in debug mode (_qDebug_ is set to true when calling the DoReload method).
 //
+// Stability: locked
 func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool, useErrorData bool, interactOnError bool) error {
 	err := obj.rpc(ctx, "ConfigureReload", nil, cancelOnScriptError, useErrorData, interactOnError)
 	return err
@@ -12068,6 +12427,7 @@ func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool
 // Where
 // _9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.
 //
+// Stability: locked
 func (obj *Global) CopyApp(ctx context.Context, targetAppId string, srcAppId string, ids []string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -12112,6 +12472,7 @@ func (obj *Global) CopyApp(ctx context.Context, targetAppId string, srcAppId str
 // ◾ localizedScriptMainSection   -   Name of the first section in the script editor.
 // The default value is Main.
 //
+// Stability: locked
 func (obj *Global) CreateApp(ctx context.Context, appName string, localizedScriptMainSection string) (bool, string, error) {
 	result := &struct {
 		Success bool   `json:"qSuccess"`
@@ -12137,6 +12498,7 @@ func (obj *Global) CreateApp(ctx context.Context, appName string, localizedScrip
 // ◾ localizedScriptMainSection   -   Name of the first section in the script editor.
 // The default value is Main.
 //
+// Stability: locked
 func (obj *Global) CreateDocEx(ctx context.Context, docName string, userName string, password string, serial string, localizedScriptMainSection string) (*Doc, error) {
 	result := &struct {
 		DocId  string           `json:"qDocId"`
@@ -12156,6 +12518,7 @@ func (obj *Global) CreateDocEx(ctx context.Context, docName string, userName str
 // • The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.
 //
 // • A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.
+// Stability: locked
 func (obj *Global) CreateSessionApp(ctx context.Context) (*Doc, error) {
 	result := &struct {
 		SessionAppId string           `json:"qSessionAppId"`
@@ -12185,6 +12548,7 @@ func (obj *Global) CreateSessionApp(ctx context.Context) (*Doc, error) {
 // ◾ srcAppId   -   App identifier of the source app.
 // It corresponds to qAppId returned by the CreateApp method when creating the source app.
 //
+// Stability: locked
 func (obj *Global) CreateSessionAppFromApp(ctx context.Context, srcAppId string) (*Doc, error) {
 	result := &struct {
 		SessionAppId string           `json:"qSessionAppId"`
@@ -12244,6 +12608,7 @@ func (obj *Global) CreateSessionAppFromApp(ctx context.Context, srcAppId string)
 // In Qlik Sense Enterprise, the identifier of the app is a GUID in the Qlik Sense repository.
 // In Qlik Sense Desktop, the identifier of the app is the name of the app, as defined in the apps folder %userprofile%\Documents\Qlik\Sense\Apps.
 //
+// Stability: locked
 func (obj *Global) DeleteApp(ctx context.Context, appId string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -12253,6 +12618,7 @@ func (obj *Global) DeleteApp(ctx context.Context, appId string) (bool, error) {
 }
 
 // Returns the version number of the Qlik engine component.
+// Stability: locked
 func (obj *Global) EngineVersion(ctx context.Context) (*NxEngineVersion, error) {
 	result := &struct {
 		Version *NxEngineVersion `json:"qVersion"`
@@ -12262,6 +12628,7 @@ func (obj *Global) EngineVersion(ctx context.Context) (*NxEngineVersion, error) 
 }
 
 // Returns the version number of the Qlik engine component.
+// Stability: locked
 func (obj *Global) EngineVersionRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Version json.RawMessage `json:"qVersion"`
@@ -12301,6 +12668,7 @@ func (obj *Global) EngineVersionRaw(ctx context.Context) (json.RawMessage, error
 //
 // ◾ noData       -   Set this parameter to true if the data should be omitted in the exported app.
 //
+// Stability: locked
 func (obj *Global) ExportApp(ctx context.Context, targetPath string, srcAppId string, ids []string, noData bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -12310,6 +12678,7 @@ func (obj *Global) ExportApp(ctx context.Context, targetPath string, srcAppId st
 }
 
 // Returns the handle of the current app.
+// Stability: locked
 func (obj *Global) GetActiveDoc(ctx context.Context) (*Doc, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -12332,6 +12701,7 @@ func (obj *Global) GetActiveDoc(ctx context.Context) (*Doc, error) {
 //
 // • GUID (Qlik Sense Enterprise)
 //
+// Stability: locked
 func (obj *Global) GetAppEntry(ctx context.Context, appID string) (*AppEntry, error) {
 	result := &struct {
 		Entry *AppEntry `json:"qEntry"`
@@ -12351,6 +12721,7 @@ func (obj *Global) GetAppEntry(ctx context.Context, appID string) (*AppEntry, er
 //
 // • GUID (Qlik Sense Enterprise)
 //
+// Stability: locked
 func (obj *Global) GetAppEntryRaw(ctx context.Context, appID string) (json.RawMessage, error) {
 	result := &struct {
 		Entry json.RawMessage `json:"qEntry"`
@@ -12360,6 +12731,7 @@ func (obj *Global) GetAppEntryRaw(ctx context.Context, appID string) (json.RawMe
 }
 
 // Retrieves information about the authenticated user.
+// Stability: locked
 func (obj *Global) GetAuthenticatedUser(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -12386,6 +12758,7 @@ func (obj *Global) GetAuthenticatedUser(ctx context.Context) (string, error) {
 // • E or SCRIPT_TEXT_EXPRESSION
 //
 // Deprecated: Use the _GetBaseBNF_ method instead
+// Stability: locked
 func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error) {
 	result := &struct {
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
@@ -12412,6 +12785,7 @@ func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error
 // • E or SCRIPT_TEXT_EXPRESSION
 //
 // Deprecated: Use the _GetBaseBNF_ method instead
+// Stability: locked
 func (obj *Global) GetBNFRaw(ctx context.Context, bnfType string) (json.RawMessage, error) {
 	result := &struct {
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
@@ -12437,6 +12811,7 @@ func (obj *Global) GetBNFRaw(ctx context.Context, bnfType string) (json.RawMessa
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Stability: locked
 func (obj *Global) GetBaseBNF(ctx context.Context, bnfType string) ([]*BNFDef, string, error) {
 	result := &struct {
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
@@ -12463,6 +12838,7 @@ func (obj *Global) GetBaseBNF(ctx context.Context, bnfType string) ([]*BNFDef, s
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Stability: locked
 func (obj *Global) GetBaseBNFRaw(ctx context.Context, bnfType string) (json.RawMessage, string, error) {
 	result := &struct {
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
@@ -12488,6 +12864,7 @@ func (obj *Global) GetBaseBNFRaw(ctx context.Context, bnfType string) (json.RawM
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Stability: locked
 func (obj *Global) GetBaseBNFHash(ctx context.Context, bnfType string) (string, error) {
 	result := &struct {
 		BnfHash string `json:"qBnfHash"`
@@ -12513,6 +12890,7 @@ func (obj *Global) GetBaseBNFHash(ctx context.Context, bnfType string) (string, 
 //
 // • E or SCRIPT_TEXT_EXPRESSION
 //
+// Stability: locked
 func (obj *Global) GetBaseBNFString(ctx context.Context, bnfType string) (string, string, error) {
 	result := &struct {
 		BnfStr  string `json:"qBnfStr"`
@@ -12531,6 +12909,7 @@ func (obj *Global) GetBaseBNFString(ctx context.Context, bnfType string) (string
 // If set to true, the GetCustomConnectors method looks for new connectors in the file system.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Global) GetCustomConnectors(ctx context.Context, reloadList bool) ([]*CustomConnector, error) {
 	result := &struct {
 		Connectors []*CustomConnector `json:"qConnectors"`
@@ -12548,6 +12927,7 @@ func (obj *Global) GetCustomConnectors(ctx context.Context, reloadList bool) ([]
 // If set to true, the GetCustomConnectors method looks for new connectors in the file system.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Global) GetCustomConnectorsRaw(ctx context.Context, reloadList bool) (json.RawMessage, error) {
 	result := &struct {
 		Connectors json.RawMessage `json:"qConnectors"`
@@ -12562,6 +12942,7 @@ func (obj *Global) GetCustomConnectorsRaw(ctx context.Context, reloadList bool) 
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Global) GetDatabasesFromConnectionString(ctx context.Context, connection *Connection) ([]*Database, error) {
 	result := &struct {
 		Databases []*Database `json:"qDatabases"`
@@ -12576,6 +12957,7 @@ func (obj *Global) GetDatabasesFromConnectionString(ctx context.Context, connect
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Global) GetDatabasesFromConnectionStringRaw(ctx context.Context, connection interface{}) (json.RawMessage, error) {
 	result := &struct {
 		Databases json.RawMessage `json:"qDatabases"`
@@ -12586,6 +12968,7 @@ func (obj *Global) GetDatabasesFromConnectionStringRaw(ctx context.Context, conn
 
 // Returns the folder where the apps are stored.
 // This method applies only if running Qlik Sense Desktop.
+// Stability: locked
 func (obj *Global) GetDefaultAppFolder(ctx context.Context) (string, error) {
 	result := &struct {
 		Path string `json:"qPath"`
@@ -12603,6 +12986,7 @@ func (obj *Global) GetDefaultAppFolder(ctx context.Context) (string, error) {
 // In Qlik Sense Desktop::
 //
 // The apps are located in C:\Users\<user name>\Documents\Qlik\Sense\Apps.
+// Stability: locked
 func (obj *Global) GetDocList(ctx context.Context) ([]*DocListEntry, error) {
 	result := &struct {
 		DocList []*DocListEntry `json:"qDocList"`
@@ -12620,6 +13004,7 @@ func (obj *Global) GetDocList(ctx context.Context) ([]*DocListEntry, error) {
 // In Qlik Sense Desktop::
 //
 // The apps are located in C:\Users\<user name>\Documents\Qlik\Sense\Apps.
+// Stability: locked
 func (obj *Global) GetDocListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		DocList json.RawMessage `json:"qDocList"`
@@ -12643,6 +13028,7 @@ func (obj *Global) GetDocListRaw(ctx context.Context) (json.RawMessage, error) {
 //
 // The apps are located in C:\Users\<user name>\Documents\Qlik\Sense\Apps.
 //
+// Stability: locked
 func (obj *Global) GetFolderItemsForPath(ctx context.Context, path string) ([]*FolderItem, error) {
 	result := &struct {
 		FolderItems []*FolderItem `json:"qFolderItems"`
@@ -12666,6 +13052,7 @@ func (obj *Global) GetFolderItemsForPath(ctx context.Context, path string) ([]*F
 //
 // The apps are located in C:\Users\<user name>\Documents\Qlik\Sense\Apps.
 //
+// Stability: locked
 func (obj *Global) GetFolderItemsForPathRaw(ctx context.Context, path string) (json.RawMessage, error) {
 	result := &struct {
 		FolderItems json.RawMessage `json:"qFolderItems"`
@@ -12743,6 +13130,7 @@ func (obj *Global) GetFolderItemsForPathRaw(ctx context.Context, path string) (j
 //
 // • LEG or FUNC_GROUP_LEGACY
 //
+// Stability: locked
 func (obj *Global) GetFunctions(ctx context.Context, group string) ([]*Function, error) {
 	result := &struct {
 		Functions []*Function `json:"qFunctions"`
@@ -12820,6 +13208,7 @@ func (obj *Global) GetFunctions(ctx context.Context, group string) ([]*Function,
 //
 // • LEG or FUNC_GROUP_LEGACY
 //
+// Stability: locked
 func (obj *Global) GetFunctionsRaw(ctx context.Context, group string) (json.RawMessage, error) {
 	result := &struct {
 		Functions json.RawMessage `json:"qFunctions"`
@@ -12845,6 +13234,7 @@ func (obj *Global) GetFunctionsRaw(ctx context.Context, group string) (json.RawM
 // ◾ requestId   -   Identifier of the request.
 // Corresponds to the identifier of the DoReload request.
 //
+// Stability: locked
 func (obj *Global) GetInteract(ctx context.Context, requestId int) (*InteractDef, error) {
 	result := &struct {
 		Def    *InteractDef `json:"qDef"`
@@ -12871,6 +13261,7 @@ func (obj *Global) GetInteract(ctx context.Context, requestId int) (*InteractDef
 // ◾ requestId   -   Identifier of the request.
 // Corresponds to the identifier of the DoReload request.
 //
+// Stability: locked
 func (obj *Global) GetInteractRaw(ctx context.Context, requestId int) (json.RawMessage, error) {
 	result := &struct {
 		Def    json.RawMessage `json:"qDef"`
@@ -12882,6 +13273,7 @@ func (obj *Global) GetInteractRaw(ctx context.Context, requestId int) (json.RawM
 
 // Lists the logical drives in the system.
 // This method applies only if running Qlik Sense Desktop.
+// Stability: locked
 func (obj *Global) GetLogicalDriveStrings(ctx context.Context) ([]*DriveInfo, error) {
 	result := &struct {
 		Drives []*DriveInfo `json:"qDrives"`
@@ -12892,6 +13284,7 @@ func (obj *Global) GetLogicalDriveStrings(ctx context.Context) ([]*DriveInfo, er
 
 // Lists the logical drives in the system.
 // This method applies only if running Qlik Sense Desktop.
+// Stability: locked
 func (obj *Global) GetLogicalDriveStringsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Drives json.RawMessage `json:"qDrives"`
@@ -12901,6 +13294,7 @@ func (obj *Global) GetLogicalDriveStringsRaw(ctx context.Context) (json.RawMessa
 }
 
 // Returns the list of the ODBC connectors that are installed in the system.
+// Stability: locked
 func (obj *Global) GetOdbcDsns(ctx context.Context) ([]*OdbcDsn, error) {
 	result := &struct {
 		OdbcDsns []*OdbcDsn `json:"qOdbcDsns"`
@@ -12910,6 +13304,7 @@ func (obj *Global) GetOdbcDsns(ctx context.Context) ([]*OdbcDsn, error) {
 }
 
 // Returns the list of the ODBC connectors that are installed in the system.
+// Stability: locked
 func (obj *Global) GetOdbcDsnsRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		OdbcDsns json.RawMessage `json:"qOdbcDsns"`
@@ -12919,6 +13314,7 @@ func (obj *Global) GetOdbcDsnsRaw(ctx context.Context) (json.RawMessage, error) 
 }
 
 // Returns the list of the OLEDB providers installed on the system.
+// Stability: locked
 func (obj *Global) GetOleDbProviders(ctx context.Context) ([]*OleDbProvider, error) {
 	result := &struct {
 		OleDbProviders []*OleDbProvider `json:"qOleDbProviders"`
@@ -12928,6 +13324,7 @@ func (obj *Global) GetOleDbProviders(ctx context.Context) ([]*OleDbProvider, err
 }
 
 // Returns the list of the OLEDB providers installed on the system.
+// Stability: locked
 func (obj *Global) GetOleDbProvidersRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		OleDbProviders json.RawMessage `json:"qOleDbProviders"`
@@ -12945,6 +13342,7 @@ func (obj *Global) GetOleDbProvidersRaw(ctx context.Context) (json.RawMessage, e
 // Complete information is returned if the identifier of the request is given.
 // If the identifier is 0, less information is given. Progress messages and error messages are returned but information like when the request started and finished is not returned.
 //
+// Stability: locked
 func (obj *Global) GetProgress(ctx context.Context, requestId int) (*ProgressData, error) {
 	result := &struct {
 		ProgressData *ProgressData `json:"qProgressData"`
@@ -12962,6 +13360,7 @@ func (obj *Global) GetProgress(ctx context.Context, requestId int) (*ProgressDat
 // Complete information is returned if the identifier of the request is given.
 // If the identifier is 0, less information is given. Progress messages and error messages are returned but information like when the request started and finished is not returned.
 //
+// Stability: locked
 func (obj *Global) GetProgressRaw(ctx context.Context, requestId int) (json.RawMessage, error) {
 	result := &struct {
 		ProgressData json.RawMessage `json:"qProgressData"`
@@ -12972,6 +13371,7 @@ func (obj *Global) GetProgressRaw(ctx context.Context, requestId int) (json.RawM
 
 // Lists the streams.
 // Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
+// Stability: locked
 func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, error) {
 	result := &struct {
 		StreamList []*NxStreamListEntry `json:"qStreamList"`
@@ -12982,6 +13382,7 @@ func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, err
 
 // Lists the streams.
 // Deprecated: Use general purpose endpoint in [QRS API: GET qrs/stream/](/Subsystems/RepositoryServiceAPI/Content/Sense_RepositoryServiceAPI/RepositoryServiceAPI-Get.htm) instead.
+// Stability: locked
 func (obj *Global) GetStreamListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		StreamList json.RawMessage `json:"qStreamList"`
@@ -12991,6 +13392,7 @@ func (obj *Global) GetStreamListRaw(ctx context.Context) (json.RawMessage, error
 }
 
 // Lists the supported code pages.
+// Stability: locked
 func (obj *Global) GetSupportedCodePages(ctx context.Context) ([]*CodePage, error) {
 	result := &struct {
 		CodePages []*CodePage `json:"qCodePages"`
@@ -13000,6 +13402,7 @@ func (obj *Global) GetSupportedCodePages(ctx context.Context) ([]*CodePage, erro
 }
 
 // Lists the supported code pages.
+// Stability: locked
 func (obj *Global) GetSupportedCodePagesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		CodePages json.RawMessage `json:"qCodePages"`
@@ -13010,6 +13413,7 @@ func (obj *Global) GetSupportedCodePagesRaw(ctx context.Context) (json.RawMessag
 
 // Returns the unique identifier of the endpoint for the current user in the current app.
 // This unique identifier can be used for logging purposes.
+// Stability: locked
 func (obj *Global) GetUniqueID(ctx context.Context) (string, error) {
 	result := &struct {
 		UniqueID string `json:"qUniqueID"`
@@ -13027,6 +13431,7 @@ func (obj *Global) GetUniqueID(ctx context.Context) (string, error) {
 //
 // ◾ def         -   User response to the current interaction.
 //
+// Stability: locked
 func (obj *Global) InteractDone(ctx context.Context, requestId int, def *InteractDef) error {
 	err := obj.rpc(ctx, "InteractDone", nil, requestId, def)
 	return err
@@ -13041,12 +13446,14 @@ func (obj *Global) InteractDone(ctx context.Context, requestId int, def *Interac
 //
 // ◾ def         -   User response to the current interaction.
 //
+// Stability: locked
 func (obj *Global) InteractDoneRaw(ctx context.Context, requestId int, def interface{}) error {
 	err := obj.rpc(ctx, "InteractDone", nil, ensureEncodable(requestId), ensureEncodable(def))
 	return err
 }
 
 // Indicates whether the user is working in Qlik Sense Desktop.
+// Stability: locked
 func (obj *Global) IsDesktopMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13057,6 +13464,7 @@ func (obj *Global) IsDesktopMode(ctx context.Context) (bool, error) {
 
 // Indicates whether or not the user is working in personal mode (Qlik Sense Desktop).
 // Deprecated: Use _IsDesktopMode_ method instead
+// Stability: locked
 func (obj *Global) IsPersonalMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13071,6 +13479,7 @@ func (obj *Global) IsPersonalMode(ctx context.Context) (bool, error) {
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Global) IsValidConnectionString(ctx context.Context, connection *Connection) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13085,6 +13494,7 @@ func (obj *Global) IsValidConnectionString(ctx context.Context, connection *Conn
 //
 // ◾ connection   -   Information about the connection.
 //
+// Stability: locked
 func (obj *Global) IsValidConnectionStringRaw(ctx context.Context, connection interface{}) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13094,6 +13504,7 @@ func (obj *Global) IsValidConnectionStringRaw(ctx context.Context, connection in
 }
 
 // Returns the name of the operating system.
+// Stability: locked
 func (obj *Global) OSName(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13103,6 +13514,7 @@ func (obj *Global) OSName(ctx context.Context) (string, error) {
 }
 
 // Returns the version number of the operating system.
+// Stability: locked
 func (obj *Global) OSVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13144,6 +13556,7 @@ func (obj *Global) OSVersion(ctx context.Context) (string, error) {
 // When this parameter is set to true, the objects in the app are present but contain no data. The script can be edited and reloaded.
 // The default value is false.
 //
+// Stability: locked
 func (obj *Global) OpenDoc(ctx context.Context, docName string, userName string, password string, serial string, noData bool) (*Doc, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
@@ -13157,6 +13570,7 @@ func (obj *Global) OpenDoc(ctx context.Context, docName string, userName string,
 
 // Returns the Qlik Sense version number.
 // Deprecated: Use _EngineVersion_ method instead
+// Stability: locked
 func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13175,12 +13589,14 @@ func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 //
 // ◾ streamId   -   The stream Id of the app to publish.
 //
+// Stability: locked
 func (obj *Global) PublishApp(ctx context.Context, appId string, name string, streamId string) error {
 	err := obj.rpc(ctx, "PublishApp", nil, appId, name, streamId)
 	return err
 }
 
 // Returns the Qlik product name.
+// Stability: locked
 func (obj *Global) QTProduct(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13191,6 +13607,7 @@ func (obj *Global) QTProduct(ctx context.Context) (string, error) {
 
 // Returns the Qlik Sense version number.
 // Deprecated: Use the _EngineVersion_ method instead
+// Stability: locked
 func (obj *Global) QvVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13200,6 +13617,7 @@ func (obj *Global) QvVersion(ctx context.Context) (string, error) {
 }
 
 // Reloads the list of extensions.
+// Stability: locked
 func (obj *Global) ReloadExtensionList(ctx context.Context) error {
 	err := obj.rpc(ctx, "ReloadExtensionList", nil)
 	return err
@@ -13226,6 +13644,7 @@ func (obj *Global) ReloadExtensionList(ctx context.Context) error {
 // If the array of identifiers contains objects that are not present in the source app, the objects related to these identifiers are removed from the target app.
 // If qIds is empty, no objects are deleted in the target app.
 //
+// Stability: locked
 func (obj *Global) ReplaceAppFromID(ctx context.Context, targetAppId string, srcAppID string, ids []string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
@@ -13241,6 +13660,7 @@ func (obj *Global) ReplaceAppFromID(ctx context.Context, targetAppId string, src
 //
 // ◾ newAppName   -   <Name of the saved app>
 //
+// Stability: locked
 func (obj *Global) SaveAs(ctx context.Context, newAppName string) (string, error) {
 	result := &struct {
 		NewAppId string `json:"qNewAppId"`
@@ -13251,6 +13671,7 @@ func (obj *Global) SaveAs(ctx context.Context, newAppName string) (string, error
 
 // Shuts down the Qlik engine.
 // This operation is possible only in Qlik Sense Desktop.
+// Stability: locked
 func (obj *Global) ShutdownProcess(ctx context.Context) error {
 	err := obj.rpc(ctx, "ShutdownProcess", nil)
 	return err
@@ -13270,6 +13691,7 @@ type Variable struct {
 // ◾ d   -   Numeric representation of a dual value.
 //
 // Deprecated: Use _GenericVariable::SetProperties_ method instead
+// Stability: locked
 func (obj *Variable) ForceContent(ctx context.Context, s string, d Float64) error {
 	err := obj.rpc(ctx, "ForceContent", nil, s, d)
 	return err
@@ -13277,6 +13699,7 @@ func (obj *Variable) ForceContent(ctx context.Context, s string, d Float64) erro
 
 // Returns the calculated value of a variable.
 // Deprecated: Use _GenericVariable::GetProperties_ method instead
+// Stability: locked
 func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 	result := &struct {
 		Content *AlfaNumString `json:"qContent"`
@@ -13287,6 +13710,7 @@ func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 
 // Returns the calculated value of a variable.
 // Deprecated: Use _GenericVariable::GetProperties_ method instead
+// Stability: locked
 func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Content json.RawMessage `json:"qContent"`
@@ -13297,6 +13721,7 @@ func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error)
 
 // Gets the properties of a variable.
 // Deprecated: Use _GetProperties_ method instead
+// Stability: locked
 func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties, error) {
 	result := &struct {
 		Properties *NxVariableProperties `json:"qProperties"`
@@ -13307,6 +13732,7 @@ func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties
 
 // Gets the properties of a variable.
 // Deprecated: Use _GetProperties_ method instead
+// Stability: locked
 func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
@@ -13317,6 +13743,7 @@ func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, e
 
 // Returns the raw value of a variable.
 // Deprecated: Use _GenericVariable::GetProperties_ method instead
+// Stability: locked
 func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
@@ -13334,6 +13761,7 @@ func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 // ◾ updateMRU   -   If set to true, the value is added to the Most Recently Used (MRU) list.
 //
 // Deprecated: Use _GenericVariable::SetProperties_ method instead
+// Stability: locked
 func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
@@ -13349,6 +13777,7 @@ func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU b
 // ◾ properties   -   Information about the properties of the variable
 //
 // Deprecated: Use _SetProperties_ method instead
+// Stability: locked
 func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariableProperties) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, properties)
 	return err
@@ -13361,6 +13790,7 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 // ◾ properties   -   Information about the properties of the variable
 //
 // Deprecated: Use _SetProperties_ method instead
+// Stability: locked
 func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
 	err := obj.rpc(ctx, "SetNxProperties", nil, ensureEncodable(properties))
 	return err

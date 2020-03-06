@@ -28,12 +28,6 @@ type Info struct {
 	Title   string `json:"title,omitempty"`
 }
 
-// Layout represents GenericObject Layout definition
-type Layout struct {
-	Prop   *Type `json:"prop,omitempty"`
-	Layout *Type `json:"layout,omitempty"`
-}
-
 type OpenRpcFile struct {
 	QlikExtensions
 	Info       Info               `json:"info,omitempty"`
@@ -51,39 +45,14 @@ type OpenRpcMethod struct {
 	Name        string         `json:"name,omitempty"`
 	Description string         `json:"description,omitempty"`
 	Parameters  []*Type        `json:"params,omitempty"`
-	Responses   *OpenRpsResult `json:"result,omitempty"`
+	Responses   *OpenRpcResult `json:"result,omitempty"`
 }
 
-type OpenRpsResult struct {
+type OpenRpcResult struct {
 	QlikExtensions
 	Name        string `json:"description,omitempty"`
 	Description string `json:"description,omitempty"`
 	Schema      *Type  `json:"schema,omitempty"`
-}
-
-// Schema represents a JSON Schema
-type Schema struct {
-	QlikExtensions
-	Info       Info                        `json:"info,omitempty"`
-	OpenAPI    string                      `json:"openapi,omitempty"`
-	Components map[string]map[string]*Type `json:"components,omitempy"`
-	Services   map[string]*Service         `json:"x-qlik-services,omitempy"`
-}
-
-// Service represents a JSON Schema service
-type Service struct {
-	QlikExtensions
-	Description string
-	Methods     map[string]*Methodx `json:"methods,omitempty"`
-	Layouts     []*Layout           `json:"layouts,omitempty"`
-}
-
-// Methodx represents a JSON Schema method
-type Methodx struct {
-	QlikExtensions
-	Description string  `json:"description,omitempty"`
-	Parameters  []*Type `json:"parameters,omitempty"`
-	Responses   []*Type `json:"responses,omitempty"`
 }
 
 type AdditionalProperties struct {
@@ -93,41 +62,18 @@ type AdditionalProperties struct {
 // Type represents a JSON Schema object type.
 type Type struct {
 	QlikExtensions
-	AdditionalItems      *Type                   `json:"additionalItems,omitempty"`
 	AdditionalProperties *AdditionalProperties   `json:"additionalProperties,omitempty"`
-	AllOf                []*Type                 `json:"allOf,omitempty"`
-	AnyOf                []*Type                 `json:"anyOf,omitempty"`
-	BinaryEncoding       string                  `json:"binaryEncoding,omitempty"`
 	Default              interface{}             `json:"default,omitempty"`
-	Definitions          map[string]*Type        `json:"definitions,omitempty"`
-	Dependencies         map[string]*Type        `json:"dependencies,omitempty"`
 	Description          string                  `json:"description,omitempty"`
 	Enum                 []interface{}           `json:"enum,omitempty"`
-	ExclusiveMaximum     bool                    `json:"exclusiveMaximum,omitempty"`
-	ExclusiveMinimum     bool                    `json:"exclusiveMinimum,omitempty"`
 	Format               string                  `json:"format,omitempty"`
 	Items                *Type                   `json:"items,omitempty"`
-	Maximum              int                     `json:"maximum,omitempty"`
-	MaxItems             int                     `json:"maxItems,omitempty"`
-	MaxLength            int                     `json:"maxLength,omitempty"`
-	MaxProperties        int                     `json:"maxProperties,omitempty"`
-	Media                *Type                   `json:"media,omitempty"`
-	Minimum              int                     `json:"minimum,omitempty"`
-	MinItems             int                     `json:"minItems,omitempty"`
-	MinLength            int                     `json:"minLength,omitempty"`
-	MinProperties        int                     `json:"minProperties,omitempty"`
-	MultipleOf           int                     `json:"multipleOf,omitempty"`
-	Not                  *Type                   `json:"not,omitempty"`
 	Name                 string                  `json:"name,omitempty"`
 	OneOf                []*Option               `json:"oneOf,omitempty"`
-	Pattern              string                  `json:"pattern,omitempty"`
-	PatternProperties    map[string]*Type        `json:"patternProperties,omitempty"`
 	Properties           map[OrderAwareKey]*Type `json:"properties,omitempty"` // Special trick with the OrderAwareKey to retain the order of the properties
 	Ref                  string                  `json:"$ref,omitempty"`
 	Required             bool                    `json:"required,omitempty"`
-	Title                string                  `json:"title,omitempty"`
 	Type                 string                  `json:"type,omitempty"`
-	UniqueItems          bool                    `json:"uniqueItems,omitempty"`
 	Schema               *Type                   `json:"schema,omitempty"`
 }
 
@@ -162,11 +108,6 @@ func (k *OrderAwareKey) UnmarshalText(text []byte) error {
 	k.Order = i
 	k.Key = string(text)
 	return nil
-}
-
-func newOrderAwareKey(key string) OrderAwareKey {
-	i := atomic.AddUint64(&keyOrderCounter, 1)
-	return OrderAwareKey{Key: key, Order: i}
 }
 
 func getOriginalOrderSortedKeys(contents map[OrderAwareKey]*Type) []OrderAwareKey {
@@ -232,29 +173,6 @@ func refToName(refName string) string {
 	return "*" + name
 }
 
-func getInnerType(t *Type) string {
-	var innerType *Type
-	if t.Items != nil {
-		innerType = t.Items
-	} else if t.Schema != nil {
-		innerType = t.Schema
-	} else {
-		innerType = t
-	}
-	var s string
-	if innerType.Ref != "" {
-		s = refToName(innerType.Ref)
-	} else {
-		s = getTypeName(innerType)
-	}
-	if found {
-		fmt.Println(s)
-	}
-	return s
-}
-
-var found = false
-
 func getTypeName(t *Type) string {
 	if t.Type == "" && t.Schema != nil {
 		t = t.Schema
@@ -283,6 +201,8 @@ func getTypeName(t *Type) string {
 		return "string"
 	case "boolean":
 		return "bool"
+	case "int":
+		return "int"
 	case "integer":
 		return "int"
 	case "number":
@@ -291,21 +211,11 @@ func getTypeName(t *Type) string {
 			case "double":
 				return "Float64"
 			}
-			return t.Format
+			panic("Unknown format:" + t.Format)
 		}
 		return "Float64"
 	default:
-		// Handle cases where type is not defined
-		if t.Type == "" {
-			if t.Items != nil {
-				return "[]" + getInnerType(t)
-			} else if t.Enum != nil {
-				return "string"
-			} else if t.Ref != "" {
-				return getInnerType(t)
-			}
-		}
-		return t.Type
+		panic("Unknown type:" + t.Type)
 	}
 }
 
@@ -359,34 +269,8 @@ func loadSchemaFile() (*OpenRpcFile, error) {
 		os.Exit(1)
 	}
 
-	// Fix some issues in the spec file
-	//schema.Components["schemas"]["ObjectInterface"].Type = "object"
-	//delete(schema.Components["schemas"], "JsonObject")
 	typesMap = createTypesMap(schema)
 	return schema, err
-}
-
-func expandGenericObjectWithLayouts(schema *Schema) {
-	// Expand the generic object properties schema with layouts
-	genericObjectProperties := schema.Components["schemas"]["GenericObjectProperties"]
-	genericObjectLayout := schema.Components["schemas"]["GenericObjectLayout"]
-	layouts := schema.Services["GenericObject"].Layouts
-	for _, layout := range layouts {
-		if layout.Prop != nil {
-			propName := layout.Prop.Name
-			if propName[0:1] == "q" {
-				propName = propName[1:]
-			}
-			genericObjectProperties.Properties[newOrderAwareKey(propName)] = layout.Prop
-		}
-		if layout.Layout != nil {
-			layoutName := layout.Layout.Name
-			if layoutName[0:1] == "q" {
-				layoutName = layoutName[1:]
-			}
-			genericObjectLayout.Properties[newOrderAwareKey(layoutName)] = layout.Layout
-		}
-	}
 }
 
 func createObjectFunctionToObjectTypeMapping() map[string]string {
@@ -422,20 +306,24 @@ func createObjectFunctionToObjectTypeMapping() map[string]string {
 
 func patchMissingTypeInfo(param *Type, name, methodName string) {
 	patchToStringArray := func() {
-		param.Type = "array"
-		param.Items = &Type{
-			Type: "string",
+		if param.Items == nil {
+			param.Items = &Type{
+				Type: "string",
+			}
 		}
 	}
 	patchToIntArray := func() {
-		param.Type = "array"
-		param.Items = &Type{
-			Type: "int",
+		if param.Items == nil {
+			param.Items = &Type{
+				Type: "int",
+			}
 		}
 	}
 
 	patchToBeArray := func() {
-		param.Type = "array"
+		if param.Type == "" {
+			param.Type = "array"
+		}
 	}
 
 	switch name {
@@ -528,7 +416,6 @@ func cleanCommentString(comment string, indent string) (string, error) {
 }
 
 func formatComment(indent string, description string, parameters []*Type) string {
-
 	description, err := cleanCommentString(description, indent)
 	if err != nil {
 		fmt.Println(err)
@@ -604,7 +491,7 @@ func getPropertiesWithoutFilteredNxInfo(responses map[OrderAwareKey]*Type, metho
 		}
 		if qReturn != nil && qInfo != nil {
 			if len(responses) > 2 {
-				fmt.Println("Weired case:", responses, methodName)
+				panic("Unexpected case that is not handled")
 			}
 			responses = map[OrderAwareKey]*Type{qReturnKey: qReturn}
 		}
@@ -829,7 +716,7 @@ func printExtensionTags(out *os.File, indent string, extensions QlikExtensions) 
 			fmt.Fprintln(out, indent+"// Deprecated: This will be removed in a future version")
 		}
 	}
-	if extensions.QlikStability != "" && extensions.QlikStability != "locked" {
+	if extensions.QlikStability != "" {
 		fmt.Fprintln(out, indent+"// Stability: "+extensions.QlikStability)
 	}
 
@@ -848,9 +735,7 @@ func printErrorCodeLookup(out *os.File, def *Type) {
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
-func isStringEnum(property *Type) bool {
-	return property.Type == "string" && (property.Enum != nil || property.OneOf != nil)
-}
+
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
