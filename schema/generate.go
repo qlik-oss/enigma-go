@@ -502,9 +502,10 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				panic("Unknown remote object type for " + serviceName + "." + methodName)
+				fmt.Fprint(out, "*RemoteObject", ", ")
+			} else {
+				fmt.Fprint(out, "*"+objectTypeName, ", ")
 			}
-			fmt.Fprint(out, "*"+objectTypeName, ", ")
 		} else {
 			fmt.Fprint(out, typeName, ", ")
 		}
@@ -560,7 +561,11 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 		responseType := actualResponseMap[responseKey]
 		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
-			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+			if objectAPITypeName == "" {
+				fmt.Fprint(out, "obj.session.getRemoteObject(result."+responseKey.Key[1:]+"), ")
+			} else {
+				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+			}
 		} else {
 			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
 		}
@@ -600,9 +605,10 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 		if typeName == "*ObjectInterface" {
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				panic("Unknown remote object type for" + serviceName + "." + methodName)
+				fmt.Fprint(out, "*RemoteObject, ")
+			} else {
+				fmt.Fprint(out, "*"+objectTypeName, ", ")
 			}
-			fmt.Fprint(out, "*"+objectTypeName, ", ")
 		} else {
 			fmt.Fprint(out, getRawOutputTypeName(response), ", ")
 		}
@@ -657,7 +663,11 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 		responseType := actualResponseMap[responseKey]
 		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
-			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+			if objectAPITypeName == "" {
+				fmt.Fprint(out, "obj.session.getRemoteObject(result."+responseKey.Key[1:]+"), ")
+			} else {
+				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+			}
 		} else {
 			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
 		}
