@@ -28,75 +28,52 @@ type Info struct {
 	Title   string `json:"title,omitempty"`
 }
 
-// Layout represents GenericObject Layout definition
-type Layout struct {
-	Prop   *Type `json:"prop,omitempty"`
-	Layout *Type `json:"layout,omitempty"`
+type OpenRpcFile struct {
+	QlikExtensions
+	Info       Info               `json:"info,omitempty"`
+	OpenRPC    string             `json:"openrpc,omitempty"`
+	Methods    []*OpenRpcMethod   `json:"methods,omitempty"`
+	Components *OpenRpcComponents `json:"components,omitempty"`
 }
 
-// Schema represents a JSON Schema
-type Schema struct {
-	QlikExtensions
-	Info       Info                        `json:"info,omitempty"`
-	OpenAPI    string                      `json:"openapi,omitempty"`
-	Components map[string]map[string]*Type `json:"components,omitempy"`
-	Services   map[string]*Service         `json:"x-qlik-services,omitempy"`
+type OpenRpcComponents struct {
+	Schemas map[string]*Type `json:"schemas,omitempty"`
 }
 
-// Service represents a JSON Schema service
-type Service struct {
+type OpenRpcMethod struct {
 	QlikExtensions
-	Description string
-	Methods     map[string]*Methodx `json:"methods,omitempty"`
-	Layouts     []*Layout           `json:"layouts,omitempty"`
+	Name        string         `json:"name,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Parameters  []*Type        `json:"params,omitempty"`
+	Responses   *OpenRpcResult `json:"result,omitempty"`
 }
 
-// Methodx represents a JSON Schema method
-type Methodx struct {
+type OpenRpcResult struct {
 	QlikExtensions
-	Description string  `json:"description,omitempty"`
-	Parameters  []*Type `json:"parameters,omitempty"`
-	Responses   []*Type `json:"responses,omitempty"`
+	Name        string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
+	Schema      *Type  `json:"schema,omitempty"`
+}
+
+type AdditionalProperties struct {
+	AnyOf []*Type `json:"anyOf,omitempty"`
 }
 
 // Type represents a JSON Schema object type.
 type Type struct {
 	QlikExtensions
-	AdditionalItems      *Type                   `json:"additionalItems,omitempty"`
-	AdditionalProperties json.RawMessage         `json:"additionalProperties,omitempty"`
-	AllOf                []*Type                 `json:"allOf,omitempty"`
-	AnyOf                []*Type                 `json:"anyOf,omitempty"`
-	BinaryEncoding       string                  `json:"binaryEncoding,omitempty"`
+	AdditionalProperties *AdditionalProperties   `json:"additionalProperties,omitempty"`
 	Default              interface{}             `json:"default,omitempty"`
-	Definitions          map[string]*Type        `json:"definitions,omitempty"`
-	Dependencies         map[string]*Type        `json:"dependencies,omitempty"`
 	Description          string                  `json:"description,omitempty"`
 	Enum                 []interface{}           `json:"enum,omitempty"`
-	ExclusiveMaximum     bool                    `json:"exclusiveMaximum,omitempty"`
-	ExclusiveMinimum     bool                    `json:"exclusiveMinimum,omitempty"`
 	Format               string                  `json:"format,omitempty"`
 	Items                *Type                   `json:"items,omitempty"`
-	Maximum              int                     `json:"maximum,omitempty"`
-	MaxItems             int                     `json:"maxItems,omitempty"`
-	MaxLength            int                     `json:"maxLength,omitempty"`
-	MaxProperties        int                     `json:"maxProperties,omitempty"`
-	Media                *Type                   `json:"media,omitempty"`
-	Minimum              int                     `json:"minimum,omitempty"`
-	MinItems             int                     `json:"minItems,omitempty"`
-	MinLength            int                     `json:"minLength,omitempty"`
-	MinProperties        int                     `json:"minProperties,omitempty"`
-	MultipleOf           int                     `json:"multipleOf,omitempty"`
-	Not                  *Type                   `json:"not,omitempty"`
 	Name                 string                  `json:"name,omitempty"`
 	OneOf                []*Option               `json:"oneOf,omitempty"`
-	Pattern              string                  `json:"pattern,omitempty"`
-	PatternProperties    map[string]*Type        `json:"patternProperties,omitempty"`
 	Properties           map[OrderAwareKey]*Type `json:"properties,omitempty"` // Special trick with the OrderAwareKey to retain the order of the properties
 	Ref                  string                  `json:"$ref,omitempty"`
 	Required             bool                    `json:"required,omitempty"`
-	Title                string                  `json:"title,omitempty"`
 	Type                 string                  `json:"type,omitempty"`
-	UniqueItems          bool                    `json:"uniqueItems,omitempty"`
 	Schema               *Type                   `json:"schema,omitempty"`
 }
 
@@ -133,11 +110,6 @@ func (k *OrderAwareKey) UnmarshalText(text []byte) error {
 	return nil
 }
 
-func newOrderAwareKey(key string) OrderAwareKey {
-	i := atomic.AddUint64(&keyOrderCounter, 1)
-	return OrderAwareKey{Key: key, Order: i}
-}
-
 func getOriginalOrderSortedKeys(contents map[OrderAwareKey]*Type) []OrderAwareKey {
 	sortedKeys := make(OrderAwareKeySlice, 0, len(contents))
 	for k := range contents {
@@ -154,7 +126,7 @@ func getAlphabeticSortedKeys(contents map[string]*Type) []string {
 	sort.Strings(sortedKeys)
 	return sortedKeys
 }
-func getSortedMethodKeys(contents map[string]*Methodx) []string {
+func getSortedMethodKeys(contents map[string]*OpenRpcMethod) []string {
 	sortedKeys := make([]string, 0, len(contents))
 	for k := range contents {
 		sortedKeys = append(sortedKeys, k)
@@ -162,13 +134,29 @@ func getSortedMethodKeys(contents map[string]*Methodx) []string {
 	sort.Strings(sortedKeys)
 	return sortedKeys
 }
-func getSortedServiceKeys(contents map[string]*Service) []string {
+func getSortedServiceKeys(contents map[string]map[string]*OpenRpcMethod) []string {
 	sortedKeys := make([]string, 0, len(contents))
 	for k := range contents {
 		sortedKeys = append(sortedKeys, k)
 	}
 	sort.Strings(sortedKeys)
 	return sortedKeys
+}
+
+func restructureByRemoteObject(contents []*OpenRpcMethod) map[string]map[string]*OpenRpcMethod {
+	mapmap := make(map[string]map[string]*OpenRpcMethod)
+	for _, method := range contents {
+
+		separated := strings.Split(method.Name, ".")
+		serviceName := separated[0]
+		methodName := separated[1]
+
+		if mapmap[serviceName] == nil {
+			mapmap[serviceName] = make(map[string]*OpenRpcMethod)
+		}
+		mapmap[serviceName][methodName] = method
+	}
+	return mapmap
 }
 
 func refToName(refName string) string {
@@ -185,39 +173,36 @@ func refToName(refName string) string {
 	return "*" + name
 }
 
-func getInnerType(t *Type) string {
-	var innerType *Type
-	if t.Items != nil {
-		innerType = t.Items
-	} else if t.Schema != nil {
-		innerType = t.Schema
-	} else {
-		innerType = t
-	}
-	var s string
-	if innerType.Ref != "" {
-		s = refToName(innerType.Ref)
-	} else {
-		s = getTypeName(innerType)
-	}
-	if found {
-		fmt.Println(s)
-	}
-	return s
-}
-
-var found = false
-
 func getTypeName(t *Type) string {
+	if t.Type == "" && t.Schema != nil {
+		t = t.Schema
+	}
+
 	switch t.Type {
+	case "":
+		if t.Ref != "" {
+			return refToName(t.Ref)
+		}
+		return "string"
 	case "object":
-		return getInnerType(t)
+		if t.Ref != "" {
+			return refToName(t.Ref)
+		}
+		return "json.RawMessage"
 	case "array":
-		return "[]" + getInnerType(t)
+		if t.Items != nil {
+			return "[]" + getTypeName(t.Items)
+		}
+		if t.Ref != "" {
+			return "[]" + refToName(t.Ref)
+		}
+		return "[]int"
 	case "string":
 		return "string"
 	case "boolean":
 		return "bool"
+	case "int":
+		return "int"
 	case "integer":
 		return "int"
 	case "number":
@@ -226,21 +211,11 @@ func getTypeName(t *Type) string {
 			case "double":
 				return "Float64"
 			}
-			return t.Format
+			panic("Unknown format:" + t.Format)
 		}
 		return "Float64"
 	default:
-		// Handle cases where type is not defined
-		if t.Type == "" {
-			if t.Items != nil {
-				return "[]" + getInnerType(t)
-			} else if t.Enum != nil {
-				return "string"
-			} else if t.Ref != "" {
-				return getInnerType(t)
-			}
-		}
-		return t.Type
+		panic("Unknown type:" + t.Type)
 	}
 }
 
@@ -253,6 +228,13 @@ func isBuiltInType(t *Type) bool {
 	return builtIn
 }
 
+func allTypesBuiltInMap(types map[OrderAwareKey]*Type) bool {
+	var result = true
+	for _, t := range types {
+		result = result && isBuiltInType(t)
+	}
+	return result
+}
 func allTypesBuiltIn(types []*Type) bool {
 	var result = true
 	for _, t := range types {
@@ -261,15 +243,15 @@ func allTypesBuiltIn(types []*Type) bool {
 	return result
 }
 
-func createTypesMap(schema *Schema) map[string]string {
+func createTypesMap(schema *OpenRpcFile) map[string]string {
 	result := map[string]string{}
-	for id, t := range schema.Components["schemas"] {
+	for id, t := range schema.Components.Schemas {
 		result[id] = t.Type
 	}
 	return result
 }
 
-func loadSchemaFile() (*Schema, error) {
+func loadSchemaFile() (*OpenRpcFile, error) {
 	pwd, err := os.Getwd()
 	if err != nil {
 		fmt.Println(err)
@@ -280,41 +262,15 @@ func loadSchemaFile() (*Schema, error) {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-	var schema = &Schema{}
+	var schema = &OpenRpcFile{}
 	err = json.Unmarshal(rawSchemaFile, schema)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
 
-	// Fix some issues in the spec file
-	schema.Components["schemas"]["ObjectInterface"].Type = "object"
-	delete(schema.Components["schemas"], "JsonObject")
 	typesMap = createTypesMap(schema)
 	return schema, err
-}
-
-func expandGenericObjectWithLayouts(schema *Schema) {
-	// Expand the generic object properties schema with layouts
-	genericObjectProperties := schema.Components["schemas"]["GenericObjectProperties"]
-	genericObjectLayout := schema.Components["schemas"]["GenericObjectLayout"]
-	layouts := schema.Services["GenericObject"].Layouts
-	for _, layout := range layouts {
-		if layout.Prop != nil {
-			propName := layout.Prop.Name
-			if propName[0:1] == "q" {
-				propName = propName[1:]
-			}
-			genericObjectProperties.Properties[newOrderAwareKey(propName)] = layout.Prop
-		}
-		if layout.Layout != nil {
-			layoutName := layout.Layout.Name
-			if layoutName[0:1] == "q" {
-				layoutName = layoutName[1:]
-			}
-			genericObjectLayout.Properties[newOrderAwareKey(layoutName)] = layout.Layout
-		}
-	}
 }
 
 func createObjectFunctionToObjectTypeMapping() map[string]string {
@@ -331,6 +287,7 @@ func createObjectFunctionToObjectTypeMapping() map[string]string {
 	objectFuncToObject["GenericObject.GetParent"] = "GenericObject"
 	objectFuncToObject["Doc.CreateSessionObject"] = "GenericObject"
 	objectFuncToObject["Doc.CreateBookmark"] = "GenericBookmark"
+	objectFuncToObject["Doc.CreateBookmarkEx"] = "GenericBookmark"
 	objectFuncToObject["Doc.GetDimension"] = "GenericDimension"
 	objectFuncToObject["Doc.CreateMeasure"] = "GenericMeasure"
 	objectFuncToObject["Doc.GetField"] = "Field"
@@ -345,6 +302,38 @@ func createObjectFunctionToObjectTypeMapping() map[string]string {
 	objectFuncToObject["Doc.GetVariableByName"] = "GenericVariable"
 	objectFuncToObject["Doc.GetMeasure"] = "GenericMeasure"
 	return objectFuncToObject
+}
+
+func patchMissingTypeInfo(param *Type, name, methodName string) {
+	patchToStringArray := func() {
+		if param.Items == nil {
+			param.Items = &Type{
+				Type: "string",
+			}
+		}
+	}
+	patchToIntArray := func() {
+		if param.Items == nil {
+			param.Items = &Type{
+				Type: "int",
+			}
+		}
+	}
+
+	patchToBeArray := func() {
+		if param.Type == "" {
+			param.Type = "array"
+		}
+	}
+
+	switch name {
+	case "qLabels", "qObjectIdsToPatch", "qNames", "qv", "qTags", "qTerms", "qParameters", "qPaths", "qIds":
+		patchToStringArray()
+	case "qWarnings", "qColIndices", "qColumnsToSelect", "qRowIndices", "qValues":
+		patchToIntArray()
+	case "qBreakpoints", "qFieldValues", "qPatches", "qPages", "qRanges", "qFieldsOrColumnsWithWildcards", "qSelections", "qDataRanges":
+		patchToBeArray()
+	}
 }
 
 func getRawInputTypeName(t *Type) string {
@@ -387,7 +376,6 @@ func cleanCommentString(comment string, indent string) (string, error) {
 }
 
 func formatComment(indent string, description string, parameters []*Type) string {
-
 	description, err := cleanCommentString(description, indent)
 	if err != nil {
 		fmt.Println(err)
@@ -437,8 +425,8 @@ func nilNameInEarlyReturnAfterError(typeName string) string {
 	}
 }
 
-func atLeastOneObjectInterface(method *Methodx) bool {
-	for _, response := range method.Responses {
+func atLeastOneObjectInterface(method *OpenRpcMethod) bool {
+	for _, response := range method.Responses.Schema.Properties {
 		if getTypeName(response) == "*ObjectInterface" {
 			return true
 		}
@@ -446,35 +434,49 @@ func atLeastOneObjectInterface(method *Methodx) bool {
 	return false
 }
 
-func filterResponses(responses []*Type, methodName string) []*Type {
+func getPropertiesWithoutFilteredNxInfo(responses map[OrderAwareKey]*Type, methodName string) map[OrderAwareKey]*Type {
+
+	if len(responses) > 1 {
+		var qReturnKey OrderAwareKey
+		var qReturn *Type
+		var qInfo *Type
+		for key, value := range responses {
+			if key.Key == "qReturn" {
+				qReturnKey = key
+				qReturn = value
+			}
+			if key.Key == "qInfo" {
+				qInfo = value
+			}
+		}
+		if qReturn != nil && qInfo != nil {
+			if len(responses) > 2 {
+				panic("Unexpected case that is not handled")
+			}
+			responses = map[OrderAwareKey]*Type{qReturnKey: qReturn}
+		}
+	}
+	return responses
+}
+
+func getPropertiesWithoutRedundantResponses(responses map[OrderAwareKey]*Type, methodName string) map[OrderAwareKey]*Type {
 	if len(responses) > 1 && methodName != "GetHyperCubeContinuousData" {
-		for _, response := range responses {
-			if response.Type == "object" {
-				return []*Type{response}
+		for key, value := range responses {
+			if value.Type == "object" {
+				responses = map[OrderAwareKey]*Type{key: value}
+				break
 			}
 		}
 	}
 	return responses
 }
 
-func removeRedundantNxInfo(schema *Schema) {
-	for _, service := range schema.Services {
-		for _, method := range service.Methods {
-			if len(method.Responses) > 1 {
-				if method.Responses[0].Name == "qInfo" && method.Responses[1].Name == "qReturn" {
-					method.Responses = []*Type{method.Responses[1]}
-				} else if method.Responses[0].Name == "qReturn" && method.Responses[1].Name == "qInfo" {
-					method.Responses = []*Type{method.Responses[0]}
-				}
-			}
-		}
-	}
-}
-
 // Generate an ordinary fully typed method
-func printMethod(method *Methodx, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
-
-	actualResponses := filterResponses(method.Responses, methodName)
+func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
+	responseMap := getPropertiesWithoutFilteredNxInfo(method.Responses.Schema.Properties, methodName)
+	sortedResponseKeys := getOriginalOrderSortedKeys(responseMap)
+	actualResponseMap := getPropertiesWithoutRedundantResponses(responseMap, methodName)
+	sortedActualResponseKeys := getOriginalOrderSortedKeys(actualResponseMap)
 	// Generate Description
 	if method.Description != "" {
 		fmt.Fprintln(out, formatComment("", method.Description, method.Parameters))
@@ -489,11 +491,13 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 	fmt.Fprint(out, ") ")
 
 	// Generate Return Types
-	if len(actualResponses) > 0 {
+	if len(actualResponseMap) > 0 {
 		fmt.Fprint(out, "(")
 	}
-	for _, response := range actualResponses {
-		typeName := getTypeName(response)
+
+	for _, responseKey := range sortedActualResponseKeys {
+		responseType := actualResponseMap[responseKey]
+		typeName := getTypeName(responseType)
 		if typeName == "*ObjectInterface" {
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
@@ -502,12 +506,12 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 			}
 			fmt.Fprint(out, "*"+objectTypeName, ", ")
 		} else {
-			fmt.Fprint(out, getTypeName(response), ", ")
+			fmt.Fprint(out, typeName, ", ")
 		}
 
 	}
 	fmt.Fprint(out, "error")
-	if len(actualResponses) > 0 {
+	if len(actualResponseMap) > 0 {
 		fmt.Fprint(out, ")")
 	}
 
@@ -516,10 +520,11 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 
 	// Generate an anonymous result container struct
 	var resultParamName string
-	if len(method.Responses) > 0 {
+	if len(sortedResponseKeys) > 0 {
 		fmt.Fprintln(out, "\tresult := &struct {")
-		for _, response := range method.Responses {
-			fmt.Fprintln(out, "\t\t"+toPublicMemberName(response.Name), getTypeName(response)+"\t`json:\""+response.Name+"\"`")
+		for _, responseKey := range sortedResponseKeys {
+			responseType := responseMap[responseKey]
+			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), getTypeName(responseType)+" `json:\""+responseKey.Key+"\"`")
 		}
 		fmt.Fprintln(out, "\t} {}")
 		resultParamName = "result"
@@ -539,8 +544,9 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 	if atLeastOneObjectInterface(method) {
 		fmt.Fprintln(out, "\tif err != nil {")
 		fmt.Fprint(out, "\t\treturn ")
-		for _, response := range actualResponses {
-			fmt.Fprint(out, nilNameInEarlyReturnAfterError(response.Type)+", ")
+		for _, responseKey := range sortedActualResponseKeys {
+			responseType := actualResponseMap[responseKey]
+			fmt.Fprint(out, nilNameInEarlyReturnAfterError(getTypeName(responseType))+", ")
 		}
 		fmt.Fprintln(out, "err")
 		fmt.Fprintln(out, "\t}")
@@ -550,12 +556,13 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 
 	// Return the result including creating a new Remote Object if needed
 	fmt.Fprint(out, "\treturn ")
-	for _, response := range actualResponses {
-		if getTypeName(response) == "*ObjectInterface" {
+	for _, responseKey := range sortedActualResponseKeys {
+		responseType := actualResponseMap[responseKey]
+		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
-			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+response.Name[1:]+")}, ")
+			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
 		} else {
-			fmt.Fprint(out, "result."+toPublicMemberName(response.Name)+", ")
+			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
 		}
 	}
 	fmt.Fprintln(out, "err ")
@@ -564,9 +571,11 @@ func printMethod(method *Methodx, out *os.File, serviceName string, methodName s
 }
 
 // Generate a raw method that allows raw json input and output
-func printRawMethod(method *Methodx, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
-
-	actualResponses := filterResponses(method.Responses, methodName)
+func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
+	responseMap := getPropertiesWithoutFilteredNxInfo(method.Responses.Schema.Properties, methodName)
+	sortedResponseKeys := getOriginalOrderSortedKeys(responseMap)
+	actualResponseMap := getPropertiesWithoutRedundantResponses(responseMap, methodName)
+	sortedActualResponseKeys := getOriginalOrderSortedKeys(actualResponseMap)
 
 	// Generate Description
 	if method.Description != "" {
@@ -582,10 +591,11 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	fmt.Fprint(out, ")")
 
 	// Generate Return Types
-	if len(actualResponses) > 0 {
+	if len(actualResponseMap) > 0 {
 		fmt.Fprint(out, " (")
 	}
-	for _, response := range actualResponses {
+	for _, responseKey := range sortedActualResponseKeys {
+		response := actualResponseMap[responseKey]
 		typeName := getRawOutputTypeName(response)
 		if typeName == "*ObjectInterface" {
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
@@ -599,7 +609,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 
 	}
 	fmt.Fprint(out, "error")
-	if len(actualResponses) > 0 {
+	if len(actualResponseMap) > 0 {
 		fmt.Fprint(out, ")")
 	}
 
@@ -608,10 +618,11 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 
 	// Generate an anonymous result container struct
 	var resultParamName string
-	if len(method.Responses) > 0 {
+	if len(actualResponseMap) > 0 {
 		fmt.Fprintln(out, "\tresult := &struct {")
-		for _, response := range method.Responses {
-			fmt.Fprintln(out, "\t\t"+toPublicMemberName(response.Name), getRawOutputTypeName(response)+"\t`json:\""+response.Name+"\"`")
+		for _, responseKey := range sortedResponseKeys {
+			responseType := responseMap[responseKey]
+			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), getRawOutputTypeName(responseType)+" `json:\""+responseKey.Key+"\"`")
 		}
 		fmt.Fprintln(out, "\t} {}")
 		resultParamName = "result"
@@ -630,7 +641,7 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 	if atLeastOneObjectInterface(method) {
 		fmt.Fprintln(out, "\tif err != nil {")
 		fmt.Fprint(out, "\t\treturn ")
-		for _, response := range actualResponses {
+		for _, response := range actualResponseMap {
 			// Fill in the parameters in the parameter array
 			fmt.Fprint(out, nilNameInEarlyReturnAfterError(response.Type)+", ")
 		}
@@ -642,12 +653,13 @@ func printRawMethod(method *Methodx, out *os.File, serviceName string, methodNam
 
 	// Return the result including creating a new Remote Object if needed
 	fmt.Fprint(out, "\treturn ")
-	for _, response := range actualResponses {
-		if getTypeName(response) == "*ObjectInterface" {
+	for _, responseKey := range sortedActualResponseKeys {
+		responseType := actualResponseMap[responseKey]
+		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
-			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+response.Name[1:]+")}, ")
+			fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
 		} else {
-			fmt.Fprint(out, "result."+toPublicMemberName(response.Name)+", ")
+			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
 		}
 	}
 	fmt.Fprintln(out, "err ")
@@ -683,9 +695,7 @@ func printErrorCodeLookup(out *os.File, def *Type) {
 func isNonZero(value interface{}) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
-func isStringEnum(property *Type) bool {
-	return property.Type == "string" && (property.Enum != nil || property.OneOf != nil)
-}
+
 func hasEnumRef(property *Type) bool {
 	if property.Ref != "" {
 		name := refToName(property.Ref)
@@ -715,7 +725,7 @@ func getExtraCrossAssignmentLine(methodName string) string {
 func main() {
 	objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
-	schema, err := loadSchemaFile()
+	schemaFile, err := loadSchemaFile()
 
 	pwd, err := os.Getwd()
 	if err != nil {
@@ -723,8 +733,6 @@ func main() {
 		os.Exit(1)
 	}
 
-	expandGenericObjectWithLayouts(schema)
-	removeRedundantNxInfo(schema)
 	// Start generating the go file
 	out, err := os.Create(pwd + "/../qix_generated.go")
 	defer out.Close()
@@ -733,7 +741,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schema.Info.Version, ". DO NOT EDIT.")
+	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schemaFile.Info.Version, ". DO NOT EDIT.")
 	fmt.Fprintln(out)
 	fmt.Fprintln(out, "package enigma")
 	fmt.Fprintln(out, "import (")
@@ -741,12 +749,15 @@ func main() {
 	fmt.Fprintln(out, "\t\"encoding/json\"")
 	fmt.Fprint(out, ")\n\n")
 	fmt.Fprintln(out, "// Version of the schema used to generate the enigma.go QIX API")
-	fmt.Fprintf(out, "const QIX_SCHEMA_VERSION = \"%s\"\n\n", schema.Info.Version)
+	fmt.Fprintf(out, "const QIX_SCHEMA_VERSION = \"%s\"\n\n", schemaFile.Info.Version)
 
 	// Generate definition data type structs
-	definitionKeys := getAlphabeticSortedKeys(schema.Components["schemas"])
+	definitionKeys := getAlphabeticSortedKeys(schemaFile.Components.Schemas)
 	for _, defName := range definitionKeys {
-		def := schema.Components["schemas"][defName]
+		if defName == "JsonObject" {
+			continue
+		}
+		def := schemaFile.Components.Schemas[defName]
 		if def.Description != "" {
 			fmt.Fprintln(out, formatComment("", def.Description, nil))
 		}
@@ -759,21 +770,12 @@ func main() {
 			for _, key := range propertiesKeys {
 				propertyName := key.Key
 				property := def.Properties[key]
-				if propertyName[0:1] == "q" {
-					propertyName = propertyName[1:]
+				printStructMember(propertyName, property, out)
+			}
+			if def.AdditionalProperties != nil {
+				for _, property := range def.AdditionalProperties.AnyOf {
+					printStructMember(property.Name, property.Schema, out)
 				}
-				if property.Description != "" {
-					fmt.Fprintln(out, formatComment("\t", property.Description, nil))
-				}
-				printExtensionTags(out, "\t", property.QlikExtensions)
-				if isNonZero(property.Default) && !hasEnumRef(property) {
-					fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
-					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
-				} else {
-					fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
-				}
-
-				fmt.Fprintln(out, "")
 			}
 			fmt.Fprintln(out, "}")
 			fmt.Fprintln(out, "")
@@ -791,30 +793,54 @@ func main() {
 		}
 	}
 
+	mapmap := restructureByRemoteObject(schemaFile.Methods)
 	// Generate structs for the remote objects (service APIs)
-	serviceKeys := getSortedServiceKeys(schema.Services)
-	for _, serviceName := range serviceKeys {
-		service := schema.Services[serviceName]
-		if service.Description != "" {
-			fmt.Fprintln(out, formatComment("", service.Description, nil))
-		}
-		printExtensionTags(out, "", service.QlikExtensions)
+	serviceNames := getSortedServiceKeys(mapmap)
+	for _, serviceName := range serviceNames {
+
 		var serviceImplName = serviceName
 		fmt.Fprintln(out, "type ", serviceImplName, "struct {")
 		fmt.Fprintln(out, "\t*RemoteObject")
 		fmt.Fprintln(out, "}")
 
-		methodKeys := getSortedMethodKeys(service.Methods)
+		methodKeys := getSortedMethodKeys(mapmap[serviceName])
 		for _, methodName := range methodKeys {
-			method := service.Methods[methodName]
+			method := mapmap[serviceName][methodName]
+
+			for _, par := range method.Parameters {
+				patchMissingTypeInfo(par.Schema, par.Name, methodName)
+			}
+
+			for key, par := range method.Responses.Schema.Properties {
+				patchMissingTypeInfo(par, key.Key, methodName)
+			}
+
 			// Generate typed methods
 			printMethod(method, out, serviceName, methodName, objectFuncToObject)
 
 			// Generate untyped (raw) methods for those with complex parameters and/or return values
-			actualResponses := filterResponses(method.Responses, methodName)
-			if !(allTypesBuiltIn(method.Parameters) && allTypesBuiltIn(actualResponses)) {
+			actualResponses := getPropertiesWithoutFilteredNxInfo(method.Responses.Schema.Properties, methodName)
+			if !(allTypesBuiltIn(method.Parameters) && allTypesBuiltInMap(actualResponses)) {
 				printRawMethod(method, out, serviceName, methodName, objectFuncToObject)
 			}
 		}
 	}
+}
+
+func printStructMember(propertyName string, property *Type, out *os.File) {
+	if propertyName[0:1] == "q" {
+		propertyName = propertyName[1:]
+	}
+	if property.Description != "" {
+		fmt.Fprintln(out, formatComment("\t", property.Description, nil))
+	}
+	printExtensionTags(out, "\t", property.QlikExtensions)
+	if isNonZero(property.Default) && !hasEnumRef(property) {
+		fmt.Fprintln(out, "\t// When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)")
+		fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " *", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
+	} else {
+		fmt.Fprint(out, "\t", toPublicMemberName(propertyName), " ", getTypeName(property), " `json:\"q", propertyName, ",omitempty\"`")
+	}
+
+	fmt.Fprintln(out, "")
 }

@@ -18,7 +18,7 @@ fi
 CONTAINER_ID=$(docker run -d -p 9077:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=$ACCEPT_EULA)
 RETRIES=0
 while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
-    JSON_RPC_API=$(curl -fs localhost:9077/openapi/rpc)
+    JSON_RPC_API=$(curl -fs localhost:9077/openrpc)
     sleep 2
     RETRIES=$((RETRIES + 1 ))
 done
