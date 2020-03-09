@@ -327,51 +327,11 @@ func patchMissingTypeInfo(param *Type, name, methodName string) {
 	}
 
 	switch name {
-	case "qLabels":
-		fallthrough
-	case "qObjectIdsToPatch":
-		fallthrough
-	case "qNames":
-		fallthrough
-	case "qv":
-		fallthrough
-	case "qTags":
-		fallthrough
-	case "qTerms":
-		fallthrough
-	case "qParameters":
-		fallthrough
-	case "qPaths":
-		fallthrough
-	case "qIds":
+	case "qLabels", "qObjectIdsToPatch", "qNames", "qv", "qTags", "qTerms", "qParameters", "qPaths", "qIds":
 		patchToStringArray()
-
-	case "qWarnings":
-		fallthrough
-	case "qColIndices":
-		fallthrough
-	case "qColumnsToSelect":
-		fallthrough
-	case "qRowIndices":
-		fallthrough
-	case "qValues":
+	case "qWarnings", "qColIndices", "qColumnsToSelect", "qRowIndices", "qValues":
 		patchToIntArray()
-
-	case "qBreakpoints":
-		fallthrough
-	case "qFieldValues":
-		fallthrough
-	case "qPatches":
-		fallthrough
-	case "qPages":
-		fallthrough
-	case "qRanges":
-		fallthrough
-	case "qFieldsOrColumnsWithWildcards":
-		fallthrough
-	case "qSelections":
-		fallthrough
-	case "qDataRanges":
+	case "qBreakpoints", "qFieldValues", "qPatches", "qPages", "qRanges", "qFieldsOrColumnsWithWildcards", "qSelections", "qDataRanges":
 		patchToBeArray()
 	}
 }
