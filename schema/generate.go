@@ -502,7 +502,7 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				fmt.Fprint(out, "*RemoteObject", ", ")
+				fmt.Fprint(out, "*RemoteObject, ")
 			} else {
 				fmt.Fprint(out, "*"+objectTypeName, ", ")
 			}
