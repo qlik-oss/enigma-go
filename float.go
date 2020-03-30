@@ -29,8 +29,8 @@ func (value *Float64) UnmarshalJSON(arg []byte) error {
 }
 
 // MarshalJSON implements the Marshaler interface for custom marshalling.
-func (value *Float64) MarshalJSON() ([]byte, error) {
-	val := float64(*value)
+func (value Float64) MarshalJSON() ([]byte, error) {
+	val := float64(value)
 	if math.IsNaN(val) {
 		return []byte(`"NaN"`), nil
 	} else if math.IsInf(val, 1) {
@@ -38,5 +38,5 @@ func (value *Float64) MarshalJSON() ([]byte, error) {
 	} else if math.IsInf(val, -1) {
 		return []byte(`"-Infinity"`), nil
 	}
-	return json.Marshal(float64(*value))
+	return json.Marshal(float64(value))
 }
