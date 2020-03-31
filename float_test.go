@@ -8,9 +8,9 @@ import (
 )
 
 func TestFloatMarshalJSON(t *testing.T) {
-	cases := []struct{
+	cases := []struct {
 		float float64
-		exp string
+		exp   string
 	}{
 		{math.NaN(), `"NaN"`},
 		{math.Inf(1), `"Infinity"`},
@@ -42,8 +42,8 @@ func TestFloatMarshalJSON(t *testing.T) {
 }
 
 func TestFloatUnmarshalJSON(t *testing.T) {
-	cases := []struct{
-		b string
+	cases := []struct {
+		b   string
 		exp Float64
 	}{
 		{`"NaN"`, Float64(math.NaN())},
