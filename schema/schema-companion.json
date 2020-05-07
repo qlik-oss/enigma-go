@@ -1,0 +1,29 @@
+{
+  "remote-object-return-types": {
+    "Global.GetActiveDoc":"Doc",
+    "Global.OpenDoc":"Doc",
+    "Global.CreateDocEx":"Doc",
+    "Global.CreateSessionAppFromApp":"Doc",
+    "Global.CreateSessionApp":"Doc",
+    "GenericObject.CreateChild":"GenericObject",
+    "GenericObject.GetChild":"GenericObject",
+    "GenericObject.GetSnapshotObject":"GenericObject",
+    "GenericObject.GetParent":"GenericObject",
+    "Doc.CreateSessionObject":"GenericObject",
+    "Doc.CreateBookmark":"GenericBookmark",
+    "Doc.CreateBookmarkEx":"GenericBookmark",
+    "Doc.GetDimension":"GenericDimension",
+    "Doc.CreateMeasure":"GenericMeasure",
+    "Doc.GetField":"Field",
+    "Doc.CreateSessionVariable":"Variable",
+    "Doc.GetVariable":"Variable",
+    "Doc.GetObject":"GenericObject",
+    "Doc.GetVariableById":"Variable",
+    "Doc.CreateObject":"GenericObject",
+    "Doc.CreateVariableEx":"Variable",
+    "Doc.CreateDimension":"GenericDimension",
+    "Doc.GetBookmark":"GenericBookmark",
+    "Doc.GetVariableByName":"GenericVariable",
+    "Doc.GetMeasure":"GenericMeasure"
+  }
+}
