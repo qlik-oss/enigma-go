@@ -729,7 +729,7 @@
           ]
         },
         "Dial": {
-          "description": "Dial establishes a connection to Qlik Associative Engine using the settings set in the Dialer. It takes two parameter",
+          "description": "Dial establishes a connection to Qlik Associative Engine using the settings set in the Dialer.",
           "type": "method",
           "params": [
             {
@@ -745,6 +745,29 @@
           "returns": [
             {
               "type": "#/definitions/Global"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "DialRaw": {
+          "description": "DialRaw establishes a connection to Qlik Associative Engine using the settings set in the Dialer.\nThe returned remote object points to the Global object of the session with handle -1.\nDialRaw can be used with custom specifications by wrapping the returned RemoteObject in a generated schema type like so:\n   remoteObject, err := enigma.Dialer{}.DialRaw(ctx, \"ws://...\", nil)\n   mySpecialGlobal := \u0026specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "https://golang.org/pkg/net/http/Header"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/RemoteObject"
             },
             {
               "type": "error"
@@ -4438,6 +4461,27 @@
             }
           ],
           "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "SaveAs": {
+          "description": "Save a copy of an app with a different name.\nCan be used to save a session app as an ordinary app.\n\nParameters:\n\n◾ newAppName   -   \u003cName of the saved app\u003e",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
             {
               "type": "error"
             }
@@ -11309,6 +11353,8 @@
         "SaveAs": {
           "description": "Save a copy of an app with a different name.\nCan be used to save a session app as an ordinary app.\n\nParameters:\n\n◾ newAppName   -   \u003cName of the saved app\u003e",
           "x-qlik-stability": "locked",
+          "deprecated": true,
+          "x-qlik-deprecation-description": "Use Document _SaveAs_ method instead",
           "type": "method",
           "params": [
             {
@@ -12101,6 +12147,10 @@
           "description": "Is set to true if a script is defined in the app.",
           "type": "bool"
         },
+        "IsBDILiveMode": {
+          "description": "If set to true, the app is in BDI Live mode.",
+          "type": "bool"
+        },
         "IsOpenedWithoutData": {
           "description": "If set to true, it means that the app was opened without loading its data.",
           "type": "bool"
@@ -12239,9 +12289,21 @@
           "description": "Definition of the attribute expression.\nExample: \"Max(OrderID)\"",
           "type": "string"
         },
+        "Label": {
+          "description": "Label of the attribute expression.",
+          "type": "string"
+        },
+        "LabelExpression": {
+          "description": "Optional expression used for dynamic label.",
+          "type": "string"
+        },
         "LibraryId": {
           "description": "Definition of the attribute expression stored in the library.\nExample: \"MyGenericMeasure\"",
           "type": "string"
+        },
+        "NumFormat": {
+          "description": "Format of the field.\nThis parameter is optional.",
+          "type": "#/definitions/FieldAttributes"
         }
       }
     },
@@ -12251,6 +12313,10 @@
       "entries": {
         "FallbackTitle": {
           "type": "string"
+        },
+        "IsAutoFormat": {
+          "description": "This parameter is set to true if qNumFormat is set to U (unknown). The engine guesses the type of the field based on the field's expression.",
+          "type": "bool"
         },
         "Max": {
           "description": "Maximum value.",
@@ -12267,6 +12333,10 @@
         "MinText": {
           "description": "String version of the minimum Value.",
           "type": "string"
+        },
+        "NumFormat": {
+          "description": "Format of the field.\nThis parameter is optional.",
+          "type": "#/definitions/FieldAttributes"
         }
       }
     },
@@ -12437,6 +12507,9 @@
         "IsTotalCell": {
           "description": "Is set to true if a total is displayed in the cell.\nThis parameter is optional. The default value is false .\nNot applicable to list objects.",
           "type": "bool"
+        },
+        "MiniChart": {
+          "type": "#/definitions/NxMiniChartData"
         },
         "Num": {
           "description": "A value.\nThis parameter is optional.",
@@ -13462,6 +13535,9 @@
           "description": "Refers to a measure stored in the library.",
           "type": "string"
         },
+        "MiniChartDef": {
+          "type": "#/definitions/NxMiniChartDef"
+        },
         "SortBy": {
           "description": "Defines the sort criteria.\nThe default value is sort by ascending alphabetic order.\nThis property is optional.",
           "type": "#/definitions/SortCriteria"
@@ -13529,6 +13605,9 @@
           "description": "Lowest value in the range.",
           "type": "#/definitions/Float64"
         },
+        "MiniChart": {
+          "type": "#/definitions/NxMiniChart"
+        },
         "NumFormat": {
           "description": "Format of the field.\nThis parameter is optional.",
           "type": "#/definitions/FieldAttributes"
@@ -13563,6 +13642,120 @@
     "NxMetaDef": {
       "description": "Used to collect meta data.\n\nProperties:\n\nSemantic type with an empty structure.",
       "type": "struct"
+    },
+    "NxMiniChart": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "AttrExprInfo": {
+          "description": "List of attribute expressions.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxAttrExprInfo"
+          }
+        },
+        "Error": {
+          "description": "This parameter is optional and is displayed in case of error.",
+          "type": "#/definitions/NxValidationError"
+        },
+        "XMax": {
+          "type": "#/definitions/Float64"
+        },
+        "XMin": {
+          "type": "#/definitions/Float64"
+        },
+        "YMax": {
+          "type": "#/definitions/Float64"
+        },
+        "YMin": {
+          "type": "#/definitions/Float64"
+        }
+      }
+    },
+    "NxMiniChartCell": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "AttrExps": {
+          "description": "Attribute expressions values.",
+          "type": "#/definitions/NxAttributeExpressionValues"
+        },
+        "ElemNumber": {
+          "description": "Rank number of the value, starting from 0.\nIf the element number is a negative number, it means that the returned value is not an element number.\nYou can get the following negative values:\n\n• -1: the cell is a Total cell. It shows a total.\n\n• -2: the cell is a Null cell.\n\n• -3: the cell belongs to the group Others .\n\n• -4: the cell is empty. Applies to pivot tables.",
+          "type": "int"
+        },
+        "Num": {
+          "description": "A value.\nThis parameter is optional.",
+          "type": "#/definitions/Float64"
+        },
+        "Text": {
+          "description": "Some text.",
+          "type": "string"
+        }
+      }
+    },
+    "NxMiniChartData": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "Error": {
+          "description": "This parameter is optional and is displayed in case of error.",
+          "type": "#/definitions/NxValidationError"
+        },
+        "Matrix": {
+          "description": "Array of data.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxMiniChartRows"
+          }
+        },
+        "Max": {
+          "type": "#/definitions/Float64"
+        },
+        "Min": {
+          "type": "#/definitions/Float64"
+        }
+      }
+    },
+    "NxMiniChartDef": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "AttributeExpressions": {
+          "description": "List of attribute expressions.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxAttrExprDef"
+          }
+        },
+        "Def": {
+          "description": "Expression or field name.",
+          "type": "string"
+        },
+        "LibraryId": {
+          "description": "LibraryId for dimension.",
+          "type": "string"
+        },
+        "MaxNumberPoints": {
+          "description": "When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
+        },
+        "OtherTotalSpec": {
+          "type": "#/definitions/OtherTotalSpecProp"
+        },
+        "SortBy": {
+          "description": "Sorting.",
+          "type": "#/definitions/SortCriteria"
+        }
+      }
+    },
+    "NxMiniChartRows": {
+      "description": "An application was unloaded from an engine instance",
+      "type": "slice",
+      "items": {
+        "type": "#/definitions/NxMiniChartCell"
+      }
     },
     "NxMultiRangeSelectInfo": {
       "type": "struct",
@@ -14939,9 +15132,49 @@
             }
           ]
         },
+        "GetRemoteObject": {
+          "description": "GetRemoteObject creates a new RemoteObject (proxy object for serverside object). Not intended to be used directly but rather from generated schema code.",
+          "type": "method",
+          "params": [
+            {
+              "type": "#/definitions/ObjectInterface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/RemoteObject"
+            }
+          ]
+        },
         "ObjectInterface": {
           "type": "#/definitions/ObjectInterface",
           "embedded": true
+        },
+        "RPC": {
+          "description": "RPC invokes a method on the remote object. Not intended to be used directly but rather from generated schema code.",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "interface"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "interface"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "error"
+            }
+          ]
         },
         "RemoveChangeChannel": {
           "description": "RemoveChangeChannel unregisters a channel from further events.",
@@ -16047,6 +16280,14 @@
           "type": "slice",
           "items": {
             "type": "#/definitions/NxTreeDimensionDef"
+          }
+        },
+        "ExpansionState": {
+          "description": "Expansion state per dimension.",
+          "x-qlik-stability": "experimental",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/ExpansionData"
           }
         },
         "InitialDataFetch": {
