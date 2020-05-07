@@ -529,7 +529,7 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 	}
 
 	// Generate the actual call down to the RPC machinery
-	fmt.Fprint(out, "\terr := obj.Rpc(ctx, \"", methodName, "\", ", resultParamName)
+	fmt.Fprint(out, "\terr := obj.RPC(ctx, \"", methodName, "\", ", resultParamName)
 	for _, param := range method.Parameters {
 		// Fill in the parameters in the parameter array
 		fmt.Fprint(out, ", ", toParamName(param.Name))
@@ -632,7 +632,7 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 	}
 
 	// Generate the actual call down to the RPC machinery
-	fmt.Fprint(out, "\terr := obj.Rpc(ctx, \"", methodName, "\", ", resultParamName)
+	fmt.Fprint(out, "\terr := obj.RPC(ctx, \"", methodName, "\", ", resultParamName)
 	for _, param := range method.Parameters {
 		fmt.Fprint(out, ", ", toParamName(param.Name))
 	}

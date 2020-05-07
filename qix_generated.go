@@ -5370,7 +5370,7 @@ type Doc struct {
 //
 // Stability: locked
 func (obj *Doc) AbortModal(ctx context.Context, accept bool) error {
-	err := obj.Rpc(ctx, "AbortModal", nil, accept)
+	err := obj.RPC(ctx, "AbortModal", nil, accept)
 	return err
 }
 
@@ -5383,7 +5383,7 @@ func (obj *Doc) AbortModal(ctx context.Context, accept bool) error {
 //
 // Stability: locked
 func (obj *Doc) AddAlternateState(ctx context.Context, stateName string) error {
-	err := obj.Rpc(ctx, "AddAlternateState", nil, stateName)
+	err := obj.RPC(ctx, "AddAlternateState", nil, stateName)
 	return err
 }
 
@@ -5404,7 +5404,7 @@ func (obj *Doc) AddFieldFromExpression(ctx context.Context, name string, expr st
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "AddFieldFromExpression", result, name, expr)
+	err := obj.RPC(ctx, "AddFieldFromExpression", result, name, expr)
 	return result.Success, err
 }
 
@@ -5420,14 +5420,14 @@ func (obj *Doc) ApplyBookmark(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "ApplyBookmark", result, id)
+	err := obj.RPC(ctx, "ApplyBookmark", result, id)
 	return result.Success, err
 }
 
 // Loads the last logical operation (if any).
 // Stability: locked
 func (obj *Doc) Back(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Back", nil)
+	err := obj.RPC(ctx, "Back", nil)
 	return err
 }
 
@@ -5437,7 +5437,7 @@ func (obj *Doc) BackCount(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "BackCount", result)
+	err := obj.RPC(ctx, "BackCount", result)
 	return result.Return, err
 }
 
@@ -5457,7 +5457,7 @@ func (obj *Doc) CheckExpression(ctx context.Context, expr string, labels []strin
 		BadFieldNames       []*NxRange `json:"qBadFieldNames"`
 		DangerousFieldNames []*NxRange `json:"qDangerousFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "CheckExpression", result, expr, labels)
+	err := obj.RPC(ctx, "CheckExpression", result, expr, labels)
 	return result.ErrorMsg, result.BadFieldNames, result.DangerousFieldNames, err
 }
 
@@ -5477,7 +5477,7 @@ func (obj *Doc) CheckExpressionRaw(ctx context.Context, expr string, labels []st
 		BadFieldNames       json.RawMessage `json:"qBadFieldNames"`
 		DangerousFieldNames json.RawMessage `json:"qDangerousFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "CheckExpression", result, expr, labels)
+	err := obj.RPC(ctx, "CheckExpression", result, expr, labels)
 	return result.ErrorMsg, result.BadFieldNames, result.DangerousFieldNames, err
 }
 
@@ -5497,7 +5497,7 @@ func (obj *Doc) CheckNumberOrExpression(ctx context.Context, expr string) (strin
 		ErrorMsg      string     `json:"qErrorMsg"`
 		BadFieldNames []*NxRange `json:"qBadFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "CheckNumberOrExpression", result, expr)
+	err := obj.RPC(ctx, "CheckNumberOrExpression", result, expr)
 	return result.ErrorMsg, result.BadFieldNames, err
 }
 
@@ -5517,7 +5517,7 @@ func (obj *Doc) CheckNumberOrExpressionRaw(ctx context.Context, expr string) (st
 		ErrorMsg      string          `json:"qErrorMsg"`
 		BadFieldNames json.RawMessage `json:"qBadFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "CheckNumberOrExpression", result, expr)
+	err := obj.RPC(ctx, "CheckNumberOrExpression", result, expr)
 	return result.ErrorMsg, result.BadFieldNames, err
 }
 
@@ -5553,7 +5553,7 @@ func (obj *Doc) CheckScriptSyntax(ctx context.Context) ([]*ScriptSyntaxError, er
 	result := &struct {
 		Errors []*ScriptSyntaxError `json:"qErrors"`
 	}{}
-	err := obj.Rpc(ctx, "CheckScriptSyntax", result)
+	err := obj.RPC(ctx, "CheckScriptSyntax", result)
 	return result.Errors, err
 }
 
@@ -5589,7 +5589,7 @@ func (obj *Doc) CheckScriptSyntaxRaw(ctx context.Context) (json.RawMessage, erro
 	result := &struct {
 		Errors json.RawMessage `json:"qErrors"`
 	}{}
-	err := obj.Rpc(ctx, "CheckScriptSyntax", result)
+	err := obj.RPC(ctx, "CheckScriptSyntax", result)
 	return result.Errors, err
 }
 
@@ -5603,14 +5603,14 @@ func (obj *Doc) CheckScriptSyntaxRaw(ctx context.Context) (json.RawMessage, erro
 //
 // Stability: locked
 func (obj *Doc) ClearAll(ctx context.Context, lockedAlso bool, stateName string) error {
-	err := obj.Rpc(ctx, "ClearAll", nil, lockedAlso, stateName)
+	err := obj.RPC(ctx, "ClearAll", nil, lockedAlso, stateName)
 	return err
 }
 
 // Clears entirely the undo and redo buffer.
 // Stability: locked
 func (obj *Doc) ClearUndoBuffer(ctx context.Context) error {
-	err := obj.Rpc(ctx, "ClearUndoBuffer", nil)
+	err := obj.RPC(ctx, "ClearUndoBuffer", nil)
 	return err
 }
 
@@ -5626,7 +5626,7 @@ func (obj *Doc) CloneBookmark(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
 	}{}
-	err := obj.Rpc(ctx, "CloneBookmark", result, id)
+	err := obj.RPC(ctx, "CloneBookmark", result, id)
 	return result.CloneId, err
 }
 
@@ -5643,7 +5643,7 @@ func (obj *Doc) CloneDimension(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
 	}{}
-	err := obj.Rpc(ctx, "CloneDimension", result, id)
+	err := obj.RPC(ctx, "CloneDimension", result, id)
 	return result.CloneId, err
 }
 
@@ -5660,7 +5660,7 @@ func (obj *Doc) CloneMeasure(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
 	}{}
-	err := obj.Rpc(ctx, "CloneMeasure", result, id)
+	err := obj.RPC(ctx, "CloneMeasure", result, id)
 	return result.CloneId, err
 }
 
@@ -5680,7 +5680,7 @@ func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		CloneId string `json:"qCloneId"`
 	}{}
-	err := obj.Rpc(ctx, "CloneObject", result, id)
+	err := obj.RPC(ctx, "CloneObject", result, id)
 	return result.CloneId, err
 }
 
@@ -5694,7 +5694,7 @@ func (obj *Doc) CloneObject(ctx context.Context, id string) (string, error) {
 // Deprecated: This will be removed in a future version
 // Stability: locked
 func (obj *Doc) CommitDraft(ctx context.Context, id string) error {
-	err := obj.Rpc(ctx, "CommitDraft", nil, id)
+	err := obj.RPC(ctx, "CommitDraft", nil, id)
 	return err
 }
 
@@ -5709,7 +5709,7 @@ func (obj *Doc) CreateBookmark(ctx context.Context, prop *GenericBookmarkPropert
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateBookmark", result, prop)
+	err := obj.RPC(ctx, "CreateBookmark", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5727,7 +5727,7 @@ func (obj *Doc) CreateBookmarkRaw(ctx context.Context, prop interface{}) (*Gener
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateBookmark", result, prop)
+	err := obj.RPC(ctx, "CreateBookmark", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5747,7 +5747,7 @@ func (obj *Doc) CreateBookmarkEx(ctx context.Context, prop *GenericBookmarkPrope
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateBookmarkEx", result, prop, objectIdsToPatch)
+	err := obj.RPC(ctx, "CreateBookmarkEx", result, prop, objectIdsToPatch)
 	if err != nil {
 		return nil, err
 	}
@@ -5767,7 +5767,7 @@ func (obj *Doc) CreateBookmarkExRaw(ctx context.Context, prop interface{}, objec
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateBookmarkEx", result, prop, objectIdsToPatch)
+	err := obj.RPC(ctx, "CreateBookmarkEx", result, prop, objectIdsToPatch)
 	if err != nil {
 		return nil, err
 	}
@@ -5786,7 +5786,7 @@ func (obj *Doc) CreateConnection(ctx context.Context, connection *Connection) (s
 	result := &struct {
 		ConnectionId string `json:"qConnectionId"`
 	}{}
-	err := obj.Rpc(ctx, "CreateConnection", result, connection)
+	err := obj.RPC(ctx, "CreateConnection", result, connection)
 	return result.ConnectionId, err
 }
 
@@ -5802,7 +5802,7 @@ func (obj *Doc) CreateConnectionRaw(ctx context.Context, connection interface{})
 	result := &struct {
 		ConnectionId string `json:"qConnectionId"`
 	}{}
-	err := obj.Rpc(ctx, "CreateConnection", result, connection)
+	err := obj.RPC(ctx, "CreateConnection", result, connection)
 	return result.ConnectionId, err
 }
 
@@ -5818,7 +5818,7 @@ func (obj *Doc) CreateDimension(ctx context.Context, prop *GenericDimensionPrope
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateDimension", result, prop)
+	err := obj.RPC(ctx, "CreateDimension", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5837,7 +5837,7 @@ func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*Gene
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateDimension", result, prop)
+	err := obj.RPC(ctx, "CreateDimension", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5860,7 +5860,7 @@ func (obj *Doc) CreateDraft(ctx context.Context, id string) (string, error) {
 	result := &struct {
 		DraftId string `json:"qDraftId"`
 	}{}
-	err := obj.Rpc(ctx, "CreateDraft", result, id)
+	err := obj.RPC(ctx, "CreateDraft", result, id)
 	return result.DraftId, err
 }
 
@@ -5876,7 +5876,7 @@ func (obj *Doc) CreateMeasure(ctx context.Context, prop *GenericMeasurePropertie
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateMeasure", result, prop)
+	err := obj.RPC(ctx, "CreateMeasure", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5895,7 +5895,7 @@ func (obj *Doc) CreateMeasureRaw(ctx context.Context, prop interface{}) (*Generi
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateMeasure", result, prop)
+	err := obj.RPC(ctx, "CreateMeasure", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5917,7 +5917,7 @@ func (obj *Doc) CreateObject(ctx context.Context, prop *GenericObjectProperties)
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateObject", result, prop)
+	err := obj.RPC(ctx, "CreateObject", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5939,7 +5939,7 @@ func (obj *Doc) CreateObjectRaw(ctx context.Context, prop interface{}) (*Generic
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateObject", result, prop)
+	err := obj.RPC(ctx, "CreateObject", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5961,7 +5961,7 @@ func (obj *Doc) CreateSessionObject(ctx context.Context, prop *GenericObjectProp
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionObject", result, prop)
+	err := obj.RPC(ctx, "CreateSessionObject", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -5983,7 +5983,7 @@ func (obj *Doc) CreateSessionObjectRaw(ctx context.Context, prop interface{}) (*
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionObject", result, prop)
+	err := obj.RPC(ctx, "CreateSessionObject", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -6013,7 +6013,7 @@ func (obj *Doc) CreateSessionVariable(ctx context.Context, prop *GenericVariable
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionVariable", result, prop)
+	err := obj.RPC(ctx, "CreateSessionVariable", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -6043,7 +6043,7 @@ func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) 
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionVariable", result, prop)
+	err := obj.RPC(ctx, "CreateSessionVariable", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -6062,7 +6062,7 @@ func (obj *Doc) CreateVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateVariable", result, name)
+	err := obj.RPC(ctx, "CreateVariable", result, name)
 	return result.Return, err
 }
 
@@ -6091,7 +6091,7 @@ func (obj *Doc) CreateVariableEx(ctx context.Context, prop *GenericVariablePrope
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateVariableEx", result, prop)
+	err := obj.RPC(ctx, "CreateVariableEx", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -6123,7 +6123,7 @@ func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop interface{}) (*Var
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateVariableEx", result, prop)
+	err := obj.RPC(ctx, "CreateVariableEx", result, prop)
 	if err != nil {
 		return nil, err
 	}
@@ -6139,7 +6139,7 @@ func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop interface{}) (*Var
 //
 // Stability: locked
 func (obj *Doc) DeleteConnection(ctx context.Context, connectionId string) error {
-	err := obj.Rpc(ctx, "DeleteConnection", nil, connectionId)
+	err := obj.RPC(ctx, "DeleteConnection", nil, connectionId)
 	return err
 }
 
@@ -6155,7 +6155,7 @@ func (obj *Doc) DestroyBookmark(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyBookmark", result, id)
+	err := obj.RPC(ctx, "DestroyBookmark", result, id)
 	return result.Success, err
 }
 
@@ -6172,7 +6172,7 @@ func (obj *Doc) DestroyDimension(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyDimension", result, id)
+	err := obj.RPC(ctx, "DestroyDimension", result, id)
 	return result.Success, err
 }
 
@@ -6194,7 +6194,7 @@ func (obj *Doc) DestroyDraft(ctx context.Context, id string, sourceId string) (b
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyDraft", result, id, sourceId)
+	err := obj.RPC(ctx, "DestroyDraft", result, id, sourceId)
 	return result.Success, err
 }
 
@@ -6211,7 +6211,7 @@ func (obj *Doc) DestroyMeasure(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyMeasure", result, id)
+	err := obj.RPC(ctx, "DestroyMeasure", result, id)
 	return result.Success, err
 }
 
@@ -6229,7 +6229,7 @@ func (obj *Doc) DestroyObject(ctx context.Context, id string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyObject", result, id)
+	err := obj.RPC(ctx, "DestroyObject", result, id)
 	return result.Success, err
 }
 
@@ -6246,7 +6246,7 @@ func (obj *Doc) DestroySessionObject(ctx context.Context, id string) (bool, erro
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroySessionObject", result, id)
+	err := obj.RPC(ctx, "DestroySessionObject", result, id)
 	return result.Success, err
 }
 
@@ -6263,7 +6263,7 @@ func (obj *Doc) DestroySessionVariable(ctx context.Context, id string) (bool, er
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroySessionVariable", result, id)
+	err := obj.RPC(ctx, "DestroySessionVariable", result, id)
 	return result.Success, err
 }
 
@@ -6281,7 +6281,7 @@ func (obj *Doc) DestroySessionVariableById(ctx context.Context, id string) (bool
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroySessionVariableById", result, id)
+	err := obj.RPC(ctx, "DestroySessionVariableById", result, id)
 	return result.Success, err
 }
 
@@ -6299,7 +6299,7 @@ func (obj *Doc) DestroySessionVariableByName(ctx context.Context, name string) (
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroySessionVariableByName", result, name)
+	err := obj.RPC(ctx, "DestroySessionVariableByName", result, name)
 	return result.Success, err
 }
 
@@ -6317,7 +6317,7 @@ func (obj *Doc) DestroyVariableById(ctx context.Context, id string) (bool, error
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyVariableById", result, id)
+	err := obj.RPC(ctx, "DestroyVariableById", result, id)
 	return result.Success, err
 }
 
@@ -6335,7 +6335,7 @@ func (obj *Doc) DestroyVariableByName(ctx context.Context, name string) (bool, e
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyVariableByName", result, name)
+	err := obj.RPC(ctx, "DestroyVariableByName", result, name)
 	return result.Success, err
 }
 
@@ -6388,7 +6388,7 @@ func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "DoReload", result, mode, partial, debug)
+	err := obj.RPC(ctx, "DoReload", result, mode, partial, debug)
 	return result.Return, err
 }
 
@@ -6461,7 +6461,7 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 	result := &struct {
 		Result *DoReloadExResult `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "DoReloadEx", result, params)
+	err := obj.RPC(ctx, "DoReloadEx", result, params)
 	return result.Result, err
 }
 
@@ -6534,7 +6534,7 @@ func (obj *Doc) DoReloadExRaw(ctx context.Context, params interface{}) (json.Raw
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "DoReloadEx", result, params)
+	err := obj.RPC(ctx, "DoReloadEx", result, params)
 	return result.Result, err
 }
 
@@ -6546,7 +6546,7 @@ func (obj *Doc) DoReloadExRaw(ctx context.Context, params interface{}) (json.Raw
 //
 // Stability: locked
 func (obj *Doc) DoSave(ctx context.Context, fileName string) error {
-	err := obj.Rpc(ctx, "DoSave", nil, fileName)
+	err := obj.RPC(ctx, "DoSave", nil, fileName)
 	return err
 }
 
@@ -6586,7 +6586,7 @@ func (obj *Doc) Evaluate(ctx context.Context, expression string) (string, error)
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "Evaluate", result, expression)
+	err := obj.RPC(ctx, "Evaluate", result, expression)
 	return result.Return, err
 }
 
@@ -6626,7 +6626,7 @@ func (obj *Doc) EvaluateEx(ctx context.Context, expression string) (*FieldValue,
 	result := &struct {
 		Value *FieldValue `json:"qValue"`
 	}{}
-	err := obj.Rpc(ctx, "EvaluateEx", result, expression)
+	err := obj.RPC(ctx, "EvaluateEx", result, expression)
 	return result.Value, err
 }
 
@@ -6666,7 +6666,7 @@ func (obj *Doc) EvaluateExRaw(ctx context.Context, expression string) (json.RawM
 	result := &struct {
 		Value json.RawMessage `json:"qValue"`
 	}{}
-	err := obj.Rpc(ctx, "EvaluateEx", result, expression)
+	err := obj.RPC(ctx, "EvaluateEx", result, expression)
 	return result.Value, err
 }
 
@@ -6681,7 +6681,7 @@ func (obj *Doc) ExpandExpression(ctx context.Context, expression string) (string
 	result := &struct {
 		ExpandedExpression string `json:"qExpandedExpression"`
 	}{}
-	err := obj.Rpc(ctx, "ExpandExpression", result, expression)
+	err := obj.RPC(ctx, "ExpandExpression", result, expression)
 	return result.ExpandedExpression, err
 }
 
@@ -6697,7 +6697,7 @@ func (obj *Doc) ExportReducedData(ctx context.Context, options *NxDownloadOption
 	result := &struct {
 		DownloadInfo *NxDownloadInfo `json:"qDownloadInfo"`
 	}{}
-	err := obj.Rpc(ctx, "ExportReducedData", result, options)
+	err := obj.RPC(ctx, "ExportReducedData", result, options)
 	return result.DownloadInfo, err
 }
 
@@ -6713,7 +6713,7 @@ func (obj *Doc) ExportReducedDataRaw(ctx context.Context, options interface{}) (
 	result := &struct {
 		DownloadInfo json.RawMessage `json:"qDownloadInfo"`
 	}{}
-	err := obj.Rpc(ctx, "ExportReducedData", result, options)
+	err := obj.RPC(ctx, "ExportReducedData", result, options)
 	return result.DownloadInfo, err
 }
 
@@ -6733,7 +6733,7 @@ func (obj *Doc) FindMatchingFields(ctx context.Context, fieldName string, tags [
 	result := &struct {
 		FieldNames []*NxMatchingFieldInfo `json:"qFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "FindMatchingFields", result, fieldName, tags)
+	err := obj.RPC(ctx, "FindMatchingFields", result, fieldName, tags)
 	return result.FieldNames, err
 }
 
@@ -6753,14 +6753,14 @@ func (obj *Doc) FindMatchingFieldsRaw(ctx context.Context, fieldName string, tag
 	result := &struct {
 		FieldNames json.RawMessage `json:"qFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "FindMatchingFields", result, fieldName, tags)
+	err := obj.RPC(ctx, "FindMatchingFields", result, fieldName, tags)
 	return result.FieldNames, err
 }
 
 // Loads the next logical operation (if any).
 // Stability: locked
 func (obj *Doc) Forward(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Forward", nil)
+	err := obj.RPC(ctx, "Forward", nil)
 	return err
 }
 
@@ -6770,7 +6770,7 @@ func (obj *Doc) ForwardCount(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "ForwardCount", result)
+	err := obj.RPC(ctx, "ForwardCount", result)
 	return result.Return, err
 }
 
@@ -6780,7 +6780,7 @@ func (obj *Doc) GetAllInfos(ctx context.Context) ([]*NxInfo, error) {
 	result := &struct {
 		Infos []*NxInfo `json:"qInfos"`
 	}{}
-	err := obj.Rpc(ctx, "GetAllInfos", result)
+	err := obj.RPC(ctx, "GetAllInfos", result)
 	return result.Infos, err
 }
 
@@ -6790,7 +6790,7 @@ func (obj *Doc) GetAllInfosRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Infos json.RawMessage `json:"qInfos"`
 	}{}
-	err := obj.Rpc(ctx, "GetAllInfos", result)
+	err := obj.RPC(ctx, "GetAllInfos", result)
 	return result.Infos, err
 }
 
@@ -6802,7 +6802,7 @@ func (obj *Doc) GetAppLayout(ctx context.Context) (*NxAppLayout, error) {
 	result := &struct {
 		Layout *NxAppLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppLayout", result)
+	err := obj.RPC(ctx, "GetAppLayout", result)
 	return result.Layout, err
 }
 
@@ -6814,7 +6814,7 @@ func (obj *Doc) GetAppLayoutRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppLayout", result)
+	err := obj.RPC(ctx, "GetAppLayout", result)
 	return result.Layout, err
 }
 
@@ -6824,7 +6824,7 @@ func (obj *Doc) GetAppProperties(ctx context.Context) (*NxAppProperties, error) 
 	result := &struct {
 		Prop *NxAppProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppProperties", result)
+	err := obj.RPC(ctx, "GetAppProperties", result)
 	return result.Prop, err
 }
 
@@ -6834,7 +6834,7 @@ func (obj *Doc) GetAppPropertiesRaw(ctx context.Context) (json.RawMessage, error
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppProperties", result)
+	err := obj.RPC(ctx, "GetAppProperties", result)
 	return result.Prop, err
 }
 
@@ -6852,7 +6852,7 @@ func (obj *Doc) GetAssociationScores(ctx context.Context, table1 string, table2 
 	result := &struct {
 		Score []*AssociationScore `json:"qScore"`
 	}{}
-	err := obj.Rpc(ctx, "GetAssociationScores", result, table1, table2)
+	err := obj.RPC(ctx, "GetAssociationScores", result, table1, table2)
 	return result.Score, err
 }
 
@@ -6870,7 +6870,7 @@ func (obj *Doc) GetAssociationScoresRaw(ctx context.Context, table1 string, tabl
 	result := &struct {
 		Score json.RawMessage `json:"qScore"`
 	}{}
-	err := obj.Rpc(ctx, "GetAssociationScores", result, table1, table2)
+	err := obj.RPC(ctx, "GetAssociationScores", result, table1, table2)
 	return result.Score, err
 }
 
@@ -6885,7 +6885,7 @@ func (obj *Doc) GetBookmark(ctx context.Context, id string) (*GenericBookmark, e
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetBookmark", result, id)
+	err := obj.RPC(ctx, "GetBookmark", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -6903,7 +6903,7 @@ func (obj *Doc) GetBookmarks(ctx context.Context, options *NxGetBookmarkOptions)
 	result := &struct {
 		List []*NxContainerEntry `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetBookmarks", result, options)
+	err := obj.RPC(ctx, "GetBookmarks", result, options)
 	return result.List, err
 }
 
@@ -6918,7 +6918,7 @@ func (obj *Doc) GetBookmarksRaw(ctx context.Context, options interface{}) (json.
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetBookmarks", result, options)
+	err := obj.RPC(ctx, "GetBookmarks", result, options)
 	return result.List, err
 }
 
@@ -6943,7 +6943,7 @@ func (obj *Doc) GetConnection(ctx context.Context, connectionId string) (*Connec
 	result := &struct {
 		Connection *Connection `json:"qConnection"`
 	}{}
-	err := obj.Rpc(ctx, "GetConnection", result, connectionId)
+	err := obj.RPC(ctx, "GetConnection", result, connectionId)
 	return result.Connection, err
 }
 
@@ -6968,7 +6968,7 @@ func (obj *Doc) GetConnectionRaw(ctx context.Context, connectionId string) (json
 	result := &struct {
 		Connection json.RawMessage `json:"qConnection"`
 	}{}
-	err := obj.Rpc(ctx, "GetConnection", result, connectionId)
+	err := obj.RPC(ctx, "GetConnection", result, connectionId)
 	return result.Connection, err
 }
 
@@ -6979,7 +6979,7 @@ func (obj *Doc) GetConnections(ctx context.Context) ([]*Connection, error) {
 	result := &struct {
 		Connections []*Connection `json:"qConnections"`
 	}{}
-	err := obj.Rpc(ctx, "GetConnections", result)
+	err := obj.RPC(ctx, "GetConnections", result)
 	return result.Connections, err
 }
 
@@ -6990,7 +6990,7 @@ func (obj *Doc) GetConnectionsRaw(ctx context.Context) (json.RawMessage, error) 
 	result := &struct {
 		Connections json.RawMessage `json:"qConnections"`
 	}{}
-	err := obj.Rpc(ctx, "GetConnections", result)
+	err := obj.RPC(ctx, "GetConnections", result)
 	return result.Connections, err
 }
 
@@ -7012,7 +7012,7 @@ func (obj *Doc) GetContentLibraries(ctx context.Context) (*ContentLibraryList, e
 	result := &struct {
 		List *ContentLibraryList `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetContentLibraries", result)
+	err := obj.RPC(ctx, "GetContentLibraries", result)
 	return result.List, err
 }
 
@@ -7034,7 +7034,7 @@ func (obj *Doc) GetContentLibrariesRaw(ctx context.Context) (json.RawMessage, er
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetContentLibraries", result)
+	err := obj.RPC(ctx, "GetContentLibraries", result)
 	return result.List, err
 }
 
@@ -7049,7 +7049,7 @@ func (obj *Doc) GetDatabaseInfo(ctx context.Context, connectionId string) (*Data
 	result := &struct {
 		Info *DatabaseInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseInfo", result, connectionId)
+	err := obj.RPC(ctx, "GetDatabaseInfo", result, connectionId)
 	return result.Info, err
 }
 
@@ -7064,7 +7064,7 @@ func (obj *Doc) GetDatabaseInfoRaw(ctx context.Context, connectionId string) (js
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseInfo", result, connectionId)
+	err := obj.RPC(ctx, "GetDatabaseInfo", result, connectionId)
 	return result.Info, err
 }
 
@@ -7081,7 +7081,7 @@ func (obj *Doc) GetDatabaseOwners(ctx context.Context, connectionId string, data
 	result := &struct {
 		Owners []*DatabaseOwner `json:"qOwners"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseOwners", result, connectionId, database)
+	err := obj.RPC(ctx, "GetDatabaseOwners", result, connectionId, database)
 	return result.Owners, err
 }
 
@@ -7098,7 +7098,7 @@ func (obj *Doc) GetDatabaseOwnersRaw(ctx context.Context, connectionId string, d
 	result := &struct {
 		Owners json.RawMessage `json:"qOwners"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseOwners", result, connectionId, database)
+	err := obj.RPC(ctx, "GetDatabaseOwners", result, connectionId, database)
 	return result.Owners, err
 }
 
@@ -7121,7 +7121,7 @@ func (obj *Doc) GetDatabaseTableFields(ctx context.Context, connectionId string,
 	result := &struct {
 		Fields []*DataField `json:"qFields"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTableFields", result, connectionId, database, owner, table)
+	err := obj.RPC(ctx, "GetDatabaseTableFields", result, connectionId, database, owner, table)
 	return result.Fields, err
 }
 
@@ -7144,7 +7144,7 @@ func (obj *Doc) GetDatabaseTableFieldsRaw(ctx context.Context, connectionId stri
 	result := &struct {
 		Fields json.RawMessage `json:"qFields"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTableFields", result, connectionId, database, owner, table)
+	err := obj.RPC(ctx, "GetDatabaseTableFields", result, connectionId, database, owner, table)
 	return result.Fields, err
 }
 
@@ -7170,7 +7170,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 		Preview  []*DataRecord `json:"qPreview"`
 		RowCount int           `json:"qRowCount"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTablePreview", result, connectionId, database, owner, table, conditions)
+	err := obj.RPC(ctx, "GetDatabaseTablePreview", result, connectionId, database, owner, table, conditions)
 	return result.Preview, result.RowCount, err
 }
 
@@ -7196,7 +7196,7 @@ func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId str
 		Preview  json.RawMessage `json:"qPreview"`
 		RowCount int             `json:"qRowCount"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTablePreview", result, connectionId, database, owner, table, conditions)
+	err := obj.RPC(ctx, "GetDatabaseTablePreview", result, connectionId, database, owner, table, conditions)
 	return result.Preview, result.RowCount, err
 }
 
@@ -7217,7 +7217,7 @@ func (obj *Doc) GetDatabaseTables(ctx context.Context, connectionId string, data
 	result := &struct {
 		Tables []*DataTable `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTables", result, connectionId, database, owner)
+	err := obj.RPC(ctx, "GetDatabaseTables", result, connectionId, database, owner)
 	return result.Tables, err
 }
 
@@ -7238,7 +7238,7 @@ func (obj *Doc) GetDatabaseTablesRaw(ctx context.Context, connectionId string, d
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabaseTables", result, connectionId, database, owner)
+	err := obj.RPC(ctx, "GetDatabaseTables", result, connectionId, database, owner)
 	return result.Tables, err
 }
 
@@ -7253,7 +7253,7 @@ func (obj *Doc) GetDatabases(ctx context.Context, connectionId string) ([]*Datab
 	result := &struct {
 		Databases []*Database `json:"qDatabases"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabases", result, connectionId)
+	err := obj.RPC(ctx, "GetDatabases", result, connectionId)
 	return result.Databases, err
 }
 
@@ -7268,7 +7268,7 @@ func (obj *Doc) GetDatabasesRaw(ctx context.Context, connectionId string) (json.
 	result := &struct {
 		Databases json.RawMessage `json:"qDatabases"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabases", result, connectionId)
+	err := obj.RPC(ctx, "GetDatabases", result, connectionId)
 	return result.Databases, err
 }
 
@@ -7283,7 +7283,7 @@ func (obj *Doc) GetDimension(ctx context.Context, id string) (*GenericDimension,
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetDimension", result, id)
+	err := obj.RPC(ctx, "GetDimension", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -7303,7 +7303,7 @@ func (obj *Doc) GetEmptyScript(ctx context.Context, localizedMainSection string)
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetEmptyScript", result, localizedMainSection)
+	err := obj.RPC(ctx, "GetEmptyScript", result, localizedMainSection)
 	return result.Return, err
 }
 
@@ -7313,7 +7313,7 @@ func (obj *Doc) GetFavoriteVariables(ctx context.Context) ([]string, error) {
 	result := &struct {
 		Names []string `json:"qNames"`
 	}{}
-	err := obj.Rpc(ctx, "GetFavoriteVariables", result)
+	err := obj.RPC(ctx, "GetFavoriteVariables", result)
 	return result.Names, err
 }
 
@@ -7331,7 +7331,7 @@ func (obj *Doc) GetField(ctx context.Context, fieldName string, stateName string
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetField", result, fieldName, stateName)
+	err := obj.RPC(ctx, "GetField", result, fieldName, stateName)
 	if err != nil {
 		return nil, err
 	}
@@ -7356,7 +7356,7 @@ func (obj *Doc) GetFieldAndColumnSamples(ctx context.Context, fieldsOrColumnsWit
 	result := &struct {
 		Result []*SampleResult `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldAndColumnSamples", result, fieldsOrColumnsWithWildcards, maxNumberOfValues, randSeed)
+	err := obj.RPC(ctx, "GetFieldAndColumnSamples", result, fieldsOrColumnsWithWildcards, maxNumberOfValues, randSeed)
 	return result.Result, err
 }
 
@@ -7378,7 +7378,7 @@ func (obj *Doc) GetFieldAndColumnSamplesRaw(ctx context.Context, fieldsOrColumns
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldAndColumnSamples", result, fieldsOrColumnsWithWildcards, maxNumberOfValues, randSeed)
+	err := obj.RPC(ctx, "GetFieldAndColumnSamples", result, fieldsOrColumnsWithWildcards, maxNumberOfValues, randSeed)
 	return result.Result, err
 }
 
@@ -7393,7 +7393,7 @@ func (obj *Doc) GetFieldDescription(ctx context.Context, fieldName string) (*Fie
 	result := &struct {
 		Return *FieldDescription `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldDescription", result, fieldName)
+	err := obj.RPC(ctx, "GetFieldDescription", result, fieldName)
 	return result.Return, err
 }
 
@@ -7408,7 +7408,7 @@ func (obj *Doc) GetFieldDescriptionRaw(ctx context.Context, fieldName string) (j
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldDescription", result, fieldName)
+	err := obj.RPC(ctx, "GetFieldDescription", result, fieldName)
 	return result.Return, err
 }
 
@@ -7423,7 +7423,7 @@ func (obj *Doc) GetFieldOnTheFlyByName(ctx context.Context, readableName string)
 	result := &struct {
 		Name string `json:"qName"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldOnTheFlyByName", result, readableName)
+	err := obj.RPC(ctx, "GetFieldOnTheFlyByName", result, readableName)
 	return result.Name, err
 }
 
@@ -7472,7 +7472,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 		Fields     []*DataField `json:"qFields"`
 		FormatSpec string       `json:"qFormatSpec"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTableFields", result, connectionId, relativePath, dataFormat, table)
+	err := obj.RPC(ctx, "GetFileTableFields", result, connectionId, relativePath, dataFormat, table)
 	return result.Fields, result.FormatSpec, err
 }
 
@@ -7521,7 +7521,7 @@ func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, 
 		Fields     json.RawMessage `json:"qFields"`
 		FormatSpec string          `json:"qFormatSpec"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTableFields", result, connectionId, relativePath, dataFormat, table)
+	err := obj.RPC(ctx, "GetFileTableFields", result, connectionId, relativePath, dataFormat, table)
 	return result.Fields, result.FormatSpec, err
 }
 
@@ -7570,7 +7570,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 		Preview    []*DataRecord `json:"qPreview"`
 		FormatSpec string        `json:"qFormatSpec"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTablePreview", result, connectionId, relativePath, dataFormat, table)
+	err := obj.RPC(ctx, "GetFileTablePreview", result, connectionId, relativePath, dataFormat, table)
 	return result.Preview, result.FormatSpec, err
 }
 
@@ -7619,7 +7619,7 @@ func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string,
 		Preview    json.RawMessage `json:"qPreview"`
 		FormatSpec string          `json:"qFormatSpec"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTablePreview", result, connectionId, relativePath, dataFormat, table)
+	err := obj.RPC(ctx, "GetFileTablePreview", result, connectionId, relativePath, dataFormat, table)
 	return result.Preview, result.FormatSpec, err
 }
 
@@ -7664,7 +7664,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 	result := &struct {
 		Tables []*DataTable `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTables", result, connectionId, relativePath, dataFormat)
+	err := obj.RPC(ctx, "GetFileTables", result, connectionId, relativePath, dataFormat)
 	return result.Tables, err
 }
 
@@ -7709,7 +7709,7 @@ func (obj *Doc) GetFileTablesRaw(ctx context.Context, connectionId string, relat
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTables", result, connectionId, relativePath, dataFormat)
+	err := obj.RPC(ctx, "GetFileTables", result, connectionId, relativePath, dataFormat)
 	return result.Tables, err
 }
 
@@ -7728,7 +7728,7 @@ func (obj *Doc) GetFileTablesEx(ctx context.Context, connectionId string, relati
 	result := &struct {
 		Tables []*DataTableEx `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTablesEx", result, connectionId, relativePath, dataFormat)
+	err := obj.RPC(ctx, "GetFileTablesEx", result, connectionId, relativePath, dataFormat)
 	return result.Tables, err
 }
 
@@ -7747,7 +7747,7 @@ func (obj *Doc) GetFileTablesExRaw(ctx context.Context, connectionId string, rel
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
 	}{}
-	err := obj.Rpc(ctx, "GetFileTablesEx", result, connectionId, relativePath, dataFormat)
+	err := obj.RPC(ctx, "GetFileTablesEx", result, connectionId, relativePath, dataFormat)
 	return result.Tables, err
 }
 
@@ -7764,7 +7764,7 @@ func (obj *Doc) GetFolderItemsForConnection(ctx context.Context, connectionId st
 	result := &struct {
 		FolderItems []*FolderItem `json:"qFolderItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetFolderItemsForConnection", result, connectionId, relativePath)
+	err := obj.RPC(ctx, "GetFolderItemsForConnection", result, connectionId, relativePath)
 	return result.FolderItems, err
 }
 
@@ -7781,7 +7781,7 @@ func (obj *Doc) GetFolderItemsForConnectionRaw(ctx context.Context, connectionId
 	result := &struct {
 		FolderItems json.RawMessage `json:"qFolderItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetFolderItemsForConnection", result, connectionId, relativePath)
+	err := obj.RPC(ctx, "GetFolderItemsForConnection", result, connectionId, relativePath)
 	return result.FolderItems, err
 }
 
@@ -7799,7 +7799,7 @@ func (obj *Doc) GetIncludeFileContent(ctx context.Context, path string) (string,
 	result := &struct {
 		Content string `json:"qContent"`
 	}{}
-	err := obj.Rpc(ctx, "GetIncludeFileContent", result, path)
+	err := obj.RPC(ctx, "GetIncludeFileContent", result, path)
 	return result.Content, err
 }
 
@@ -7825,7 +7825,7 @@ func (obj *Doc) GetLibraryContent(ctx context.Context, name string) (*StaticCont
 	result := &struct {
 		List *StaticContentList `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetLibraryContent", result, name)
+	err := obj.RPC(ctx, "GetLibraryContent", result, name)
 	return result.List, err
 }
 
@@ -7851,7 +7851,7 @@ func (obj *Doc) GetLibraryContentRaw(ctx context.Context, name string) (json.Raw
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetLibraryContent", result, name)
+	err := obj.RPC(ctx, "GetLibraryContent", result, name)
 	return result.List, err
 }
 
@@ -7862,7 +7862,7 @@ func (obj *Doc) GetLineage(ctx context.Context) ([]*LineageInfo, error) {
 	result := &struct {
 		Lineage []*LineageInfo `json:"qLineage"`
 	}{}
-	err := obj.Rpc(ctx, "GetLineage", result)
+	err := obj.RPC(ctx, "GetLineage", result)
 	return result.Lineage, err
 }
 
@@ -7873,7 +7873,7 @@ func (obj *Doc) GetLineageRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Lineage json.RawMessage `json:"qLineage"`
 	}{}
-	err := obj.Rpc(ctx, "GetLineage", result)
+	err := obj.RPC(ctx, "GetLineage", result)
 	return result.Lineage, err
 }
 
@@ -7883,7 +7883,7 @@ func (obj *Doc) GetLocaleInfo(ctx context.Context) (*LocaleInfo, error) {
 	result := &struct {
 		Return *LocaleInfo `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetLocaleInfo", result)
+	err := obj.RPC(ctx, "GetLocaleInfo", result)
 	return result.Return, err
 }
 
@@ -7893,7 +7893,7 @@ func (obj *Doc) GetLocaleInfoRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetLocaleInfo", result)
+	err := obj.RPC(ctx, "GetLocaleInfo", result)
 	return result.Return, err
 }
 
@@ -7915,7 +7915,7 @@ func (obj *Doc) GetLooselyCoupledVector(ctx context.Context) ([]string, error) {
 	result := &struct {
 		V []string `json:"qv"`
 	}{}
-	err := obj.Rpc(ctx, "GetLooselyCoupledVector", result)
+	err := obj.RPC(ctx, "GetLooselyCoupledVector", result)
 	return result.V, err
 }
 
@@ -7941,7 +7941,7 @@ func (obj *Doc) GetMatchingFields(ctx context.Context, tags []string, matchingFi
 	result := &struct {
 		FieldNames []*NxMatchingFieldInfo `json:"qFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "GetMatchingFields", result, tags, matchingFieldMode)
+	err := obj.RPC(ctx, "GetMatchingFields", result, tags, matchingFieldMode)
 	return result.FieldNames, err
 }
 
@@ -7967,7 +7967,7 @@ func (obj *Doc) GetMatchingFieldsRaw(ctx context.Context, tags []string, matchin
 	result := &struct {
 		FieldNames json.RawMessage `json:"qFieldNames"`
 	}{}
-	err := obj.Rpc(ctx, "GetMatchingFields", result, tags, matchingFieldMode)
+	err := obj.RPC(ctx, "GetMatchingFields", result, tags, matchingFieldMode)
 	return result.FieldNames, err
 }
 
@@ -7982,7 +7982,7 @@ func (obj *Doc) GetMeasure(ctx context.Context, id string) (*GenericMeasure, err
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetMeasure", result, id)
+	err := obj.RPC(ctx, "GetMeasure", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -7997,7 +7997,7 @@ func (obj *Doc) GetMediaList(ctx context.Context) (*MediaList, error) {
 		List   *MediaList `json:"qList"`
 		Return bool       `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetMediaList", result)
+	err := obj.RPC(ctx, "GetMediaList", result)
 	return result.List, err
 }
 
@@ -8009,7 +8009,7 @@ func (obj *Doc) GetMediaListRaw(ctx context.Context) (json.RawMessage, error) {
 		List   json.RawMessage `json:"qList"`
 		Return bool            `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetMediaList", result)
+	err := obj.RPC(ctx, "GetMediaList", result)
 	return result.List, err
 }
 
@@ -8024,7 +8024,7 @@ func (obj *Doc) GetObject(ctx context.Context, id string) (*GenericObject, error
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetObject", result, id)
+	err := obj.RPC(ctx, "GetObject", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -8042,7 +8042,7 @@ func (obj *Doc) GetObjects(ctx context.Context, options *NxGetObjectOptions) ([]
 	result := &struct {
 		List []*NxContainerEntry `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetObjects", result, options)
+	err := obj.RPC(ctx, "GetObjects", result, options)
 	return result.List, err
 }
 
@@ -8057,7 +8057,7 @@ func (obj *Doc) GetObjectsRaw(ctx context.Context, options interface{}) (json.Ra
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetObjects", result, options)
+	err := obj.RPC(ctx, "GetObjects", result, options)
 	return result.List, err
 }
 
@@ -8067,7 +8067,7 @@ func (obj *Doc) GetScript(ctx context.Context) (string, error) {
 	result := &struct {
 		Script string `json:"qScript"`
 	}{}
-	err := obj.Rpc(ctx, "GetScript", result)
+	err := obj.RPC(ctx, "GetScript", result)
 	return result.Script, err
 }
 
@@ -8077,7 +8077,7 @@ func (obj *Doc) GetScriptBreakpoints(ctx context.Context) ([]*EditorBreakpoint, 
 	result := &struct {
 		Breakpoints []*EditorBreakpoint `json:"qBreakpoints"`
 	}{}
-	err := obj.Rpc(ctx, "GetScriptBreakpoints", result)
+	err := obj.RPC(ctx, "GetScriptBreakpoints", result)
 	return result.Breakpoints, err
 }
 
@@ -8087,7 +8087,7 @@ func (obj *Doc) GetScriptBreakpointsRaw(ctx context.Context) (json.RawMessage, e
 	result := &struct {
 		Breakpoints json.RawMessage `json:"qBreakpoints"`
 	}{}
-	err := obj.Rpc(ctx, "GetScriptBreakpoints", result)
+	err := obj.RPC(ctx, "GetScriptBreakpoints", result)
 	return result.Breakpoints, err
 }
 
@@ -8097,7 +8097,7 @@ func (obj *Doc) GetScriptEx(ctx context.Context) (*AppScript, error) {
 	result := &struct {
 		Script *AppScript `json:"qScript"`
 	}{}
-	err := obj.Rpc(ctx, "GetScriptEx", result)
+	err := obj.RPC(ctx, "GetScriptEx", result)
 	return result.Script, err
 }
 
@@ -8107,7 +8107,7 @@ func (obj *Doc) GetScriptExRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Script json.RawMessage `json:"qScript"`
 	}{}
-	err := obj.Rpc(ctx, "GetScriptEx", result)
+	err := obj.RPC(ctx, "GetScriptEx", result)
 	return result.Script, err
 }
 
@@ -8128,7 +8128,7 @@ func (obj *Doc) GetSetAnalysis(ctx context.Context, stateName string, bookmarkId
 	result := &struct {
 		SetExpression string `json:"qSetExpression"`
 	}{}
-	err := obj.Rpc(ctx, "GetSetAnalysis", result, stateName, bookmarkId)
+	err := obj.RPC(ctx, "GetSetAnalysis", result, stateName, bookmarkId)
 	return result.SetExpression, err
 }
 
@@ -8150,7 +8150,7 @@ func (obj *Doc) GetTableData(ctx context.Context, offset int, rows int, syntheti
 	result := &struct {
 		Data []*TableRow `json:"qData"`
 	}{}
-	err := obj.Rpc(ctx, "GetTableData", result, offset, rows, syntheticMode, tableName)
+	err := obj.RPC(ctx, "GetTableData", result, offset, rows, syntheticMode, tableName)
 	return result.Data, err
 }
 
@@ -8172,7 +8172,7 @@ func (obj *Doc) GetTableDataRaw(ctx context.Context, offset int, rows int, synth
 	result := &struct {
 		Data json.RawMessage `json:"qData"`
 	}{}
-	err := obj.Rpc(ctx, "GetTableData", result, offset, rows, syntheticMode, tableName)
+	err := obj.RPC(ctx, "GetTableData", result, offset, rows, syntheticMode, tableName)
 	return result.Data, err
 }
 
@@ -8208,7 +8208,7 @@ func (obj *Doc) GetTablesAndKeys(ctx context.Context, windowSize *Size, nullSize
 		Tr []*TableRecord     `json:"qtr"`
 		K  []*SourceKeyRecord `json:"qk"`
 	}{}
-	err := obj.Rpc(ctx, "GetTablesAndKeys", result, windowSize, nullSize, cellHeight, syntheticMode, includeSysVars)
+	err := obj.RPC(ctx, "GetTablesAndKeys", result, windowSize, nullSize, cellHeight, syntheticMode, includeSysVars)
 	return result.Tr, result.K, err
 }
 
@@ -8244,7 +8244,7 @@ func (obj *Doc) GetTablesAndKeysRaw(ctx context.Context, windowSize interface{},
 		Tr json.RawMessage `json:"qtr"`
 		K  json.RawMessage `json:"qk"`
 	}{}
-	err := obj.Rpc(ctx, "GetTablesAndKeys", result, windowSize, nullSize, cellHeight, syntheticMode, includeSysVars)
+	err := obj.RPC(ctx, "GetTablesAndKeys", result, windowSize, nullSize, cellHeight, syntheticMode, includeSysVars)
 	return result.Tr, result.K, err
 }
 
@@ -8256,7 +8256,7 @@ func (obj *Doc) GetTextMacros(ctx context.Context) ([]*TextMacro, error) {
 	result := &struct {
 		Macros []*TextMacro `json:"qMacros"`
 	}{}
-	err := obj.Rpc(ctx, "GetTextMacros", result)
+	err := obj.RPC(ctx, "GetTextMacros", result)
 	return result.Macros, err
 }
 
@@ -8268,7 +8268,7 @@ func (obj *Doc) GetTextMacrosRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		Macros json.RawMessage `json:"qMacros"`
 	}{}
-	err := obj.Rpc(ctx, "GetTextMacros", result)
+	err := obj.RPC(ctx, "GetTextMacros", result)
 	return result.Macros, err
 }
 
@@ -8284,7 +8284,7 @@ func (obj *Doc) GetVariable(ctx context.Context, name string) (*Variable, error)
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetVariable", result, name)
+	err := obj.RPC(ctx, "GetVariable", result, name)
 	if err != nil {
 		return nil, err
 	}
@@ -8302,7 +8302,7 @@ func (obj *Doc) GetVariableById(ctx context.Context, id string) (*Variable, erro
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetVariableById", result, id)
+	err := obj.RPC(ctx, "GetVariableById", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -8320,7 +8320,7 @@ func (obj *Doc) GetVariableByName(ctx context.Context, name string) (*GenericVar
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetVariableByName", result, name)
+	err := obj.RPC(ctx, "GetVariableByName", result, name)
 	if err != nil {
 		return nil, err
 	}
@@ -8332,7 +8332,7 @@ func (obj *Doc) GetVariables(ctx context.Context, listDef *VariableListDef) ([]*
 	result := &struct {
 		List []*NxVariableListItem `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetVariables", result, listDef)
+	err := obj.RPC(ctx, "GetVariables", result, listDef)
 	return result.List, err
 }
 
@@ -8341,7 +8341,7 @@ func (obj *Doc) GetVariablesRaw(ctx context.Context, listDef interface{}) (json.
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
-	err := obj.Rpc(ctx, "GetVariables", result, listDef)
+	err := obj.RPC(ctx, "GetVariables", result, listDef)
 	return result.List, err
 }
 
@@ -8359,7 +8359,7 @@ func (obj *Doc) GetViewDlgSaveInfo(ctx context.Context) (*TableViewDlgSaveInfo, 
 	result := &struct {
 		Return *TableViewDlgSaveInfo `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetViewDlgSaveInfo", result)
+	err := obj.RPC(ctx, "GetViewDlgSaveInfo", result)
 	return result.Return, err
 }
 
@@ -8377,7 +8377,7 @@ func (obj *Doc) GetViewDlgSaveInfoRaw(ctx context.Context) (json.RawMessage, err
 	result := &struct {
 		Return json.RawMessage `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetViewDlgSaveInfo", result)
+	err := obj.RPC(ctx, "GetViewDlgSaveInfo", result)
 	return result.Return, err
 }
 
@@ -8443,7 +8443,7 @@ func (obj *Doc) GuessFileType(ctx context.Context, connectionId string, relative
 	result := &struct {
 		DataFormat *FileDataFormat `json:"qDataFormat"`
 	}{}
-	err := obj.Rpc(ctx, "GuessFileType", result, connectionId, relativePath)
+	err := obj.RPC(ctx, "GuessFileType", result, connectionId, relativePath)
 	return result.DataFormat, err
 }
 
@@ -8509,7 +8509,7 @@ func (obj *Doc) GuessFileTypeRaw(ctx context.Context, connectionId string, relat
 	result := &struct {
 		DataFormat json.RawMessage `json:"qDataFormat"`
 	}{}
-	err := obj.Rpc(ctx, "GuessFileType", result, connectionId, relativePath)
+	err := obj.RPC(ctx, "GuessFileType", result, connectionId, relativePath)
 	return result.DataFormat, err
 }
 
@@ -8521,7 +8521,7 @@ func (obj *Doc) GuessFileTypeRaw(ctx context.Context, connectionId string, relat
 //
 // Stability: locked
 func (obj *Doc) LockAll(ctx context.Context, stateName string) error {
-	err := obj.Rpc(ctx, "LockAll", nil, stateName)
+	err := obj.RPC(ctx, "LockAll", nil, stateName)
 	return err
 }
 
@@ -8539,7 +8539,7 @@ func (obj *Doc) LockAll(ctx context.Context, stateName string) error {
 //
 // Stability: locked
 func (obj *Doc) ModifyConnection(ctx context.Context, connectionId string, connection *Connection, overrideCredentials bool) error {
-	err := obj.Rpc(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
+	err := obj.RPC(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
 	return err
 }
 
@@ -8557,7 +8557,7 @@ func (obj *Doc) ModifyConnection(ctx context.Context, connectionId string, conne
 //
 // Stability: locked
 func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, connection interface{}, overrideCredentials bool) error {
-	err := obj.Rpc(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
+	err := obj.RPC(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
 	return err
 }
 
@@ -8574,7 +8574,7 @@ func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, co
 //
 // Stability: locked
 func (obj *Doc) Publish(ctx context.Context, streamId string, name string) error {
-	err := obj.Rpc(ctx, "Publish", nil, streamId, name)
+	err := obj.RPC(ctx, "Publish", nil, streamId, name)
 	return err
 }
 
@@ -8586,7 +8586,7 @@ func (obj *Doc) Redo(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "Redo", result)
+	err := obj.RPC(ctx, "Redo", result)
 	return result.Success, err
 }
 
@@ -8598,7 +8598,7 @@ func (obj *Doc) Redo(ctx context.Context) (bool, error) {
 //
 // Stability: locked
 func (obj *Doc) RemoveAlternateState(ctx context.Context, stateName string) error {
-	err := obj.Rpc(ctx, "RemoveAlternateState", nil, stateName)
+	err := obj.RPC(ctx, "RemoveAlternateState", nil, stateName)
 	return err
 }
 
@@ -8614,14 +8614,14 @@ func (obj *Doc) RemoveVariable(ctx context.Context, name string) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "RemoveVariable", result, name)
+	err := obj.RPC(ctx, "RemoveVariable", result, name)
 	return result.Return, err
 }
 
 // Resumes the app as the user left it.
 // Stability: locked
 func (obj *Doc) Resume(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Resume", nil)
+	err := obj.RPC(ctx, "Resume", nil)
 	return err
 }
 
@@ -8637,7 +8637,7 @@ func (obj *Doc) SaveAs(ctx context.Context, newAppName string) (string, error) {
 	result := &struct {
 		NewAppId string `json:"qNewAppId"`
 	}{}
-	err := obj.Rpc(ctx, "SaveAs", result, newAppName)
+	err := obj.RPC(ctx, "SaveAs", result, newAppName)
 	return result.NewAppId, err
 }
 
@@ -8646,7 +8646,7 @@ func (obj *Doc) SaveAs(ctx context.Context, newAppName string) (string, error) {
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *Doc) SaveObjects(ctx context.Context) error {
-	err := obj.Rpc(ctx, "SaveObjects", nil)
+	err := obj.RPC(ctx, "SaveObjects", nil)
 	return err
 }
 
@@ -8659,7 +8659,7 @@ func (obj *Doc) SaveObjects(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
-	err := obj.Rpc(ctx, "Scramble", nil, fieldName)
+	err := obj.RPC(ctx, "Scramble", nil, fieldName)
 	return err
 }
 
@@ -8691,7 +8691,7 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 	result := &struct {
 		Results *SearchAssociationResult `json:"qResults"`
 	}{}
-	err := obj.Rpc(ctx, "SearchAssociations", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchAssociations", result, options, terms, page)
 	return result.Results, err
 }
 
@@ -8723,7 +8723,7 @@ func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, 
 	result := &struct {
 		Results json.RawMessage `json:"qResults"`
 	}{}
-	err := obj.Rpc(ctx, "SearchAssociations", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchAssociations", result, options, terms, page)
 	return result.Results, err
 }
 
@@ -8742,7 +8742,7 @@ func (obj *Doc) SearchObjects(ctx context.Context, options *SearchObjectOptions,
 	result := &struct {
 		Result *SearchResult `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchObjects", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchObjects", result, options, terms, page)
 	return result.Result, err
 }
 
@@ -8761,7 +8761,7 @@ func (obj *Doc) SearchObjectsRaw(ctx context.Context, options interface{}, terms
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchObjects", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchObjects", result, options, terms, page)
 	return result.Result, err
 }
 
@@ -8800,7 +8800,7 @@ func (obj *Doc) SearchResults(ctx context.Context, options *SearchCombinationOpt
 	result := &struct {
 		Result *SearchResult `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchResults", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchResults", result, options, terms, page)
 	return result.Result, err
 }
 
@@ -8839,7 +8839,7 @@ func (obj *Doc) SearchResultsRaw(ctx context.Context, options interface{}, terms
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchResults", result, options, terms, page)
+	err := obj.RPC(ctx, "SearchResults", result, options, terms, page)
 	return result.Result, err
 }
 
@@ -8856,7 +8856,7 @@ func (obj *Doc) SearchSuggest(ctx context.Context, options *SearchCombinationOpt
 	result := &struct {
 		Result *SearchSuggestionResult `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchSuggest", result, options, terms)
+	err := obj.RPC(ctx, "SearchSuggest", result, options, terms)
 	return result.Result, err
 }
 
@@ -8873,7 +8873,7 @@ func (obj *Doc) SearchSuggestRaw(ctx context.Context, options interface{}, terms
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SearchSuggest", result, options, terms)
+	err := obj.RPC(ctx, "SearchSuggest", result, options, terms)
 	return result.Result, err
 }
 
@@ -8893,7 +8893,7 @@ func (obj *Doc) SearchSuggestRaw(ctx context.Context, options interface{}, terms
 //
 // Stability: locked
 func (obj *Doc) SelectAssociations(ctx context.Context, options *SearchCombinationOptions, terms []string, matchIx int, softLock bool) error {
-	err := obj.Rpc(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
+	err := obj.RPC(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
 	return err
 }
 
@@ -8913,7 +8913,7 @@ func (obj *Doc) SelectAssociations(ctx context.Context, options *SearchCombinati
 //
 // Stability: locked
 func (obj *Doc) SelectAssociationsRaw(ctx context.Context, options interface{}, terms []string, matchIx int, softLock bool) error {
-	err := obj.Rpc(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
+	err := obj.RPC(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
 	return err
 }
 
@@ -8950,7 +8950,7 @@ func (obj *Doc) SendGenericCommandToCustomConnector(ctx context.Context, provide
 	result := &struct {
 		Result string `json:"qResult"`
 	}{}
-	err := obj.Rpc(ctx, "SendGenericCommandToCustomConnector", result, provider, command, method, parameters, appendConnection)
+	err := obj.RPC(ctx, "SendGenericCommandToCustomConnector", result, provider, command, method, parameters, appendConnection)
 	return result.Result, err
 }
 
@@ -8963,7 +8963,7 @@ func (obj *Doc) SendGenericCommandToCustomConnector(ctx context.Context, provide
 //
 // Stability: locked
 func (obj *Doc) SetAppProperties(ctx context.Context, prop *NxAppProperties) error {
-	err := obj.Rpc(ctx, "SetAppProperties", nil, prop)
+	err := obj.RPC(ctx, "SetAppProperties", nil, prop)
 	return err
 }
 
@@ -8976,7 +8976,7 @@ func (obj *Doc) SetAppProperties(ctx context.Context, prop *NxAppProperties) err
 //
 // Stability: locked
 func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetAppProperties", nil, prop)
+	err := obj.RPC(ctx, "SetAppProperties", nil, prop)
 	return err
 }
 
@@ -8988,7 +8988,7 @@ func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop interface{}) error
 //
 // Stability: locked
 func (obj *Doc) SetFavoriteVariables(ctx context.Context, names []string) error {
-	err := obj.Rpc(ctx, "SetFavoriteVariables", nil, names)
+	err := obj.RPC(ctx, "SetFavoriteVariables", nil, names)
 	return err
 }
 
@@ -9002,7 +9002,7 @@ func (obj *Doc) SetFavoriteVariables(ctx context.Context, names []string) error 
 //
 // Stability: locked
 func (obj *Doc) SetFetchLimit(ctx context.Context, limit int) error {
-	err := obj.Rpc(ctx, "SetFetchLimit", nil, limit)
+	err := obj.RPC(ctx, "SetFetchLimit", nil, limit)
 	return err
 }
 
@@ -9027,7 +9027,7 @@ func (obj *Doc) SetLooselyCoupledVector(ctx context.Context, v []string) (bool, 
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SetLooselyCoupledVector", result, v)
+	err := obj.RPC(ctx, "SetLooselyCoupledVector", result, v)
 	return result.Return, err
 }
 
@@ -9039,7 +9039,7 @@ func (obj *Doc) SetLooselyCoupledVector(ctx context.Context, v []string) (bool, 
 //
 // Stability: locked
 func (obj *Doc) SetScript(ctx context.Context, script string) error {
-	err := obj.Rpc(ctx, "SetScript", nil, script)
+	err := obj.RPC(ctx, "SetScript", nil, script)
 	return err
 }
 
@@ -9051,7 +9051,7 @@ func (obj *Doc) SetScript(ctx context.Context, script string) error {
 //
 // Stability: locked
 func (obj *Doc) SetScriptBreakpoints(ctx context.Context, breakpoints []*EditorBreakpoint) error {
-	err := obj.Rpc(ctx, "SetScriptBreakpoints", nil, breakpoints)
+	err := obj.RPC(ctx, "SetScriptBreakpoints", nil, breakpoints)
 	return err
 }
 
@@ -9063,7 +9063,7 @@ func (obj *Doc) SetScriptBreakpoints(ctx context.Context, breakpoints []*EditorB
 //
 // Stability: locked
 func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints interface{}) error {
-	err := obj.Rpc(ctx, "SetScriptBreakpoints", nil, breakpoints)
+	err := obj.RPC(ctx, "SetScriptBreakpoints", nil, breakpoints)
 	return err
 }
 
@@ -9083,7 +9083,7 @@ func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints interfa
 //
 // Stability: locked
 func (obj *Doc) SetViewDlgSaveInfo(ctx context.Context, info *TableViewDlgSaveInfo) error {
-	err := obj.Rpc(ctx, "SetViewDlgSaveInfo", nil, info)
+	err := obj.RPC(ctx, "SetViewDlgSaveInfo", nil, info)
 	return err
 }
 
@@ -9103,7 +9103,7 @@ func (obj *Doc) SetViewDlgSaveInfo(ctx context.Context, info *TableViewDlgSaveIn
 //
 // Stability: locked
 func (obj *Doc) SetViewDlgSaveInfoRaw(ctx context.Context, info interface{}) error {
-	err := obj.Rpc(ctx, "SetViewDlgSaveInfo", nil, info)
+	err := obj.RPC(ctx, "SetViewDlgSaveInfo", nil, info)
 	return err
 }
 
@@ -9115,7 +9115,7 @@ func (obj *Doc) Undo(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "Undo", result)
+	err := obj.RPC(ctx, "Undo", result)
 	return result.Success, err
 }
 
@@ -9127,7 +9127,7 @@ func (obj *Doc) Undo(ctx context.Context) (bool, error) {
 //
 // Stability: locked
 func (obj *Doc) UnlockAll(ctx context.Context, stateName string) error {
-	err := obj.Rpc(ctx, "UnlockAll", nil, stateName)
+	err := obj.RPC(ctx, "UnlockAll", nil, stateName)
 	return err
 }
 
@@ -9141,7 +9141,7 @@ func (obj *Field) Clear(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "Clear", result)
+	err := obj.RPC(ctx, "Clear", result)
 	return result.Return, err
 }
 
@@ -9157,7 +9157,7 @@ func (obj *Field) ClearAllButThis(ctx context.Context, softLock bool) (bool, err
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "ClearAllButThis", result, softLock)
+	err := obj.RPC(ctx, "ClearAllButThis", result, softLock)
 	return result.Return, err
 }
 
@@ -9167,7 +9167,7 @@ func (obj *Field) GetAndMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetAndMode", result)
+	err := obj.RPC(ctx, "GetAndMode", result)
 	return result.Return, err
 }
 
@@ -9177,7 +9177,7 @@ func (obj *Field) GetCardinal(ctx context.Context) (int, error) {
 	result := &struct {
 		Return int `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetCardinal", result)
+	err := obj.RPC(ctx, "GetCardinal", result)
 	return result.Return, err
 }
 
@@ -9189,7 +9189,7 @@ func (obj *Field) GetNxProperties(ctx context.Context) (*NxFieldProperties, erro
 	result := &struct {
 		Properties *NxFieldProperties `json:"qProperties"`
 	}{}
-	err := obj.Rpc(ctx, "GetNxProperties", result)
+	err := obj.RPC(ctx, "GetNxProperties", result)
 	return result.Properties, err
 }
 
@@ -9201,7 +9201,7 @@ func (obj *Field) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, erro
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
 	}{}
-	err := obj.Rpc(ctx, "GetNxProperties", result)
+	err := obj.RPC(ctx, "GetNxProperties", result)
 	return result.Properties, err
 }
 
@@ -9211,7 +9211,7 @@ func (obj *Field) Lock(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "Lock", result)
+	err := obj.RPC(ctx, "Lock", result)
 	return result.Return, err
 }
 
@@ -9232,7 +9232,7 @@ func (obj *Field) LowLevelSelect(ctx context.Context, values []int, toggleMode b
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "LowLevelSelect", result, values, toggleMode, softLock)
+	err := obj.RPC(ctx, "LowLevelSelect", result, values, toggleMode, softLock)
 	return result.Return, err
 }
 
@@ -9253,7 +9253,7 @@ func (obj *Field) Select(ctx context.Context, match string, softLock bool, exclu
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "Select", result, match, softLock, excludedValuesMode)
+	err := obj.RPC(ctx, "Select", result, match, softLock, excludedValuesMode)
 	return result.Return, err
 }
 
@@ -9269,7 +9269,7 @@ func (obj *Field) SelectAll(ctx context.Context, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectAll", result, softLock)
+	err := obj.RPC(ctx, "SelectAll", result, softLock)
 	return result.Return, err
 }
 
@@ -9286,7 +9286,7 @@ func (obj *Field) SelectAlternative(ctx context.Context, softLock bool) (bool, e
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectAlternative", result, softLock)
+	err := obj.RPC(ctx, "SelectAlternative", result, softLock)
 	return result.Return, err
 }
 
@@ -9302,7 +9302,7 @@ func (obj *Field) SelectExcluded(ctx context.Context, softLock bool) (bool, erro
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectExcluded", result, softLock)
+	err := obj.RPC(ctx, "SelectExcluded", result, softLock)
 	return result.Return, err
 }
 
@@ -9318,7 +9318,7 @@ func (obj *Field) SelectPossible(ctx context.Context, softLock bool) (bool, erro
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectPossible", result, softLock)
+	err := obj.RPC(ctx, "SelectPossible", result, softLock)
 	return result.Return, err
 }
 
@@ -9338,7 +9338,7 @@ func (obj *Field) SelectValues(ctx context.Context, fieldValues []*FieldValue, t
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectValues", result, fieldValues, toggleMode, softLock)
+	err := obj.RPC(ctx, "SelectValues", result, fieldValues, toggleMode, softLock)
 	return result.Return, err
 }
 
@@ -9358,7 +9358,7 @@ func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues interface{}, 
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SelectValues", result, fieldValues, toggleMode, softLock)
+	err := obj.RPC(ctx, "SelectValues", result, fieldValues, toggleMode, softLock)
 	return result.Return, err
 }
 
@@ -9371,7 +9371,7 @@ func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues interface{}, 
 //
 // Stability: locked
 func (obj *Field) SetAndMode(ctx context.Context, andMode bool) error {
-	err := obj.Rpc(ctx, "SetAndMode", nil, andMode)
+	err := obj.RPC(ctx, "SetAndMode", nil, andMode)
 	return err
 }
 
@@ -9383,7 +9383,7 @@ func (obj *Field) SetAndMode(ctx context.Context, andMode bool) error {
 //
 // Stability: locked
 func (obj *Field) SetNxProperties(ctx context.Context, properties *NxFieldProperties) error {
-	err := obj.Rpc(ctx, "SetNxProperties", nil, properties)
+	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }
 
@@ -9395,7 +9395,7 @@ func (obj *Field) SetNxProperties(ctx context.Context, properties *NxFieldProper
 //
 // Stability: locked
 func (obj *Field) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
-	err := obj.Rpc(ctx, "SetNxProperties", nil, properties)
+	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }
 
@@ -9416,7 +9416,7 @@ func (obj *Field) ToggleSelect(ctx context.Context, match string, softLock bool,
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "ToggleSelect", result, match, softLock, excludedValuesMode)
+	err := obj.RPC(ctx, "ToggleSelect", result, match, softLock, excludedValuesMode)
 	return result.Return, err
 }
 
@@ -9426,7 +9426,7 @@ func (obj *Field) Unlock(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "Unlock", result)
+	err := obj.RPC(ctx, "Unlock", result)
 	return result.Return, err
 }
 
@@ -9442,7 +9442,7 @@ func (obj *GenericBookmark) Apply(ctx context.Context) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "Apply", result)
+	err := obj.RPC(ctx, "Apply", result)
 	return result.Success, err
 }
 
@@ -9455,7 +9455,7 @@ func (obj *GenericBookmark) Apply(ctx context.Context) (bool, error) {
 //
 // Stability: locked
 func (obj *GenericBookmark) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9468,7 +9468,7 @@ func (obj *GenericBookmark) ApplyPatches(ctx context.Context, patches []*NxPatch
 //
 // Stability: locked
 func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9476,7 +9476,7 @@ func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches interfa
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericBookmark) Approve(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Approve", nil)
+	err := obj.RPC(ctx, "Approve", nil)
 	return err
 }
 
@@ -9509,7 +9509,7 @@ func (obj *GenericBookmark) GetFieldValues(ctx context.Context, field string, ge
 	result := &struct {
 		FieldValues []*FieldValue `json:"qFieldValues"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldValues", result, field, getExcludedValues, dataPage)
+	err := obj.RPC(ctx, "GetFieldValues", result, field, getExcludedValues, dataPage)
 	return result.FieldValues, err
 }
 
@@ -9542,7 +9542,7 @@ func (obj *GenericBookmark) GetFieldValuesRaw(ctx context.Context, field string,
 	result := &struct {
 		FieldValues json.RawMessage `json:"qFieldValues"`
 	}{}
-	err := obj.Rpc(ctx, "GetFieldValues", result, field, getExcludedValues, dataPage)
+	err := obj.RPC(ctx, "GetFieldValues", result, field, getExcludedValues, dataPage)
 	return result.FieldValues, err
 }
 
@@ -9556,7 +9556,7 @@ func (obj *GenericBookmark) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9570,7 +9570,7 @@ func (obj *GenericBookmark) GetInfoRaw(ctx context.Context) (json.RawMessage, er
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9581,7 +9581,7 @@ func (obj *GenericBookmark) GetLayout(ctx context.Context) (*GenericBookmarkLayo
 	result := &struct {
 		Layout *GenericBookmarkLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9592,7 +9592,7 @@ func (obj *GenericBookmark) GetLayoutRaw(ctx context.Context) (json.RawMessage, 
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9605,7 +9605,7 @@ func (obj *GenericBookmark) GetProperties(ctx context.Context) (*GenericBookmark
 	result := &struct {
 		Prop *GenericBookmarkProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -9618,7 +9618,7 @@ func (obj *GenericBookmark) GetPropertiesRaw(ctx context.Context) (json.RawMessa
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -9626,7 +9626,7 @@ func (obj *GenericBookmark) GetPropertiesRaw(ctx context.Context) (json.RawMessa
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericBookmark) Publish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Publish", nil)
+	err := obj.RPC(ctx, "Publish", nil)
 	return err
 }
 
@@ -9638,7 +9638,7 @@ func (obj *GenericBookmark) Publish(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericBookmark) SetProperties(ctx context.Context, prop *GenericBookmarkProperties) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -9650,7 +9650,7 @@ func (obj *GenericBookmark) SetProperties(ctx context.Context, prop *GenericBook
 //
 // Stability: locked
 func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -9658,7 +9658,7 @@ func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop interface
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericBookmark) UnApprove(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnApprove", nil)
+	err := obj.RPC(ctx, "UnApprove", nil)
 	return err
 }
 
@@ -9666,7 +9666,7 @@ func (obj *GenericBookmark) UnApprove(ctx context.Context) error {
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericBookmark) UnPublish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnPublish", nil)
+	err := obj.RPC(ctx, "UnPublish", nil)
 	return err
 }
 
@@ -9683,7 +9683,7 @@ type GenericDimension struct {
 //
 // Stability: locked
 func (obj *GenericDimension) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9696,7 +9696,7 @@ func (obj *GenericDimension) ApplyPatches(ctx context.Context, patches []*NxPatc
 //
 // Stability: locked
 func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9704,7 +9704,7 @@ func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches interf
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericDimension) Approve(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Approve", nil)
+	err := obj.RPC(ctx, "Approve", nil)
 	return err
 }
 
@@ -9716,7 +9716,7 @@ func (obj *GenericDimension) GetDimension(ctx context.Context) (*NxLibraryDimens
 	result := &struct {
 		Dim *NxLibraryDimensionDef `json:"qDim"`
 	}{}
-	err := obj.Rpc(ctx, "GetDimension", result)
+	err := obj.RPC(ctx, "GetDimension", result)
 	return result.Dim, err
 }
 
@@ -9728,7 +9728,7 @@ func (obj *GenericDimension) GetDimensionRaw(ctx context.Context) (json.RawMessa
 	result := &struct {
 		Dim json.RawMessage `json:"qDim"`
 	}{}
-	err := obj.Rpc(ctx, "GetDimension", result)
+	err := obj.RPC(ctx, "GetDimension", result)
 	return result.Dim, err
 }
 
@@ -9738,7 +9738,7 @@ func (obj *GenericDimension) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9748,7 +9748,7 @@ func (obj *GenericDimension) GetInfoRaw(ctx context.Context) (json.RawMessage, e
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9758,7 +9758,7 @@ func (obj *GenericDimension) GetLayout(ctx context.Context) (*GenericDimensionLa
 	result := &struct {
 		Layout *GenericDimensionLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9768,7 +9768,7 @@ func (obj *GenericDimension) GetLayoutRaw(ctx context.Context) (json.RawMessage,
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9778,7 +9778,7 @@ func (obj *GenericDimension) GetLinkedObjects(ctx context.Context) ([]*NxLinkedO
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -9788,7 +9788,7 @@ func (obj *GenericDimension) GetLinkedObjectsRaw(ctx context.Context) (json.RawM
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -9800,7 +9800,7 @@ func (obj *GenericDimension) GetProperties(ctx context.Context) (*GenericDimensi
 	result := &struct {
 		Prop *GenericDimensionProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -9812,7 +9812,7 @@ func (obj *GenericDimension) GetPropertiesRaw(ctx context.Context) (json.RawMess
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -9820,7 +9820,7 @@ func (obj *GenericDimension) GetPropertiesRaw(ctx context.Context) (json.RawMess
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericDimension) Publish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Publish", nil)
+	err := obj.RPC(ctx, "Publish", nil)
 	return err
 }
 
@@ -9832,7 +9832,7 @@ func (obj *GenericDimension) Publish(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericDimension) SetProperties(ctx context.Context, prop *GenericDimensionProperties) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -9844,7 +9844,7 @@ func (obj *GenericDimension) SetProperties(ctx context.Context, prop *GenericDim
 //
 // Stability: locked
 func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -9852,7 +9852,7 @@ func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop interfac
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericDimension) UnApprove(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnApprove", nil)
+	err := obj.RPC(ctx, "UnApprove", nil)
 	return err
 }
 
@@ -9860,7 +9860,7 @@ func (obj *GenericDimension) UnApprove(ctx context.Context) error {
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericDimension) UnPublish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnPublish", nil)
+	err := obj.RPC(ctx, "UnPublish", nil)
 	return err
 }
 
@@ -9877,7 +9877,7 @@ type GenericMeasure struct {
 //
 // Stability: locked
 func (obj *GenericMeasure) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9890,7 +9890,7 @@ func (obj *GenericMeasure) ApplyPatches(ctx context.Context, patches []*NxPatch)
 //
 // Stability: locked
 func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -9898,7 +9898,7 @@ func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches interfac
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericMeasure) Approve(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Approve", nil)
+	err := obj.RPC(ctx, "Approve", nil)
 	return err
 }
 
@@ -9908,7 +9908,7 @@ func (obj *GenericMeasure) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9918,7 +9918,7 @@ func (obj *GenericMeasure) GetInfoRaw(ctx context.Context) (json.RawMessage, err
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -9928,7 +9928,7 @@ func (obj *GenericMeasure) GetLayout(ctx context.Context) (*GenericMeasureLayout
 	result := &struct {
 		Layout *GenericMeasureLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9938,7 +9938,7 @@ func (obj *GenericMeasure) GetLayoutRaw(ctx context.Context) (json.RawMessage, e
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -9948,7 +9948,7 @@ func (obj *GenericMeasure) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObj
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -9958,7 +9958,7 @@ func (obj *GenericMeasure) GetLinkedObjectsRaw(ctx context.Context) (json.RawMes
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -9968,7 +9968,7 @@ func (obj *GenericMeasure) GetMeasure(ctx context.Context) (*NxLibraryMeasureDef
 	result := &struct {
 		Measure *NxLibraryMeasureDef `json:"qMeasure"`
 	}{}
-	err := obj.Rpc(ctx, "GetMeasure", result)
+	err := obj.RPC(ctx, "GetMeasure", result)
 	return result.Measure, err
 }
 
@@ -9978,7 +9978,7 @@ func (obj *GenericMeasure) GetMeasureRaw(ctx context.Context) (json.RawMessage, 
 	result := &struct {
 		Measure json.RawMessage `json:"qMeasure"`
 	}{}
-	err := obj.Rpc(ctx, "GetMeasure", result)
+	err := obj.RPC(ctx, "GetMeasure", result)
 	return result.Measure, err
 }
 
@@ -9992,7 +9992,7 @@ func (obj *GenericMeasure) GetProperties(ctx context.Context) (*GenericMeasurePr
 	result := &struct {
 		Prop *GenericMeasureProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -10006,7 +10006,7 @@ func (obj *GenericMeasure) GetPropertiesRaw(ctx context.Context) (json.RawMessag
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -10014,7 +10014,7 @@ func (obj *GenericMeasure) GetPropertiesRaw(ctx context.Context) (json.RawMessag
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericMeasure) Publish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Publish", nil)
+	err := obj.RPC(ctx, "Publish", nil)
 	return err
 }
 
@@ -10026,7 +10026,7 @@ func (obj *GenericMeasure) Publish(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericMeasure) SetProperties(ctx context.Context, prop *GenericMeasureProperties) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -10038,7 +10038,7 @@ func (obj *GenericMeasure) SetProperties(ctx context.Context, prop *GenericMeasu
 //
 // Stability: locked
 func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -10046,7 +10046,7 @@ func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop interface{
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericMeasure) UnApprove(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnApprove", nil)
+	err := obj.RPC(ctx, "UnApprove", nil)
 	return err
 }
 
@@ -10054,7 +10054,7 @@ func (obj *GenericMeasure) UnApprove(ctx context.Context) error {
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericMeasure) UnPublish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnPublish", nil)
+	err := obj.RPC(ctx, "UnPublish", nil)
 	return err
 }
 
@@ -10073,7 +10073,7 @@ type GenericObject struct {
 //
 // Stability: locked
 func (obj *GenericObject) AbortListObjectSearch(ctx context.Context, path string) error {
-	err := obj.Rpc(ctx, "AbortListObjectSearch", nil, path)
+	err := obj.RPC(ctx, "AbortListObjectSearch", nil, path)
 	return err
 }
 
@@ -10094,7 +10094,7 @@ func (obj *GenericObject) AbortListObjectSearch(ctx context.Context, path string
 //
 // Stability: locked
 func (obj *GenericObject) AcceptListObjectSearch(ctx context.Context, path string, toggleMode bool, softLock bool) error {
-	err := obj.Rpc(ctx, "AcceptListObjectSearch", nil, path, toggleMode, softLock)
+	err := obj.RPC(ctx, "AcceptListObjectSearch", nil, path, toggleMode, softLock)
 	return err
 }
 
@@ -10113,7 +10113,7 @@ func (obj *GenericObject) AcceptListObjectSearch(ctx context.Context, path strin
 //
 // Stability: locked
 func (obj *GenericObject) ApplyPatches(ctx context.Context, patches []*NxPatch, softPatch bool) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches, softPatch)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches, softPatch)
 	return err
 }
 
@@ -10132,7 +10132,7 @@ func (obj *GenericObject) ApplyPatches(ctx context.Context, patches []*NxPatch, 
 //
 // Stability: locked
 func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches interface{}, softPatch bool) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches, softPatch)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches, softPatch)
 	return err
 }
 
@@ -10140,7 +10140,7 @@ func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches interface
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericObject) Approve(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Approve", nil)
+	err := obj.RPC(ctx, "Approve", nil)
 	return err
 }
 
@@ -10162,7 +10162,7 @@ func (obj *GenericObject) Approve(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericObject) BeginSelections(ctx context.Context, paths []string) error {
-	err := obj.Rpc(ctx, "BeginSelections", nil, paths)
+	err := obj.RPC(ctx, "BeginSelections", nil, paths)
 	return err
 }
 
@@ -10179,7 +10179,7 @@ func (obj *GenericObject) BeginSelections(ctx context.Context, paths []string) e
 //
 // Stability: locked
 func (obj *GenericObject) ClearSelections(ctx context.Context, path string, colIndices []int) error {
-	err := obj.Rpc(ctx, "ClearSelections", nil, path, colIndices)
+	err := obj.RPC(ctx, "ClearSelections", nil, path, colIndices)
 	return err
 }
 
@@ -10187,7 +10187,7 @@ func (obj *GenericObject) ClearSelections(ctx context.Context, path string, colI
 // For more information on how to add soft properties to a generic object, see ApplyPatches Method.
 // Stability: locked
 func (obj *GenericObject) ClearSoftPatches(ctx context.Context) error {
-	err := obj.Rpc(ctx, "ClearSoftPatches", nil)
+	err := obj.RPC(ctx, "ClearSoftPatches", nil)
 	return err
 }
 
@@ -10210,7 +10210,7 @@ func (obj *GenericObject) ClearSoftPatches(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericObject) CollapseLeft(ctx context.Context, path string, row int, col int, all bool) error {
-	err := obj.Rpc(ctx, "CollapseLeft", nil, path, row, col, all)
+	err := obj.RPC(ctx, "CollapseLeft", nil, path, row, col, all)
 	return err
 }
 
@@ -10233,7 +10233,7 @@ func (obj *GenericObject) CollapseLeft(ctx context.Context, path string, row int
 //
 // Stability: locked
 func (obj *GenericObject) CollapseTop(ctx context.Context, path string, row int, col int, all bool) error {
-	err := obj.Rpc(ctx, "CollapseTop", nil, path, row, col, all)
+	err := obj.RPC(ctx, "CollapseTop", nil, path, row, col, all)
 	return err
 }
 
@@ -10247,7 +10247,7 @@ func (obj *GenericObject) CollapseTop(ctx context.Context, path string, row int,
 //
 // Stability: locked
 func (obj *GenericObject) CopyFrom(ctx context.Context, fromId string) error {
-	err := obj.Rpc(ctx, "CopyFrom", nil, fromId)
+	err := obj.RPC(ctx, "CopyFrom", nil, fromId)
 	return err
 }
 
@@ -10268,7 +10268,7 @@ func (obj *GenericObject) CreateChild(ctx context.Context, prop *GenericObjectPr
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateChild", result, prop, propForThis)
+	err := obj.RPC(ctx, "CreateChild", result, prop, propForThis)
 	if err != nil {
 		return nil, err
 	}
@@ -10292,7 +10292,7 @@ func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop interface{}, 
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateChild", result, prop, propForThis)
+	err := obj.RPC(ctx, "CreateChild", result, prop, propForThis)
 	if err != nil {
 		return nil, err
 	}
@@ -10308,7 +10308,7 @@ func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop interface{}, 
 //
 // Stability: locked
 func (obj *GenericObject) DestroyAllChildren(ctx context.Context, propForThis *GenericObjectProperties) error {
-	err := obj.Rpc(ctx, "DestroyAllChildren", nil, propForThis)
+	err := obj.RPC(ctx, "DestroyAllChildren", nil, propForThis)
 	return err
 }
 
@@ -10321,7 +10321,7 @@ func (obj *GenericObject) DestroyAllChildren(ctx context.Context, propForThis *G
 //
 // Stability: locked
 func (obj *GenericObject) DestroyAllChildrenRaw(ctx context.Context, propForThis interface{}) error {
-	err := obj.Rpc(ctx, "DestroyAllChildren", nil, propForThis)
+	err := obj.RPC(ctx, "DestroyAllChildren", nil, propForThis)
 	return err
 }
 
@@ -10343,7 +10343,7 @@ func (obj *GenericObject) DestroyChild(ctx context.Context, id string, propForTh
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyChild", result, id, propForThis)
+	err := obj.RPC(ctx, "DestroyChild", result, id, propForThis)
 	return result.Success, err
 }
 
@@ -10365,7 +10365,7 @@ func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propFo
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DestroyChild", result, id, propForThis)
+	err := obj.RPC(ctx, "DestroyChild", result, id, propForThis)
 	return result.Success, err
 }
 
@@ -10386,7 +10386,7 @@ func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propFo
 //
 // Stability: locked
 func (obj *GenericObject) DrillUp(ctx context.Context, path string, dimNo int, nbrSteps int) error {
-	err := obj.Rpc(ctx, "DrillUp", nil, path, dimNo, nbrSteps)
+	err := obj.RPC(ctx, "DrillUp", nil, path, dimNo, nbrSteps)
 	return err
 }
 
@@ -10400,7 +10400,7 @@ func (obj *GenericObject) DrillUp(ctx context.Context, path string, dimNo int, n
 //
 // Stability: locked
 func (obj *GenericObject) EmbedSnapshotObject(ctx context.Context, id string) error {
-	err := obj.Rpc(ctx, "EmbedSnapshotObject", nil, id)
+	err := obj.RPC(ctx, "EmbedSnapshotObject", nil, id)
 	return err
 }
 
@@ -10412,7 +10412,7 @@ func (obj *GenericObject) EmbedSnapshotObject(ctx context.Context, id string) er
 //
 // Stability: locked
 func (obj *GenericObject) EndSelections(ctx context.Context, accept bool) error {
-	err := obj.Rpc(ctx, "EndSelections", nil, accept)
+	err := obj.RPC(ctx, "EndSelections", nil, accept)
 	return err
 }
 
@@ -10435,7 +10435,7 @@ func (obj *GenericObject) EndSelections(ctx context.Context, accept bool) error 
 //
 // Stability: locked
 func (obj *GenericObject) ExpandLeft(ctx context.Context, path string, row int, col int, all bool) error {
-	err := obj.Rpc(ctx, "ExpandLeft", nil, path, row, col, all)
+	err := obj.RPC(ctx, "ExpandLeft", nil, path, row, col, all)
 	return err
 }
 
@@ -10458,7 +10458,7 @@ func (obj *GenericObject) ExpandLeft(ctx context.Context, path string, row int, 
 //
 // Stability: locked
 func (obj *GenericObject) ExpandTop(ctx context.Context, path string, row int, col int, all bool) error {
-	err := obj.Rpc(ctx, "ExpandTop", nil, path, row, col, all)
+	err := obj.RPC(ctx, "ExpandTop", nil, path, row, col, all)
 	return err
 }
 
@@ -10533,7 +10533,7 @@ func (obj *GenericObject) ExportData(ctx context.Context, fileType string, path 
 		Url      string `json:"qUrl"`
 		Warnings []int  `json:"qWarnings"`
 	}{}
-	err := obj.Rpc(ctx, "ExportData", result, fileType, path, fileName, exportState)
+	err := obj.RPC(ctx, "ExportData", result, fileType, path, fileName, exportState)
 	return result.Url, result.Warnings, err
 }
 
@@ -10548,7 +10548,7 @@ func (obj *GenericObject) GetChild(ctx context.Context, id string) (*GenericObje
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetChild", result, id)
+	err := obj.RPC(ctx, "GetChild", result, id)
 	if err != nil {
 		return nil, err
 	}
@@ -10563,7 +10563,7 @@ func (obj *GenericObject) GetChildInfos(ctx context.Context) ([]*NxInfo, error) 
 	result := &struct {
 		Infos []*NxInfo `json:"qInfos"`
 	}{}
-	err := obj.Rpc(ctx, "GetChildInfos", result)
+	err := obj.RPC(ctx, "GetChildInfos", result)
 	return result.Infos, err
 }
 
@@ -10575,7 +10575,7 @@ func (obj *GenericObject) GetChildInfosRaw(ctx context.Context) (json.RawMessage
 	result := &struct {
 		Infos json.RawMessage `json:"qInfos"`
 	}{}
-	err := obj.Rpc(ctx, "GetChildInfos", result)
+	err := obj.RPC(ctx, "GetChildInfos", result)
 	return result.Infos, err
 }
 
@@ -10587,7 +10587,7 @@ func (obj *GenericObject) GetEffectiveProperties(ctx context.Context) (*GenericO
 	result := &struct {
 		Prop *GenericObjectProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetEffectiveProperties", result)
+	err := obj.RPC(ctx, "GetEffectiveProperties", result)
 	return result.Prop, err
 }
 
@@ -10599,7 +10599,7 @@ func (obj *GenericObject) GetEffectivePropertiesRaw(ctx context.Context) (json.R
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetEffectiveProperties", result)
+	err := obj.RPC(ctx, "GetEffectiveProperties", result)
 	return result.Prop, err
 }
 
@@ -10615,7 +10615,7 @@ func (obj *GenericObject) GetFullPropertyTree(ctx context.Context) (*GenericObje
 	result := &struct {
 		PropEntry *GenericObjectEntry `json:"qPropEntry"`
 	}{}
-	err := obj.Rpc(ctx, "GetFullPropertyTree", result)
+	err := obj.RPC(ctx, "GetFullPropertyTree", result)
 	return result.PropEntry, err
 }
 
@@ -10631,7 +10631,7 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 	result := &struct {
 		PropEntry json.RawMessage `json:"qPropEntry"`
 	}{}
-	err := obj.Rpc(ctx, "GetFullPropertyTree", result)
+	err := obj.RPC(ctx, "GetFullPropertyTree", result)
 	return result.PropEntry, err
 }
 
@@ -10774,7 +10774,7 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeBinnedData", result, path, pages, viewport, dataRanges, maxNbrCells, queryLevel, binningMethod)
+	err := obj.RPC(ctx, "GetHyperCubeBinnedData", result, path, pages, viewport, dataRanges, maxNbrCells, queryLevel, binningMethod)
 	return result.DataPages, err
 }
 
@@ -10917,7 +10917,7 @@ func (obj *GenericObject) GetHyperCubeBinnedDataRaw(ctx context.Context, path st
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeBinnedData", result, path, pages, viewport, dataRanges, maxNbrCells, queryLevel, binningMethod)
+	err := obj.RPC(ctx, "GetHyperCubeBinnedData", result, path, pages, viewport, dataRanges, maxNbrCells, queryLevel, binningMethod)
 	return result.DataPages, err
 }
 
@@ -10940,7 +10940,7 @@ func (obj *GenericObject) GetHyperCubeContinuousData(ctx context.Context, path s
 		DataPages []*NxDataPage `json:"qDataPages"`
 		AxisData  *NxAxisData   `json:"qAxisData"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeContinuousData", result, path, options, reverseSort)
+	err := obj.RPC(ctx, "GetHyperCubeContinuousData", result, path, options, reverseSort)
 	return result.DataPages, result.AxisData, err
 }
 
@@ -10963,7 +10963,7 @@ func (obj *GenericObject) GetHyperCubeContinuousDataRaw(ctx context.Context, pat
 		DataPages json.RawMessage `json:"qDataPages"`
 		AxisData  json.RawMessage `json:"qAxisData"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeContinuousData", result, path, options, reverseSort)
+	err := obj.RPC(ctx, "GetHyperCubeContinuousData", result, path, options, reverseSort)
 	return result.DataPages, result.AxisData, err
 }
 
@@ -10984,7 +10984,7 @@ func (obj *GenericObject) GetHyperCubeData(ctx context.Context, path string, pag
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeData", result, path, pages)
+	err := obj.RPC(ctx, "GetHyperCubeData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11005,7 +11005,7 @@ func (obj *GenericObject) GetHyperCubeDataRaw(ctx context.Context, path string, 
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeData", result, path, pages)
+	err := obj.RPC(ctx, "GetHyperCubeData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11024,7 +11024,7 @@ func (obj *GenericObject) GetHyperCubePivotData(ctx context.Context, path string
 	result := &struct {
 		DataPages []*NxPivotPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubePivotData", result, path, pages)
+	err := obj.RPC(ctx, "GetHyperCubePivotData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11043,7 +11043,7 @@ func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path str
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubePivotData", result, path, pages)
+	err := obj.RPC(ctx, "GetHyperCubePivotData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11115,7 +11115,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeReducedData", result, path, pages, zoomFactor, reductionMode)
+	err := obj.RPC(ctx, "GetHyperCubeReducedData", result, path, pages, zoomFactor, reductionMode)
 	return result.DataPages, err
 }
 
@@ -11187,7 +11187,7 @@ func (obj *GenericObject) GetHyperCubeReducedDataRaw(ctx context.Context, path s
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeReducedData", result, path, pages, zoomFactor, reductionMode)
+	err := obj.RPC(ctx, "GetHyperCubeReducedData", result, path, pages, zoomFactor, reductionMode)
 	return result.DataPages, err
 }
 
@@ -11209,7 +11209,7 @@ func (obj *GenericObject) GetHyperCubeStackData(ctx context.Context, path string
 	result := &struct {
 		DataPages []*NxStackPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeStackData", result, path, pages, maxNbrCells)
+	err := obj.RPC(ctx, "GetHyperCubeStackData", result, path, pages, maxNbrCells)
 	return result.DataPages, err
 }
 
@@ -11231,7 +11231,7 @@ func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path str
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeStackData", result, path, pages, maxNbrCells)
+	err := obj.RPC(ctx, "GetHyperCubeStackData", result, path, pages, maxNbrCells)
 	return result.DataPages, err
 }
 
@@ -11249,7 +11249,7 @@ func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string,
 	result := &struct {
 		Nodes []*NxTreeNode `json:"qNodes"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeTreeData", result, path, nodeOptions)
+	err := obj.RPC(ctx, "GetHyperCubeTreeData", result, path, nodeOptions)
 	return result.Nodes, err
 }
 
@@ -11267,7 +11267,7 @@ func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path stri
 	result := &struct {
 		Nodes json.RawMessage `json:"qNodes"`
 	}{}
-	err := obj.Rpc(ctx, "GetHyperCubeTreeData", result, path, nodeOptions)
+	err := obj.RPC(ctx, "GetHyperCubeTreeData", result, path, nodeOptions)
 	return result.Nodes, err
 }
 
@@ -11277,7 +11277,7 @@ func (obj *GenericObject) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -11287,7 +11287,7 @@ func (obj *GenericObject) GetInfoRaw(ctx context.Context) (json.RawMessage, erro
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -11311,7 +11311,7 @@ func (obj *GenericObject) GetLayout(ctx context.Context) (*GenericObjectLayout, 
 	result := &struct {
 		Layout *GenericObjectLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -11335,7 +11335,7 @@ func (obj *GenericObject) GetLayoutRaw(ctx context.Context) (json.RawMessage, er
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -11345,7 +11345,7 @@ func (obj *GenericObject) GetLinkedObjects(ctx context.Context) ([]*NxLinkedObje
 	result := &struct {
 		Items []*NxLinkedObjectInfo `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -11355,7 +11355,7 @@ func (obj *GenericObject) GetLinkedObjectsRaw(ctx context.Context) (json.RawMess
 	result := &struct {
 		Items json.RawMessage `json:"qItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetLinkedObjects", result)
+	err := obj.RPC(ctx, "GetLinkedObjects", result)
 	return result.Items, err
 }
 
@@ -11374,7 +11374,7 @@ func (obj *GenericObject) GetListObjectData(ctx context.Context, path string, pa
 	result := &struct {
 		DataPages []*NxDataPage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetListObjectData", result, path, pages)
+	err := obj.RPC(ctx, "GetListObjectData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11393,7 +11393,7 @@ func (obj *GenericObject) GetListObjectDataRaw(ctx context.Context, path string,
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
-	err := obj.Rpc(ctx, "GetListObjectData", result, path, pages)
+	err := obj.RPC(ctx, "GetListObjectData", result, path, pages)
 	return result.DataPages, err
 }
 
@@ -11403,7 +11403,7 @@ func (obj *GenericObject) GetParent(ctx context.Context) (*GenericObject, error)
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetParent", result)
+	err := obj.RPC(ctx, "GetParent", result)
 	if err != nil {
 		return nil, err
 	}
@@ -11422,7 +11422,7 @@ func (obj *GenericObject) GetProperties(ctx context.Context) (*GenericObjectProp
 	result := &struct {
 		Prop *GenericObjectProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -11438,7 +11438,7 @@ func (obj *GenericObject) GetPropertiesRaw(ctx context.Context) (json.RawMessage
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -11448,7 +11448,7 @@ func (obj *GenericObject) GetSnapshotObject(ctx context.Context) (*GenericObject
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetSnapshotObject", result)
+	err := obj.RPC(ctx, "GetSnapshotObject", result)
 	if err != nil {
 		return nil, err
 	}
@@ -11468,7 +11468,7 @@ func (obj *GenericObject) GetSnapshotObject(ctx context.Context) (*GenericObject
 //
 // Stability: locked
 func (obj *GenericObject) Lock(ctx context.Context, path string, colIndices []int) error {
-	err := obj.Rpc(ctx, "Lock", nil, path, colIndices)
+	err := obj.RPC(ctx, "Lock", nil, path, colIndices)
 	return err
 }
 
@@ -11504,7 +11504,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValues(ctx context.Context, p
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "MultiRangeSelectHyperCubeValues", result, path, ranges, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "MultiRangeSelectHyperCubeValues", result, path, ranges, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11540,7 +11540,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "MultiRangeSelectHyperCubeValues", result, path, ranges, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "MultiRangeSelectHyperCubeValues", result, path, ranges, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11549,7 +11549,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, pa
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "MultiRangeSelectTreeDataValues", result, path, ranges, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "MultiRangeSelectTreeDataValues", result, path, ranges, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11558,7 +11558,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context,
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "MultiRangeSelectTreeDataValues", result, path, ranges, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "MultiRangeSelectTreeDataValues", result, path, ranges, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11566,7 +11566,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context,
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericObject) Publish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "Publish", nil)
+	err := obj.RPC(ctx, "Publish", nil)
 	return err
 }
 
@@ -11606,7 +11606,7 @@ func (obj *GenericObject) RangeSelectHyperCubeValues(ctx context.Context, path s
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "RangeSelectHyperCubeValues", result, path, ranges, columnsToSelect, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "RangeSelectHyperCubeValues", result, path, ranges, columnsToSelect, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11646,14 +11646,14 @@ func (obj *GenericObject) RangeSelectHyperCubeValuesRaw(ctx context.Context, pat
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "RangeSelectHyperCubeValues", result, path, ranges, columnsToSelect, orMode, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "RangeSelectHyperCubeValues", result, path, ranges, columnsToSelect, orMode, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
 // Resets all selections made in selection mode.
 // Stability: locked
 func (obj *GenericObject) ResetMadeSelections(ctx context.Context) error {
-	err := obj.Rpc(ctx, "ResetMadeSelections", nil)
+	err := obj.RPC(ctx, "ResetMadeSelections", nil)
 	return err
 }
 
@@ -11681,7 +11681,7 @@ func (obj *GenericObject) SearchListObjectFor(ctx context.Context, path string, 
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SearchListObjectFor", result, path, match)
+	err := obj.RPC(ctx, "SearchListObjectFor", result, path, match)
 	return result.Success, err
 }
 
@@ -11727,7 +11727,7 @@ func (obj *GenericObject) SelectHyperCubeCells(ctx context.Context, path string,
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectHyperCubeCells", result, path, rowIndices, colIndices, softLock, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "SelectHyperCubeCells", result, path, rowIndices, colIndices, softLock, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -11750,7 +11750,7 @@ func (obj *GenericObject) SelectHyperCubeContinuousRange(ctx context.Context, pa
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectHyperCubeContinuousRange", result, path, ranges, softLock)
+	err := obj.RPC(ctx, "SelectHyperCubeContinuousRange", result, path, ranges, softLock)
 	return result.Success, err
 }
 
@@ -11773,7 +11773,7 @@ func (obj *GenericObject) SelectHyperCubeContinuousRangeRaw(ctx context.Context,
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectHyperCubeContinuousRange", result, path, ranges, softLock)
+	err := obj.RPC(ctx, "SelectHyperCubeContinuousRange", result, path, ranges, softLock)
 	return result.Success, err
 }
 
@@ -11808,7 +11808,7 @@ func (obj *GenericObject) SelectHyperCubeValues(ctx context.Context, path string
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectHyperCubeValues", result, path, dimNo, values, toggleMode)
+	err := obj.RPC(ctx, "SelectHyperCubeValues", result, path, dimNo, values, toggleMode)
 	return result.Success, err
 }
 
@@ -11837,7 +11837,7 @@ func (obj *GenericObject) SelectListObjectAll(ctx context.Context, path string, 
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectAll", result, path, softLock)
+	err := obj.RPC(ctx, "SelectListObjectAll", result, path, softLock)
 	return result.Success, err
 }
 
@@ -11867,7 +11867,7 @@ func (obj *GenericObject) SelectListObjectAlternative(ctx context.Context, path 
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectAlternative", result, path, softLock)
+	err := obj.RPC(ctx, "SelectListObjectAlternative", result, path, softLock)
 	return result.Success, err
 }
 
@@ -11890,7 +11890,7 @@ func (obj *GenericObject) SelectListObjectContinuousRange(ctx context.Context, p
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectContinuousRange", result, path, ranges, softLock)
+	err := obj.RPC(ctx, "SelectListObjectContinuousRange", result, path, ranges, softLock)
 	return result.Success, err
 }
 
@@ -11913,7 +11913,7 @@ func (obj *GenericObject) SelectListObjectContinuousRangeRaw(ctx context.Context
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectContinuousRange", result, path, ranges, softLock)
+	err := obj.RPC(ctx, "SelectListObjectContinuousRange", result, path, ranges, softLock)
 	return result.Success, err
 }
 
@@ -11942,7 +11942,7 @@ func (obj *GenericObject) SelectListObjectExcluded(ctx context.Context, path str
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectExcluded", result, path, softLock)
+	err := obj.RPC(ctx, "SelectListObjectExcluded", result, path, softLock)
 	return result.Success, err
 }
 
@@ -11971,7 +11971,7 @@ func (obj *GenericObject) SelectListObjectPossible(ctx context.Context, path str
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectPossible", result, path, softLock)
+	err := obj.RPC(ctx, "SelectListObjectPossible", result, path, softLock)
 	return result.Success, err
 }
 
@@ -12005,7 +12005,7 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectListObjectValues", result, path, values, toggleMode, softLock)
+	err := obj.RPC(ctx, "SelectListObjectValues", result, path, values, toggleMode, softLock)
 	return result.Success, err
 }
 
@@ -12066,7 +12066,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectPivotCells", result, path, selections, softLock, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "SelectPivotCells", result, path, selections, softLock, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -12127,7 +12127,7 @@ func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, 
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "SelectPivotCells", result, path, selections, softLock, deselectOnlyOneSelected)
+	err := obj.RPC(ctx, "SelectPivotCells", result, path, selections, softLock, deselectOnlyOneSelected)
 	return result.Success, err
 }
 
@@ -12140,7 +12140,7 @@ func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, 
 //
 // Stability: locked
 func (obj *GenericObject) SetChildArrayOrder(ctx context.Context, ids []string) error {
-	err := obj.Rpc(ctx, "SetChildArrayOrder", nil, ids)
+	err := obj.RPC(ctx, "SetChildArrayOrder", nil, ids)
 	return err
 }
 
@@ -12161,7 +12161,7 @@ func (obj *GenericObject) SetChildArrayOrder(ctx context.Context, ids []string) 
 //
 // Stability: locked
 func (obj *GenericObject) SetFullPropertyTree(ctx context.Context, propEntry *GenericObjectEntry) error {
-	err := obj.Rpc(ctx, "SetFullPropertyTree", nil, propEntry)
+	err := obj.RPC(ctx, "SetFullPropertyTree", nil, propEntry)
 	return err
 }
 
@@ -12182,7 +12182,7 @@ func (obj *GenericObject) SetFullPropertyTree(ctx context.Context, propEntry *Ge
 //
 // Stability: locked
 func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry interface{}) error {
-	err := obj.Rpc(ctx, "SetFullPropertyTree", nil, propEntry)
+	err := obj.RPC(ctx, "SetFullPropertyTree", nil, propEntry)
 	return err
 }
 
@@ -12195,7 +12195,7 @@ func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry 
 //
 // Stability: locked
 func (obj *GenericObject) SetProperties(ctx context.Context, prop *GenericObjectProperties) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -12208,7 +12208,7 @@ func (obj *GenericObject) SetProperties(ctx context.Context, prop *GenericObject
 //
 // Stability: locked
 func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -12216,7 +12216,7 @@ func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop interface{}
 // This operation is possible only in Qlik Sense Enterprise.
 // Stability: locked
 func (obj *GenericObject) UnApprove(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnApprove", nil)
+	err := obj.RPC(ctx, "UnApprove", nil)
 	return err
 }
 
@@ -12224,7 +12224,7 @@ func (obj *GenericObject) UnApprove(ctx context.Context) error {
 // This operation is not applicable for Qlik Sense Desktop.
 // Stability: locked
 func (obj *GenericObject) UnPublish(ctx context.Context) error {
-	err := obj.Rpc(ctx, "UnPublish", nil)
+	err := obj.RPC(ctx, "UnPublish", nil)
 	return err
 }
 
@@ -12241,7 +12241,7 @@ func (obj *GenericObject) UnPublish(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *GenericObject) Unlock(ctx context.Context, path string, colIndices []int) error {
-	err := obj.Rpc(ctx, "Unlock", nil, path, colIndices)
+	err := obj.RPC(ctx, "Unlock", nil, path, colIndices)
 	return err
 }
 
@@ -12258,7 +12258,7 @@ type GenericVariable struct {
 //
 // Stability: locked
 func (obj *GenericVariable) ApplyPatches(ctx context.Context, patches []*NxPatch) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -12271,7 +12271,7 @@ func (obj *GenericVariable) ApplyPatches(ctx context.Context, patches []*NxPatch
 //
 // Stability: locked
 func (obj *GenericVariable) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
-	err := obj.Rpc(ctx, "ApplyPatches", nil, patches)
+	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
 
@@ -12281,7 +12281,7 @@ func (obj *GenericVariable) GetInfo(ctx context.Context) (*NxInfo, error) {
 	result := &struct {
 		Info *NxInfo `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -12291,7 +12291,7 @@ func (obj *GenericVariable) GetInfoRaw(ctx context.Context) (json.RawMessage, er
 	result := &struct {
 		Info json.RawMessage `json:"qInfo"`
 	}{}
-	err := obj.Rpc(ctx, "GetInfo", result)
+	err := obj.RPC(ctx, "GetInfo", result)
 	return result.Info, err
 }
 
@@ -12302,7 +12302,7 @@ func (obj *GenericVariable) GetLayout(ctx context.Context) (*GenericVariableLayo
 	result := &struct {
 		Layout *GenericVariableLayout `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -12313,7 +12313,7 @@ func (obj *GenericVariable) GetLayoutRaw(ctx context.Context) (json.RawMessage, 
 	result := &struct {
 		Layout json.RawMessage `json:"qLayout"`
 	}{}
-	err := obj.Rpc(ctx, "GetLayout", result)
+	err := obj.RPC(ctx, "GetLayout", result)
 	return result.Layout, err
 }
 
@@ -12326,7 +12326,7 @@ func (obj *GenericVariable) GetProperties(ctx context.Context) (*GenericVariable
 	result := &struct {
 		Prop *GenericVariableProperties `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -12339,7 +12339,7 @@ func (obj *GenericVariable) GetPropertiesRaw(ctx context.Context) (json.RawMessa
 	result := &struct {
 		Prop json.RawMessage `json:"qProp"`
 	}{}
-	err := obj.Rpc(ctx, "GetProperties", result)
+	err := obj.RPC(ctx, "GetProperties", result)
 	return result.Prop, err
 }
 
@@ -12349,7 +12349,7 @@ func (obj *GenericVariable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetRawContent", result)
+	err := obj.RPC(ctx, "GetRawContent", result)
 	return result.Return, err
 }
 
@@ -12364,7 +12364,7 @@ func (obj *GenericVariable) GetRawContent(ctx context.Context) (string, error) {
 //
 // Stability: locked
 func (obj *GenericVariable) SetDualValue(ctx context.Context, text string, num Float64) error {
-	err := obj.Rpc(ctx, "SetDualValue", nil, text, num)
+	err := obj.RPC(ctx, "SetDualValue", nil, text, num)
 	return err
 }
 
@@ -12377,7 +12377,7 @@ func (obj *GenericVariable) SetDualValue(ctx context.Context, text string, num F
 //
 // Stability: locked
 func (obj *GenericVariable) SetNumValue(ctx context.Context, val Float64) error {
-	err := obj.Rpc(ctx, "SetNumValue", nil, val)
+	err := obj.RPC(ctx, "SetNumValue", nil, val)
 	return err
 }
 
@@ -12391,7 +12391,7 @@ func (obj *GenericVariable) SetNumValue(ctx context.Context, val Float64) error 
 //
 // Stability: locked
 func (obj *GenericVariable) SetProperties(ctx context.Context, prop *GenericVariableProperties) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -12405,7 +12405,7 @@ func (obj *GenericVariable) SetProperties(ctx context.Context, prop *GenericVari
 //
 // Stability: locked
 func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
-	err := obj.Rpc(ctx, "SetProperties", nil, prop)
+	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
 
@@ -12418,7 +12418,7 @@ func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop interface
 //
 // Stability: locked
 func (obj *GenericVariable) SetStringValue(ctx context.Context, val string) error {
-	err := obj.Rpc(ctx, "SetStringValue", nil, val)
+	err := obj.RPC(ctx, "SetStringValue", nil, val)
 	return err
 }
 
@@ -12433,7 +12433,7 @@ type Global struct {
 // • If an abort flag is set on an ongoing request, the engine checks to see if it is possible to abort the request.
 // Stability: locked
 func (obj *Global) AbortAll(ctx context.Context) error {
-	err := obj.Rpc(ctx, "AbortAll", nil)
+	err := obj.RPC(ctx, "AbortAll", nil)
 	return err
 }
 
@@ -12449,7 +12449,7 @@ func (obj *Global) AbortAll(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *Global) AbortRequest(ctx context.Context, requestId int) error {
-	err := obj.Rpc(ctx, "AbortRequest", nil, requestId)
+	err := obj.RPC(ctx, "AbortRequest", nil, requestId)
 	return err
 }
 
@@ -12459,14 +12459,14 @@ func (obj *Global) AllowCreateApp(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "AllowCreateApp", result)
+	err := obj.RPC(ctx, "AllowCreateApp", result)
 	return result.Return, err
 }
 
 // Cancels an ongoing reload. The reload of the app is stopped. The indexation can be canceled and true is still the return value of the reload task.
 // Stability: locked
 func (obj *Global) CancelReload(ctx context.Context) error {
-	err := obj.Rpc(ctx, "CancelReload", nil)
+	err := obj.RPC(ctx, "CancelReload", nil)
 	return err
 }
 
@@ -12478,7 +12478,7 @@ func (obj *Global) CancelReload(ctx context.Context) error {
 //
 // Stability: locked
 func (obj *Global) CancelRequest(ctx context.Context, requestId int) error {
-	err := obj.Rpc(ctx, "CancelRequest", nil, requestId)
+	err := obj.RPC(ctx, "CancelRequest", nil, requestId)
 	return err
 }
 
@@ -12498,7 +12498,7 @@ func (obj *Global) CancelRequest(ctx context.Context, requestId int) error {
 //
 // Stability: locked
 func (obj *Global) ConfigureReload(ctx context.Context, cancelOnScriptError bool, useErrorData bool, interactOnError bool) error {
-	err := obj.Rpc(ctx, "ConfigureReload", nil, cancelOnScriptError, useErrorData, interactOnError)
+	err := obj.RPC(ctx, "ConfigureReload", nil, cancelOnScriptError, useErrorData, interactOnError)
 	return err
 }
 
@@ -12531,7 +12531,7 @@ func (obj *Global) CopyApp(ctx context.Context, targetAppId string, srcAppId str
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "CopyApp", result, targetAppId, srcAppId, ids)
+	err := obj.RPC(ctx, "CopyApp", result, targetAppId, srcAppId, ids)
 	return result.Success, err
 }
 
@@ -12577,7 +12577,7 @@ func (obj *Global) CreateApp(ctx context.Context, appName string, localizedScrip
 		Success bool   `json:"qSuccess"`
 		AppId   string `json:"qAppId"`
 	}{}
-	err := obj.Rpc(ctx, "CreateApp", result, appName, localizedScriptMainSection)
+	err := obj.RPC(ctx, "CreateApp", result, appName, localizedScriptMainSection)
 	return result.Success, result.AppId, err
 }
 
@@ -12603,7 +12603,7 @@ func (obj *Global) CreateDocEx(ctx context.Context, docName string, userName str
 		DocId  string           `json:"qDocId"`
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateDocEx", result, docName, userName, password, serial, localizedScriptMainSection)
+	err := obj.RPC(ctx, "CreateDocEx", result, docName, userName, password, serial, localizedScriptMainSection)
 	if err != nil {
 		return nil, err
 	}
@@ -12623,7 +12623,7 @@ func (obj *Global) CreateSessionApp(ctx context.Context) (*Doc, error) {
 		SessionAppId string           `json:"qSessionAppId"`
 		Return       *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionApp", result)
+	err := obj.RPC(ctx, "CreateSessionApp", result)
 	if err != nil {
 		return nil, err
 	}
@@ -12653,7 +12653,7 @@ func (obj *Global) CreateSessionAppFromApp(ctx context.Context, srcAppId string)
 		SessionAppId string           `json:"qSessionAppId"`
 		Return       *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "CreateSessionAppFromApp", result, srcAppId)
+	err := obj.RPC(ctx, "CreateSessionAppFromApp", result, srcAppId)
 	if err != nil {
 		return nil, err
 	}
@@ -12712,7 +12712,7 @@ func (obj *Global) DeleteApp(ctx context.Context, appId string) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "DeleteApp", result, appId)
+	err := obj.RPC(ctx, "DeleteApp", result, appId)
 	return result.Success, err
 }
 
@@ -12722,7 +12722,7 @@ func (obj *Global) EngineVersion(ctx context.Context) (*NxEngineVersion, error) 
 	result := &struct {
 		Version *NxEngineVersion `json:"qVersion"`
 	}{}
-	err := obj.Rpc(ctx, "EngineVersion", result)
+	err := obj.RPC(ctx, "EngineVersion", result)
 	return result.Version, err
 }
 
@@ -12732,7 +12732,7 @@ func (obj *Global) EngineVersionRaw(ctx context.Context) (json.RawMessage, error
 	result := &struct {
 		Version json.RawMessage `json:"qVersion"`
 	}{}
-	err := obj.Rpc(ctx, "EngineVersion", result)
+	err := obj.RPC(ctx, "EngineVersion", result)
 	return result.Version, err
 }
 
@@ -12772,7 +12772,7 @@ func (obj *Global) ExportApp(ctx context.Context, targetPath string, srcAppId st
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "ExportApp", result, targetPath, srcAppId, ids, noData)
+	err := obj.RPC(ctx, "ExportApp", result, targetPath, srcAppId, ids, noData)
 	return result.Success, err
 }
 
@@ -12782,7 +12782,7 @@ func (obj *Global) GetActiveDoc(ctx context.Context) (*Doc, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetActiveDoc", result)
+	err := obj.RPC(ctx, "GetActiveDoc", result)
 	if err != nil {
 		return nil, err
 	}
@@ -12805,7 +12805,7 @@ func (obj *Global) GetAppEntry(ctx context.Context, appID string) (*AppEntry, er
 	result := &struct {
 		Entry *AppEntry `json:"qEntry"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppEntry", result, appID)
+	err := obj.RPC(ctx, "GetAppEntry", result, appID)
 	return result.Entry, err
 }
 
@@ -12825,7 +12825,7 @@ func (obj *Global) GetAppEntryRaw(ctx context.Context, appID string) (json.RawMe
 	result := &struct {
 		Entry json.RawMessage `json:"qEntry"`
 	}{}
-	err := obj.Rpc(ctx, "GetAppEntry", result, appID)
+	err := obj.RPC(ctx, "GetAppEntry", result, appID)
 	return result.Entry, err
 }
 
@@ -12835,7 +12835,7 @@ func (obj *Global) GetAuthenticatedUser(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetAuthenticatedUser", result)
+	err := obj.RPC(ctx, "GetAuthenticatedUser", result)
 	return result.Return, err
 }
 
@@ -12862,7 +12862,7 @@ func (obj *Global) GetBNF(ctx context.Context, bnfType string) ([]*BNFDef, error
 	result := &struct {
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
 	}{}
-	err := obj.Rpc(ctx, "GetBNF", result, bnfType)
+	err := obj.RPC(ctx, "GetBNF", result, bnfType)
 	return result.BnfDefs, err
 }
 
@@ -12889,7 +12889,7 @@ func (obj *Global) GetBNFRaw(ctx context.Context, bnfType string) (json.RawMessa
 	result := &struct {
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
 	}{}
-	err := obj.Rpc(ctx, "GetBNF", result, bnfType)
+	err := obj.RPC(ctx, "GetBNF", result, bnfType)
 	return result.BnfDefs, err
 }
 
@@ -12916,7 +12916,7 @@ func (obj *Global) GetBaseBNF(ctx context.Context, bnfType string) ([]*BNFDef, s
 		BnfDefs []*BNFDef `json:"qBnfDefs"`
 		BnfHash string    `json:"qBnfHash"`
 	}{}
-	err := obj.Rpc(ctx, "GetBaseBNF", result, bnfType)
+	err := obj.RPC(ctx, "GetBaseBNF", result, bnfType)
 	return result.BnfDefs, result.BnfHash, err
 }
 
@@ -12943,7 +12943,7 @@ func (obj *Global) GetBaseBNFRaw(ctx context.Context, bnfType string) (json.RawM
 		BnfDefs json.RawMessage `json:"qBnfDefs"`
 		BnfHash string          `json:"qBnfHash"`
 	}{}
-	err := obj.Rpc(ctx, "GetBaseBNF", result, bnfType)
+	err := obj.RPC(ctx, "GetBaseBNF", result, bnfType)
 	return result.BnfDefs, result.BnfHash, err
 }
 
@@ -12968,7 +12968,7 @@ func (obj *Global) GetBaseBNFHash(ctx context.Context, bnfType string) (string, 
 	result := &struct {
 		BnfHash string `json:"qBnfHash"`
 	}{}
-	err := obj.Rpc(ctx, "GetBaseBNFHash", result, bnfType)
+	err := obj.RPC(ctx, "GetBaseBNFHash", result, bnfType)
 	return result.BnfHash, err
 }
 
@@ -12995,7 +12995,7 @@ func (obj *Global) GetBaseBNFString(ctx context.Context, bnfType string) (string
 		BnfStr  string `json:"qBnfStr"`
 		BnfHash string `json:"qBnfHash"`
 	}{}
-	err := obj.Rpc(ctx, "GetBaseBNFString", result, bnfType)
+	err := obj.RPC(ctx, "GetBaseBNFString", result, bnfType)
 	return result.BnfStr, result.BnfHash, err
 }
 
@@ -13013,7 +13013,7 @@ func (obj *Global) GetCustomConnectors(ctx context.Context, reloadList bool) ([]
 	result := &struct {
 		Connectors []*CustomConnector `json:"qConnectors"`
 	}{}
-	err := obj.Rpc(ctx, "GetCustomConnectors", result, reloadList)
+	err := obj.RPC(ctx, "GetCustomConnectors", result, reloadList)
 	return result.Connectors, err
 }
 
@@ -13031,7 +13031,7 @@ func (obj *Global) GetCustomConnectorsRaw(ctx context.Context, reloadList bool) 
 	result := &struct {
 		Connectors json.RawMessage `json:"qConnectors"`
 	}{}
-	err := obj.Rpc(ctx, "GetCustomConnectors", result, reloadList)
+	err := obj.RPC(ctx, "GetCustomConnectors", result, reloadList)
 	return result.Connectors, err
 }
 
@@ -13046,7 +13046,7 @@ func (obj *Global) GetDatabasesFromConnectionString(ctx context.Context, connect
 	result := &struct {
 		Databases []*Database `json:"qDatabases"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabasesFromConnectionString", result, connection)
+	err := obj.RPC(ctx, "GetDatabasesFromConnectionString", result, connection)
 	return result.Databases, err
 }
 
@@ -13061,7 +13061,7 @@ func (obj *Global) GetDatabasesFromConnectionStringRaw(ctx context.Context, conn
 	result := &struct {
 		Databases json.RawMessage `json:"qDatabases"`
 	}{}
-	err := obj.Rpc(ctx, "GetDatabasesFromConnectionString", result, connection)
+	err := obj.RPC(ctx, "GetDatabasesFromConnectionString", result, connection)
 	return result.Databases, err
 }
 
@@ -13072,7 +13072,7 @@ func (obj *Global) GetDefaultAppFolder(ctx context.Context) (string, error) {
 	result := &struct {
 		Path string `json:"qPath"`
 	}{}
-	err := obj.Rpc(ctx, "GetDefaultAppFolder", result)
+	err := obj.RPC(ctx, "GetDefaultAppFolder", result)
 	return result.Path, err
 }
 
@@ -13090,7 +13090,7 @@ func (obj *Global) GetDocList(ctx context.Context) ([]*DocListEntry, error) {
 	result := &struct {
 		DocList []*DocListEntry `json:"qDocList"`
 	}{}
-	err := obj.Rpc(ctx, "GetDocList", result)
+	err := obj.RPC(ctx, "GetDocList", result)
 	return result.DocList, err
 }
 
@@ -13108,7 +13108,7 @@ func (obj *Global) GetDocListRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
 		DocList json.RawMessage `json:"qDocList"`
 	}{}
-	err := obj.Rpc(ctx, "GetDocList", result)
+	err := obj.RPC(ctx, "GetDocList", result)
 	return result.DocList, err
 }
 
@@ -13132,7 +13132,7 @@ func (obj *Global) GetFolderItemsForPath(ctx context.Context, path string) ([]*F
 	result := &struct {
 		FolderItems []*FolderItem `json:"qFolderItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetFolderItemsForPath", result, path)
+	err := obj.RPC(ctx, "GetFolderItemsForPath", result, path)
 	return result.FolderItems, err
 }
 
@@ -13156,7 +13156,7 @@ func (obj *Global) GetFolderItemsForPathRaw(ctx context.Context, path string) (j
 	result := &struct {
 		FolderItems json.RawMessage `json:"qFolderItems"`
 	}{}
-	err := obj.Rpc(ctx, "GetFolderItemsForPath", result, path)
+	err := obj.RPC(ctx, "GetFolderItemsForPath", result, path)
 	return result.FolderItems, err
 }
 
@@ -13234,7 +13234,7 @@ func (obj *Global) GetFunctions(ctx context.Context, group string) ([]*Function,
 	result := &struct {
 		Functions []*Function `json:"qFunctions"`
 	}{}
-	err := obj.Rpc(ctx, "GetFunctions", result, group)
+	err := obj.RPC(ctx, "GetFunctions", result, group)
 	return result.Functions, err
 }
 
@@ -13312,7 +13312,7 @@ func (obj *Global) GetFunctionsRaw(ctx context.Context, group string) (json.RawM
 	result := &struct {
 		Functions json.RawMessage `json:"qFunctions"`
 	}{}
-	err := obj.Rpc(ctx, "GetFunctions", result, group)
+	err := obj.RPC(ctx, "GetFunctions", result, group)
 	return result.Functions, err
 }
 
@@ -13339,7 +13339,7 @@ func (obj *Global) GetInteract(ctx context.Context, requestId int) (*InteractDef
 		Def    *InteractDef `json:"qDef"`
 		Return bool         `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetInteract", result, requestId)
+	err := obj.RPC(ctx, "GetInteract", result, requestId)
 	return result.Def, err
 }
 
@@ -13366,7 +13366,7 @@ func (obj *Global) GetInteractRaw(ctx context.Context, requestId int) (json.RawM
 		Def    json.RawMessage `json:"qDef"`
 		Return bool            `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetInteract", result, requestId)
+	err := obj.RPC(ctx, "GetInteract", result, requestId)
 	return result.Def, err
 }
 
@@ -13377,7 +13377,7 @@ func (obj *Global) GetLogicalDriveStrings(ctx context.Context) ([]*DriveInfo, er
 	result := &struct {
 		Drives []*DriveInfo `json:"qDrives"`
 	}{}
-	err := obj.Rpc(ctx, "GetLogicalDriveStrings", result)
+	err := obj.RPC(ctx, "GetLogicalDriveStrings", result)
 	return result.Drives, err
 }
 
@@ -13388,7 +13388,7 @@ func (obj *Global) GetLogicalDriveStringsRaw(ctx context.Context) (json.RawMessa
 	result := &struct {
 		Drives json.RawMessage `json:"qDrives"`
 	}{}
-	err := obj.Rpc(ctx, "GetLogicalDriveStrings", result)
+	err := obj.RPC(ctx, "GetLogicalDriveStrings", result)
 	return result.Drives, err
 }
 
@@ -13398,7 +13398,7 @@ func (obj *Global) GetOdbcDsns(ctx context.Context) ([]*OdbcDsn, error) {
 	result := &struct {
 		OdbcDsns []*OdbcDsn `json:"qOdbcDsns"`
 	}{}
-	err := obj.Rpc(ctx, "GetOdbcDsns", result)
+	err := obj.RPC(ctx, "GetOdbcDsns", result)
 	return result.OdbcDsns, err
 }
 
@@ -13408,7 +13408,7 @@ func (obj *Global) GetOdbcDsnsRaw(ctx context.Context) (json.RawMessage, error) 
 	result := &struct {
 		OdbcDsns json.RawMessage `json:"qOdbcDsns"`
 	}{}
-	err := obj.Rpc(ctx, "GetOdbcDsns", result)
+	err := obj.RPC(ctx, "GetOdbcDsns", result)
 	return result.OdbcDsns, err
 }
 
@@ -13418,7 +13418,7 @@ func (obj *Global) GetOleDbProviders(ctx context.Context) ([]*OleDbProvider, err
 	result := &struct {
 		OleDbProviders []*OleDbProvider `json:"qOleDbProviders"`
 	}{}
-	err := obj.Rpc(ctx, "GetOleDbProviders", result)
+	err := obj.RPC(ctx, "GetOleDbProviders", result)
 	return result.OleDbProviders, err
 }
 
@@ -13428,7 +13428,7 @@ func (obj *Global) GetOleDbProvidersRaw(ctx context.Context) (json.RawMessage, e
 	result := &struct {
 		OleDbProviders json.RawMessage `json:"qOleDbProviders"`
 	}{}
-	err := obj.Rpc(ctx, "GetOleDbProviders", result)
+	err := obj.RPC(ctx, "GetOleDbProviders", result)
 	return result.OleDbProviders, err
 }
 
@@ -13446,7 +13446,7 @@ func (obj *Global) GetProgress(ctx context.Context, requestId int) (*ProgressDat
 	result := &struct {
 		ProgressData *ProgressData `json:"qProgressData"`
 	}{}
-	err := obj.Rpc(ctx, "GetProgress", result, requestId)
+	err := obj.RPC(ctx, "GetProgress", result, requestId)
 	return result.ProgressData, err
 }
 
@@ -13464,7 +13464,7 @@ func (obj *Global) GetProgressRaw(ctx context.Context, requestId int) (json.RawM
 	result := &struct {
 		ProgressData json.RawMessage `json:"qProgressData"`
 	}{}
-	err := obj.Rpc(ctx, "GetProgress", result, requestId)
+	err := obj.RPC(ctx, "GetProgress", result, requestId)
 	return result.ProgressData, err
 }
 
@@ -13475,7 +13475,7 @@ func (obj *Global) GetStreamList(ctx context.Context) ([]*NxStreamListEntry, err
 	result := &struct {
 		StreamList []*NxStreamListEntry `json:"qStreamList"`
 	}{}
-	err := obj.Rpc(ctx, "GetStreamList", result)
+	err := obj.RPC(ctx, "GetStreamList", result)
 	return result.StreamList, err
 }
 
@@ -13486,7 +13486,7 @@ func (obj *Global) GetStreamListRaw(ctx context.Context) (json.RawMessage, error
 	result := &struct {
 		StreamList json.RawMessage `json:"qStreamList"`
 	}{}
-	err := obj.Rpc(ctx, "GetStreamList", result)
+	err := obj.RPC(ctx, "GetStreamList", result)
 	return result.StreamList, err
 }
 
@@ -13496,7 +13496,7 @@ func (obj *Global) GetSupportedCodePages(ctx context.Context) ([]*CodePage, erro
 	result := &struct {
 		CodePages []*CodePage `json:"qCodePages"`
 	}{}
-	err := obj.Rpc(ctx, "GetSupportedCodePages", result)
+	err := obj.RPC(ctx, "GetSupportedCodePages", result)
 	return result.CodePages, err
 }
 
@@ -13506,7 +13506,7 @@ func (obj *Global) GetSupportedCodePagesRaw(ctx context.Context) (json.RawMessag
 	result := &struct {
 		CodePages json.RawMessage `json:"qCodePages"`
 	}{}
-	err := obj.Rpc(ctx, "GetSupportedCodePages", result)
+	err := obj.RPC(ctx, "GetSupportedCodePages", result)
 	return result.CodePages, err
 }
 
@@ -13517,7 +13517,7 @@ func (obj *Global) GetUniqueID(ctx context.Context) (string, error) {
 	result := &struct {
 		UniqueID string `json:"qUniqueID"`
 	}{}
-	err := obj.Rpc(ctx, "GetUniqueID", result)
+	err := obj.RPC(ctx, "GetUniqueID", result)
 	return result.UniqueID, err
 }
 
@@ -13532,7 +13532,7 @@ func (obj *Global) GetUniqueID(ctx context.Context) (string, error) {
 //
 // Stability: locked
 func (obj *Global) InteractDone(ctx context.Context, requestId int, def *InteractDef) error {
-	err := obj.Rpc(ctx, "InteractDone", nil, requestId, def)
+	err := obj.RPC(ctx, "InteractDone", nil, requestId, def)
 	return err
 }
 
@@ -13547,7 +13547,7 @@ func (obj *Global) InteractDone(ctx context.Context, requestId int, def *Interac
 //
 // Stability: locked
 func (obj *Global) InteractDoneRaw(ctx context.Context, requestId int, def interface{}) error {
-	err := obj.Rpc(ctx, "InteractDone", nil, requestId, def)
+	err := obj.RPC(ctx, "InteractDone", nil, requestId, def)
 	return err
 }
 
@@ -13557,7 +13557,7 @@ func (obj *Global) IsDesktopMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "IsDesktopMode", result)
+	err := obj.RPC(ctx, "IsDesktopMode", result)
 	return result.Return, err
 }
 
@@ -13568,7 +13568,7 @@ func (obj *Global) IsPersonalMode(ctx context.Context) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "IsPersonalMode", result)
+	err := obj.RPC(ctx, "IsPersonalMode", result)
 	return result.Return, err
 }
 
@@ -13583,7 +13583,7 @@ func (obj *Global) IsValidConnectionString(ctx context.Context, connection *Conn
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "IsValidConnectionString", result, connection)
+	err := obj.RPC(ctx, "IsValidConnectionString", result, connection)
 	return result.Return, err
 }
 
@@ -13598,7 +13598,7 @@ func (obj *Global) IsValidConnectionStringRaw(ctx context.Context, connection in
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "IsValidConnectionString", result, connection)
+	err := obj.RPC(ctx, "IsValidConnectionString", result, connection)
 	return result.Return, err
 }
 
@@ -13608,7 +13608,7 @@ func (obj *Global) OSName(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "OSName", result)
+	err := obj.RPC(ctx, "OSName", result)
 	return result.Return, err
 }
 
@@ -13618,7 +13618,7 @@ func (obj *Global) OSVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "OSVersion", result)
+	err := obj.RPC(ctx, "OSVersion", result)
 	return result.Return, err
 }
 
@@ -13660,7 +13660,7 @@ func (obj *Global) OpenDoc(ctx context.Context, docName string, userName string,
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "OpenDoc", result, docName, userName, password, serial, noData)
+	err := obj.RPC(ctx, "OpenDoc", result, docName, userName, password, serial, noData)
 	if err != nil {
 		return nil, err
 	}
@@ -13674,7 +13674,7 @@ func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "ProductVersion", result)
+	err := obj.RPC(ctx, "ProductVersion", result)
 	return result.Return, err
 }
 
@@ -13690,7 +13690,7 @@ func (obj *Global) ProductVersion(ctx context.Context) (string, error) {
 //
 // Stability: locked
 func (obj *Global) PublishApp(ctx context.Context, appId string, name string, streamId string) error {
-	err := obj.Rpc(ctx, "PublishApp", nil, appId, name, streamId)
+	err := obj.RPC(ctx, "PublishApp", nil, appId, name, streamId)
 	return err
 }
 
@@ -13700,7 +13700,7 @@ func (obj *Global) QTProduct(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "QTProduct", result)
+	err := obj.RPC(ctx, "QTProduct", result)
 	return result.Return, err
 }
 
@@ -13711,14 +13711,14 @@ func (obj *Global) QvVersion(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "QvVersion", result)
+	err := obj.RPC(ctx, "QvVersion", result)
 	return result.Return, err
 }
 
 // Reloads the list of extensions.
 // Stability: locked
 func (obj *Global) ReloadExtensionList(ctx context.Context) error {
-	err := obj.Rpc(ctx, "ReloadExtensionList", nil)
+	err := obj.RPC(ctx, "ReloadExtensionList", nil)
 	return err
 }
 
@@ -13748,7 +13748,7 @@ func (obj *Global) ReplaceAppFromID(ctx context.Context, targetAppId string, src
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
-	err := obj.Rpc(ctx, "ReplaceAppFromID", result, targetAppId, srcAppID, ids)
+	err := obj.RPC(ctx, "ReplaceAppFromID", result, targetAppId, srcAppID, ids)
 	return result.Success, err
 }
 
@@ -13765,7 +13765,7 @@ func (obj *Global) SaveAs(ctx context.Context, newAppName string) (string, error
 	result := &struct {
 		NewAppId string `json:"qNewAppId"`
 	}{}
-	err := obj.Rpc(ctx, "SaveAs", result, newAppName)
+	err := obj.RPC(ctx, "SaveAs", result, newAppName)
 	return result.NewAppId, err
 }
 
@@ -13773,7 +13773,7 @@ func (obj *Global) SaveAs(ctx context.Context, newAppName string) (string, error
 // This operation is possible only in Qlik Sense Desktop.
 // Stability: locked
 func (obj *Global) ShutdownProcess(ctx context.Context) error {
-	err := obj.Rpc(ctx, "ShutdownProcess", nil)
+	err := obj.RPC(ctx, "ShutdownProcess", nil)
 	return err
 }
 
@@ -13793,7 +13793,7 @@ type Variable struct {
 // Deprecated: Use _GenericVariable::SetProperties_ method instead
 // Stability: locked
 func (obj *Variable) ForceContent(ctx context.Context, s string, d Float64) error {
-	err := obj.Rpc(ctx, "ForceContent", nil, s, d)
+	err := obj.RPC(ctx, "ForceContent", nil, s, d)
 	return err
 }
 
@@ -13804,7 +13804,7 @@ func (obj *Variable) GetContent(ctx context.Context) (*AlfaNumString, error) {
 	result := &struct {
 		Content *AlfaNumString `json:"qContent"`
 	}{}
-	err := obj.Rpc(ctx, "GetContent", result)
+	err := obj.RPC(ctx, "GetContent", result)
 	return result.Content, err
 }
 
@@ -13815,7 +13815,7 @@ func (obj *Variable) GetContentRaw(ctx context.Context) (json.RawMessage, error)
 	result := &struct {
 		Content json.RawMessage `json:"qContent"`
 	}{}
-	err := obj.Rpc(ctx, "GetContent", result)
+	err := obj.RPC(ctx, "GetContent", result)
 	return result.Content, err
 }
 
@@ -13826,7 +13826,7 @@ func (obj *Variable) GetNxProperties(ctx context.Context) (*NxVariableProperties
 	result := &struct {
 		Properties *NxVariableProperties `json:"qProperties"`
 	}{}
-	err := obj.Rpc(ctx, "GetNxProperties", result)
+	err := obj.RPC(ctx, "GetNxProperties", result)
 	return result.Properties, err
 }
 
@@ -13837,7 +13837,7 @@ func (obj *Variable) GetNxPropertiesRaw(ctx context.Context) (json.RawMessage, e
 	result := &struct {
 		Properties json.RawMessage `json:"qProperties"`
 	}{}
-	err := obj.Rpc(ctx, "GetNxProperties", result)
+	err := obj.RPC(ctx, "GetNxProperties", result)
 	return result.Properties, err
 }
 
@@ -13848,7 +13848,7 @@ func (obj *Variable) GetRawContent(ctx context.Context) (string, error) {
 	result := &struct {
 		Return string `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "GetRawContent", result)
+	err := obj.RPC(ctx, "GetRawContent", result)
 	return result.Return, err
 }
 
@@ -13866,7 +13866,7 @@ func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU b
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
-	err := obj.Rpc(ctx, "SetContent", result, content, updateMRU)
+	err := obj.RPC(ctx, "SetContent", result, content, updateMRU)
 	return result.Return, err
 }
 
@@ -13879,7 +13879,7 @@ func (obj *Variable) SetContent(ctx context.Context, content string, updateMRU b
 // Deprecated: Use _SetProperties_ method instead
 // Stability: locked
 func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariableProperties) error {
-	err := obj.Rpc(ctx, "SetNxProperties", nil, properties)
+	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }
 
@@ -13892,6 +13892,6 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 // Deprecated: Use _SetProperties_ method instead
 // Stability: locked
 func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
-	err := obj.Rpc(ctx, "SetNxProperties", nil, properties)
+	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }

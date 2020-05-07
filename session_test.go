@@ -35,7 +35,7 @@ func TestRpcInvocation(t *testing.T) {
 
 	// Invoke rpc Method
 	resultHolder := ""
-	rpcerr := rpcObject.Rpc(ctx, "DummyQixMethod", &resultHolder, "a", "b")
+	rpcerr := rpcObject.RPC(ctx, "DummyQixMethod", &resultHolder, "a", "b")
 
 	// Expected response should be received
 	assert.Equal(t, resultHolder, "resultstring")
@@ -55,7 +55,7 @@ func TestRpcInvocationWithChangeListContext(t *testing.T) {
 
 	// Invoke rpc Method
 	resultHolder := ""
-	rpcerr := rpcObject.Rpc(ctx, "DummyQixMethod", &resultHolder, "a", "b")
+	rpcerr := rpcObject.RPC(ctx, "DummyQixMethod", &resultHolder, "a", "b")
 
 	// Expected response should be received
 	assert.Equal(t, "resultstring", resultHolder)
