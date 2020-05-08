@@ -109,7 +109,16 @@ var enigmaStandardTypesPrefix string
 func (k *OrderAwareKey) UnmarshalText(text []byte) error {
 	i := atomic.AddUint64(&keyOrderCounter, 1)
 	k.Order = i
-	k.Key = string(text)
+
+	textStr := string(text)
+	// If a rogue quote appears then only use the text before it.
+	// This seems to be caused by a bug in golang 14.x
+	indexOfStrangeQuote := strings.IndexRune(textStr, '"')
+	if indexOfStrangeQuote >= 0 {
+		k.Key = textStr[:indexOfStrangeQuote]
+	} else {
+		k.Key = textStr
+	}
 	return nil
 }
 
