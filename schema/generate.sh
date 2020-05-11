@@ -28,7 +28,7 @@ docker kill $CONTAINER_ID
 if [[ $JSON_RPC_API != "" ]]; then
     echo "Generating enigma-go based on JSON-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
     echo "$JSON_RPC_API" > ./schema.json
-    go run ./generate.go
+    go run ./generate.go ./schema.json  ./schema-companion.json ../qix_generated.go enigma disable-enigma-import
     rm ./schema.json
     go fmt ../qix_generated.go > /dev/null
 else

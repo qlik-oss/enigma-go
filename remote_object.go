@@ -61,9 +61,9 @@ func (r *RemoteObject) signalClosed() {
 	r.mutex.Unlock()
 }
 
-// Invokes a method on the remote object
-func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse interface{}, params ...interface{}) error {
-	invocationResponse := r.interceptorChain(ctx, &Invocation{RemoteObject: r, Method: method, Params: params})
+// RPC invokes a method on the remote object. Not intended to be used directly but rather from generated schema code.
+func (r *RemoteObject) RPC(ctx context.Context, method string, apiResponse interface{}, params ...interface{}) error {
+	invocationResponse := r.interceptorChain(ctx, &Invocation{RemoteObject: r, Method: method, Params: ensureAllEncodable(params)})
 	if invocationResponse.Error != nil {
 		return invocationResponse.Error
 	}
@@ -74,6 +74,11 @@ func (r *RemoteObject) rpc(ctx context.Context, method string, apiResponse inter
 		}
 	}
 	return nil
+}
+
+// GetRemoteObject creates a new RemoteObject (proxy object for serverside object). Not intended to be used directly but rather from generated schema code.
+func (r *RemoteObject) GetRemoteObject(objectInterface *ObjectInterface) *RemoteObject {
+	return r.session.getOrCreateRemoteObject(r.session, objectInterface)
 }
 
 // newRemoteObject creates a new RemoteObject instance

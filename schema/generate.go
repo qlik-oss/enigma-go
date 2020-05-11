@@ -102,11 +102,23 @@ var keyOrderCounter uint64
 
 var typesMap map[string]string
 
+// Holds the enigma package to be included before some types like Float64 and RemoteObject if an external spec is used
+var enigmaStandardTypesPrefix string
+
 // UnmarshalText allows OrderAwareKey to be used as a json map key
 func (k *OrderAwareKey) UnmarshalText(text []byte) error {
 	i := atomic.AddUint64(&keyOrderCounter, 1)
 	k.Order = i
-	k.Key = string(text)
+
+	textStr := string(text)
+	// If a rogue quote appears then only use the text before it.
+	// This seems to be caused by a bug in golang 14.x
+	indexOfStrangeQuote := strings.IndexRune(textStr, '"')
+	if indexOfStrangeQuote >= 0 {
+		k.Key = textStr[:indexOfStrangeQuote]
+	} else {
+		k.Key = textStr
+	}
 	return nil
 }
 
@@ -209,11 +221,11 @@ func getTypeName(t *Type) string {
 		if t.Format != "" {
 			switch t.Format {
 			case "double":
-				return "Float64"
+				return enigmaStandardTypesPrefix + "Float64"
 			}
 			panic("Unknown format:" + t.Format)
 		}
-		return "Float64"
+		return enigmaStandardTypesPrefix + "Float64"
 	default:
 		panic("Unknown type:" + t.Type)
 	}
@@ -251,13 +263,8 @@ func createTypesMap(schema *OpenRpcFile) map[string]string {
 	return result
 }
 
-func loadSchemaFile() (*OpenRpcFile, error) {
-	pwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	rawSchemaFile, err := ioutil.ReadFile(pwd + "/schema.json")
+func loadSchemaFile(schemaFilePath string) (*OpenRpcFile, error) {
+	rawSchemaFile, err := ioutil.ReadFile(schemaFilePath)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -273,35 +280,23 @@ func loadSchemaFile() (*OpenRpcFile, error) {
 	return schema, err
 }
 
-func createObjectFunctionToObjectTypeMapping() map[string]string {
-	// Register mappings that describe what remote object type is created by each method
-	objectFuncToObject := make(map[string]string)
-	objectFuncToObject["Global.GetActiveDoc"] = "Doc"
-	objectFuncToObject["Global.OpenDoc"] = "Doc"
-	objectFuncToObject["Global.CreateDocEx"] = "Doc"
-	objectFuncToObject["Global.CreateSessionAppFromApp"] = "Doc"
-	objectFuncToObject["Global.CreateSessionApp"] = "Doc"
-	objectFuncToObject["GenericObject.CreateChild"] = "GenericObject"
-	objectFuncToObject["GenericObject.GetChild"] = "GenericObject"
-	objectFuncToObject["GenericObject.GetSnapshotObject"] = "GenericObject"
-	objectFuncToObject["GenericObject.GetParent"] = "GenericObject"
-	objectFuncToObject["Doc.CreateSessionObject"] = "GenericObject"
-	objectFuncToObject["Doc.CreateBookmark"] = "GenericBookmark"
-	objectFuncToObject["Doc.CreateBookmarkEx"] = "GenericBookmark"
-	objectFuncToObject["Doc.GetDimension"] = "GenericDimension"
-	objectFuncToObject["Doc.CreateMeasure"] = "GenericMeasure"
-	objectFuncToObject["Doc.GetField"] = "Field"
-	objectFuncToObject["Doc.CreateSessionVariable"] = "Variable"
-	objectFuncToObject["Doc.GetVariable"] = "Variable"
-	objectFuncToObject["Doc.GetObject"] = "GenericObject"
-	objectFuncToObject["Doc.GetVariableById"] = "Variable"
-	objectFuncToObject["Doc.CreateObject"] = "GenericObject"
-	objectFuncToObject["Doc.CreateVariableEx"] = "Variable"
-	objectFuncToObject["Doc.CreateDimension"] = "GenericDimension"
-	objectFuncToObject["Doc.GetBookmark"] = "GenericBookmark"
-	objectFuncToObject["Doc.GetVariableByName"] = "GenericVariable"
-	objectFuncToObject["Doc.GetMeasure"] = "GenericMeasure"
-	return objectFuncToObject
+// Read the file that describes what remote object type is created by each method
+func createObjectFunctionToObjectTypeMapping(schemaCompanionFilePath string) map[string]string {
+	var result struct {
+		RemoteObjectReturnTypes map[string]string `json:"remote-object-return-types"`
+	}
+	file, err := ioutil.ReadFile(schemaCompanionFilePath)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	err = json.Unmarshal(file, &result)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return result.RemoteObjectReturnTypes
 }
 
 func patchMissingTypeInfo(param *Type, name, methodName string) {
@@ -471,6 +466,14 @@ func getPropertiesWithoutRedundantResponses(responses map[OrderAwareKey]*Type, m
 	return responses
 }
 
+func wrapWithEnigmaStandardTypesPrefix(str string) string {
+	switch str {
+	case "*ObjectInterface":
+		return "*" + enigmaStandardTypesPrefix + "ObjectInterface"
+	}
+	return str
+}
+
 // Generate an ordinary fully typed method
 func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, methodName string, objectFuncToObject map[string]string) {
 	responseMap := getPropertiesWithoutFilteredNxInfo(method.Responses.Schema.Properties, methodName)
@@ -502,7 +505,8 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 			// Replace the generic ObjectInterface pointer with the right Remote Object API struct
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				fmt.Fprint(out, "*RemoteObject, ")
+				fmt.Println("method with unknown return type:" + method.Name)
+				fmt.Fprint(out, "*"+enigmaStandardTypesPrefix+"RemoteObject, ")
 			} else {
 				fmt.Fprint(out, "*"+objectTypeName, ", ")
 			}
@@ -525,7 +529,7 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 		fmt.Fprintln(out, "\tresult := &struct {")
 		for _, responseKey := range sortedResponseKeys {
 			responseType := responseMap[responseKey]
-			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), getTypeName(responseType)+" `json:\""+responseKey.Key+"\"`")
+			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), wrapWithEnigmaStandardTypesPrefix(getTypeName(responseType))+" `json:\""+responseKey.Key+"\"`")
 		}
 		fmt.Fprintln(out, "\t} {}")
 		resultParamName = "result"
@@ -534,7 +538,7 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 	}
 
 	// Generate the actual call down to the RPC machinery
-	fmt.Fprint(out, "\terr := obj.rpc(ctx, \"", methodName, "\", ", resultParamName)
+	fmt.Fprint(out, "\terr := obj.RPC(ctx, \"", methodName, "\", ", resultParamName)
 	for _, param := range method.Parameters {
 		// Fill in the parameters in the parameter array
 		fmt.Fprint(out, ", ", toParamName(param.Name))
@@ -562,9 +566,9 @@ func printMethod(method *OpenRpcMethod, out *os.File, serviceName string, method
 		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectAPITypeName == "" {
-				fmt.Fprint(out, "obj.session.getRemoteObject(result."+responseKey.Key[1:]+"), ")
+				fmt.Fprint(out, "obj.GetRemoteObject(result."+responseKey.Key[1:]+"), ")
 			} else {
-				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.GetRemoteObject(result."+responseKey.Key[1:]+")}, ")
 			}
 		} else {
 			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
@@ -605,7 +609,7 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 		if typeName == "*ObjectInterface" {
 			objectTypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectTypeName == "" {
-				fmt.Fprint(out, "*RemoteObject, ")
+				fmt.Fprint(out, "*"+enigmaStandardTypesPrefix+"RemoteObject, ")
 			} else {
 				fmt.Fprint(out, "*"+objectTypeName, ", ")
 			}
@@ -628,7 +632,7 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 		fmt.Fprintln(out, "\tresult := &struct {")
 		for _, responseKey := range sortedResponseKeys {
 			responseType := responseMap[responseKey]
-			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), getRawOutputTypeName(responseType)+" `json:\""+responseKey.Key+"\"`")
+			fmt.Fprintln(out, "\t\t"+toPublicMemberName(responseKey.Key), wrapWithEnigmaStandardTypesPrefix(getRawOutputTypeName(responseType))+" `json:\""+responseKey.Key+"\"`")
 		}
 		fmt.Fprintln(out, "\t} {}")
 		resultParamName = "result"
@@ -637,9 +641,9 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 	}
 
 	// Generate the actual call down to the RPC machinery
-	fmt.Fprint(out, "\terr := obj.rpc(ctx, \"", methodName, "\", ", resultParamName)
+	fmt.Fprint(out, "\terr := obj.RPC(ctx, \"", methodName, "\", ", resultParamName)
 	for _, param := range method.Parameters {
-		fmt.Fprint(out, ", ensureEncodable(", toParamName(param.Name), ")")
+		fmt.Fprint(out, ", ", toParamName(param.Name))
 	}
 	fmt.Fprintln(out, ")")
 
@@ -664,9 +668,9 @@ func printRawMethod(method *OpenRpcMethod, out *os.File, serviceName string, met
 		if getTypeName(responseType) == "*ObjectInterface" {
 			objectAPITypeName := objectFuncToObject[serviceName+"."+methodName]
 			if objectAPITypeName == "" {
-				fmt.Fprint(out, "obj.session.getRemoteObject(result."+responseKey.Key[1:]+"), ")
+				fmt.Fprint(out, "obj.GetRemoteObject(result."+responseKey.Key[1:]+"), ")
 			} else {
-				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.session.getRemoteObject(result."+responseKey.Key[1:]+")}, ")
+				fmt.Fprint(out, "&"+objectAPITypeName+"{obj.GetRemoteObject(result."+responseKey.Key[1:]+")}, ")
 			}
 		} else {
 			fmt.Fprint(out, "result."+toPublicMemberName(responseKey.Key)+", ")
@@ -733,18 +737,29 @@ func getExtraCrossAssignmentLine(methodName string) string {
 }
 
 func main() {
-	objectFuncToObject := createObjectFunctionToObjectTypeMapping()
 
-	schemaFile, err := loadSchemaFile()
-
-	pwd, err := os.Getwd()
-	if err != nil {
-		fmt.Println(err)
+	if len(os.Args) < 5 {
+		fmt.Println("Usage: go run schema/generate.go <file path to spec.json> <file path to generated file.go> <generated package name>")
 		os.Exit(1)
 	}
+	schemaFilePath := os.Args[1]
+	schemaCompanionFilePath := os.Args[2]
+	generatedFilePath := os.Args[3]
+	generatedFilePackage := os.Args[4]
+	enigmaImports := ""
+	enigmaStandardTypesPrefix = ""
+	// The fourth argument disable-enigma-import is used to indicate that we are genering the standard
+	// schema file inside of enigma-go and not an external one.
+	if !(len(os.Args) > 5 && os.Args[5] == "disable-enigma-import") {
+		enigmaImports = "\t\"github.com/qlik-oss/enigma-go\"\n"
+		enigmaStandardTypesPrefix = "enigma."
+	}
+
+	objectFuncToObject := createObjectFunctionToObjectTypeMapping(schemaCompanionFilePath)
+	schemaFile, err := loadSchemaFile(schemaFilePath)
 
 	// Start generating the go file
-	out, err := os.Create(pwd + "/../qix_generated.go")
+	out, err := os.Create(generatedFilePath)
 	defer out.Close()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -753,10 +768,11 @@ func main() {
 
 	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schemaFile.Info.Version, ". DO NOT EDIT.")
 	fmt.Fprintln(out)
-	fmt.Fprintln(out, "package enigma")
+	fmt.Fprintln(out, "package "+generatedFilePackage)
 	fmt.Fprintln(out, "import (")
 	fmt.Fprintln(out, "\t\"context\"")
 	fmt.Fprintln(out, "\t\"encoding/json\"")
+	fmt.Fprint(out, enigmaImports)
 	fmt.Fprint(out, ")\n\n")
 	fmt.Fprintln(out, "// Version of the schema used to generate the enigma.go QIX API")
 	fmt.Fprintf(out, "const QIX_SCHEMA_VERSION = \"%s\"\n\n", schemaFile.Info.Version)
@@ -810,7 +826,7 @@ func main() {
 
 		var serviceImplName = serviceName
 		fmt.Fprintln(out, "type ", serviceImplName, "struct {")
-		fmt.Fprintln(out, "\t*RemoteObject")
+		fmt.Fprintln(out, "\t*"+enigmaStandardTypesPrefix+"RemoteObject")
 		fmt.Fprintln(out, "}")
 
 		methodKeys := getSortedMethodKeys(mapmap[serviceName])

@@ -77,8 +77,12 @@ type (
 	}
 )
 
-// Dial establishes a connection to Qlik Associative Engine using the settings set in the Dialer. It takes two parameter
-func (dialer Dialer) Dial(ctx context.Context, url string, httpHeader http.Header) (*Global, error) {
+// DialRaw establishes a connection to Qlik Associative Engine using the settings set in the Dialer.
+// The returned remote object points to the Global object of the session with handle -1.
+// DialRaw can be used with custom specifications by wrapping the returned RemoteObject in a generated schema type like so:
+//    remoteObject, err := enigma.Dialer{}.DialRaw(ctx, "ws://...", nil)
+//    mySpecialGlobal := &specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}
+func (dialer Dialer) DialRaw(ctx context.Context, url string, httpHeader http.Header) (*RemoteObject, error) {
 	// Set empty http header if omitted
 	if httpHeader == nil {
 		httpHeader = make(http.Header, 0)
@@ -104,5 +108,14 @@ func (dialer Dialer) Dial(ctx context.Context, url string, httpHeader http.Heade
 	if err != nil {
 		return nil, err
 	}
-	return &Global{RemoteObject: enigmaSession.getRemoteObject(&ObjectInterface{Handle: -1, Type: "Global"})}, nil
+	return enigmaSession.getRemoteObject(&ObjectInterface{Handle: -1, Type: "Global"}), nil
+}
+
+// Dial establishes a connection to Qlik Associative Engine using the settings set in the Dialer.
+func (dialer Dialer) Dial(ctx context.Context, url string, httpHeader http.Header) (*Global, error) {
+	remoteObject, err := dialer.DialRaw(ctx, url, httpHeader)
+	if err != nil {
+		return nil, err
+	}
+	return &Global{RemoteObject: remoteObject}, nil
 }
