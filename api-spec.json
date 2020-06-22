@@ -228,6 +228,108 @@
         }
       }
     },
+    "Blob": {
+      "type": "int"
+    },
+    "Bookmark": {
+      "type": "struct",
+      "entries": {
+        "AlternateStateData": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/AlternateStateData"
+          }
+        },
+        "ApplyAdditive": {
+          "type": "bool"
+        },
+        "ApplyInputFieldValues": {
+          "description": "When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "bool",
+          "ref-type": "pointer"
+        },
+        "ApplyLayoutState": {
+          "type": "bool"
+        },
+        "FieldItems": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/BookmarkFieldItem"
+          }
+        },
+        "ForAnnotations": {
+          "type": "bool"
+        },
+        "Groups": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/GroupBookmarkData"
+          }
+        },
+        "Id": {
+          "type": "string"
+        },
+        "IncludeScrollPosition": {
+          "type": "bool"
+        },
+        "IncludeSelectionState": {
+          "description": "When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "bool",
+          "ref-type": "pointer"
+        },
+        "InfoText": {
+          "type": "string"
+        },
+        "InputFieldItems": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/InputFieldItem"
+          }
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Objects": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/LayoutBookmarkData"
+          }
+        },
+        "ObjectsLayout": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/ExtendedLayoutBookmarkData"
+          }
+        },
+        "Owner": {
+          "type": "string"
+        },
+        "RecallCount": {
+          "type": "int"
+        },
+        "SheetId": {
+          "type": "string"
+        },
+        "Show": {
+          "type": "#/definitions/CondDef"
+        },
+        "ShowPopupInfo": {
+          "type": "bool"
+        },
+        "UtcModifyTime": {
+          "type": "#/definitions/Float64"
+        },
+        "UtcRecallTime": {
+          "type": "#/definitions/Float64"
+        },
+        "VariableItems": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/BookmarkVariableItem"
+          }
+        }
+      }
+    },
     "BookmarkFieldItem": {
       "type": "struct",
       "entries": {
@@ -427,6 +529,19 @@
         "Number": {
           "description": "Number of the code page.",
           "type": "int"
+        }
+      }
+    },
+    "CondDef": {
+      "type": "struct",
+      "entries": {
+        "Always": {
+          "description": "When set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "bool",
+          "ref-type": "pointer"
+        },
+        "Expression": {
+          "type": "#/definitions/ValueExpr"
         }
       }
     },
@@ -3620,7 +3735,7 @@
             {
               "type": "slice",
               "items": {
-                "type": "string"
+                "type": "int"
               }
             },
             {
@@ -4940,7 +5055,7 @@
             {
               "type": "slice",
               "items": {
-                "type": "string"
+                "type": "int"
               }
             }
           ],
@@ -5252,6 +5367,89 @@
         },
         "Pos": {
           "type": "#/definitions/PositionMark"
+        }
+      }
+    },
+    "ExtendedLayoutBookmarkData": {
+      "type": "struct",
+      "entries": {
+        "Active": {
+          "type": "bool"
+        },
+        "ActiveContainerChildObjectId": {
+          "type": "string"
+        },
+        "DimensionGroupPos": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/GroupStateInfo"
+          }
+        },
+        "ExpansionInfo": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/ExpansionData"
+          }
+        },
+        "ExpressionGroupPos": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/GroupStateInfo"
+          }
+        },
+        "ExtendedPivotState": {
+          "type": "#/definitions/ExtendedPivotStateData"
+        },
+        "GraphMode": {
+          "description": "One of:\n\n• GRAPH_MODE_BAR\n\n• GRAPH_MODE_PIE\n\n• GRAPH_MODE_PIVOTTABLE\n\n• GRAPH_MODE_SCATTER\n\n• GRAPH_MODE_LINE\n\n• GRAPH_MODE_STRAIGHTTABLE\n\n• GRAPH_MODE_COMBO\n\n• GRAPH_MODE_RADAR\n\n• GRAPH_MODE_GAUGE\n\n• GRAPH_MODE_GRID\n\n• GRAPH_MODE_BLOCK\n\n• GRAPH_MODE_FUNNEL\n\n• GRAPH_MODE_MEKKO\n\n• GRAPH_MODE_LAST",
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "LeftCollapsed": {
+          "type": "bool"
+        },
+        "ScrollPos": {
+          "type": "#/definitions/ScrollPosition"
+        },
+        "ShowMode": {
+          "type": "int"
+        },
+        "SortData": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/InterFieldSortData"
+          }
+        },
+        "TopCollapsed": {
+          "type": "bool"
+        },
+        "UseGraphMode": {
+          "type": "bool"
+        }
+      }
+    },
+    "ExtendedPivotStateData": {
+      "type": "struct",
+      "entries": {
+        "DimensionNames": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
+        "EnableConditions": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ExpressionPosition": {
+          "type": "int"
+        },
+        "NumberOfLeftDimensions": {
+          "type": "int"
         }
       }
     },
@@ -6484,6 +6682,14 @@
         "Bookmark": {
           "description": "Information about the bookmark.",
           "type": "#/definitions/NxBookmark"
+        },
+        "ClassicBookmark": {
+          "description": "Information about the Classic bookmark.",
+          "type": "#/definitions/Bookmark"
+        },
+        "ClassicMetadata": {
+          "description": "Information about the Classic bookmark metadata.",
+          "type": "#/definitions/MetaData"
         },
         "Properties": {
           "description": "Information about the properties of the bookmark.",
@@ -11390,6 +11596,28 @@
         }
       }
     },
+    "GroupBookmarkData": {
+      "type": "struct",
+      "entries": {
+        "CyclePos": {
+          "type": "int"
+        },
+        "Id": {
+          "type": "string"
+        }
+      }
+    },
+    "GroupStateInfo": {
+      "type": "struct",
+      "entries": {
+        "CurrentItemName": {
+          "type": "string"
+        },
+        "GroupName": {
+          "type": "string"
+        }
+      }
+    },
     "HyperCube": {
       "description": "Renders the properties of a hypercube. Is the layout for HyperCubeDef.\nFor more information about the definition of a hypercube, see Generic object.\nWhat is returned in HyperCube depends on the type of the hypercube (straight, pivot or stacked table, or tree) and on the method called (GetLayout, GetHyperCubeData, GetHyperCubePivotData, GetHyperCubeStackData, GetHyperCubeTreeData).",
       "type": "struct",
@@ -11615,6 +11843,37 @@
         }
       }
     },
+    "InputFieldItem": {
+      "type": "struct",
+      "entries": {
+        "FieldName": {
+          "type": "string"
+        },
+        "PackedHashKeys": {
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
+        },
+        "Values": {
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/FieldValue"
+          }
+        }
+      }
+    },
+    "InterFieldSortData": {
+      "type": "struct",
+      "entries": {
+        "Name": {
+          "type": "string"
+        },
+        "Reversed": {
+          "type": "bool"
+        }
+      }
+    },
     "InteractDef": {
       "type": "struct",
       "entries": {
@@ -11771,6 +12030,23 @@
         },
         "Result": {
           "type": "https://golang.org/pkg/encoding/json/RawMessage"
+        }
+      }
+    },
+    "LayoutBookmarkData": {
+      "type": "struct",
+      "entries": {
+        "Active": {
+          "type": "bool"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "ScrollPos": {
+          "type": "#/definitions/ScrollPosition"
+        },
+        "ShowMode": {
+          "type": "int"
         }
       }
     },
@@ -12017,6 +12293,44 @@
         "UrlDef": {
           "description": "Relative path to the media file. The URL is static.\nMedia files located:\n\n• in the /content/default/ folder are outside the qvf file.\n\n• in the /media/ folder are embedded in the qvf file.",
           "type": "string"
+        }
+      }
+    },
+    "MetaData": {
+      "type": "struct",
+      "entries": {
+        "AccessList": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
+        "Hidden": {
+          "type": "bool"
+        },
+        "LinkedTo": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
+        "PersonalEditionHash_OBSOLETE": {
+          "type": "string"
+        },
+        "RestrictedAccess": {
+          "type": "bool"
+        },
+        "Shared": {
+          "type": "bool"
+        },
+        "SheetId": {
+          "type": "string"
+        },
+        "Temporary": {
+          "type": "bool"
+        },
+        "UtcModifyTime": {
+          "type": "#/definitions/Float64"
         }
       }
     },
@@ -13741,6 +14055,10 @@
           "type": "int",
           "ref-type": "pointer"
         },
+        "NullSuppression": {
+          "description": "If set to true, no null values are returned.",
+          "type": "bool"
+        },
         "OtherTotalSpec": {
           "type": "#/definitions/OtherTotalSpecProp"
         },
@@ -13751,7 +14069,7 @@
       }
     },
     "NxMiniChartRows": {
-      "description": "An application was unloaded from an engine instance",
+      "description": "A session app could not be created",
       "type": "slice",
       "items": {
         "type": "#/definitions/NxMiniChartCell"
@@ -14887,7 +15205,8 @@
         "ElemValues": {
           "type": "slice",
           "items": {
-            "type": "string"
+            "type": "#/definitions/Blob",
+            "ref-type": "pointer"
           }
         }
       }
@@ -15288,6 +15607,17 @@
         "TextPos": {
           "description": "Position of the erroneous text from the beginning of the script.",
           "type": "int"
+        }
+      }
+    },
+    "ScrollPosition": {
+      "type": "struct",
+      "entries": {
+        "Pos": {
+          "type": "#/definitions/Point"
+        },
+        "UsePosition": {
+          "type": "bool"
         }
       }
     },
