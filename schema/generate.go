@@ -341,6 +341,9 @@ func getRawInputTypeName(t *Type) string {
 
 func getRawOutputTypeName(t *Type) string {
 	tn := getTypeName(t)
+	if strings.HasPrefix(tn, "[]") {
+		return "json.RawMessage"
+	}
 	if strings.Contains(tn, "*") && tn != "*ObjectInterface" {
 		return "json.RawMessage"
 	}
@@ -813,6 +816,9 @@ func main() {
 			if defName == "NxLocalizedErrorCode" {
 				printErrorCodeLookup(out, def)
 			}
+		case "integer":
+			fmt.Fprintln(out, "type", defName, "int")
+			fmt.Fprintln(out, "")
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
 			fmt.Fprintln(out, "")
