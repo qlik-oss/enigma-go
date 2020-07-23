@@ -229,7 +229,10 @@
       }
     },
     "Blob": {
-      "type": "int"
+      "type": "slice",
+      "items": {
+        "type": "byte"
+      }
     },
     "Bookmark": {
       "type": "struct",
@@ -268,6 +271,9 @@
         },
         "Id": {
           "type": "string"
+        },
+        "IncludeAllVariables": {
+          "type": "bool"
         },
         "IncludeScrollPosition": {
           "type": "bool"
@@ -1092,6 +1098,48 @@
           "returns": [
             {
               "type": "int"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ChangeSessionAppOwner": {
+          "description": "Change the owner of a session app.\n\nParameters:\n\n◾ newOwnerId   -   Identifier of the new app owner.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ChangeSessionAppSpace": {
+          "description": "Add a session app to a space.\n\nParameters:\n\n◾ spaceId   -   Identifier of the new space.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "bool"
             },
             {
               "type": "error"
@@ -3735,7 +3783,7 @@
             {
               "type": "slice",
               "items": {
-                "type": "int"
+                "type": "byte"
               }
             },
             {
@@ -4566,6 +4614,27 @@
             }
           ]
         },
+        "RestoreTempSelectionState": {
+          "description": "Restore a temporary selection state identified by Id.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "Resume": {
           "description": "Resumes the app as the user left it.",
           "x-qlik-stability": "locked",
@@ -5055,7 +5124,7 @@
             {
               "type": "slice",
               "items": {
-                "type": "int"
+                "type": "byte"
               }
             }
           ],
@@ -5156,6 +5225,27 @@
             }
           ],
           "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "StoreTempSelectionState": {
+          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "bool"
+            },
             {
               "type": "error"
             }
@@ -5414,7 +5504,7 @@
           "type": "#/definitions/ScrollPosition"
         },
         "ShowMode": {
-          "type": "int"
+          "type": "byte"
         },
         "SortData": {
           "type": "slice",
@@ -5446,10 +5536,10 @@
           }
         },
         "ExpressionPosition": {
-          "type": "int"
+          "type": "byte"
         },
         "NumberOfLeftDimensions": {
-          "type": "int"
+          "type": "byte"
         }
       }
     },
@@ -11852,7 +11942,7 @@
         "PackedHashKeys": {
           "type": "slice",
           "items": {
-            "type": "int"
+            "type": "byte"
           }
         },
         "Values": {
@@ -12046,7 +12136,7 @@
           "type": "#/definitions/ScrollPosition"
         },
         "ShowMode": {
-          "type": "int"
+          "type": "byte"
         }
       }
     },
@@ -13725,6 +13815,10 @@
         },
         "LabelExpression": {
           "type": "string"
+        },
+        "NumFormat": {
+          "description": "Format of the field.\nThis parameter is optional.",
+          "type": "#/definitions/FieldAttributes"
         }
       }
     },
@@ -13757,6 +13851,10 @@
         "LabelExpression": {
           "description": "Optional expression used for dynamic label.",
           "type": "string"
+        },
+        "NumFormat": {
+          "description": "Format of the field.\nThis parameter is optional.",
+          "type": "#/definitions/FieldAttributes"
         }
       }
     },
@@ -14069,7 +14167,7 @@
       }
     },
     "NxMiniChartRows": {
-      "description": "A session app could not be created",
+      "description": "An application was loaded in an engine instance",
       "type": "slice",
       "items": {
         "type": "#/definitions/NxMiniChartCell"
@@ -15205,8 +15303,7 @@
         "ElemValues": {
           "type": "slice",
           "items": {
-            "type": "#/definitions/Blob",
-            "ref-type": "pointer"
+            "type": "#/definitions/Blob"
           }
         }
       }
