@@ -214,8 +214,11 @@ func getTypeName(t *Type) string {
 	case "boolean":
 		return "bool"
 	case "int":
-		return "int"
+		fallthrough
 	case "integer":
+		if t.Format == "byte"  {
+			return "byte"
+		}
 		return "int"
 	case "number":
 		if t.Format != "" {
@@ -817,7 +820,7 @@ func main() {
 				printErrorCodeLookup(out, def)
 			}
 		case "integer":
-			fmt.Fprintln(out, "type", defName, "int")
+			fmt.Fprintln(out, "type", defName, getTypeName(def))
 			fmt.Fprintln(out, "")
 		default:
 			fmt.Fprintln(out, "<<<other>>>", defName, def.Type)
