@@ -216,7 +216,7 @@ func getTypeName(t *Type) string {
 	case "int":
 		fallthrough
 	case "integer":
-		if t.Format == "byte"  {
+		if t.Format == "byte" {
 			return "byte"
 		}
 		return "int"
