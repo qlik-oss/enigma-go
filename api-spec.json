@@ -1050,6 +1050,27 @@
             }
           ]
         },
+        "AddSessionAlternateState": {
+          "description": "Adds an session alternate state in the app.\nYou can create multiple states within a Qlik Sense app and apply these states to specific objects within the app. Objects in a given state are not affected by user selections in the other states.\nA session alternate state is not persisted and is not included in the StateNames array in the AppLayout.\nYou can use the optional second parameter to choose any other state to get the initial selection on the new state from\n\nParameters:\n\n◾ stateName         -   Name of the alternate state.\n\n◾ sourceStateName   -   Name of existing state to copy the initial selections from",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
         "ApplyBookmark": {
           "description": "Applies a bookmark.\nThe operation is successful if qSuccess is set to true.\n\nParameters:\n\n◾ id   -   Identifier of the bookmark.",
           "x-qlik-stability": "locked",
@@ -1105,8 +1126,8 @@
           ]
         },
         "ChangeSessionAppOwner": {
-          "description": "Change the owner of a session app.\n\nParameters:\n\n◾ newOwnerId   -   Identifier of the new app owner.",
-          "x-qlik-stability": "locked",
+          "description": "Change the owner of a session app.\nCan be used by a privileged user when creating a session app to be consumed by another user.\nOnly useful in environments where it is possible to reconnect to a session app, currently only in cloud deployments.\n\nParameters:\n\n◾ newOwnerId   -   Identifier of the new app owner.",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
@@ -1126,8 +1147,8 @@
           ]
         },
         "ChangeSessionAppSpace": {
-          "description": "Add a session app to a space.\n\nParameters:\n\n◾ spaceId   -   Identifier of the new space.",
-          "x-qlik-stability": "locked",
+          "description": "Add a session app to a space.\nCan be used by a privileged user when creating a session app to be consumed by other users.\nOnly useful in environments where it is possible to reconnect to a session app, currently only in cloud deployments.\n\nParameters:\n\n◾ spaceId   -   Identifier of the new space.",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
@@ -1471,7 +1492,7 @@
         },
         "CreateBookmarkEx": {
           "description": "Creates a bookmark with softpatches.\n\nParameters:\n\n◾ prop               -   Properties for the object.\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.",
-          "x-qlik-stability": "locked",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
@@ -1498,7 +1519,7 @@
         },
         "CreateBookmarkExRaw": {
           "description": "Creates a bookmark with softpatches.\n\nParameters:\n\n◾ prop               -   Properties for the object.\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.",
-          "x-qlik-stability": "locked",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
@@ -3869,6 +3890,27 @@
             }
           ]
         },
+        "GetMeasureWithLabel": {
+          "description": "Returns the handle of a measure with a label.\nIf multiple measures has the same label the first is returned.\n\nParameters:\n\n◾ label   -   is the label of the measure to be returned.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/RemoteObject"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "GetMediaList": {
           "description": "Lists the media files.",
           "x-qlik-stability": "locked",
@@ -4155,8 +4197,50 @@
             }
           ]
         },
+        "GetTableProfileData": {
+          "description": "Returns profile data for a given table.\n\nParameters:\n\n◾ tableName   -   Name of the table",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/TableProfilingData"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetTableProfileDataRaw": {
+          "description": "Returns profile data for a given table.\n\nParameters:\n\n◾ tableName   -   Name of the table",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "GetTablesAndKeys": {
-          "description": "Returns:\n\n• The list of tables in an app and the fields inside each table.\n\n• The list of derived fields.\n\n• The list of key fields.\n\nParameters:\n\n◾ windowSize       -   Size of the window that is used to display the results.\n\n◾ nullSize         -\n\n◾ cellHeight       -   Height of a cell in a table in pixels.\n\n◾ syntheticMode    -   One of:\n\n• true for internal table viewer:\nShows a more detailed view on how the Qlik engine defines the relations between fields and the quality of the keys.\n\n• false for source table viewer:\nShows the natural relation between fields without reference to synthetic keys and resultant linking synthetic tables. Instead synthetic keys are represented by multiple connectors between tables.\n\n◾ includeSysVars   -   If set to true, the system variables are included.",
+          "description": "Returns:\n\n• The list of tables in an app and the fields inside each table.\n\n• The list of derived fields.\n\n• The list of key fields.\n\nParameters:\n\n◾ windowSize         -   Size of the window that is used to display the results.\n\n◾ nullSize           -\n\n◾ cellHeight         -   Height of a cell in a table in pixels.\n\n◾ syntheticMode      -   One of:\n\n• true for internal table viewer:\nShows a more detailed view on how the Qlik engine defines the relations between fields and the quality of the keys.\n\n• false for source table viewer:\nShows the natural relation between fields without reference to synthetic keys and resultant linking synthetic tables. Instead synthetic keys are represented by multiple connectors between tables.\n\n◾ includeSysVars     -   If set to true, the system variables are included.\n\n◾ includeProfiling   -   If set to true, profiling information is included.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4171,6 +4255,9 @@
             },
             {
               "type": "int"
+            },
+            {
+              "type": "bool"
             },
             {
               "type": "bool"
@@ -4198,7 +4285,7 @@
           ]
         },
         "GetTablesAndKeysRaw": {
-          "description": "Returns:\n\n• The list of tables in an app and the fields inside each table.\n\n• The list of derived fields.\n\n• The list of key fields.\n\nParameters:\n\n◾ windowSize       -   Size of the window that is used to display the results.\n\n◾ nullSize         -\n\n◾ cellHeight       -   Height of a cell in a table in pixels.\n\n◾ syntheticMode    -   One of:\n\n• true for internal table viewer:\nShows a more detailed view on how the Qlik engine defines the relations between fields and the quality of the keys.\n\n• false for source table viewer:\nShows the natural relation between fields without reference to synthetic keys and resultant linking synthetic tables. Instead synthetic keys are represented by multiple connectors between tables.\n\n◾ includeSysVars   -   If set to true, the system variables are included.",
+          "description": "Returns:\n\n• The list of tables in an app and the fields inside each table.\n\n• The list of derived fields.\n\n• The list of key fields.\n\nParameters:\n\n◾ windowSize         -   Size of the window that is used to display the results.\n\n◾ nullSize           -\n\n◾ cellHeight         -   Height of a cell in a table in pixels.\n\n◾ syntheticMode      -   One of:\n\n• true for internal table viewer:\nShows a more detailed view on how the Qlik engine defines the relations between fields and the quality of the keys.\n\n• false for source table viewer:\nShows the natural relation between fields without reference to synthetic keys and resultant linking synthetic tables. Instead synthetic keys are represented by multiple connectors between tables.\n\n◾ includeSysVars     -   If set to true, the system variables are included.\n\n◾ includeProfiling   -   If set to true, profiling information is included.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4213,6 +4300,9 @@
             },
             {
               "type": "int"
+            },
+            {
+              "type": "bool"
             },
             {
               "type": "bool"
@@ -4586,6 +4676,27 @@
             }
           ],
           "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "RemoveSessionAlternateState": {
+          "description": "Removes an session alternate state in the app.\nThe operation is successful if qSuccess is set to true.\n\nParameters:\n\n◾ stateName   -   Name of the alternate state.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "bool"
+            },
             {
               "type": "error"
             }
@@ -5231,12 +5342,15 @@
           ]
         },
         "StoreTempSelectionState": {
-          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default.",
+          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default if TTL parameter is not present or positive.\n\nParameters:\n\n◾ tTLOfTempState   -   Time to live in seconds for stored selection state",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
               "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "int"
             }
           ],
           "returns": [
@@ -6208,6 +6322,128 @@
         }
       }
     },
+    "FieldInTableProfilingData": {
+      "type": "struct",
+      "entries": {
+        "Average": {
+          "description": "Average of all numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "AvgStringLen": {
+          "description": "Average string length of textual values. 0 otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "DistinctValues": {
+          "description": "Number of distinct values",
+          "type": "int"
+        },
+        "EmptyStrings": {
+          "description": "Number of empty strings",
+          "type": "int"
+        },
+        "FieldTags": {
+          "description": "List of tags related to the field.",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
+        "FirstSorted": {
+          "description": "For textual values the first sorted string.",
+          "type": "string"
+        },
+        "Fractiles": {
+          "description": "The .01, .05, .1, .25, .5, .75, .9, .95, .99 fractiles. Array of NaN otherwise.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/Float64"
+          }
+        },
+        "FrequencyDistribution": {
+          "description": "Frequency Distribution for numeric fields.",
+          "type": "#/definitions/FrequencyDistributionData"
+        },
+        "Kurtosis": {
+          "description": "Kurtosis of the numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "LastSorted": {
+          "description": "For textual values the last sorted string.",
+          "type": "string"
+        },
+        "Max": {
+          "description": "Maximum value of numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "MaxStringLen": {
+          "description": "Maximum string length of textual values. 0 otherwise.",
+          "type": "int"
+        },
+        "Median": {
+          "description": "Median of all numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "Min": {
+          "description": "Minimum value of numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "MinStringLen": {
+          "description": "Minimum string length of textual values. 0 otherwise.",
+          "type": "int"
+        },
+        "Name": {
+          "description": "Name of the field.",
+          "type": "string"
+        },
+        "NegValues": {
+          "description": "Number of negative values",
+          "type": "int"
+        },
+        "NullValues": {
+          "description": "Number of null values",
+          "type": "int"
+        },
+        "NumberFormat": {
+          "type": "#/definitions/FieldAttributes"
+        },
+        "NumericValues": {
+          "description": "Number of numeric values",
+          "type": "int"
+        },
+        "PosValues": {
+          "description": "Number of positive values",
+          "type": "int"
+        },
+        "Skewness": {
+          "description": "Skewness of the numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "Std": {
+          "description": "Standard deviation of numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "Sum": {
+          "description": "Sum of all numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "Sum2": {
+          "description": "Squared sum of all numerical values. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "SumStringLen": {
+          "description": "Sum of all characters in strings in the field",
+          "type": "int"
+        },
+        "TextValues": {
+          "description": "Number of textual values",
+          "type": "int"
+        },
+        "ZeroValues": {
+          "description": "Number of zero values for numerical values",
+          "type": "int"
+        }
+      }
+    },
     "FieldList": {
       "description": "Lists the fields present in the data model viewer. Is the layout for FieldListDef.",
       "type": "struct",
@@ -6419,6 +6655,29 @@
         "Type": {
           "description": "Type of the folder item.\n\nOne of:\n\n• FOLDER or FOLDER_ITEM_FOLDER\n\n• FILE or FOLDER_ITEM_FILE\n\n• OTHER or FOLDER_ITEM_OTHER",
           "type": "string"
+        }
+      }
+    },
+    "FrequencyDistributionData": {
+      "type": "struct",
+      "entries": {
+        "BinsEdges": {
+          "description": "Bins edges.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/Float64"
+          }
+        },
+        "Frequencies": {
+          "description": "Bins frequencies.",
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
+        },
+        "NumberOfBins": {
+          "description": "Number of bins.",
+          "type": "int"
         }
       }
     },
@@ -9165,7 +9424,7 @@
           ]
         },
         "SearchListObjectFor": {
-          "description": "Searches for a string in a list object.\nThis method applies to list objects (objects with one dimension).\nThe search results can be displayed using the GetLayout Method.\n\nThe operation is successful if qSuccess is set to true.\n\nParameters:\n\n◾ path    -   Path to the definition of the list object.\nFor example, /qListObjectDef .\n\n◾ match   -   Search string.\nWild card characters are allowed. The search is not case sensitive.\nExamples:\n\n• P*U*: retrieves only values that start with P and contain U\n\n• P U S: retrieves values that start with P, U or S",
+          "description": "Searches for a string in a list object.\nThis method applies to list objects (objects with one dimension).\nThe search results can be displayed using the GetLayout Method.\n\nThe operation is successful if qSuccess is set to true.\n\nParameters:\n\n◾ path    -   Path to the definition of the list object.\nFor example, /qListObjectDef .\n\n◾ match   -   Search string.\nWild card characters are allowed. The search is not case sensitive.\nExamples:\n\n• `P*U*`: retrieves only values that start with P and contain U\n\n• `P U S`: retrieves values that start with P, U or S",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -14056,7 +14315,6 @@
       "type": "struct"
     },
     "NxMiniChart": {
-      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "AttrExprInfo": {
@@ -14085,7 +14343,6 @@
       }
     },
     "NxMiniChartCell": {
-      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "AttrExps": {
@@ -14107,7 +14364,6 @@
       }
     },
     "NxMiniChartData": {
-      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "Error": {
@@ -14130,7 +14386,6 @@
       }
     },
     "NxMiniChartDef": {
-      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "AttributeExpressions": {
@@ -14167,7 +14422,6 @@
       }
     },
     "NxMiniChartRows": {
-      "description": "An application was loaded in an engine instance",
       "type": "slice",
       "items": {
         "type": "#/definitions/NxMiniChartCell"
@@ -16005,6 +16259,8 @@
       }
     },
     "SearchMatchCombinations": {
+      "deprecated": true,
+      "x-qlik-deprecation-description": "This will be removed in a future version",
       "type": "slice",
       "items": {
         "type": "#/definitions/SearchMatchCombination"
@@ -16409,6 +16665,22 @@
         }
       }
     },
+    "TableProfilingData": {
+      "type": "struct",
+      "entries": {
+        "FieldProfiling": {
+          "description": "Field values profiling info",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/FieldInTableProfilingData"
+          }
+        },
+        "NoOfRows": {
+          "description": "Number of rows in the table.",
+          "type": "int"
+        }
+      }
+    },
     "TableRecord": {
       "type": "struct",
       "entries": {
@@ -16446,6 +16718,17 @@
         "Pos": {
           "description": "Information about the position of the table.",
           "type": "#/definitions/Point"
+        },
+        "ProfilingData": {
+          "description": "Profiling information of the table.",
+          "type": "#/definitions/TableProfilingData"
+        },
+        "TableTags": {
+          "description": "List of tags related to the table.",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -16669,6 +16952,13 @@
           "description": "Position of the last expended cell.\nThis property is optional.",
           "type": "#/definitions/NxCellPosition"
         },
+        "MeasureInfo": {
+          "description": "Information on the measures calculated on the whole tree.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxMeasureInfo"
+          }
+        },
         "NodesOnDim": {
           "description": "The total number of nodes on each dimension.",
           "type": "slice",
@@ -16754,6 +17044,13 @@
         "Title": {
           "description": "Title of the TreeData object, for example the title of a chart.",
           "type": "#/definitions/StringExpr"
+        },
+        "ValueExprs": {
+          "description": "List of measures to calculate on the whole tree.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxMeasure"
+          }
         }
       }
     },
