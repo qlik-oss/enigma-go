@@ -39,7 +39,7 @@ func (err *qixError) Message() string {
 }
 
 func (err *qixError) codeLookup() string {
-	errorType := errorCodeLookup(err.ErrorCode)
+	errorType := ErrorCodeLookup(err.ErrorCode)
 	if len(errorType) < 7 {
 		// All error codes should result in a string prefixed with LOCERR_
 		// if the code is valid, so this is probably invalid.
