@@ -5539,6 +5539,19 @@
         }
       }
     },
+    "ErrorCodeLookup": {
+      "type": "function",
+      "params": [
+        {
+          "type": "int"
+        }
+      ],
+      "returns": [
+        {
+          "type": "string"
+        }
+      ]
+    },
     "ErrorData": {
       "type": "struct",
       "entries": {
