@@ -3111,7 +3111,7 @@ type NxListObjectExpressionDef struct {
 	LibraryId string `json:"qLibraryId,omitempty"`
 }
 
-func errorCodeLookup(c int) string {
+func ErrorCodeLookup(c int) string {
 	switch c {
 	case -128:
 		return "LOCERR_INTERNAL_ERROR"
