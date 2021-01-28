@@ -44,44 +44,6 @@ aliases:
 version: 2
 jobs:
 
-  golang-1.11:
-    docker:
-      - image: circleci/golang:1.11
-    environment:
-      GOLANG_VERSION: "1.11"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.11{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.11{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - setup_remote_docker
-      - run: *examples
-
-  golang-1.12:
-    docker:
-      - image: circleci/golang:1.12
-    environment:
-      GOLANG_VERSION: "1.12"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.12{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.12{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - setup_remote_docker
-      - run: *examples
-
   golang-1.13:
     docker:
       - image: circleci/golang:1.13
@@ -149,16 +111,6 @@ workflows:
   version: 2
   build:
     jobs:
-      - golang-1.11:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.12:
-          filters:
-            tags:
-              only:
-                - /v.*/
       - golang-1.13:
           filters:
             tags:
