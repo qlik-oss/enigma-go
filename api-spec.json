@@ -1812,7 +1812,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -1833,7 +1833,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -1877,7 +1877,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -1898,7 +1898,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -3904,7 +3904,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/RemoteObject"
+              "type": "#/definitions/GenericMeasure"
             },
             {
               "type": "error"
@@ -4378,7 +4378,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -4399,7 +4399,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/Variable"
+              "type": "#/definitions/GenericVariable"
             },
             {
               "type": "error"
@@ -6404,6 +6404,13 @@
           "description": "Minimum string length of textual values. 0 otherwise.",
           "type": "int"
         },
+        "MostFrequent": {
+          "description": "Three most frequent values and their frequencies",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/SymbolFrequency"
+          }
+        },
         "Name": {
           "description": "Name of the field.",
           "type": "string"
@@ -8340,7 +8347,7 @@
           ]
         },
         "ExportData": {
-          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 1000000 to export to an Excel file\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL",
+          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 1000000 to export to an Excel file\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -8358,6 +8365,9 @@
             },
             {
               "type": "string"
+            },
+            {
+              "type": "bool"
             }
           ],
           "returns": [
@@ -13721,6 +13731,9 @@
           "description": "Time in seconds for how long the download link is valid.\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
           "type": "int",
           "ref-type": "pointer"
+        },
+        "ServeOnce": {
+          "type": "bool"
         }
       }
     },
@@ -16674,6 +16687,32 @@
       "type": "struct",
       "entries": {
         "Expr": {
+          "type": "string"
+        }
+      }
+    },
+    "SymbolFrequency": {
+      "type": "struct",
+      "entries": {
+        "Frequency": {
+          "description": "Frequency of the above symbol in the field",
+          "type": "int"
+        },
+        "Symbol": {
+          "description": "Symbol. Either string and NaN or number alone",
+          "type": "#/definitions/SymbolValue"
+        }
+      }
+    },
+    "SymbolValue": {
+      "type": "struct",
+      "entries": {
+        "Number": {
+          "description": "Numeric value of the symbol. NaN otherwise.",
+          "type": "#/definitions/Float64"
+        },
+        "Text": {
+          "description": "String value of the symbol. This parameter is optional and present only if Symbol is a string.",
           "type": "string"
         }
       }
