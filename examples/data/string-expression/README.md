@@ -8,4 +8,4 @@ This example will show you how to create a string expression and evaluate it.
 
 ## Documentation
 
-* [Qlik Sense Help: String Expression](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/Structs/StringExpression.htm)
+* [Qlik developer portal: String Expression](https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FStringExpression)
