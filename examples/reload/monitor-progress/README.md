@@ -13,5 +13,5 @@ To run this example, a running Qlik Associative Engine with access to the [./tes
 
 ## Documentation
 
-* [Qlik Sense Help: DoReload method](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/Classes/AppClass/App-class-DoReload-method.htm)
-* [Qlik Sense Help: GetProgress method](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/Classes/GlobalClass/Global-class-GetProgress-method.htm)
+* [Qlik developer portal: DoReload method](https://qlik.dev/apis/json-rpc/qix/doc#%23%2Fentries%2FDoc%2Fentries%2FDoReload)
+* [Qlik developer portal: GetProgress method](https://qlik.dev/apis/json-rpc/qix/global#%23%2Fentries%2FGlobal%2Fentries%2FGetProgress)

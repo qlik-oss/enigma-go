@@ -8,5 +8,5 @@ This example will show you how to create and interact with custom object types.
 
 ## Documentation
 
-* [Generic objects](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/GenericObject/overview-generic-object.htm)
-* [Properties of generic objects](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/GenericObject/Properties.htm)
+* [Generic object model](https://qlik.dev/libraries-and-tools/enigmajs/#generic-object-model)
+* [Generic Object Properties](https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FGenericObjectProperties)
