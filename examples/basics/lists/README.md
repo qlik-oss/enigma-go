@@ -8,8 +8,10 @@ a specific type.
 
 * [App object list](./app-object-list/app-object-list.go)
 * [Field list](./field-list/field-list.go)
+* [Variable list](./variable-list/variable-list.go)
 
 ## Documentation
 
-* [Qlik Sense Help: qAppObjectListDef](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/GenericObject/PropertyLevel/AppObjectListDef.htm)
-* [Qlik Sense Help: qFieldListDef](https://help.qlik.com/en-US/sense-developer/June2017/Subsystems/EngineAPI/Content/GenericObject/PropertyLevel/FieldListDef.htm)
+* [Qlik developer portal: AppObjectListDef](https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FAppObjectListDef)
+* [Qlik developer portal: FieldListDef](https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FFieldListDef)
+* [Qlik developer portal: VariableListDef](https://qlik.dev/apis/json-rpc/qix/schemas#%23%2Fdefinitions%2Fschemas%2Fentries%2FVariableListDef)

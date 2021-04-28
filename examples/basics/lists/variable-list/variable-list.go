@@ -44,7 +44,7 @@ func main() {
 		return
 	}
 
-	// Create a field list using qFieldListDef and list all fields available in the document.
+	// Create a Variable list using qVariableListDef and list all variables available in the document.
 	object, _ := doc.CreateSessionObject(ctx, &enigma.GenericObjectProperties{
 		Info: &enigma.NxInfo{
 			Type: "VariableList",
