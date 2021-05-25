@@ -6,7 +6,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/qlik-oss/enigma-go"
+	"github.com/qlik-oss/enigma-go/v2"
 	"io/ioutil"
 	"net/http"
 )

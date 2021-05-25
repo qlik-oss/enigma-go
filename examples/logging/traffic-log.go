@@ -6,7 +6,7 @@ import (
 	"path"
 	"runtime"
 
-	"github.com/qlik-oss/enigma-go"
+	"github.com/qlik-oss/enigma-go/v2"
 )
 
 const script = `
