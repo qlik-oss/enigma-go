@@ -757,7 +757,7 @@ func main() {
 	// The fourth argument disable-enigma-import is used to indicate that we are genering the standard
 	// schema file inside of enigma-go and not an external one.
 	if !(len(os.Args) > 5 && os.Args[5] == "disable-enigma-import") {
-		enigmaImports = "\t\"github.com/qlik-oss/enigma-go\"\n"
+		enigmaImports = "\t\"github.com/qlik-oss/enigma-go/v2\"\n"
 		enigmaStandardTypesPrefix = "enigma."
 	}
 
