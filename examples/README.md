@@ -14,6 +14,7 @@ The examples below show various enigma-go use cases.
 #### Authentication
 * [Qlik Sense certificates and headers](./authentication/sense-using-certificates/README.md)
 * [ Qlik Sense JSON Web Token (JWT)](./authentication/sense-using-jwt/README.md)
+* [QCS using API key](./authentication/qcs-using-apikey/README.md)
 
 #### Interceptors
 * [Retry aborted](./interceptors/retry-aborted/README.md)
