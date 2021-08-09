@@ -5,10 +5,11 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/qlik-oss/enigma-go/v2"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/golang-jwt/jwt/v4"
+	"github.com/qlik-oss/enigma-go/v2"
 )
 
 // the Qlik Sense Enterprise hostname:
