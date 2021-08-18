@@ -2,15 +2,17 @@ package enigma
 
 import (
 	"context"
-	"github.com/gorilla/websocket"
-	"github.com/pkg/errors"
 	"net"
 	"net/http"
+
+	"github.com/gorilla/websocket"
+	"github.com/pkg/errors"
 )
 
 func setupDefaultDialer(dialer *Dialer) {
 	dialer.CreateSocket = func(ctx context.Context, url string, httpHeader http.Header) (Socket, error) {
 		gorillaDialer := websocket.Dialer{
+			Proxy:           http.ProxyFromEnvironment,
 			TLSClientConfig: dialer.TLSClientConfig,
 			NetDial: func(network, addr string) (net.Conn, error) {
 				return (&net.Dialer{}).DialContext(ctx, network, addr)
