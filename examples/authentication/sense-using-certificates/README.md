@@ -30,9 +30,9 @@ code example).
 
 To use engima when working behind a proxy. Set the operating system environment variable called `HTTPS_PROXY` to specify Proxy URL.
 
-export https_proxy=http://172.17.0.1:3128
+export https_proxy=http://\<ip-address>:\<port>
 
 **NOTE**
 If you don't want to use Proxy for a specific request. You can set the environment variable `NO_PROXY`.
 
-export no_proxy=http://172.17.0.1:3128
+export no_proxy=http://\<ip-address>:\<port>
