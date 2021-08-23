@@ -107,6 +107,28 @@ jobs:
       - setup_remote_docker
       - run: *examples
 
+  golang-1.16:
+    docker:
+      - image: circleci/golang:1.16
+    environment:
+      GOLANG_VERSION: "1.16"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.16{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.16{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - setup_remote_docker
+      - run: *examples
+  
+
 workflows:
   version: 2
   build:
@@ -122,6 +144,11 @@ workflows:
               only:
                 - /v.*/
       - golang-1.15:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.16:
           filters:
             tags:
               only:
