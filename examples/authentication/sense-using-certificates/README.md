@@ -25,3 +25,14 @@ code example).
 
 * [Qlik Sense Help: Exporting certificates](http://help.qlik.com/en-US/sense/June2017/Subsystems/ManagementConsole/Content/export-certificates.htm)
 * [Qlik Sense Help: Certificate architecture](http://help.qlik.com/en-US/sense/June2017/Subsystems/PlanningQlikSenseDeployments/Content/Deployment/Server-Security-Authentication-Certificate-Trust-Architecture.htm)
+
+## PROXY
+
+To use engima when working behind a proxy. Set the operating system environment variable called `HTTPS_PROXY` to specify Proxy URL.
+
+export https_proxy=http://172.17.0.1:3128
+
+**NOTE**
+If you don't want to use Proxy for a specific request. You can set the environment variable `NO_PROXY`.
+
+export no_proxy=http://172.17.0.1:3128
