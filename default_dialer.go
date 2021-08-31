@@ -2,15 +2,19 @@ package enigma
 
 import (
 	"context"
-	"github.com/gorilla/websocket"
-	"github.com/pkg/errors"
+	"fmt"
 	"net"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/websocket"
+	"github.com/pkg/errors"
 )
 
 func setupDefaultDialer(dialer *Dialer) {
 	dialer.CreateSocket = func(ctx context.Context, url string, httpHeader http.Header) (Socket, error) {
 		gorillaDialer := websocket.Dialer{
+			Proxy:           http.ProxyFromEnvironment, // Will pick the Proxy URL from the environment variables (HTTPS_PROXY).
 			TLSClientConfig: dialer.TLSClientConfig,
 			NetDial: func(network, addr string) (net.Conn, error) {
 				return (&net.Dialer{}).DialContext(ctx, network, addr)
@@ -27,6 +31,9 @@ func setupDefaultDialer(dialer *Dialer) {
 			if err == websocket.ErrBadHandshake {
 				chErr <- errors.Wrapf(err, "%d from ws server", resp.StatusCode)
 			} else if err != nil {
+				if strings.Contains(err.Error(), "Proxy Authentication") {
+					chErr <- fmt.Errorf("only proxies with http basic authentication are supported by enigma-go")
+				}
 				chErr <- err
 			} else {
 				select {
