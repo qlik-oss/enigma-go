@@ -6,8 +6,11 @@ The environment values may be either a complete URL or a "host[:port]", in which
 
 https_proxy=`https://<ip-address>:<port>`  (or)  https_proxy=`https://<URL>`
 
-You must add the port number if the proxy server uses a port other than 80, as seen in the example below.
+You must add the port number if the proxy server uses a port other than the defaults 80 or 443, as seen in the example below.
 https_proxy=`https://<URL>:<port>`
+
+If the proxy server requires a username and password, you must include the credentials, as seen in the example below:
+https_proxy=`http://username:password@<URL>`
 
 **NOTE**
 HTTPS_PROXY takes precedence over HTTP_PROXY for https requests.
