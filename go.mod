@@ -2,7 +2,7 @@ module github.com/qlik-oss/enigma-go/v2
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/golang-jwt/jwt/v4 v4.0.0
+	github.com/golang-jwt/jwt/v4 v4.1.0
 	github.com/gorilla/websocket v1.4.2
 	github.com/jaytaylor/html2text v0.0.0-20200412013138-3577fbdbcff7
 	github.com/mattn/go-runewidth v0.0.4 // indirect
