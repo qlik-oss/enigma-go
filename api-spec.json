@@ -2331,7 +2331,7 @@
           ]
         },
         "ExportReducedData": {
-          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprice on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
+          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprise on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -2352,7 +2352,7 @@
           ]
         },
         "ExportReducedDataRaw": {
-          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprice on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
+          "description": "Applies a bookmark to reduce (slice) the data on. Returns a url and file size to the reduced application. Section Access is always applied.\nThis API is only available on Sense Enterprise on Windows\n\nParameters:\n\n◾ options   -   BookmarkId used to reduced the app on and an expire time.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -5053,6 +5053,64 @@
             }
           ]
         },
+        "SearchValues": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "#/definitions/SearchValueOptions"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "#/definitions/SearchValuePage"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/SearchValueResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "SearchValuesRaw": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "interface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "SelectAssociations": {
           "description": "Selects all search hits for a specified group.\nThe results depend on the search context.\n_SearchCombinationOptions_.\n\nParameters:\n\n◾ options    -   Information about the search fields and the search context.\n\n◾ terms      -   List of terms to search for.\n\n◾ matchIx    -   Index (value of qId ) of the search result to select.\n\n◾ softLock   -   This parameter is deprecated and should not be set.",
           "x-qlik-stability": "locked",
@@ -6345,6 +6403,14 @@
         "AvgStringLen": {
           "description": "Average string length of textual values. 0 otherwise.",
           "type": "#/definitions/Float64"
+        },
+        "DistinctNumericValues": {
+          "description": "Number of distinct numeric values",
+          "type": "int"
+        },
+        "DistinctTextValues": {
+          "description": "Number of distinct text values",
+          "type": "int"
         },
         "DistinctValues": {
           "description": "Number of distinct values",
@@ -8347,7 +8413,7 @@
           ]
         },
         "ExportData": {
-          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 1000000 to export to an Excel file\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
+          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\nExportData method is not supported in SaaS Editions of Qlik Sense.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 1000000 to export to an Excel file\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10627,7 +10693,7 @@
           ]
         },
         "CopyApp": {
-          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository. See the [Qlik Sense Repository Service API](\n\ncsh-RepositoryServiceAPI-Introduction) for more information.:\n\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
+          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository.\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10657,12 +10723,15 @@
           ]
         },
         "CreateApp": {
-          "description": "Creates an app.\n\nThe operation is successful if qSuccess is set to true.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +----------------------------------------+---------------------------------+\n  |           AUDIT ACTIVITY LOG           |       SYSTEM SERVICE LOG        |\n  +----------------------------------------+---------------------------------+\n  | \u003cMachineName\u003e_AuditActivity_Engine.txt | \u003cMachineName\u003e_ServiceEngine.txt |\n  | in Qlik Sense Enterprise               | in Qlik Sense Enterprise        |\n  | \u003cMachineName\u003e_AuditActivity_Engine.log | \u003cMachineName\u003e_ServiceEngine.log |\n  | in Qlik Sense Desktop                  | in Qlik Sense Desktop           |\n  +----------------------------------------+---------------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nParameters:\n\n◾ appName                      -   Name of the app.\n\n◾ localizedScriptMainSection   -   Name of the first section in the script editor.\nThe default value is Main.",
+          "description": "Creates an app.\n\nThe operation is successful if qSuccess is set to true.\n\nLogs:\n\nWhen this method is called, audit activity logs are produced to track the user activity.\nIn the case of errors, both audit activity logs and system services logs are produced.\nThe log files are named as follows:\n\n  +----------------------------------------+---------------------------------+\n  |           AUDIT ACTIVITY LOG           |       SYSTEM SERVICE LOG        |\n  +----------------------------------------+---------------------------------+\n  | \u003cMachineName\u003e_AuditActivity_Engine.txt | \u003cMachineName\u003e_ServiceEngine.txt |\n  | in Qlik Sense Enterprise               | in Qlik Sense Enterprise        |\n  | \u003cMachineName\u003e_AuditActivity_Engine.log | \u003cMachineName\u003e_ServiceEngine.log |\n  | in Qlik Sense Desktop                  | in Qlik Sense Desktop           |\n  +----------------------------------------+---------------------------------+\n\nWhere to find the log files:\n\nThe location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.\n\n  +-------------------------------------+----------------------------------------+\n  |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |\n  +-------------------------------------+----------------------------------------+\n  | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |\n  +-------------------------------------+----------------------------------------+\n\nParameters:\n\n◾ appName                      -   Name of the app.\n\n◾ localizedScriptMainSection   -   Name of the first section in the script editor.\nThe default value is Main.\n\n◾ locale                       -   Set custom locale for the app instead of system default.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
               "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
             },
             {
               "type": "string"
@@ -12057,7 +12126,7 @@
           }
         },
         "Mode": {
-          "description": "Information about the mode of the visualization.\n\nOne of:\n\n• S or DATA_MODE_STRAIGHT\n\n• P or DATA_MODE_PIVOT\n\n• K or DATA_MODE_PIVOT_STACK\n\n• T or DATA_MODE_TREE",
+          "description": "Information about the mode of the visualization.\n\nOne of:\n\n• S or DATA_MODE_STRAIGHT\n\n• P or DATA_MODE_PIVOT\n\n• K or DATA_MODE_PIVOT_STACK\n\n• T or DATA_MODE_TREE\n\n• D or DATA_MODE_DYNAMIC",
           "type": "string"
         },
         "NoOfLeftDims": {
@@ -12129,6 +12198,14 @@
             "type": "#/definitions/NxDimension"
           }
         },
+        "DynamicScript": {
+          "description": "Hypercube Modifier Dynamic script string",
+          "x-qlik-stability": "experimental",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
         "ExpansionState": {
           "description": "Expansion state per dimension for pivot mode ( qMode is P).",
           "x-qlik-stability": "experimental",
@@ -12168,7 +12245,7 @@
           }
         },
         "Mode": {
-          "description": "Defines the way the data are handled internally by the engine.\nDefault value is DATAMODE_STRAIGHT_ .\nA pivot table can contain several dimensions and measures whereas a stacked pivot table can contain several dimensions but only one measure.\n\nOne of:\n\n• S or DATA_MODE_STRAIGHT\n\n• P or DATA_MODE_PIVOT\n\n• K or DATA_MODE_PIVOT_STACK\n\n• T or DATA_MODE_TREE",
+          "description": "Defines the way the data are handled internally by the engine.\nDefault value is DATAMODE_STRAIGHT_ .\nA pivot table can contain several dimensions and measures whereas a stacked pivot table can contain several dimensions but only one measure.\n\nOne of:\n\n• S or DATA_MODE_STRAIGHT\n\n• P or DATA_MODE_PIVOT\n\n• K or DATA_MODE_PIVOT_STACK\n\n• T or DATA_MODE_TREE\n\n• D or DATA_MODE_DYNAMIC",
           "type": "string"
         },
         "NoOfLeftDims": {
@@ -13177,6 +13254,9 @@
         "HighlightRanges": {
           "description": "Search hits.\nThe search hits are highlighted.\nThis parameter is optional.",
           "type": "#/definitions/NxHighlightRanges"
+        },
+        "InExtRow": {
+          "type": "bool"
         },
         "IsEmpty": {
           "description": "Is set to true , if qText and qNum are empty.\nThis parameter is optional. The default value is false .",
@@ -16141,6 +16221,41 @@
         }
       }
     },
+    "SearchFieldMatchesItem": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ElemNo": {
+          "type": "int"
+        },
+        "SearchTermsMatched": {
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
+        },
+        "Text": {
+          "type": "string"
+        }
+      }
+    },
+    "SearchFieldValueItem": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "FieldName": {
+          "description": "Field name of matches.",
+          "type": "string"
+        },
+        "Values": {
+          "description": "List of search matches.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/SearchFieldMatchesItem"
+          }
+        }
+      }
+    },
     "SearchGroup": {
       "type": "struct",
       "entries": {
@@ -16414,6 +16529,58 @@
         "Text": {
           "description": "Text of the associated value.",
           "type": "string"
+        }
+      }
+    },
+    "SearchValueOptions": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "SearchFields": {
+          "description": "List of the search fields.\nIf empty, the search is performed in all fields of the app.",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "SearchValuePage": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "Count": {
+          "description": "Number of search fields to return",
+          "type": "int"
+        },
+        "MaxNbrFieldMatches": {
+          "description": "Maximum number of matching values to return per search result.\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
+        },
+        "Offset": {
+          "description": "Position from the top, starting from 0.\nIf the offset is set to 0, the first search result to be returned is at position 0.",
+          "type": "int"
+        }
+      }
+    },
+    "SearchValueResult": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "FieldMatches": {
+          "description": "List of search groups.\nThe groups are numbered from the value of SearchPage.qOffset to the value of SearchPage.qOffset + SearchPage.qCount .",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/SearchFieldValueItem"
+          }
+        },
+        "SearchTerms": {
+          "description": "List of the search terms.",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
