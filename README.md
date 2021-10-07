@@ -63,3 +63,8 @@ git push --follow-tags
 to push the tag and commit to **master**.
 The release-script also checks if the local repo is in a pristine state: no untracked files or uncommitted change and, you
 have to be up-to-date with the latest changes on **master**.
+
+## Updating enigma-go to new engine schema
+
+- Generate enigma-go: [Generate-Docs](./schema/README.md)
+- Update the API specification: [Update-API-Docs](./spec/README.md)
