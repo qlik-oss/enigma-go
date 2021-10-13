@@ -1,4 +1,4 @@
-module github.com/qlik-oss/enigma-go/v2
+module github.com/qlik-oss/enigma-go/v3
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

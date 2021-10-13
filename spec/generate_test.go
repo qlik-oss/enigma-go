@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
-	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var updateSpecGoldenfile = flag.Bool("update", false, "updateSpecGoldenfile golden files")
@@ -13,7 +14,7 @@ func Test(t *testing.T) {
 
 	info := &info{
 		Name:                "mockapi",
-		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v2/spec/mockapi",
+		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v3/spec/mockapi",
 		GoPackageName:       "mockapi",
 		Version:             "no particular version",
 		License:             "MIT",

@@ -5,9 +5,10 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"github.com/qlik-oss/enigma-go/v2"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/qlik-oss/enigma-go/v3"
 )
 
 // the Qlik Associative Engine hostname:

@@ -4,13 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go/v2"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
 	"testing"
 	"time"
+
+	"github.com/qlik-oss/enigma-go/v3"
+	"github.com/stretchr/testify/assert"
 )
 
 //This example shows how to connect to a locally running Qlik Associative Engine, print the version number and disconnect again.

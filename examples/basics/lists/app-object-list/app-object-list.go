@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go/v2"
 	"strconv"
+
+	"github.com/qlik-oss/enigma-go/v3"
 )
 
 type (
