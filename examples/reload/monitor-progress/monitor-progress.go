@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/qlik-oss/enigma-go/v2"
+	"github.com/qlik-oss/enigma-go/v3"
 )
 
 // Path to testdata, update to match your Qlik Associative Engine deployment

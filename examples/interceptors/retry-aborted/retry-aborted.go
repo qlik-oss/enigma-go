@@ -3,8 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/qlik-oss/enigma-go/v2"
 	"sync"
+
+	"github.com/qlik-oss/enigma-go/v3"
 )
 
 const LOCERR_GENERIC_ABORTED = 15

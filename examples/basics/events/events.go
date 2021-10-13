@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/qlik-oss/enigma-go/v2"
 	"sync"
 	"time"
+
+	"github.com/qlik-oss/enigma-go/v3"
 )
 
 func main() {
