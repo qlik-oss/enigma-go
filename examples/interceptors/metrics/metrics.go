@@ -13,8 +13,8 @@ import (
 
 func main() {
 	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
-	QCS_HOST := os.Getenv("QCS_HOST")
-	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
 
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 1000000"
 	ctx := context.Background()
@@ -28,8 +28,8 @@ func main() {
 	}
 
 	// Connect to Qlik Cloud tenant and create a session document:
-	global, err := dialer.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
-		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	global, err := dialer.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
 	})
 
 	if err != nil {

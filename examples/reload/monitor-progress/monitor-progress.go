@@ -12,20 +12,17 @@ import (
 	"github.com/qlik-oss/enigma-go/v3"
 )
 
-// Path to testdata, update to match your Qlik Associative Engine deployment
-const testDataFolder = "/testdata"
-
 func main() {
 	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
-	QCS_HOST := os.Getenv("QCS_HOST")
-	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
 
 	ctx := context.Background()
 	rand.Seed(time.Now().UnixNano())
 
 	// Connect to Qlik Cloud tenant and create a session document:
-	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
-		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
 	})
 	if err != nil {
 		fmt.Println(err)

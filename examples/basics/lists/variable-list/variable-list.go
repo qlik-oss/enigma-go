@@ -23,14 +23,14 @@ AutoGenerate 100
 
 func main() {
 	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
-	QCS_HOST := os.Getenv("QCS_HOST")
-	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
 
 	// Connect to Qlik Cloud tenant and create a session document:
 	ctx := context.Background()
 	rand.Seed(time.Now().UnixNano())
-	global, _ := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
-		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	global, _ := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
 	})
 
 	doc, _ := global.GetActiveDoc(ctx)
@@ -46,7 +46,6 @@ func main() {
 		},
 		Name: "vVariableName",
 	})
-	fmt.Printf("%v", variable)
 	variable, _ = doc.GetVariableById(ctx, "vVariableName")
 	_, ok := interface{}(variable).(*enigma.GenericVariable)
 	if !ok {
