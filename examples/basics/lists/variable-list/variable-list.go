@@ -44,8 +44,8 @@ func main() {
 		},
 		Name: "vVariableName",
 	})
-
-	variable, _ = doc.GetVariableById(ctx, variable.GenericId)
+	fmt.Printf("%v", variable)
+	variable, _ = doc.GetVariableById(ctx, "vVariableName")
 	_, ok := interface{}(variable).(*enigma.GenericVariable)
 	if !ok {
 		fmt.Printf("GetVariableId returned wrong type: %T, should have been %T", variable, enigma.GenericVariable{})
