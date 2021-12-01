@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
@@ -21,6 +22,7 @@ func main() {
 
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 1000000"
 	ctx := context.Background()
+	rand.Seed(time.Now().UnixNano())
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(2)
 

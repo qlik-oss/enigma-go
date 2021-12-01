@@ -20,6 +20,7 @@ func main() {
 
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 1000000"
 	ctx := context.Background()
+	rand.Seed(time.Now().UnixNano())
 	var waitGroup sync.WaitGroup
 	waitGroup.Add(2)
 	// Connect to Qlik Cloud tenant and create a session document:

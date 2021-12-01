@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
@@ -34,6 +35,7 @@ func main() {
 
 	// Connect to Qlik Cloud tenant
 	ctx := context.Background()
+	rand.Seed(time.Now().UnixNano())
 	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
 		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
 	})
