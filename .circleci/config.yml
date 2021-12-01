@@ -29,7 +29,7 @@ aliases:
       git diff --exit-code api-spec.json
 
   - &examples |
-      ./examples/run_examples.sh'
+      ./examples/run_examples.sh
 
 version: 2
 jobs:
