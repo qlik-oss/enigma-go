@@ -69,7 +69,7 @@ func main() {
 }
 
 func (c *customDoc) CreateCustomObject(ctx context.Context, properties *customObjectProperties) (*customObject, error) {
-	obj, err := c.CreateObjectRaw(ctx, properties)
+	obj, err := c.CreateSessionObjectRaw(ctx, properties)
 	if err != nil {
 		return nil, err
 	}
