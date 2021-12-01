@@ -4,3 +4,4 @@ socket.traffic
 .DS_Store
 coverage
 .vscode
+env

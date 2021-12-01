@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 	"path"
 	"runtime"
 
@@ -33,11 +36,16 @@ func main() {
 }
 
 func runScenarioWithDialer(dialer *enigma.Dialer) {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	QCS_HOST := os.Getenv("QCS_HOST")
+	QCS_API_KEY := os.Getenv("QCS_API_KEY")
 
-	// Open the session and create a session document:
+	// Connect to Qlik Cloud tenant and create a session document:
 	ctx := context.Background()
-	global, _ := dialer.Dial(ctx, "ws://localhost:9076/app/engineData", nil)
-	doc, _ := global.CreateSessionApp(ctx)
+	global, _ := dialer.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	})
+	doc, _ := global.GetActiveDoc(ctx)
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 	// Create a generic object with a hypercube definition containing one dimension and one measure

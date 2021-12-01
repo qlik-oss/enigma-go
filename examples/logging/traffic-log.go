@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 	"path"
 	"runtime"
 
@@ -42,7 +45,6 @@ func (Logger) Received(message []byte) {
 }
 
 func main() {
-
 	// Log JSON traffic to a file
 	_, filename, _, _ := runtime.Caller(0)
 	trafficFileName := path.Dir(filename) + "/socket.traffic"
@@ -55,11 +57,17 @@ func main() {
 }
 
 func runScenario(dialer *enigma.Dialer) {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	QCS_HOST := os.Getenv("QCS_HOST")
+	QCS_API_KEY := os.Getenv("QCS_API_KEY")
 	ctx := context.Background()
-	global, _ := dialer.Dial(ctx, "ws://localhost:9076/app/engineData", nil)
+	// Connect to Qlik Cloud tenant and create a session document:
+	global, _ := dialer.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	})
 
 	// Create a session app, set a script and perform a reload
-	doc, _ := global.CreateSessionApp(ctx)
+	doc, _ := global.GetActiveDoc(ctx)
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 

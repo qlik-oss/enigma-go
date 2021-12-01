@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
@@ -25,9 +28,15 @@ type (
 )
 
 func main() {
-	// Connect to a local Qlik Associative Engine
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	QCS_HOST := os.Getenv("QCS_HOST")
+	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+
+	// Connect to Qlik Cloud tenant
 	ctx := context.Background()
-	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)
+	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	})
 
 	if err != nil {
 		fmt.Println("Not able to connect", err)
@@ -35,7 +44,7 @@ func main() {
 	}
 
 	// Create a session app and cast it to custom object aware type
-	d, _ := global.CreateSessionApp(ctx)
+	d, _ := global.GetActiveDoc(ctx)
 	doc := customDoc{d}
 
 	// Create a custom object

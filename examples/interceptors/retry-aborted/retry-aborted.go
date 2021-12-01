@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 	"sync"
 
 	"github.com/qlik-oss/enigma-go/v3"
@@ -12,6 +15,10 @@ const LOCERR_GENERIC_ABORTED = 15
 const MAX_RETRIES = 3
 
 func main() {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	QCS_HOST := os.Getenv("QCS_HOST")
+	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 1000000"
 	ctx := context.Background()
 	var waitGroup sync.WaitGroup
@@ -24,8 +31,10 @@ func main() {
 		},
 	}
 
-	// Connect to Qlik Associative Engine.
-	global, err := dialer.Dial(ctx, "ws://localhost:9076", nil)
+	// Connect to Qlik Cloud tenant and create a session document:
+	global, err := dialer.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	})
 
 	if err != nil {
 		fmt.Println("Could not connect", err)
@@ -33,7 +42,7 @@ func main() {
 	}
 
 	// Once connected, create a session app and populate it with some data.
-	doc, _ := global.CreateSessionApp(ctx)
+	doc, _ := global.GetActiveDoc(ctx)
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 

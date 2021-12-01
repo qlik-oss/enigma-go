@@ -4,6 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
@@ -13,10 +16,16 @@ import (
 const testDataFolder = "/testdata"
 
 func main() {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	QCS_HOST := os.Getenv("QCS_HOST")
+	QCS_API_KEY := os.Getenv("QCS_API_KEY")
+
 	ctx := context.Background()
 
-	// Connect to Qlik Associative Engine
-	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)
+	// Connect to Qlik Cloud tenant and create a session document:
+	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", QCS_HOST, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", QCS_API_KEY)},
+	})
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
@@ -25,26 +34,41 @@ func main() {
 	defer global.DisconnectFromServer()
 
 	// Open a session app that only lives in memory
-	app, err := global.CreateSessionApp(ctx)
-	if err != nil {
-		fmt.Println(err)
-		panic(err)
-	}
-
-	// Create a folder connection that references the current directory where there is a test csv file to load.
-	_, err = app.CreateConnection(ctx, &enigma.Connection{
-		Type:             "folder",
-		Name:             "testdata",
-		ConnectionString: testDataFolder})
+	app, err := global.GetActiveDoc(ctx)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
 
 	err = app.SetScript(ctx, `
-		Airports:
-		LOAD * FROM [lib://testdata/airports.csv]
-		(txt, utf8, embedded labels, delimiter is ',', msq);`)
+	Characters:
+	Load Chr(RecNo()+Ord('A')-1) as Alpha, RecNo() as Num autogenerate 26;
+	 
+	ASCII:
+	Load 
+	 if(RecNo()>=65 and RecNo()<=90,RecNo()-64) as Num,
+	 Chr(RecNo()) as AsciiAlpha, 
+	 RecNo() as AsciiNum
+	autogenerate 255
+	 Where (RecNo()>=32 and RecNo()<=126) or RecNo()>=160 ;
+	 
+	Transactions:
+	Load
+	 TransLineID, 
+	 TransID,
+	 mod(TransID,26)+1 as Num,
+	 Pick(Ceil(3*Rand1),'A','B','C') as Dim1,
+	 Pick(Ceil(6*Rand1),'a','b','c','d','e','f') as Dim2,
+	 Pick(Ceil(3*Rand()),'X','Y','Z') as Dim3,
+	 Round(1000*Rand()*Rand()*Rand1) as Expression1,
+	 Round(  10*Rand()*Rand()*Rand1) as Expression2,
+	 Round(Rand()*Rand1,0.00001) as Expression3;
+	Load 
+	 Rand() as Rand1,
+	 IterNo() as TransLineID,
+	 RecNo() as TransID
+	Autogenerate 1000
+	 While Rand()<=0.5 or IterNo()=1;`)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
@@ -93,13 +117,13 @@ func main() {
 	object, err := app.CreateSessionObject(ctx, &enigma.GenericObjectProperties{
 		Info: &enigma.NxInfo{
 			Type: "GenericObject",
-			Id:   "AirportsExample",
+			Id:   "TransactionsExample",
 		},
 		HyperCubeDef: &enigma.HyperCubeDef{
 			Dimensions: []*enigma.NxDimension{{
 				Def: &enigma.NxInlineDimensionDef{
 					FieldDefs: []string{
-						"Airport",
+						"Dim1",
 					},
 					SortCriterias: []*enigma.SortCriteria{{
 						SortByAscii: 1,
@@ -114,7 +138,7 @@ func main() {
 		panic(err)
 	}
 	layout, err := object.GetLayout(ctx)
-	cell := layout.HyperCube.DataPages[0].Matrix[3][0]
+	cell := layout.HyperCube.DataPages[0].Matrix[1][0]
 	fmt.Println(cell.Text)
-	// Output: 7 Novembre
+	// Output: B
 }
