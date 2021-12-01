@@ -7,6 +7,7 @@ The examples below show various enigma-go use cases.
 > QCS_API_KEY=<APIkey>
 > ```
 > - How to obtain an API key? [click here](https://qlik.dev/tutorials/generate-your-first-api-key)
+> - Session Apps in Qlik Cloud? [click here](https://qlik.dev/apis/json-rpc/qix#session-apps)
 #### Basics
 * [Custom object types](./basics/custom-type/README.md)
 * [Lists](./basics/lists/README.md)
