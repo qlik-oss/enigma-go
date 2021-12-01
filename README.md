@@ -5,16 +5,15 @@
 ![Latest Version](https://img.shields.io/github/release/qlik-oss/enigma-go.svg?style=flat)
 
 enigma-go is a library that helps you communicate with a Qlik Associative Engine.
-Examples of use may be building your own analytics tools, back-end services, or other tools communicating with a Qlik Associative Engine. As an example Qlik Core provides an easy way to get started.
+Examples of use may be building your own analytics tools, back-end services, or other tools communicating with a Qlik Associative Engine.
 
 ---
 
+- [Installation](#installation)
 - [Getting started](#getting-started)
-- [Qlik Core](https://core.qlik.com/)
-- [API documentation](https://godoc.org/github.com/qlik-oss/enigma-go)
-- [Contributing](./.github/CONTRIBUTING.md#contributing-to-enigma-go)
-- [Runnable examples](./examples/README.md)
-- [Generating from schema](./schema/README.md)
+- [Schemas](#schemas)
+- [Release](#release)
+- [Updating enigma-go to new engine schema](#updating-enigma-go-to-new-engine-schema)
 
 ---
 
@@ -26,7 +25,7 @@ go get -u github.com/qlik-oss/enigma-go/v3
 
 ## Getting started
 
-Connecting to a Qlik Associative Engine (e.g Qlik Core) and interacting with a document/app involves at least the following steps:
+Connecting to a Qlik Associative Engine and interacting with a document/app involves at least the following steps:
 
 1. Create and set up a Dialer object with TLS configuration, etc.
 
