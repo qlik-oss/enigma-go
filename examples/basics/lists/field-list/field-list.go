@@ -38,7 +38,7 @@ func main() {
 	doc.DoReload(ctx, 0, false, false)
 
 	// Create a field list using qFieldListDef and list all fields available in the document.
-	object, _ := doc.CreateObject(ctx, &enigma.GenericObjectProperties{
+	object, _ := doc.CreateSessionObject(ctx, &enigma.GenericObjectProperties{
 		Info: &enigma.NxInfo{
 			Type: "my-field-list",
 		},
