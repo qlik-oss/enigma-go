@@ -55,7 +55,11 @@ func main() {
 			},
 		},
 	}
-	object, _ := doc.CreateCustomObject(ctx, properties)
+	object, err := doc.CreateCustomObject(ctx, properties)
+
+	if err != nil {
+		panic(err)
+	}
 
 	// Update a custom property
 	properties.CustomProperty = "custom-property-value"
