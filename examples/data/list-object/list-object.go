@@ -4,11 +4,19 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
+	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
 
 func main() {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
+
 	const script = "TempTable: Load RecNo() as ID, Rand() as Value AutoGenerate 100"
 	listObjectProperties := enigma.GenericObjectProperties{
 		Info: &enigma.NxInfo{
@@ -34,15 +42,18 @@ func main() {
 	}
 
 	ctx := context.Background()
-
-	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)
+	rand.Seed(time.Now().UnixNano())
+	// Connect to Qlik Cloud tenant and create a session document:
+	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
+	})
 
 	if err != nil {
 		fmt.Println("Not able to connect", err)
 		panic(err)
 	}
 
-	doc, _ := global.CreateSessionApp(ctx)
+	doc, _ := global.GetActiveDoc(ctx)
 	doc.SetScript(ctx, script)
 	doc.DoReload(ctx, 0, false, false)
 	listObject, _ := doc.CreateObject(ctx, &listObjectProperties)

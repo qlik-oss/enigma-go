@@ -4,7 +4,11 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
 	"strconv"
+	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
@@ -22,12 +26,18 @@ type (
 )
 
 func main() {
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
 
-	// Open the session and create a session document:
+	// Connect to Qlik Cloud tenant and create a session document:
 	ctx := context.Background()
-	global, _ := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076/app/engineData", nil)
+	rand.Seed(time.Now().UnixNano())
+	global, _ := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
+	})
 
-	doc, _ := global.CreateSessionApp(ctx)
+	doc, _ := global.GetActiveDoc(ctx)
 
 	// Create 10 objects of type my-object with unique titles
 	for i := 0; i < 10; i++ {

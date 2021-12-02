@@ -2,11 +2,6 @@
 
 This example will show you how to reload data and monitor its progress.
 
-
-## Prerequisites
-
-To run this example, a running Qlik Associative Engine with access to the [./testdata](./testdata) folder is needed.
-
 ## Runnable code
 
 * [reload-monitor-progress.go](monitor-progress.go)

@@ -1,6 +1,13 @@
 # Examples
 The examples below show various enigma-go use cases.
 
+> **Note:**: Before running the examples, make sure you have a valid Qlik Cloud tenant host and API key in your environment variables
+> ```
+> QCS_HOST=<tenant>.qlikcloud.com
+> QCS_API_KEY=<APIkey>
+> ```
+> - How to obtain an API key? [click here](https://qlik.dev/tutorials/generate-your-first-api-key)
+> - Session Apps in Qlik Cloud? [click here](https://qlik.dev/apis/json-rpc/qix#session-apps)
 #### Basics
 * [Custom object types](./basics/custom-type/README.md)
 * [Lists](./basics/lists/README.md)
@@ -13,7 +20,7 @@ The examples below show various enigma-go use cases.
 
 #### Authentication
 * [Qlik Sense certificates and headers](./authentication/sense-using-certificates/README.md)
-* [ Qlik Sense JSON Web Token (JWT)](./authentication/sense-using-jwt/README.md)
+* [Qlik Sense JSON Web Token (JWT)](./authentication/sense-using-jwt/README.md)
 * [QCS using API key](./authentication/qcs-using-apikey/README.md)
 
 #### Interceptors

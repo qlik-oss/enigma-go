@@ -4,6 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
+	"net/http"
+	"os"
+	"time"
 
 	"github.com/qlik-oss/enigma-go/v3"
 )
@@ -25,9 +29,16 @@ type (
 )
 
 func main() {
-	// Connect to a local Qlik Associative Engine
+	// Fetch the QCS_HOST and QCS_API_KEY from the environment variables
+	qcsHost := os.Getenv("QCS_HOST")
+	qcsApiKey := os.Getenv("QCS_API_KEY")
+
+	// Connect to Qlik Cloud tenant
 	ctx := context.Background()
-	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)
+	rand.Seed(time.Now().UnixNano())
+	global, err := enigma.Dialer{}.Dial(ctx, fmt.Sprintf("wss://%s/app/SessionApp_%v", qcsHost, rand.Int()), http.Header{
+		"Authorization": []string{fmt.Sprintf("Bearer %s", qcsApiKey)},
+	})
 
 	if err != nil {
 		fmt.Println("Not able to connect", err)
@@ -35,7 +46,7 @@ func main() {
 	}
 
 	// Create a session app and cast it to custom object aware type
-	d, _ := global.CreateSessionApp(ctx)
+	d, _ := global.GetActiveDoc(ctx)
 	doc := customDoc{d}
 
 	// Create a custom object
@@ -46,7 +57,11 @@ func main() {
 			},
 		},
 	}
-	object, _ := doc.CreateCustomObject(ctx, properties)
+	object, err := doc.CreateCustomObject(ctx, properties)
+
+	if err != nil {
+		panic(err)
+	}
 
 	// Update a custom property
 	properties.CustomProperty = "custom-property-value"
@@ -60,7 +75,7 @@ func main() {
 }
 
 func (c *customDoc) CreateCustomObject(ctx context.Context, properties *customObjectProperties) (*customObject, error) {
-	obj, err := c.CreateObjectRaw(ctx, properties)
+	obj, err := c.CreateSessionObjectRaw(ctx, properties)
 	if err != nil {
 		return nil, err
 	}
