@@ -11,19 +11,15 @@ type Float64 float64
 
 // UnmarshalJSON implements the Unmarshaler interface for custom unmarshalling.
 func (value *Float64) UnmarshalJSON(arg []byte) error {
-	err := json.Unmarshal(arg, (*float64)(value))
-	if err != nil {
-		str := string(arg)
-		switch str {
-		case `"NaN"`:
-			*value = Float64(math.NaN())
-		case `"Infinity"`:
-			*value = Float64(math.Inf(1))
-		case `"-Infinity"`:
-			*value = Float64(math.Inf(-1))
-		default:
-			return err
-		}
+	switch string(arg) {
+	case `"NaN"`:
+		*value = Float64(math.NaN())
+	case `"Infinity"`:
+		*value = Float64(math.Inf(1))
+	case `"-Infinity"`:
+		*value = Float64(math.Inf(-1))
+	default:
+		return json.Unmarshal(arg, (*float64)(value))
 	}
 	return nil
 }
