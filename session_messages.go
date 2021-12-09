@@ -2,8 +2,9 @@ package enigma
 
 import (
 	"context"
-	"encoding/json"
 	"sync"
+
+	"github.com/goccy/go-json"
 )
 
 type (

@@ -2,6 +2,7 @@ module github.com/qlik-oss/enigma-go/v3
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/goccy/go-json v0.8.1
 	github.com/golang-jwt/jwt/v4 v4.2.0
 	github.com/gorilla/websocket v1.4.2
 	github.com/jaytaylor/html2text v0.0.0-20211105163654-bc68cce691ba

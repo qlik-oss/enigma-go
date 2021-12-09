@@ -1,8 +1,9 @@
 package enigma
 
 import (
-	"encoding/json"
 	"math"
+
+	"github.com/goccy/go-json"
 )
 
 //Float64 is an enigma-go equivalent of float64 which adds support for the Qlik Associative Engine specific way of marshalling and unmarshalling "Infinity", "-Infinity" and "NaN" as json strings.
