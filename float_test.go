@@ -2,9 +2,10 @@ package enigma
 
 import (
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
 	"math"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestFloatMarshalJSON(t *testing.T) {
@@ -112,4 +113,21 @@ func TestFloatCompoundMarshalJSON(t *testing.T) {
 	result, _ = json.Marshal(&cell)
 	assert.Equal(t, `{"qNum":"NaN"}`, string(result))
 
+}
+
+func BenchmarkFloatUnmarshal(b *testing.B) {
+	data := [][]byte{
+		[]byte(`"NaN"`),
+		[]byte(`"Infinity"`),
+		[]byte(`"-Infinity"`),
+		[]byte("1"),
+		[]byte("3.14"),
+	}
+	for i := 0; i < b.N; i++ {
+		var f Float64
+		err := json.Unmarshal(data[i%len(data)], &f)
+		if err != nil {
+			b.Error(err)
+		}
+	}
 }
