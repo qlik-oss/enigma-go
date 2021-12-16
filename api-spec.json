@@ -4726,7 +4726,7 @@
           ]
         },
         "RestoreTempSelectionState": {
-          "description": "Restore a temporary selection state identified by Id.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
+          "description": "Restore a temporary selection state identified by Id.\nRestoreTempSelectionState method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -5400,7 +5400,7 @@
           ]
         },
         "StoreTempSelectionState": {
-          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default if TTL parameter is not present or positive.\n\nParameters:\n\n◾ tTLOfTempState   -   Time to live in seconds for stored selection state",
+          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default if TTL parameter is not present or positive.\n\nStoreTempSelectionState method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ tTLOfTempState   -   Time to live in seconds for stored selection state",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -6806,7 +6806,7 @@
           ]
         },
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -6827,7 +6827,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7174,7 +7174,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7195,7 +7195,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7571,7 +7571,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7592,7 +7592,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7975,7 +7975,7 @@
           ]
         },
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7999,7 +7999,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10259,7 +10259,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10280,7 +10280,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -12911,7 +12911,11 @@
           "type": "bool"
         },
         "IsBDILiveMode": {
-          "description": "If set to true, the app is in BDI Live mode.",
+          "description": "If set to true, the app is in BDI Live Mode.",
+          "type": "bool"
+        },
+        "IsDirectQueryMode": {
+          "description": "If set to true, the app is in Direct Query Mode.",
           "type": "bool"
         },
         "IsOpenedWithoutData": {
