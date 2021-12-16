@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## compares engine spec with master
-git diff --exit-code origin/master ./schema/engine-rpc.json >/dev/null
+git diff --exit-code origin/master -- ./schema/engine-rpc.json >/dev/null
 if [[ $? -ne 0 ]]; then
     ENGINE_VERSION=$(cat ./schema/engine-rpc.json | jq -r '.info.version')
     MSG="Generating enigma-go based on OPEN-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
