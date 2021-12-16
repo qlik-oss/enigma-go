@@ -1,16 +1,12 @@
 # Schema Generator
 
 This folder contains a script for generating enigma-go based on a specific version of Qlik Associative Engine.
-The version to be used must be one of the published versions of the Qlik Associative Engine, see [here](https://hub.docker.com/r/qlikcore/engine/tags/).
+The Engine OpenRPC specification can be found in the schema folder `./schema/engine-rpc.json`.
 
-Please note that to be able to generate enigma-go you will need to accept the [EULA](https://core.qlik.com/eula/).
-
-```bash
-ACCEPT_EULA=<yes/no> ENGINE_VERSION=<version> ./schema/generate.sh
+If you want to manually generate manually a specific version of the Engine specification:
+- download the spec* and save it as `engine-rpc.json` in the `./schema` folder
+- run:
+```sh
+./schema/generate.sh
 ```
-
-If a version is not specified the script will default to the latest published version.
-
-```bash
-ACCEPT_EULA=<yes/no> ./schema/generate.sh
-```
+> <sup>*</sup> You can download the Engine OpenRPC specification from `https://qlik.dev/apis/json-rpc/qix`

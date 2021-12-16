@@ -1,37 +1,28 @@
 #!/bin/bash
+cd "$(dirname "$0")"
 
-cd $(dirname "$0")
-
-# Check that the EULA has been accepted
-if [[ $ACCEPT_EULA != "yes" ]]; then
-    echo "The EULA for Qlik Associative Engine was not accepted. Please check the README for instructions on how to accept the EULA"
-    exit 1
-fi
-
-# Fetch latest published Qlik Associative Engine version on dockerhub if not specified
-if [ -z $ENGINE_VERSION ]; then
-    ENGINE_VERSION=$(curl -s "https://registry.hub.docker.com/v2/repositories/qlikcore/engine/tags/" | docker run -i stedolan/jq -r '."results"[0]["name"]' 2>/dev/null)
-    echo "Using latest Engine version $ENGINE_VERSION"
-fi
-
-# Retrieve the JSON-RPC API from Qlik Associative Engine REST API
-CONTAINER_ID=$(docker run -d -p 9077:9076 qlikcore/engine:$ENGINE_VERSION -S AcceptEULA=$ACCEPT_EULA)
-RETRIES=0
-while [[ $JSON_RPC_API == "" && $RETRIES != 10 ]]; do
-    JSON_RPC_API=$(curl -fs localhost:9077/openrpc)
-    sleep 2
-    RETRIES=$((RETRIES + 1 ))
-done
-docker kill $CONTAINER_ID
-
-# Generate enigma-go based on schema
-if [[ $JSON_RPC_API != "" ]]; then
-    echo "Generating enigma-go based on JSON-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
-    echo "$JSON_RPC_API" > ./schema.json
-    go run ./generate.go ./schema.json  ./schema-companion.json ../qix_generated.go enigma disable-enigma-import
-    rm ./schema.json
-    go fmt ../qix_generated.go > /dev/null
+## compares engine spec with master
+git diff --exit-code origin/master ./schema/engine-rpc.json >/dev/null
+if [[ $? -ne 0 ]]; then
+    ENGINE_VERSION=$(cat ./schema/engine-rpc.json | jq -r '.info.version')
+    MSG="Generating enigma-go based on OPEN-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
+    echo $MSG
+    ## generate code
+    go run ./schema/generate.go ./schema/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
+    ## format code
+    go fmt ./qix_generated.go >/dev/null
+    ## generate spec
+    go run ./schema/generate.go
+    ## configure git
+    git config --global user.email "no-reply@example.com"
+    git config --global user.name "github-actions-bot"
+    git add .
+    git commit -a -m "chore: ${MSG}"
+    if [ ! "$CIRCLECI" == true ]; then
+        git push
+    else
+        git push --set-upstream origin ${CIRCLE_BRANCH}
+    fi
 else
-    echo "Failed to retrieve JSON-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
-    exit 1
+    echo "No changes to engine-rpc.json, nothing to do."
 fi
