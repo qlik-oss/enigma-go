@@ -33,8 +33,19 @@ aliases:
 
 version: 2
 jobs:
-
+  generate-spec:
+    docker:
+      - image: circleci/golang:1.16
+    environment:
+      GOLANG_VERSION: "1.16"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
+      - run: ./schema/generate.sh
   golang-1.13:
+    requires:
+      - generate-spec
     docker:
       - image: circleci/golang:1.13
     environment:
@@ -55,6 +66,8 @@ jobs:
       - run: *examples
 
   golang-1.14:
+    requires:
+      - generate-spec
     docker:
       - image: circleci/golang:1.14
     environment:
@@ -75,6 +88,8 @@ jobs:
       - run: *examples
 
   golang-1.15:
+    requires:
+      - generate-spec
     docker:
       - image: circleci/golang:1.15
     environment:
@@ -95,6 +110,8 @@ jobs:
       - run: *examples
 
   golang-1.16:
+    requires:
+      - generate-spec
     docker:
       - image: circleci/golang:1.16
     environment:
