@@ -11,7 +11,7 @@ if [[ $? -ne 0 ]]; then
     ## format code
     go fmt ./qix_generated.go >/dev/null
     ## generate spec
-    go run ./schema/generate.go
+    go run ./spec/generate.go
     ## configure git
     if [ "$CIRCLECI" == true ]; then
         git config --global user.email "no-reply@example.com"
