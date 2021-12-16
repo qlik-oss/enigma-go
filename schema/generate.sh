@@ -1,5 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
 
 ## compares engine spec with master
 git diff --exit-code origin/master ./schema/engine-rpc.json >/dev/null
