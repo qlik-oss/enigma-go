@@ -9,6 +9,6 @@ if [[ $? -ne 0 ]]; then
   go run ./schema/generate.go ./spec/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
   go fmt ./qix_generated.go > /dev/null
 
-  git add . --dry-run
-  git commit -a -m "chore: ${MSG}" --dry-run
+  git add .
+  git commit -a -m "chore: ${MSG}"
 fi
