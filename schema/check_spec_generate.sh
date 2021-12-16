@@ -6,9 +6,13 @@ if [[ $? -ne 0 ]]; then
   ENGINE_VERSION=$(cat ./spec/engine-rpc.json | jq -r '.info.version')
   MSG="Generating enigma-go based on OPEN-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
   echo $MSG
+  ## generate code
   go run ./schema/generate.go ./spec/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
+  ## format code
   go fmt ./qix_generated.go > /dev/null
+  ## generate spec
   go run ./spec/generate.go
+  ## configure git
   git config --global user.email "no-reply@example.com"
   git config --global user.name "github-actions-bot"
   git add .
