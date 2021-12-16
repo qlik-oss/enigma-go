@@ -8,7 +8,8 @@ if [[ $? -ne 0 ]]; then
   echo $MSG
   go run ./schema/generate.go ./spec/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
   go fmt ./qix_generated.go > /dev/null
-
+  git config --global user.email "no-reply@example.com"
+  git config --global user.name "github-actions-bot"
   git add .
   git commit -a -m "chore: ${MSG}"
 fi
