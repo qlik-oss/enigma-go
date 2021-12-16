@@ -12,4 +12,5 @@ if [[ $? -ne 0 ]]; then
   git config --global user.name "github-actions-bot"
   git add .
   git commit -a -m "chore: ${MSG}"
+  git push
 fi
