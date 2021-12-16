@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 generate-schema:
-	./schema/generate.sh
+	ACCEPT_EULA=yes ./schema/generate.sh
 
 update-api-spec:
 	go run ./spec/generate.go
