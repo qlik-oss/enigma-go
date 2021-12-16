@@ -33,7 +33,16 @@ aliases:
 
 version: 2
 jobs:
-
+  spec-check-generate:
+    docker:
+      - image: circleci/golang:1.16
+    environment:
+      GOLANG_VERSION: "1.16"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.13{{ checksum "go.sum" }}
+      - run: ./schema/check_spec_generate.sh
   golang-1.13:
     docker:
       - image: circleci/golang:1.13
@@ -119,22 +128,31 @@ workflows:
   version: 2
   build:
     jobs:
+      - spec-check-generate
       - golang-1.13:
+          requires:
+            - spec-check-generate
           filters:
             tags:
               only:
                 - /v.*/
       - golang-1.14:
+          requires:
+            - spec-check-generate
           filters:
             tags:
               only:
                 - /v.*/
       - golang-1.15:
+          requires:
+            - spec-check-generate
           filters:
             tags:
               only:
                 - /v.*/
       - golang-1.16:
+          requires:
+            - spec-check-generate
           filters:
             tags:
               only:
