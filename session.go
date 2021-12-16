@@ -3,10 +3,11 @@ package enigma
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/goccy/go-json"
 )
 
 type (
