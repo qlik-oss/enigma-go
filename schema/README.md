@@ -11,5 +11,5 @@ This folder contains a script for generating enigma-go based on your Qlik Cloud 
 
 
 ```bash
-ENGINE_VERSION=<version> ./schema/generate.sh
+./schema/generate.sh
 ```
