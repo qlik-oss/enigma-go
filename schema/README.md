@@ -1,16 +1,15 @@
 # Schema Generator
 
-This folder contains a script for generating enigma-go based on a specific version of Qlik Associative Engine.
-The version to be used must be one of the published versions of the Qlik Associative Engine, see [here](https://hub.docker.com/r/qlikcore/engine/tags/).
+This folder contains a script for generating enigma-go based on your Qlik Cloud tenant engine REST endpoint.
 
-Please note that to be able to generate enigma-go you will need to accept the [EULA](https://core.qlik.com/eula/).
+> Note: Before running the script, make sure you have a valid Qlik Cloud tenant host and API key in your environment variables
+> ```bash
+> QCS_HOST=<tenant>.qlikcloud.com
+> QCS_API_KEY=<APIkey>
+> ```
+> - How to obtain an API key? [click here](https://qlik.dev/tutorials/generate-your-first-api-key)
+
 
 ```bash
-ACCEPT_EULA=<yes/no> ENGINE_VERSION=<version> ./schema/generate.sh
-```
-
-If a version is not specified the script will default to the latest published version.
-
-```bash
-ACCEPT_EULA=<yes/no> ./schema/generate.sh
+ENGINE_VERSION=<version> ./schema/generate.sh
 ```
