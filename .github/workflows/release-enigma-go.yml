@@ -1,0 +1,24 @@
+name: release-enigma-go
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release Version (major, minor, patch)
+        required: true
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Go environment
+        uses: actions/setup-go@v2.1.3
+        with:
+          go-version: '^1.17'
+      - name: Checkout enigma-go repo
+        uses: actions/checkout@v2  
+        with:
+          repository: qlik-oss/enigma-go
+          ref: master
+          fetch-depth: 0
+      - name: Create enigma-go release
+        run: |                  
+          ./release/release.sh ${{ github.event.inputs.version }}
