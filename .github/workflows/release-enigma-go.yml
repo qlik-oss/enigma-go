@@ -22,3 +22,4 @@ jobs:
       - name: Create enigma-go release
         run: |                  
           ./release/release.sh ${{ github.event.inputs.version }}
+          git push --follow-tags
