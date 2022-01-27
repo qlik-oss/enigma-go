@@ -41,7 +41,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.13{{ checksum "go.sum" }}
+          key: dependency-cache-1.16{{ checksum "go.sum" }}
       - run: ./schema/generate.sh
   golang-1.13:
     requires:
