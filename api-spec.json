@@ -4726,7 +4726,7 @@
           ]
         },
         "RestoreTempSelectionState": {
-          "description": "Restore a temporary selection state identified by Id.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
+          "description": "Restore a temporary selection state identified by Id.\nRestoreTempSelectionState method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -5400,7 +5400,7 @@
           ]
         },
         "StoreTempSelectionState": {
-          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default if TTL parameter is not present or positive.\n\nParameters:\n\n◾ tTLOfTempState   -   Time to live in seconds for stored selection state",
+          "description": "Store current selection state temporarily.\nThe temporary selection state will be stored for 30min by default if TTL parameter is not present or positive.\n\nStoreTempSelectionState method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ tTLOfTempState   -   Time to live in seconds for stored selection state",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -6806,7 +6806,7 @@
           ]
         },
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -6827,7 +6827,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7174,7 +7174,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7195,7 +7195,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7571,7 +7571,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7592,7 +7592,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7975,7 +7975,7 @@
           ]
         },
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -7999,7 +7999,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
+          "description": "Applies a patch to the properties of an object. Allows an update to some of the properties.\nIt is possible to apply a patch to the properties of a generic object, that is not persistent. Such a patch is called a soft patch.\nIn that case, the result of the operation on the properties (add, remove or delete) is not shown when doing GetProperties , and only a GetLayout call shows the result of the operation.\nProperties that are not persistent are called soft properties. Once the engine session is over, soft properties are cleared. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nSoft properties apply only to generic objects.\n\nParameters:\n\n◾ patches     -   Array of patches.\n\n◾ softPatch   -   If set to true, it means that the properties to be applied are not persistent. The patch is a soft patch.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -8413,7 +8413,7 @@
           ]
         },
         "ExportData": {
-          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\nExportData method is not supported in SaaS Editions of Qlik Sense.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 1000000 to export to an Excel file\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
+          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\nExportData method is not supported in SaaS Editions of Qlik Sense.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10259,7 +10259,7 @@
       "type": "struct",
       "entries": {
         "ApplyPatches": {
-          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10280,7 +10280,7 @@
           ]
         },
         "ApplyPatchesRaw": {
-          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
+          "description": "Applies a patch to the properties of a variable. Allows an update to some of the properties. It should not be possible to patch \"/qInfo/qId\",\nand it will be forbidden in the near future.\nApplying a patch takes less time than resetting all the properties.\n\nParameters:\n\n◾ patches   -   Array of patches.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -12911,7 +12911,11 @@
           "type": "bool"
         },
         "IsBDILiveMode": {
-          "description": "If set to true, the app is in BDI Live mode.",
+          "description": "If set to true, the app is in BDI Live Mode.",
+          "type": "bool"
+        },
+        "IsDirectQueryMode": {
+          "description": "If set to true, the app is in Direct Query Mode.",
           "type": "bool"
         },
         "IsOpenedWithoutData": {
