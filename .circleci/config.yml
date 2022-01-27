@@ -33,7 +33,7 @@ aliases:
 
 version: 2
 jobs:
-  generate-spec:
+  generate-schema:
     docker:
       - image: circleci/golang:1.16
     environment:
@@ -45,7 +45,7 @@ jobs:
       - run: ./schema/generate.sh
   golang-1.13:
     requires:
-      - generate-spec
+      - generate-schema
     docker:
       - image: circleci/golang:1.13
     environment:
@@ -67,7 +67,7 @@ jobs:
 
   golang-1.14:
     requires:
-      - generate-spec
+      - generate-schema
     docker:
       - image: circleci/golang:1.14
     environment:
@@ -89,7 +89,7 @@ jobs:
 
   golang-1.15:
     requires:
-      - generate-spec
+      - generate-schema
     docker:
       - image: circleci/golang:1.15
     environment:
@@ -111,7 +111,7 @@ jobs:
 
   golang-1.16:
     requires:
-      - generate-spec
+      - generate-schema
     docker:
       - image: circleci/golang:1.16
     environment:
@@ -136,7 +136,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - generate-spec
+      - generate-schema
       - golang-1.13:
           filters:
             tags:
