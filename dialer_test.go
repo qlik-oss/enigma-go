@@ -79,9 +79,9 @@ func TestFullRpcScenario(t *testing.T) {
 			"id": 4,
 			"delta": false,
 			"error": {
-				"code": 123, 
-				"parameter": "param",  
-				"message":"mes"	
+				"code": 123,
+				"parameter": "param",
+				"message":"mes"
 			}
 		}`)
 
