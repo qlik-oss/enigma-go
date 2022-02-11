@@ -2,7 +2,6 @@ package enigma
 
 import (
 	"context"
-	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -266,95 +265,59 @@ func TestHTTPTrace(t *testing.T) {
 	// See if the builtin http.ClientTrace can be provided in a
 	// context to provide granular information about how the
 	// HTTP request (the upgrade) was performed.
-	c := 0
-	ctx := httptrace.WithClientTrace(context.Background(), testTrace(&c))
+	funcsCalled := map[string]int{}
+	ctx := httptrace.WithClientTrace(context.Background(), testTrace(funcsCalled))
 	_, err := Dialer{}.Dial(ctx, url, header)
 	if err != nil {
 		t.Fatal("Connection error: ", err)
 	}
-	// If the counter hasn't been incremented to 15 then the
-	// `http.ClientTrace` passed in the context wasn't correctly utilized.
-	exp := 15
-	if c != exp {
-		t.Errorf("Expected counter to be %d but was %d", exp, c)
+	// Validate which trace-functions were called.
+	expectCalled := []string{"GetConn", "ConnectStart", "ConnectDone", "GotConn",
+		"WroteHeaderField", "WroteHeaders", "WroteRequest", "GotFirstResponseByte"}
+	for _, funcName := range expectCalled {
+		if c := funcsCalled[funcName]; c == 0 {
+			t.Errorf("Expected %s to be called at least once", funcName)
+		}
 	}
 }
 
-// testTrace takes a counter. Each function called increments the counter
-// by one.
-func testTrace(counter *int) *httptrace.ClientTrace {
+// testTrace takes a map. For each function the map-entry with the same function name
+// is incremented by one.
+// Note, this is a subset of the functions that can be used, for the complete set of
+// functions see: https://pkg.go.dev/net/http/httptrace#ClientTrace
+func testTrace(m map[string]int) *httptrace.ClientTrace {
 	return &httptrace.ClientTrace{
 		GetConn: func(hostPort string) {
 			fmt.Println("Get Connection:", hostPort)
-			(*counter)++
+			m["GetConn"] += 1
 		},
 		GotConn: func(info httptrace.GotConnInfo) {
 			fmt.Printf("Got Connection: %#v\n", info)
-			(*counter)++
+			m["GotConn"] += 1
 		},
 		GotFirstResponseByte: func() {
 			fmt.Println("First byte!")
-			(*counter)++
-		},
-		Got100Continue: func() {
-			fmt.Println("Got 100 continue")
-			(*counter)++
-		},
-		DNSStart: func(info httptrace.DNSStartInfo) {
-			fmt.Println("DNS Start: ", info.Host)
-			(*counter)++
-		},
-		DNSDone: func(info httptrace.DNSDoneInfo) {
-			fmt.Printf("DNS Done: %#v\n", info)
-			(*counter)++
+			m["GotFirstResponseByte"] += 1
 		},
 		ConnectStart: func(network, addr string) {
 			fmt.Printf("Connect start: %s %s\n", network, addr)
-			(*counter)++
+			m["ConnectStart"] += 1
 		},
 		ConnectDone: func(network, addr string, err error) {
 			fmt.Printf("Connect done: %s %s - err: %v\n", network, addr, err)
-			(*counter)++
-		},
-		TLSHandshakeStart: func() {
-			fmt.Println("TLS Handshake Start")
-			(*counter)++
-		},
-		TLSHandshakeDone: func(state tls.ConnectionState, err error) {
-			var ver string
-			switch state.Version {
-			case tls.VersionTLS10:
-				ver = "VersionTLS10"
-			case tls.VersionTLS11:
-				ver = "VersionTLS11"
-			case tls.VersionTLS12:
-				ver = "VersionTLS12"
-			case tls.VersionTLS13:
-				ver = "VersionTLS13"
-			case tls.VersionSSL30:
-				ver = "VersionTLS30"
-			default:
-				ver = "UNKNOWN!"
-			}
-			fmt.Printf("TLS Handshake (%s) Done: %#v - err: %v\n",
-				ver, state, err)
-			(*counter)++
+			m["ConnectDone"] += 1
 		},
 		WroteHeaderField: func(key string, value []string) {
 			fmt.Printf("> %s: %s\n", key, strings.Join(value, ""))
-			(*counter)++
+			m["WroteHeaderField"] += 1
 		},
 		WroteHeaders: func() {
 			fmt.Println("Wrote Headers")
-			(*counter)++
-		},
-		Wait100Continue: func() {
-			fmt.Println("Waiting for 100 continue")
-			(*counter)++
+			m["WroteHeaders"] += 1
 		},
 		WroteRequest: func(info httptrace.WroteRequestInfo) {
 			fmt.Println("Wrote Request - err:", info.Err)
-			(*counter)++
+			m["WroteRequest"] += 1
 		},
 	}
 }
