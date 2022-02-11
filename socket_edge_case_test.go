@@ -2,10 +2,13 @@ package enigma
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/http/httptrace"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -254,4 +257,104 @@ func TestOpenDocTimeout(t *testing.T) {
 	doc, err := conn.OpenDoc(ctx, "appID", "", "", "", false)
 	assert.Nil(t, doc)
 	assert.EqualError(t, err, "context deadline exceeded")
+}
+
+func TestHTTPTrace(t *testing.T) {
+	url := "ws://" + serverAddr + "/success"
+	header := originAndJwtHeaders
+
+	// See if the builtin http.ClientTrace can be provided in a
+	// context to provide granular information about how the
+	// HTTP request (the upgrade) was performed.
+	c := 0
+	ctx := httptrace.WithClientTrace(context.Background(), testTrace(&c))
+	_, err := Dialer{}.Dial(ctx, url, header)
+	if err != nil {
+		t.Fatal("Connection error: ", err)
+	}
+	// If the counter hasn't been incremented to 15 then the
+	// `http.ClientTrace` passed in the context wasn't correctly utilized.
+	exp := 15
+	if c != exp {
+		t.Errorf("Expected counter to be %d but was %d", exp, c)
+	}
+}
+
+// testTrace takes a counter. Each function called increments the counter
+// by one.
+func testTrace(counter *int) *httptrace.ClientTrace {
+	return &httptrace.ClientTrace{
+		GetConn: func(hostPort string) {
+			fmt.Println("Get Connection:", hostPort)
+			(*counter)++
+		},
+		GotConn: func(info httptrace.GotConnInfo) {
+			fmt.Printf("Got Connection: %#v\n", info)
+			(*counter)++
+		},
+		GotFirstResponseByte: func() {
+			fmt.Println("First byte!")
+			(*counter)++
+		},
+		Got100Continue: func() {
+			fmt.Println("Got 100 continue")
+			(*counter)++
+		},
+		DNSStart: func(info httptrace.DNSStartInfo) {
+			fmt.Println("DNS Start: ", info.Host)
+			(*counter)++
+		},
+		DNSDone: func(info httptrace.DNSDoneInfo) {
+			fmt.Printf("DNS Done: %#v\n", info)
+			(*counter)++
+		},
+		ConnectStart: func(network, addr string) {
+			fmt.Printf("Connect start: %s %s\n", network, addr)
+			(*counter)++
+		},
+		ConnectDone: func(network, addr string, err error) {
+			fmt.Printf("Connect done: %s %s - err: %v\n", network, addr, err)
+			(*counter)++
+		},
+		TLSHandshakeStart: func() {
+			fmt.Println("TLS Handshake Start")
+			(*counter)++
+		},
+		TLSHandshakeDone: func(state tls.ConnectionState, err error) {
+			var ver string
+			switch state.Version {
+			case tls.VersionTLS10:
+				ver = "VersionTLS10"
+			case tls.VersionTLS11:
+				ver = "VersionTLS11"
+			case tls.VersionTLS12:
+				ver = "VersionTLS12"
+			case tls.VersionTLS13:
+				ver = "VersionTLS13"
+			case tls.VersionSSL30:
+				ver = "VersionTLS30"
+			default:
+				ver = "UNKNOWN!"
+			}
+			fmt.Printf("TLS Handshake (%s) Done: %#v - err: %v\n",
+				ver, state, err)
+			(*counter)++
+		},
+		WroteHeaderField: func(key string, value []string) {
+			fmt.Printf("> %s: %s\n", key, strings.Join(value, ""))
+			(*counter)++
+		},
+		WroteHeaders: func() {
+			fmt.Println("Wrote Headers")
+			(*counter)++
+		},
+		Wait100Continue: func() {
+			fmt.Println("Waiting for 100 continue")
+			(*counter)++
+		},
+		WroteRequest: func(info httptrace.WroteRequestInfo) {
+			fmt.Println("Wrote Request - err:", info.Err)
+			(*counter)++
+		},
+	}
 }
