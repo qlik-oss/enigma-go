@@ -289,35 +289,35 @@ func testTrace(m map[string]int) *httptrace.ClientTrace {
 	return &httptrace.ClientTrace{
 		GetConn: func(hostPort string) {
 			fmt.Println("Get Connection:", hostPort)
-			m["GetConn"] += 1
+			m["GetConn"]++
 		},
 		GotConn: func(info httptrace.GotConnInfo) {
 			fmt.Printf("Got Connection: %#v\n", info)
-			m["GotConn"] += 1
+			m["GotConn"]++
 		},
 		GotFirstResponseByte: func() {
 			fmt.Println("First byte!")
-			m["GotFirstResponseByte"] += 1
+			m["GotFirstResponseByte"]++
 		},
 		ConnectStart: func(network, addr string) {
 			fmt.Printf("Connect start: %s %s\n", network, addr)
-			m["ConnectStart"] += 1
+			m["ConnectStart"]++
 		},
 		ConnectDone: func(network, addr string, err error) {
 			fmt.Printf("Connect done: %s %s - err: %v\n", network, addr, err)
-			m["ConnectDone"] += 1
+			m["ConnectDone"]++
 		},
 		WroteHeaderField: func(key string, value []string) {
 			fmt.Printf("> %s: %s\n", key, strings.Join(value, ""))
-			m["WroteHeaderField"] += 1
+			m["WroteHeaderField"]++
 		},
 		WroteHeaders: func() {
 			fmt.Println("Wrote Headers")
-			m["WroteHeaders"] += 1
+			m["WroteHeaders"]++
 		},
 		WroteRequest: func(info httptrace.WroteRequestInfo) {
 			fmt.Println("Wrote Request - err:", info.Err)
-			m["WroteRequest"] += 1
+			m["WroteRequest"]++
 		},
 	}
 }
