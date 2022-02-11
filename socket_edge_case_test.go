@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/http/httptrace"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -254,4 +256,68 @@ func TestOpenDocTimeout(t *testing.T) {
 	doc, err := conn.OpenDoc(ctx, "appID", "", "", "", false)
 	assert.Nil(t, doc)
 	assert.EqualError(t, err, "context deadline exceeded")
+}
+
+func TestHTTPTrace(t *testing.T) {
+	url := "ws://" + serverAddr + "/success"
+	header := originAndJwtHeaders
+
+	// See if the builtin http.ClientTrace can be provided in a
+	// context to provide granular information about how the
+	// HTTP request (the upgrade) was performed.
+	funcsCalled := map[string]int{}
+	ctx := httptrace.WithClientTrace(context.Background(), testTrace(funcsCalled))
+	_, err := Dialer{}.Dial(ctx, url, header)
+	if err != nil {
+		t.Fatal("Connection error: ", err)
+	}
+	// Validate which trace-functions were called.
+	expectCalled := []string{"GetConn", "ConnectStart", "ConnectDone", "GotConn",
+		"WroteHeaderField", "WroteHeaders", "WroteRequest", "GotFirstResponseByte"}
+	for _, funcName := range expectCalled {
+		if c := funcsCalled[funcName]; c == 0 {
+			t.Errorf("Expected %s to be called at least once", funcName)
+		}
+	}
+}
+
+// testTrace takes a map. For each function the map-entry with the same function name
+// is incremented by one.
+// Note, this is a subset of the functions that can be used, for the complete set of
+// functions see: https://pkg.go.dev/net/http/httptrace#ClientTrace
+func testTrace(m map[string]int) *httptrace.ClientTrace {
+	return &httptrace.ClientTrace{
+		GetConn: func(hostPort string) {
+			fmt.Println("Get Connection:", hostPort)
+			m["GetConn"]++
+		},
+		GotConn: func(info httptrace.GotConnInfo) {
+			fmt.Printf("Got Connection: %#v\n", info)
+			m["GotConn"]++
+		},
+		GotFirstResponseByte: func() {
+			fmt.Println("First byte!")
+			m["GotFirstResponseByte"]++
+		},
+		ConnectStart: func(network, addr string) {
+			fmt.Printf("Connect start: %s %s\n", network, addr)
+			m["ConnectStart"]++
+		},
+		ConnectDone: func(network, addr string, err error) {
+			fmt.Printf("Connect done: %s %s - err: %v\n", network, addr, err)
+			m["ConnectDone"]++
+		},
+		WroteHeaderField: func(key string, value []string) {
+			fmt.Printf("> %s: %s\n", key, strings.Join(value, ""))
+			m["WroteHeaderField"]++
+		},
+		WroteHeaders: func() {
+			fmt.Println("Wrote Headers")
+			m["WroteHeaders"]++
+		},
+		WroteRequest: func(info httptrace.WroteRequestInfo) {
+			fmt.Println("Wrote Request - err:", info.Err)
+			m["WroteRequest"]++
+		},
+	}
 }

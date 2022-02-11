@@ -14,7 +14,7 @@ aliases:
       git diff --exit-code
 
   - &test
-      go test -v -race .
+      make test-unit
 
   - &spec_test |
       go test -v -race ./spec
