@@ -8,6 +8,8 @@ on:
 jobs:
   create-release:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
     steps:
       - name: Setup Go environment
         uses: actions/setup-go@v2.1.3
