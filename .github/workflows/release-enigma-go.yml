@@ -19,6 +19,7 @@ jobs:
           repository: qlik-oss/enigma-go
           ref: master
           fetch-depth: 0
+          token: ${{ secrets.GH_ACCESS_TOKEN}}
       - name: Create enigma-go release
         run: |                  
           ./release/release.sh ${{ github.event.inputs.version }}
