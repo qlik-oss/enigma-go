@@ -67,6 +67,7 @@ fi
 
 case $1 in
   "major"|"minor"|"patch")
+    set -eo pipefail
     sanity_check
     WD=$(pwd)
     cd $(dirname "$0")
