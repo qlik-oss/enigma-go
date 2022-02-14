@@ -23,7 +23,9 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GH_ACCESS_TOKEN}}
       - name: Setup Git environment
-        uses: ./.github/actions/git-env-setup
+        run: |
+          git config --global user.email "no-reply@example.com"
+          git config --global user.name "github-actions-bot"
       - name: Create enigma-go release
         run: |                  
           ./release/release.sh ${{ github.event.inputs.version }}
