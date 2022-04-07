@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1233.0",
+    "version": "12.1325.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -9122,6 +9122,77 @@
       "x-qlik-stability": "experimental"
     },
     {
+      "name": "Doc.GetFieldsFromExpression",
+      "description": "Retrives any fields from an expression.",
+      "params": [
+        {
+          "name": "qExpr",
+          "description": "Expression to get fields from.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.GetFieldsFromExpression",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qFieldNames": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "locked"
+    },
+    {
+      "name": "Doc.GetFieldsResourceIds",
+      "description": "Returns a list of resource ids (QRI) for fields that belongs to the datamodel.\nKey fields (that belongs to multiple tables), returns one resource identifier per table.\n<div class=note>GetFieldsResourceIds method is only supported in SaaS Editions of Qlik Sense.</div>",
+      "params": [
+        {
+          "name": "qFieldNames",
+          "description": "List of fields names that resource ids should be returned from.",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.GetFieldsResourceIds",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qFields": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/NxFieldResourceId"
+              }
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "locked"
+    },
+    {
       "name": "Global.AbortRequest",
       "description": "Sets an abort flag on a specific request in the current engine session.\n* If an abort flag is set on a pending request, the request is aborted.\n* If an abort flag is set on an ongoing request, the engine checks to see if it is possible to abort the request.",
       "params": [
@@ -12025,6 +12096,98 @@
           {
             "x-qlik-const": 30101,
             "title": "LOCERR_RELOAD_MERGE_LOAD_ERROR"
+          },
+          {
+            "x-qlik-const": 30200,
+            "title": "LOCERR_WIN_FTP_DROPPED"
+          },
+          {
+            "x-qlik-const": 30201,
+            "title": "LOCERR_WIN_FTP_NO_PASSIVE_MODE"
+          },
+          {
+            "x-qlik-const": 30210,
+            "title": "LOCERR_WIN_HTTP_DOWNLEVEL_SERVER"
+          },
+          {
+            "x-qlik-const": 30211,
+            "title": "LOCERR_WIN_HTTP_INVALID_SERVER_RESPONSE"
+          },
+          {
+            "x-qlik-const": 30212,
+            "title": "LOCERR_WIN_HTTP_REDIRECT_NEEDS_CONFIRMATION"
+          },
+          {
+            "x-qlik-const": 30220,
+            "title": "LOCERR_WIN_INTERNET_FORCE_RETRY"
+          },
+          {
+            "x-qlik-const": 30221,
+            "title": "LOCERR_WIN_INTERNET_CANNOT_CONNECT"
+          },
+          {
+            "x-qlik-const": 30222,
+            "title": "LOCERR_WIN_INTERNET_CONNECTION_ABORTED"
+          },
+          {
+            "x-qlik-const": 30223,
+            "title": "LOCERR_WIN_INTERNET_CONNECTION_RESET"
+          },
+          {
+            "x-qlik-const": 30224,
+            "title": "LOCERR_WIN_INTERNET_DISCONNECTED"
+          },
+          {
+            "x-qlik-const": 30225,
+            "title": "LOCERR_WIN_INTERNET_INCORRECT_FORMAT"
+          },
+          {
+            "x-qlik-const": 30226,
+            "title": "LOCERR_WIN_INTERNET_INVALID_CA"
+          },
+          {
+            "x-qlik-const": 30227,
+            "title": "LOCERR_WIN_INTERNET_INVALID_OPERATION"
+          },
+          {
+            "x-qlik-const": 30228,
+            "title": "LOCERR_WIN_INTERNET_INVALID_URL"
+          },
+          {
+            "x-qlik-const": 30229,
+            "title": "LOCERR_WIN_INTERNET_ITEM_NOT_FOUND"
+          },
+          {
+            "x-qlik-const": 30230,
+            "title": "LOCERR_WIN_INTERNET_LOGIN_FAILURE"
+          },
+          {
+            "x-qlik-const": 30231,
+            "title": "LOCERR_WIN_INTERNET_NAME_NOT_RESOLVED"
+          },
+          {
+            "x-qlik-const": 30232,
+            "title": "LOCERR_WIN_INTERNET_NEED_UI"
+          },
+          {
+            "x-qlik-const": 30233,
+            "title": "LOCERR_WIN_INTERNET_SEC_CERT_CN_INVALID"
+          },
+          {
+            "x-qlik-const": 30234,
+            "title": "LOCERR_WIN_INTERNET_SEC_CERT_DATE_INVALID"
+          },
+          {
+            "x-qlik-const": 30235,
+            "title": "LOCERR_WIN_INTERNET_SEC_CERT_ERRORS"
+          },
+          {
+            "x-qlik-const": 30236,
+            "title": "LOCERR_WIN_INTERNET_SEC_INVALID_CERT"
+          },
+          {
+            "x-qlik-const": 30237,
+            "title": "LOCERR_WIN_INTERNET_SERVER_UNREACHABLE"
           }
         ]
       },
@@ -15163,6 +15326,10 @@
               "type": "string"
             },
             "x-qlik-stability": "experimental"
+          },
+          "qContextSetExpression": {
+            "type": "string",
+            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *"
           }
         },
         "x-qlik-see-also": [
@@ -17113,6 +17280,10 @@
             "items": {
               "$ref": "#/components/schemas/NxMeasure"
             }
+          },
+          "qContextSetExpression": {
+            "type": "string",
+            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *"
           }
         },
         "x-qlik-stability": "stable"
@@ -18682,8 +18853,85 @@
           "qIsDirectQueryMode": {
             "type": "boolean",
             "description": "If set to true, the app is in Direct Query Mode."
+          },
+          "qUnsupportedFeatures": {
+            "type": "array",
+            "description": "Array of features not supported by the app.",
+            "items": {
+              "$ref": "#/components/schemas/NxFeature"
+            }
           }
         }
+      },
+      "NxFeature": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "binningData",
+            "description": "FEATURE_BINNING_DATA"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "bookmarks",
+            "description": "FEATURE_BOOKMARKS"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "calculatedFields",
+            "description": "FEATURE_CALCULATED_FIELDS"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "continuousData",
+            "description": "FEATURE_CONTINUOUS_DATA"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "invertedSelections",
+            "description": "FEATURE_INVERTED_SELECTIONS"
+          },
+          {
+            "x-qlik-const": 5,
+            "title": "rangeSelections",
+            "description": "FEATURE_RANGE_SELECTIONS"
+          },
+          {
+            "x-qlik-const": 6,
+            "title": "reducingData",
+            "description": "FEATURE_REDUCING_DATA"
+          },
+          {
+            "x-qlik-const": 7,
+            "title": "search",
+            "description": "FEATURE_SEARCH"
+          },
+          {
+            "x-qlik-const": 8,
+            "title": "selectionCount",
+            "description": "FEATURE_SELECTION_COUNT"
+          },
+          {
+            "x-qlik-const": 9,
+            "title": "selectionInsights",
+            "description": "FEATURE_SELECTION_INSIGHTS"
+          },
+          {
+            "x-qlik-const": 10,
+            "title": "tableMiniChart",
+            "description": "FEATURE_TABLE_MINI_CHART"
+          },
+          {
+            "x-qlik-const": 11,
+            "title": "trendlines",
+            "description": "FEATURE_TRENDLINES"
+          },
+          {
+            "x-qlik-const": 12,
+            "title": "uniqueExpressions",
+            "description": "FEATURE_UNIQUE_EXPRESSIONS"
+          }
+        ]
       },
       "NxAppProperties": {
         "type": "object",
@@ -20086,6 +20334,35 @@
           }
         },
         "x-qlik-stability": "experimental"
+      },
+      "NxFieldResourceId": {
+        "type": "object",
+        "properties": {
+          "qName": {
+            "type": "string",
+            "description": "Name of the field to get the resource id for."
+          },
+          "qResourceIds": {
+            "type": "array",
+            "description": "Field level resource Id per table that the field is part of",
+            "items": {
+              "$ref": "#/components/schemas/NxFieldTableResourceId"
+            }
+          }
+        }
+      },
+      "NxFieldTableResourceId": {
+        "type": "object",
+        "properties": {
+          "qTable": {
+            "type": "string",
+            "description": "Name of the table that the field belongs to get the resource id for"
+          },
+          "qResourceId": {
+            "type": "string",
+            "description": "Resource identifier for the field"
+          }
+        }
       },
       "ProgressData": {
         "type": "object",
@@ -21765,6 +22042,75 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_RELOAD_MERGE_LOAD_ERROR"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_FTP_DROPPED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_FTP_NO_PASSIVE_MODE"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_HTTP_DOWNLEVEL_SERVER"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_HTTP_INVALID_SERVER_RESPONSE"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_HTTP_REDIRECT_NEEDS_CONFIRMATION"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_FORCE_RETRY"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_CANNOT_CONNECT"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_CONNECTION_ABORTED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_CONNECTION_RESET"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_DISCONNECTED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_INCORRECT_FORMAT"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_INVALID_CA"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_INVALID_OPERATION"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_INVALID_URL"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_ITEM_NOT_FOUND"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_LOGIN_FAILURE"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_NAME_NOT_RESOLVED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_NEED_UI"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SEC_CERT_CN_INVALID"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SEC_CERT_DATE_INVALID"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SEC_CERT_ERRORS"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SEC_INVALID_CERT"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SERVER_UNREACHABLE"
           }
         ]
       },
@@ -22943,6 +23289,98 @@
       "LOCERR_RELOAD_MERGE_LOAD_ERROR": {
         "code": 30101,
         "message": "Merge Load error: {0}"
+      },
+      "LOCERR_WIN_FTP_DROPPED": {
+        "code": 30200,
+        "message": "The FTP operation was not completed because the session was aborted"
+      },
+      "LOCERR_WIN_FTP_NO_PASSIVE_MODE": {
+        "code": 30201,
+        "message": "Passive mode is not available on the server"
+      },
+      "LOCERR_WIN_HTTP_DOWNLEVEL_SERVER": {
+        "code": 30210,
+        "message": "The server did not return any headers"
+      },
+      "LOCERR_WIN_HTTP_INVALID_SERVER_RESPONSE": {
+        "code": 30211,
+        "message": "The server response could not be parsed"
+      },
+      "LOCERR_WIN_HTTP_REDIRECT_NEEDS_CONFIRMATION": {
+        "code": 30212,
+        "message": "The redirection requires user confirmation"
+      },
+      "LOCERR_WIN_INTERNET_FORCE_RETRY": {
+        "code": 30220,
+        "message": "The function needs to redo the request"
+      },
+      "LOCERR_WIN_INTERNET_CANNOT_CONNECT": {
+        "code": 30221,
+        "message": "The attempt to connect to the server failed"
+      },
+      "LOCERR_WIN_INTERNET_CONNECTION_ABORTED": {
+        "code": 30222,
+        "message": "The connection with the server has been terminated"
+      },
+      "LOCERR_WIN_INTERNET_CONNECTION_RESET": {
+        "code": 30223,
+        "message": "The connection with the server has been reset"
+      },
+      "LOCERR_WIN_INTERNET_DISCONNECTED": {
+        "code": 30224,
+        "message": "The Internet connection has been lost"
+      },
+      "LOCERR_WIN_INTERNET_INCORRECT_FORMAT": {
+        "code": 30225,
+        "message": "The format of the request is invalid"
+      },
+      "LOCERR_WIN_INTERNET_INVALID_CA": {
+        "code": 30226,
+        "message": "The function is unfamiliar with the Certificate Authority that generated the server's certificate"
+      },
+      "LOCERR_WIN_INTERNET_INVALID_OPERATION": {
+        "code": 30227,
+        "message": "The requested operation is invalid"
+      },
+      "LOCERR_WIN_INTERNET_INVALID_URL": {
+        "code": 30228,
+        "message": "The URL is invalid"
+      },
+      "LOCERR_WIN_INTERNET_ITEM_NOT_FOUND": {
+        "code": 30229,
+        "message": "The requested item could not be located"
+      },
+      "LOCERR_WIN_INTERNET_LOGIN_FAILURE": {
+        "code": 30230,
+        "message": "The request to connect and log on to an FTP server failed"
+      },
+      "LOCERR_WIN_INTERNET_NAME_NOT_RESOLVED": {
+        "code": 30231,
+        "message": "The server name could not be resolved"
+      },
+      "LOCERR_WIN_INTERNET_NEED_UI": {
+        "code": 30232,
+        "message": "A user interface or other blocking operation has been requested"
+      },
+      "LOCERR_WIN_INTERNET_SEC_CERT_CN_INVALID": {
+        "code": 30233,
+        "message": "SSL certificate common name(host name field) is incorrect. For example, if you entered www.server.com, and the common name on the certificate says www.different.com"
+      },
+      "LOCERR_WIN_INTERNET_SEC_CERT_DATE_INVALID": {
+        "code": 30234,
+        "message": "SSL certificate date that was received from the server is invalid. The certificate has expired"
+      },
+      "LOCERR_WIN_INTERNET_SEC_CERT_ERRORS": {
+        "code": 30235,
+        "message": "The SSL certificate contains errors"
+      },
+      "LOCERR_WIN_INTERNET_SEC_INVALID_CERT": {
+        "code": 30236,
+        "message": "The SSL certificate is invalid"
+      },
+      "LOCERR_WIN_INTERNET_SERVER_UNREACHABLE": {
+        "code": 30237,
+        "message": "The website or server indicated is unreachable"
       }
     }
   },
