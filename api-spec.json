@@ -3350,6 +3350,81 @@
             }
           ]
         },
+        "GetFieldsFromExpression": {
+          "description": "Retrives any fields from an expression.\n\nParameters:\n\n◾ expr   -   Expression to get fields from.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetFieldsResourceIds": {
+          "description": "Returns a list of resource ids (QRI) for fields that belongs to the datamodel.\nKey fields (that belongs to multiple tables), returns one resource identifier per table.\nGetFieldsResourceIds method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ fieldNames   -   List of fields names that resource ids should be returned from.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/NxFieldResourceId"
+              }
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetFieldsResourceIdsRaw": {
+          "description": "Returns a list of resource ids (QRI) for fields that belongs to the datamodel.\nKey fields (that belongs to multiple tables), returns one resource identifier per table.\nGetFieldsResourceIds method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ fieldNames   -   List of fields names that resource ids should be returned from.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "GetFileTableFields": {
           "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
@@ -12191,6 +12266,10 @@
             "type": "int"
           }
         },
+        "ContextSetExpression": {
+          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *",
+          "type": "string"
+        },
         "Dimensions": {
           "description": "Array of dimensions.",
           "type": "slice",
@@ -12960,6 +13039,13 @@
         "Title": {
           "description": "Title of the app.",
           "type": "string"
+        },
+        "UnsupportedFeatures": {
+          "description": "Array of features not supported by the app.",
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
@@ -13895,6 +13981,22 @@
         }
       }
     },
+    "NxFieldResourceId": {
+      "type": "struct",
+      "entries": {
+        "Name": {
+          "description": "Name of the field to get the resource id for.",
+          "type": "string"
+        },
+        "ResourceIds": {
+          "description": "Field level resource Id per table that the field is part of",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/NxFieldTableResourceId"
+          }
+        }
+      }
+    },
     "NxFieldSelectionInfo": {
       "type": "struct",
       "entries": {
@@ -13904,6 +14006,19 @@
         },
         "Name": {
           "description": "Name of the field.",
+          "type": "string"
+        }
+      }
+    },
+    "NxFieldTableResourceId": {
+      "type": "struct",
+      "entries": {
+        "ResourceId": {
+          "description": "Resource identifier for the field",
+          "type": "string"
+        },
+        "Table": {
+          "description": "Name of the table that the field belongs to get the resource id for",
           "type": "string"
         }
       }
@@ -17214,6 +17329,10 @@
         "CalcCondition": {
           "description": "Specifies a calculation condition object.\nIf CalcCondition.Cond is not fulfilled, the TreeData is excluded from the calculation and CalcCondition.Msg is evaluated.\nBy default, there is no calculation condition.\nThis property is optional.",
           "type": "#/definitions/NxCalcCond"
+        },
+        "ContextSetExpression": {
+          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *",
+          "type": "string"
         },
         "Dimensions": {
           "description": "Array of dimensions.",
