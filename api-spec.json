@@ -3182,6 +3182,69 @@
             }
           ]
         },
+        "GetExpressionBNF": {
+          "description": "Gets the current Backus-Naur Form (BNF) grammar of the Qlik chart expressions supported within a given App.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/BNFDef"
+              }
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetExpressionBNFHash": {
+          "description": "Gets a string hash calculated from the current Backus-Naur Form (BNF) grammar of the Qlik chart expressions supported within a given App.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetExpressionBNFRaw": {
+          "description": "Gets the current Backus-Naur Form (BNF) grammar of the Qlik chart expressions supported within a given App.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "GetFavoriteVariables": {
           "description": "Retrieves the variables that are tagged as favorite.",
           "x-qlik-stability": "locked",
@@ -5381,6 +5444,24 @@
             }
           ]
         },
+        "SetProhibitBinaryLoad": {
+          "description": "Prohibit binary load of this app.\nAn app with prohibit binary load set cannot be loaded binary. For the setting to have effect a save is required.\n\nParameters:\n\n◾ prohibit   -   True or false.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "bool"
+            }
+          ],
+          "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
         "SetScript": {
           "description": "Sets values in script.\n\nParameters:\n\n◾ script   -   Script content.",
           "x-qlik-stability": "locked",
@@ -5561,6 +5642,10 @@
         },
         "HasSectionAccess": {
           "description": "If true the app has section access configured.",
+          "type": "bool"
+        },
+        "IsDirectQueryMode": {
+          "description": "Is the app a Direct Query app?",
           "type": "bool"
         },
         "LastReloadTime": {
