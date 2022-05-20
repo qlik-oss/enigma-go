@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1351.0",
+    "version": "12.1368.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -9278,6 +9278,38 @@
       ]
     },
     {
+      "name": "Doc.TransformApp",
+      "description": "Transform current app into an instance of the targeted mode\n@ param DstParameters Attributes that should be set in the new app.\n@ param TransformAppResult Transformation result artifact(s) properties.",
+      "params": [
+        {
+          "name": "qDstParameters",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "$ref": "#/components/schemas/TransformAppParameters"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.TransformApp",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qResult": {
+              "type": "object",
+              "$ref": "#/components/schemas/TransformAppResult"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "locked"
+    },
+    {
       "name": "Global.AbortRequest",
       "description": "Sets an abort flag on a specific request in the current engine session.\n* If an abort flag is set on a pending request, the request is aborted.\n* If an abort flag is set on an ongoing request, the engine checks to see if it is possible to abort the request.",
       "params": [
@@ -11275,6 +11307,10 @@
             "title": "LOCERR_APP_SIZE_EXCEEDED"
           },
           {
+            "x-qlik-const": 1016,
+            "title": "LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
+          },
+          {
             "x-qlik-const": 2000,
             "title": "LOCERR_CONNECTION_ALREADY_EXISTS"
           },
@@ -11293,6 +11329,10 @@
           {
             "x-qlik-const": 2004,
             "title": "LOCERR_CONNECTION_NAME_IS_INVALID"
+          },
+          {
+            "x-qlik-const": 2005,
+            "title": "LOCERR_CONNECTION_MISSING_CREDENTIALS"
           },
           {
             "x-qlik-const": 2300,
@@ -20757,6 +20797,32 @@
           }
         ]
       },
+      "TransformAppParameters": {
+        "type": "object",
+        "properties": {
+          "qName": {
+            "type": "string",
+            "description": "The name (title) of the application"
+          },
+          "qSpaceId": {
+            "type": "string",
+            "description": "ID of the space where the app is to be created. Empty value implies Personal space"
+          },
+          "qScriptParameterPrefix": {
+            "type": "string",
+            "description": "Prefix to be used on inserted ScriptParameters, only applicable for template apps"
+          }
+        }
+      },
+      "TransformAppResult": {
+        "type": "object",
+        "properties": {
+          "qAppId": {
+            "type": "string",
+            "description": "ID of created App"
+          }
+        }
+      },
       "ProgressData": {
         "type": "object",
         "properties": {
@@ -21487,6 +21553,9 @@
             "$ref": "#/components/errors/LOCERR_APP_SIZE_EXCEEDED"
           },
           {
+            "$ref": "#/components/errors/LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_CONNECTION_ALREADY_EXISTS"
           },
           {
@@ -21500,6 +21569,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_CONNECTION_NAME_IS_INVALID"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_CONNECTION_MISSING_CREDENTIALS"
           },
           {
             "$ref": "#/components/errors/LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT"
@@ -22506,6 +22578,10 @@
         "code": 1015,
         "message": "Static App size exceeded"
       },
+      "LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED": {
+        "code": 1016,
+        "message": "Unknown error"
+      },
       "LOCERR_CONNECTION_ALREADY_EXISTS": {
         "code": 2000,
         "message": "Connection already exists"
@@ -22525,6 +22601,10 @@
       "LOCERR_CONNECTION_NAME_IS_INVALID": {
         "code": 2004,
         "message": "Connection name is invalid. Should be 1-256 characters and not contain <>:\"/|?*"
+      },
+      "LOCERR_CONNECTION_MISSING_CREDENTIALS": {
+        "code": 2005,
+        "message": "Connection is missing credentials"
       },
       "LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT": {
         "code": 2300,
