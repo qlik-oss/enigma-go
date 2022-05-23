@@ -5579,6 +5579,48 @@
             }
           ]
         },
+        "TransformApp": {
+          "description": "Transform current app into an instance of the targeted mode\n@ param DstParameters Attributes that should be set in the new app.\n@ param TransformAppResult Transformation result artifact(s) properties.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "#/definitions/TransformAppParameters"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/TransformAppResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "TransformAppRaw": {
+          "description": "Transform current app into an instance of the targeted mode\n@ param DstParameters Attributes that should be set in the new app.\n@ param TransformAppResult Transformation result artifact(s) properties.",
+          "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "Undo": {
           "description": "Undoes the previous operation.\n\nThe operation is successful if qSuccess is set to true.",
           "x-qlik-stability": "locked",
@@ -17337,6 +17379,32 @@
               }
             }
           ]
+        }
+      }
+    },
+    "TransformAppParameters": {
+      "type": "struct",
+      "entries": {
+        "Name": {
+          "description": "The name (title) of the application",
+          "type": "string"
+        },
+        "ScriptParameterPrefix": {
+          "description": "Prefix to be used on inserted ScriptParameters, only applicable for template apps",
+          "type": "string"
+        },
+        "SpaceId": {
+          "description": "ID of the space where the app is to be created. Empty value implies Personal space",
+          "type": "string"
+        }
+      }
+    },
+    "TransformAppResult": {
+      "type": "struct",
+      "entries": {
+        "AppId": {
+          "description": "ID of created App",
+          "type": "string"
         }
       }
     },
