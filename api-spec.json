@@ -977,6 +977,10 @@
       "description": "The result and path to script log for a reload.",
       "type": "struct",
       "entries": {
+        "EndedWithMemoryConstraint": {
+          "description": "true if memory limits were exhausted during reload.",
+          "type": "bool"
+        },
         "ScriptLogFile": {
           "description": "Path to the script log file.",
           "type": "string"
@@ -1074,6 +1078,27 @@
         "ApplyBookmark": {
           "description": "Applies a bookmark.\nThe operation is successful if qSuccess is set to true.\n\nParameters:\n\n◾ id   -   Identifier of the bookmark.",
           "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyTemporaryBookmark": {
+          "description": "Apply temporary bookmark identified by Id.\nApplyTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
@@ -1834,6 +1859,66 @@
           "returns": [
             {
               "type": "#/definitions/GenericVariable"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "CreateTemporaryBookmark": {
+          "description": "Create temporary bookmark\nCreateTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ options            -   Options for the temporary bookmark\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "#/definitions/NxTempBookmarkOptions"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "CreateTemporaryBookmarkRaw": {
+          "description": "Create temporary bookmark\nCreateTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ options            -   Options for the temporary bookmark\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "string"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "bool"
             },
             {
               "type": "error"
@@ -15209,6 +15294,20 @@
         "Name": {
           "description": "Name of the stream.",
           "type": "string"
+        }
+      }
+    },
+    "NxTempBookmarkOptions": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "IncludeAllPatches": {
+          "description": "IncludeAllPatches If true all patches will be stored in the temporary bookmark, if false ObjectIdsToPatch will determine what patches to include",
+          "type": "bool"
+        },
+        "IncludeVariables": {
+          "description": "IncludeVariables If true all variables will be stored in the temporary bookmark",
+          "type": "bool"
         }
       }
     },

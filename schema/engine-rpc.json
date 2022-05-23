@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1368.0",
+    "version": "12.1373.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -9308,6 +9308,82 @@
         }
       ],
       "x-qlik-stability": "locked"
+    },
+    {
+      "name": "Doc.CreateTemporaryBookmark",
+      "description": "Create temporary bookmark\n<div class=note>CreateTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.</div>",
+      "params": [
+        {
+          "name": "qOptions",
+          "description": "Options for the temporary bookmark",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "$ref": "#/components/schemas/NxTempBookmarkOptions"
+          }
+        },
+        {
+          "name": "qObjectIdsToPatch",
+          "description": "Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.CreateTemporaryBookmark",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qId": {
+              "type": "string"
+            },
+            "qReturn": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
+      "name": "Doc.ApplyTemporaryBookmark",
+      "description": "Apply temporary bookmark identified by Id.\n<div class=note>ApplyTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.</div>",
+      "params": [
+        {
+          "name": "qId",
+          "description": "Identifier of the temporary selection state",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.ApplyTemporaryBookmark",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qReturn": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
     },
     {
       "name": "Global.AbortRequest",
@@ -19338,6 +19414,10 @@
           "qScriptLogFile": {
             "type": "string",
             "description": "Path to the script log file."
+          },
+          "qEndedWithMemoryConstraint": {
+            "type": "boolean",
+            "description": "true if memory limits were exhausted during reload."
           }
         }
       },
@@ -20822,6 +20902,20 @@
             "description": "ID of created App"
           }
         }
+      },
+      "NxTempBookmarkOptions": {
+        "type": "object",
+        "properties": {
+          "qIncludeVariables": {
+            "type": "boolean",
+            "description": "IncludeVariables If true all variables will be stored in the temporary bookmark"
+          },
+          "qIncludeAllPatches": {
+            "type": "boolean",
+            "description": "IncludeAllPatches If true all patches will be stored in the temporary bookmark, if false ObjectIdsToPatch will determine what patches to include"
+          }
+        },
+        "x-qlik-stability": "experimental"
       },
       "ProgressData": {
         "type": "object",
