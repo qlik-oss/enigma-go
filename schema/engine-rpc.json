@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1373.0",
+    "version": "12.1377.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -7991,7 +7991,7 @@
     },
     {
       "name": "Doc.GuessFileType",
-      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file",
+      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8033,7 +8033,7 @@
     },
     {
       "name": "Doc.GetFileTables",
-      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file",
+      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8086,7 +8086,7 @@
     },
     {
       "name": "Doc.GetFileTableFields",
-      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file",
+      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8150,7 +8150,7 @@
     },
     {
       "name": "Doc.GetFileTablePreview",
-      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file",
+      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -14055,6 +14055,12 @@
             "type": "object",
             "description": "Definition of the dynamic properties.",
             "$ref": "#/components/schemas/NxMetaDef"
+          },
+          "qIncludeVariables": {
+            "type": "boolean",
+            "description": "If true all variables will be stored in the bookmark.",
+            "default": false,
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -15049,6 +15055,10 @@
             "type": "object",
             "description": "Data",
             "$ref": "#/components/schemas/JsonObject"
+          },
+          "qIncludePatches": {
+            "type": "boolean",
+            "description": "Include the bookmark patches. Patches can be very large and may make the list result unmanageable."
           }
         },
         "x-qlik-see-also": [
@@ -19249,6 +19259,10 @@
             "type": "object",
             "description": "Set of data.",
             "$ref": "#/components/schemas/JsonObject"
+          },
+          "qIncludePatches": {
+            "type": "boolean",
+            "description": "Include the bookmark patches. Patches can be very large and may make the list result unmanageable."
           }
         }
       },
@@ -19757,11 +19771,11 @@
       },
       "FileDataFormat": {
         "type": "object",
-        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file",
+        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
         "properties": {
           "qType": {
             "type": "string",
-            "description": "Type of the file.\n\nOne of:\n* CSV or FILE_TYPE_CSV\n* FIX or FILE_TYPE_FIX\n* DIF or FILE_TYPE_DIF\n* EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n* EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n* HTML or FILE_TYPE_HTML\n* QVD or FILE_TYPE_QVD\n* XML or FILE_TYPE_XML\n* QVX or FILE_TYPE_QVX\n* JSON or FILE_TYPE_JSON\n* KML or FILE_TYPE_KML",
+            "description": "Type of the file.\n\nOne of:\n* CSV or FILE_TYPE_CSV\n* FIX or FILE_TYPE_FIX\n* DIF or FILE_TYPE_DIF\n* EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n* EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n* HTML or FILE_TYPE_HTML\n* QVD or FILE_TYPE_QVD\n* XML or FILE_TYPE_XML\n* QVX or FILE_TYPE_QVX\n* JSON or FILE_TYPE_JSON\n* KML or FILE_TYPE_KML\n* PARQUET or FILE_TYPE_PARQUET",
             "$ref": "#/components/schemas/FileType"
           },
           "qLabel": {
@@ -19868,6 +19882,11 @@
             "x-qlik-const": 10,
             "title": "KML",
             "description": "FILE_TYPE_KML"
+          },
+          {
+            "x-qlik-const": 11,
+            "title": "PARQUET",
+            "description": "FILE_TYPE_PARQUET"
           }
         ]
       },
