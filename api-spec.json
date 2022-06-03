@@ -409,6 +409,10 @@
           "description": "Data",
           "type": "https://golang.org/pkg/encoding/json/RawMessage"
         },
+        "IncludePatches": {
+          "description": "Include the bookmark patches. Patches can be very large and may make the list result unmanageable.",
+          "type": "bool"
+        },
         "Type": {
           "description": "Type of the list.",
           "type": "string"
@@ -3574,7 +3578,7 @@
           ]
         },
         "GetFileTableFields": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3610,7 +3614,7 @@
           ]
         },
         "GetFileTableFieldsRaw": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3643,7 +3647,7 @@
           ]
         },
         "GetFileTablePreview": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3679,7 +3683,7 @@
           ]
         },
         "GetFileTablePreviewRaw": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3712,7 +3716,7 @@
           ]
         },
         "GetFileTables": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3799,7 +3803,7 @@
           ]
         },
         "GetFileTablesRaw": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4730,7 +4734,7 @@
           ]
         },
         "GuessFileType": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4754,7 +4758,7 @@
           ]
         },
         "GuessFileTypeRaw": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -6919,7 +6923,7 @@
       }
     },
     "FileDataFormat": {
-      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file",
+      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file",
       "type": "struct",
       "entries": {
         "CodePage": {
@@ -6963,7 +6967,7 @@
           "type": "int"
         },
         "Type": {
-          "description": "Type of the file.\n\nOne of:\n\n• CSV or FILE_TYPE_CSV\n\n• FIX or FILE_TYPE_FIX\n\n• DIF or FILE_TYPE_DIF\n\n• EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n\n• EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n\n• HTML or FILE_TYPE_HTML\n\n• QVD or FILE_TYPE_QVD\n\n• XML or FILE_TYPE_XML\n\n• QVX or FILE_TYPE_QVX\n\n• JSON or FILE_TYPE_JSON\n\n• KML or FILE_TYPE_KML",
+          "description": "Type of the file.\n\nOne of:\n\n• CSV or FILE_TYPE_CSV\n\n• FIX or FILE_TYPE_FIX\n\n• DIF or FILE_TYPE_DIF\n\n• EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n\n• EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n\n• HTML or FILE_TYPE_HTML\n\n• QVD or FILE_TYPE_QVD\n\n• XML or FILE_TYPE_XML\n\n• QVX or FILE_TYPE_QVX\n\n• JSON or FILE_TYPE_JSON\n\n• KML or FILE_TYPE_KML\n\n• PARQUET or FILE_TYPE_PARQUET",
           "type": "string"
         }
       }
@@ -7447,6 +7451,11 @@
     "GenericBookmarkProperties": {
       "type": "struct",
       "entries": {
+        "IncludeVariables": {
+          "description": "If true all variables will be stored in the bookmark.",
+          "x-qlik-stability": "experimental",
+          "type": "bool"
+        },
         "Info": {
           "description": "Information about the bookmark.\nThis parameter is mandatory.",
           "type": "#/definitions/NxInfo"
@@ -14241,6 +14250,10 @@
         "Data": {
           "description": "Set of data.",
           "type": "https://golang.org/pkg/encoding/json/RawMessage"
+        },
+        "IncludePatches": {
+          "description": "Include the bookmark patches. Patches can be very large and may make the list result unmanageable.",
+          "type": "bool"
         },
         "Types": {
           "description": "List of object types.",
