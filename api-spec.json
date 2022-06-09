@@ -7451,6 +7451,11 @@
     "GenericBookmarkProperties": {
       "type": "struct",
       "entries": {
+        "DistinctValues": {
+          "description": "If true all selected values will be stored distinct, i.e. searchstrings will not be kept.",
+          "x-qlik-stability": "experimental",
+          "type": "bool"
+        },
         "IncludeVariables": {
           "description": "If true all variables will be stored in the bookmark.",
           "x-qlik-stability": "experimental",
@@ -12881,6 +12886,11 @@
         "Def": {
           "description": "Refers to a dimension stored in the list object.",
           "type": "#/definitions/NxInlineDimensionDef"
+        },
+        "DirectQuerySimplifiedView": {
+          "description": "If set to true, reduces the set of states returned.\nSupported for Direct Query mode only.\nDefault is false.",
+          "x-qlik-stability": "experimental",
+          "type": "bool"
         },
         "Expressions": {
           "description": "Lists the expressions in the list object.\nThis parameter is optional.",

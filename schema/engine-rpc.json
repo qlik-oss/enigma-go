@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1377.0",
+    "version": "12.1379.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -14061,6 +14061,12 @@
             "description": "If true all variables will be stored in the bookmark.",
             "default": false,
             "x-qlik-stability": "experimental"
+          },
+          "qDistinctValues": {
+            "type": "boolean",
+            "description": "If true all selected values will be stored distinct, i.e. searchstrings will not be kept.",
+            "default": false,
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -16927,6 +16933,11 @@
             "items": {
               "$ref": "#/components/schemas/NxListObjectExpressionDef"
             }
+          },
+          "qDirectQuerySimplifiedView": {
+            "type": "boolean",
+            "description": "If set to true, reduces the set of states returned.\nSupported for Direct Query mode only.\nDefault is false.",
+            "x-qlik-stability": "experimental"
           }
         },
         "x-qlik-see-also": [
