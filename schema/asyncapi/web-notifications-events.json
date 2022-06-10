@@ -1,0 +1,265 @@
+{
+  "asyncapi": "2.0.0",
+  "x-qlik-stability": "stable",
+  "x-qlik-visibility": "public",
+  "info": {
+    "title": "Web Notifications Events",
+    "version": "1.0.1",
+    "description": "The web notifications event allows you to keep track of web notifications in the system.",
+    "x-qlik-guidelines-version": "3.0.0"
+  },
+  "tags": [
+    {
+      "name": "web notifications",
+      "description": "Web notifications is the resource representing a user notification via web."
+    }
+  ],
+  "channels": {
+    "system-events.web-notifications": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/created"
+            },
+            {
+              "$ref": "#/components/messages/read"
+            },
+            {
+              "$ref": "#/components/messages/deleted"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "cloudEvents": {
+        "type": "object",
+        "properties": {
+          "cloudEventsVersion": {
+            "type": "string",
+            "enum": [
+              "0.1"
+            ],
+            "description": "The event is compatible with the CloudEvents specification v0.1."
+          },
+          "eventTypeVersion": {
+            "type": "string",
+            "default": 1,
+            "description": "Version of the event in semantic version format."
+          },
+          "source": {
+            "type": "string",
+            "default": "com.qlik/web-notifications",
+            "description": "The source of the event."
+          },
+          "contenttype": {
+            "type": "string",
+            "default": "application/json",
+            "description": "The content type of the event payload."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-10-30T07:06:22Z",
+            "description": "Timestamp of when the event happened."
+          }
+        }
+      },
+      "extensionObject": {
+        "type": "object",
+        "required": [
+          "userId",
+          "tenantId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the user related to the event."
+          },
+          "tenantId": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the tenant related to the event."
+          }
+        }
+      }
+    },
+    "messages": {
+      "created": {
+        "x-qlik-stability": "stable",
+        "x-qlik-visibility": "public",
+        "tags": [
+          {
+            "name": "web-notifications"
+          }
+        ],
+        "title": "Web notification created",
+        "name": "com.qlik.v1.web-notification.created",
+        "description": "The web notification created event will be published when a new notification is created.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.web-notification.created",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Notification's unique id.",
+                      "example": "id123"
+                    },
+                    "tracking": {
+                      "type": "object",
+                      "properties": {
+                        "alertId": {
+                          "type": "string",
+                          "description": "Alert's unique id.",
+                          "example": "id123"
+                        },
+                        "workflowId": {
+                          "type": "string",
+                          "description": "The unique id of the reload or trigger that intiated the delivery of the notification to the user.",
+                          "example": "id123"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "read": {
+        "x-qlik-stability": "stable",
+        "x-qlik-visibility": "public",
+        "tags": [
+          {
+            "name": "web-notifications"
+          }
+        ],
+        "title": "Web notification read",
+        "name": "com.qlik.v1.web-notification.read",
+        "description": "The web notification read event will be published when a notification is marked as read or unread.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.web-notification.read",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "read",
+                    "count"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Notification's unique id or all for batch updates",
+                      "example": "id123"
+                    },
+                    "read": {
+                      "type": "boolean",
+                      "description": "The read value of the operation",
+                      "example": true
+                    },
+                    "count": {
+                      "type": "number",
+                      "description": "The unread count of notifications after performing the operation. This is useful for resyncing a clients total unreadcount in cases where you don't have all the data fully downloaded from pagination.",
+                      "example": 84
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "deleted": {
+        "x-qlik-stability": "stable",
+        "x-qlik-visibility": "public",
+        "tags": [
+          {
+            "name": "web-notifications"
+          }
+        ],
+        "title": "Web notification deleted",
+        "name": "com.qlik.v1.web-notification.deleted",
+        "description": "The web notification delete event will be published when a notification is deleted.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.web-notification.deleted",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "count"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Notification's unique id or all for batch updates",
+                      "example": "id123"
+                    },
+                    "count": {
+                      "type": "number",
+                      "description": "The unread count of notifications after performing the operation. This is useful for resyncing a clients total unreadcount in cases where you don't have all the data fully downloaded from pagination.",
+                      "example": 84
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

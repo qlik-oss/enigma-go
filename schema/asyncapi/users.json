@@ -1,0 +1,667 @@
+{
+  "asyncapi": "2.0.0",
+  "x-qlik-stability": "experimental",
+  "x-qlik-visibility": "private",
+  "info": {
+    "title": "Users",
+    "version": "0.3.0",
+    "description": "Users events in the platform.",
+    "x-qlik-guidelines-version": "3.1.0"
+  },
+  "tags": [
+    {
+      "name": "users",
+      "description": "Users is a resource that represents a User in the platform."
+    }
+  ],
+  "channels": {
+    "system-events.user": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/userUpdated"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "userUpdated": {
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private",
+        "tags": [
+          {
+            "name": "users"
+          }
+        ],
+        "title": "User updated",
+        "name": "com.qlik.v1.user.updated",
+        "description": "Published when a user is updated.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.v1.user.updated",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/extensionObject"
+                    },
+                    {
+                      "$ref": "#/components/schemas/updateObject"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "deprecatedUserCreated": {
+        "x-qlik-deprecated": true,
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private",
+        "tags": [
+          {
+            "name": "users"
+          }
+        ],
+        "title": "User created - deprecated",
+        "name": "com.qlik.user.created",
+        "description": "Published when a new user is created. Deprecated. Use the `com.qlik.v1.user.created` event instead.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            }
+          ],
+          "properties": {
+            "eventType": {
+              "type": "string",
+              "default": "com.qlik.user.created",
+              "description": "Unique identifier for the event type."
+            },
+            "source": {
+              "type": "string",
+              "default": "com.qlik/users",
+              "description": "The source of the event."
+            },
+            "extensions": {
+              "$ref": "#/components/schemas/extensionObject"
+            },
+            "data": {
+              "type": "object",
+              "required": [
+                "tenantId",
+                "name",
+                "subject"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Id of the user.",
+                  "example": "id123"
+                },
+                "tenantId": {
+                  "type": "string",
+                  "example": "id123",
+                  "description": "Unique identifier for the tenant related to the event."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Name of the user.",
+                  "example": "Doe"
+                },
+                "subject": {
+                  "type": "string",
+                  "description": "User's subject in the database.",
+                  "example": "auth0\\\\foo"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "The status of the user.",
+                  "enum": [
+                    "active",
+                    "invited"
+                  ],
+                  "example": "active"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "User's verified email address from the IdP, when available.",
+                  "example": "jane.doe@corp.example"
+                },
+                "zoneinfo": {
+                  "type": "string",
+                  "description": "User's timezone setting from the IdP, when available.",
+                  "example": "America/Toronto"
+                },
+                "locale": {
+                  "type": "string",
+                  "description": "User's locale setting from the IdP, when available.",
+                  "example": "en-US"
+                },
+                "preferredZoneinfo": {
+                  "type": "string",
+                  "description": "User's timezone setting from the IdP, when available.",
+                  "example": "America/Toronto"
+                },
+                "preferredLocale": {
+                  "type": "string",
+                  "description": "User's locale setting from the IdP, when available.",
+                  "example": "en-US"
+                }
+              }
+            }
+          }
+        }
+      },
+      "deprecatedUserDeleted": {
+        "x-qlik-deprecated": true,
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private",
+        "tags": [
+          {
+            "name": "users"
+          }
+        ],
+        "title": "User deleted - deprecated",
+        "name": "com.qlik.user.deleted",
+        "description": "Published when an user is deleted. Deprecated. Use the `com.qlik.user.deleted` event instead.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.user.deleted",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "subject",
+                    "name",
+                    "email"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Id of the user.",
+                      "example": "id123"
+                    },
+                    "subject": {
+                      "type": "string",
+                      "description": "User's subject in the database.",
+                      "example": "auth0\\\\foo"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the user.",
+                      "example": "Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User's verified email address from the IdP, when available.",
+                      "example": "jane.doe@corp.example"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "userDeleted": {
+        "x-qlik-deprecated": false,
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private",
+        "tags": [
+          {
+            "name": "users"
+          }
+        ],
+        "title": "User deleted",
+        "name": "com.qlik.v1.user.deleted",
+        "description": "Published when an user is deleted.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.v1.user.deleted",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "userCreated": {
+        "x-qlik-deprecated": false,
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private",
+        "tags": [
+          {
+            "name": "users"
+          }
+        ],
+        "title": "User created",
+        "name": "com.qlik.v1.user.created",
+        "description": "Published when a new user is created.",
+        "payload": {
+          "type": "object",
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/cloudEvents"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "eventType": {
+                  "type": "string",
+                  "default": "com.qlik.v1.user.created",
+                  "description": "Unique identifier for the event type."
+                },
+                "extensions": {
+                  "$ref": "#/components/schemas/extensionObject"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "schemas": {
+      "cloudEvents": {
+        "type": "object",
+        "properties": {
+          "cloudEventsVersion": {
+            "type": "string",
+            "enum": [
+              "0.1"
+            ],
+            "description": "The event is compatible with the CloudEvents specification v0.1."
+          },
+          "eventTypeVersion": {
+            "type": "string",
+            "default": "1.0.0",
+            "description": "Version of the event in semantic version format."
+          },
+          "source": {
+            "type": "string",
+            "default": "com.qlik/identities",
+            "description": "The source of the event."
+          },
+          "contentType": {
+            "type": "string",
+            "default": "application/json",
+            "description": "The content type of the event payload."
+          },
+          "eventID": {
+            "type": "string",
+            "description": "Unique identifier for the event.",
+            "example": "id123"
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-10-30T07:06:22Z",
+            "description": "Timestamp of when the event happened."
+          }
+        }
+      },
+      "legacyCloudEvents": {
+        "type": "object",
+        "properties": {
+          "cloudEventsVersion": {
+            "type": "string",
+            "enum": [
+              "0.1"
+            ],
+            "description": "The event is compatible with the CloudEvents specification v0.1."
+          },
+          "eventTypeVersion": {
+            "type": "string",
+            "default": 1,
+            "description": "Version of the event in semantic version format."
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "com.qlik/groups",
+              "com.qlik/users"
+            ],
+            "description": "The source of the event."
+          },
+          "contentType": {
+            "type": "string",
+            "default": "application/json",
+            "description": "The content type of the event payload."
+          },
+          "eventID": {
+            "type": "string",
+            "description": "Unique identifier for the event.",
+            "example": "id123"
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2018-10-30T07:06:22Z",
+            "description": "Timestamp of when the event happened."
+          }
+        }
+      },
+      "extensionObject": {
+        "type": "object",
+        "required": [
+          "userId",
+          "tenantId"
+        ],
+        "properties": {
+          "userId": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the user triggering the event."
+          },
+          "tenantId": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the tenant related to the event."
+          }
+        }
+      },
+      "legacyExtensionObject": {
+        "type": "object",
+        "required": [
+          "userID",
+          "tenantID"
+        ],
+        "properties": {
+          "userID": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the user triggering the event."
+          },
+          "tenantID": {
+            "type": "string",
+            "example": "id123",
+            "description": "Unique identifier for the tenant related to the event."
+          }
+        }
+      },
+      "updateObject": {
+        "type": "object",
+        "properties": {
+          "updates": {
+            "type": "array",
+            "description": "Collection of updates performed on the resource.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Field that was updated."
+                },
+                "oldValue": {
+                  "type": "string",
+                  "description": "Value of the field before the update."
+                },
+                "newValue": {
+                  "type": "string",
+                  "description": "Value of the field after the update."
+                }
+              },
+              "example": {
+                "path": "/attributePath",
+                "oldValue": "Dylan",
+                "newValue": "Dan"
+              }
+            }
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "required": [
+          "id",
+          "subject",
+          "name",
+          "tenantId"
+        ],
+        "properties": {
+          "id": {
+            "description": "The unique user identifier.",
+            "type": "string",
+            "format": "uid",
+            "readOnly": true
+          },
+          "tenantId": {
+            "description": "The tenant that the user belongs too.",
+            "type": "string",
+            "format": "uid"
+          },
+          "subject": {
+            "description": "The unique user identitier from an identity provider.",
+            "type": "string"
+          },
+          "status": {
+            "description": "The status of the user within the tenant.",
+            "type": "string",
+            "enum": [
+              "active",
+              "invited",
+              "disabled",
+              "deleted"
+            ]
+          },
+          "inviteExpiry": {
+            "description": "The number of seconds until the user invitation will expire.",
+            "type": "number",
+            "readOnly": true
+          },
+          "name": {
+            "description": "The name of the user.",
+            "type": "string"
+          },
+          "createdAt": {
+            "description": "The timestamp for when the user record was created.",
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "lastUpdatedAt": {
+            "description": "The timestamp for when the user record was last updated.",
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "picture": {
+            "description": "A static url linking to the avatar of the user.",
+            "type": "string",
+            "format": "url"
+          },
+          "email": {
+            "description": "The email address for the user.",
+            "type": "string"
+          },
+          "zoneinfo": {
+            "description": "Represents the end-user's time zone.",
+            "type": "string"
+          },
+          "locale": {
+            "description": "Represents the end-user's language tag.",
+            "type": "string"
+          },
+          "preferredZoneinfo": {
+            "description": "Represents the end-user's preferred time zone.",
+            "type": "string"
+          },
+          "preferredLocale": {
+            "description": "Represents the end-user's preferred language tag.",
+            "type": "string"
+          },
+          "groups": {
+            "description": "Users assigned idp group references.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "group1",
+              "group2"
+            ]
+          },
+          "assignedRoles": {
+            "$ref": "#/components/schemas/AssignedRoles"
+          },
+          "assignedGroups": {
+            "$ref": "#/components/schemas/AssignedGroups"
+          }
+        }
+      },
+      "AssignedGroups": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "represents a group entity stored in the database",
+          "required": [
+            "id",
+            "name",
+            "permissions"
+          ],
+          "properties": {
+            "id": {
+              "description": "The unique group identitier",
+              "type": "string",
+              "format": "uuid",
+              "example": "507f191e810c19729de860ea"
+            },
+            "name": {
+              "description": "The group name",
+              "readOnly": true,
+              "type": "string",
+              "example": "Finance"
+            },
+            "assignedRoles": {
+              "$ref": "#/components/schemas/AssignedRoles"
+            }
+          }
+        }
+      },
+      "AssignedRoles": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "description": "represents a role entity stored in the database",
+          "required": [
+            "id",
+            "name",
+            "type",
+            "level",
+            "permissions"
+          ],
+          "properties": {
+            "id": {
+              "description": "The unique role identitier",
+              "type": "string",
+              "format": "uuid",
+              "example": "507f191e810c19729de860ea"
+            },
+            "name": {
+              "description": "The role name",
+              "readOnly": true,
+              "type": "string",
+              "example": "Developer"
+            },
+            "type": {
+              "description": "The type of role",
+              "readOnly": true,
+              "type": "string",
+              "enum": [
+                "default"
+              ],
+              "example": "default"
+            },
+            "level": {
+              "description": "The role level",
+              "readOnly": true,
+              "type": "string",
+              "enum": [
+                "admin",
+                "user"
+              ],
+              "example": "admin"
+            },
+            "permissions": {
+              "description": "An array of permissions associated to a given role.",
+              "readOnly": true,
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "example": [
+                "app:create"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
