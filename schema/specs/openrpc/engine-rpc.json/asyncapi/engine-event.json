@@ -1,0 +1,3017 @@
+{
+  "asyncapi": "2.0.0",
+  "info": {
+    "title": "Engine Event API",
+    "version": "1.21.0",
+    "description": "Engine is the service responsible for creating and handling apps in the Qlik platform.",
+    "x-qlik-guidelines-version": "1.0.0"
+  },
+  "channels": {
+    "system-events.app": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/AppOpened"
+            }
+          ]
+        }
+      }
+    },
+    "system-events.engine.app": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/AppAttributesUpdated"
+            },
+            {
+              "$ref": "#/components/messages/AppCreated"
+            },
+            {
+              "$ref": "#/components/messages/AppDataTableExported"
+            },
+            {
+              "$ref": "#/components/messages/AppDataUpdated"
+            },
+            {
+              "$ref": "#/components/messages/AppDeleted"
+            },
+            {
+              "$ref": "#/components/messages/AppExported"
+            },
+            {
+              "$ref": "#/components/messages/AppLineageData"
+            },
+            {
+              "$ref": "#/components/messages/AppPublished"
+            },
+            {
+              "$ref": "#/components/messages/AppReloadEnded"
+            },
+            {
+              "$ref": "#/components/messages/AppReloadStarted"
+            }
+          ]
+        }
+      }
+    },
+    "system-events.engine.session": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/SessionAppOpened"
+            },
+            {
+              "$ref": "#/components/messages/SessionCreated"
+            },
+            {
+              "$ref": "#/components/messages/SessionDestroyed"
+            },
+            {
+              "$ref": "#/components/messages/WebSocketConnected"
+            },
+            {
+              "$ref": "#/components/messages/WebSocketDisconnected"
+            }
+          ]
+        }
+      }
+    },
+    "system-events.engine.system": {
+      "publish": {
+        "message": {
+          "oneOf": [
+            {
+              "$ref": "#/components/messages/AppLoadError"
+            },
+            {
+              "$ref": "#/components/messages/AppLoaded"
+            },
+            {
+              "$ref": "#/components/messages/AppUnloaded"
+            },
+            {
+              "$ref": "#/components/messages/SessionappError"
+            },
+            {
+              "$ref": "#/components/messages/SystemStatistics"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "components": {
+    "messages": {
+      "AppOpened": {
+        "name": "com.qlik.v1.app.opened",
+        "title": "AppOpened",
+        "description": "An app was opened.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.v1.app.opened"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTypeVersion": {
+              "type": "string",
+              "description": "EventType version."
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtensionV1"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppOpened"
+            }
+          }
+        },
+        "x-qlik-stability": "stable",
+        "x-qlik-visibility": "public"
+      },
+      "AppAttributesUpdated": {
+        "name": "com.qlik.app.attributes.updated",
+        "title": "AppAttributesUpdated",
+        "description": "The attributes of an app were updated.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.attributes.updated"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppAttributesUpdated",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppCreated": {
+        "name": "com.qlik.app.created",
+        "title": "AppCreated",
+        "description": "An app was created.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.created"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppCreated",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDataTableExported": {
+        "name": "com.qlik.app.data.table.exported",
+        "title": "AppDataTableExported",
+        "description": "A data file (QVD,QVX or CSV) was generated.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.data.table.exported"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppDataTableExported",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDataUpdated": {
+        "name": "com.qlik.app.data.updated",
+        "title": "AppDataUpdated",
+        "description": "The data of an app was updated.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.data.updated"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppDataUpdated",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDeleted": {
+        "name": "com.qlik.app.deleted",
+        "title": "AppDeleted",
+        "description": "An app was deleted.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.deleted"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppDeleted",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppExported": {
+        "name": "com.qlik.app.exported",
+        "title": "AppExported",
+        "description": "An app was exported.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.exported"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppExported",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLineageData": {
+        "name": "com.qlik.app.lineage.data",
+        "title": "AppLineageData",
+        "description": "The lineage may have changed or data is updated.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.lineage.data"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppLineageData",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppPublished": {
+        "name": "com.qlik.app.published",
+        "title": "AppPublished",
+        "description": "An app was published.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.published"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppPublished",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadEnded": {
+        "name": "com.qlik.app.reload.ended",
+        "title": "AppReloadEnded",
+        "description": "A reload of an app was ended.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.reload.ended"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppReloadEnded",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadStarted": {
+        "name": "com.qlik.app.reload.started",
+        "title": "AppReloadStarted",
+        "description": "A reload of an app was started.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.app.reload.started"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppReloadStarted",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionAppOpened": {
+        "name": "com.qlik.engine.session.app.opened",
+        "title": "SessionAppOpened",
+        "description": "An app was opened in a session *deprecated*.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.session.app.opened"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/SessionAppOpened",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionCreated": {
+        "name": "com.qlik.engine.session.created",
+        "title": "SessionCreated",
+        "description": "A session was created.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.session.created"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/SessionCreated",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionDestroyed": {
+        "name": "com.qlik.engine.session.destroyed",
+        "title": "SessionDestroyed",
+        "description": "A session was destroyed.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.session.destroyed"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/SessionDestroyed",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "WebSocketConnected": {
+        "name": "com.qlik.engine.session.ws.connected",
+        "title": "WebSocketConnected",
+        "description": "A websocket was connected.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.session.ws.connected"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/WebSocketConnected",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "WebSocketDisconnected": {
+        "name": "com.qlik.engine.session.ws.disconnected",
+        "title": "WebSocketDisconnected",
+        "description": "A websocket was disconnected.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.session.ws.disconnected"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/WebSocketDisconnected",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLoadError": {
+        "name": "com.qlik.engine.system.app.load.error",
+        "title": "AppLoadError",
+        "description": "An application could not be loaded on an engine instance.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.system.app.load.error"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppLoadError",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLoaded": {
+        "name": "com.qlik.engine.system.app.loaded",
+        "title": "AppLoaded",
+        "description": "An application was loaded in an engine instance.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.system.app.loaded"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppLoaded",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppUnloaded": {
+        "name": "com.qlik.engine.system.app.unloaded",
+        "title": "AppUnloaded",
+        "description": "An application was unloaded from an engine instance.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.system.app.unloaded"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/AppUnloaded",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionappError": {
+        "name": "com.qlik.engine.system.sessionapp.error",
+        "title": "SessionappError",
+        "description": "A session app could not be created.",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.system.sessionapp.error"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/SessionappError",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SystemStatistics": {
+        "name": "com.qlik.engine.system.statistics",
+        "title": "SystemStatistics",
+        "description": "Statistics",
+        "payload": {
+          "type": "object",
+          "properties": {
+            "cloudEventsVersion": {
+              "type": "string",
+              "description": "CloudEvents version.",
+              "default": "0.1"
+            },
+            "source": {
+              "type": "string",
+              "description": "CloudEvent source Identifier.",
+              "default": "com.qlik/engine"
+            },
+            "contentType": {
+              "type": "string",
+              "description": "CloudEvent content type.",
+              "default": "application/json"
+            },
+            "eventType": {
+              "type": "string",
+              "description": "Event message name.",
+              "default": "com.qlik.engine.system.statistics"
+            },
+            "eventID": {
+              "type": "string",
+              "description": "CloudEvent Identifier.",
+              "format": "uuid"
+            },
+            "eventTime": {
+              "type": "string",
+              "description": "Time when event was sent.",
+              "format": "date"
+            },
+            "extensions": {
+              "type": "object",
+              "description": "CloudEvent extension properties.",
+              "$ref": "#/components/schemas/CloudEventsEnvelopExtension"
+            },
+            "data": {
+              "type": "object",
+              "description": "Event data",
+              "$ref": "#/components/schemas/SystemStatistics",
+              "x-qlik-stability": "experimental",
+              "x-qlik-visibility": "private"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      }
+    },
+    "schemas": {
+      "CloudEventsEnvelopExtensionV1": {
+        "type": "object",
+        "properties": {
+          "actor": {
+            "type": "object",
+            "description": "Actor if action performed on behalf of other context.",
+            "$ref": "#/components/schemas/Actor"
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "Tenant Identifier."
+          },
+          "userId": {
+            "type": "string",
+            "description": "User Identifier."
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "Session Identifier."
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "Owner Identifier."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "Space Identifier if resource is in a space."
+          },
+          "host": {
+            "type": "string",
+            "description": "Unique identifier for event producer."
+          }
+        },
+        "x-qlik-stability": "stable"
+      },
+      "Actor": {
+        "type": "object",
+        "properties": {
+          "sub": {
+            "type": "string",
+            "description": "The main identifier of the service impersonating the user."
+          },
+          "subType": {
+            "type": "string",
+            "description": "service or api-key."
+          },
+          "iss": {
+            "type": "string",
+            "description": "Issuer of the impersonated JWT.",
+            "x-qlik-visibility": "private"
+          }
+        },
+        "x-qlik-stability": "stable"
+      },
+      "AppOpened": {
+        "type": "object",
+        "description": "An app was opened.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          }
+        },
+        "x-qlik-stability": "stable"
+      },
+      "CloudEventsEnvelopExtension": {
+        "type": "object",
+        "properties": {
+          "actor": {
+            "type": "object",
+            "description": "Actor if action performed on behalf of other context.",
+            "$ref": "#/components/schemas/Actor"
+          },
+          "tenantID": {
+            "type": "string",
+            "description": "Tenant Identifier."
+          },
+          "userID": {
+            "type": "string",
+            "description": "User Identifier."
+          },
+          "sessionID": {
+            "type": "string",
+            "description": "Session Identifier."
+          },
+          "host": {
+            "type": "string",
+            "description": "Unique identifier for event producer."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppAttributesUpdated": {
+        "type": "object",
+        "description": "The attributes of an app were updated.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "description": {
+            "type": "string",
+            "description": "App description."
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "App thumbnail."
+          },
+          "lastReloadTime": {
+            "type": "string",
+            "description": "Time of last successful reload.",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Time when app was created.",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "Time when app was last modified.",
+            "format": "date-time"
+          },
+          "owner": {
+            "type": "string",
+            "description": "App owner."
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "dynamicColor": {
+            "type": "string",
+            "description": "App dynamic color."
+          },
+          "published": {
+            "type": "boolean",
+            "description": "App was distributed."
+          },
+          "publishTime": {
+            "type": "string",
+            "description": "Time when app was published.",
+            "format": "date-time"
+          },
+          "custom": {
+            "type": "object",
+            "description": "App custom attributes.",
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "hasSectionAccess": {
+            "type": "boolean",
+            "description": "App has section access."
+          },
+          "originAppId": {
+            "type": "string",
+            "description": "Origin app identifier.",
+            "format": "uuid"
+          },
+          "isDirectQueryMode": {
+            "type": "boolean",
+            "description": "App is a Direct Query app"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "JsonObject": {
+        "type": "object",
+        "description": "Contains dynamic JSON data specified by the client.",
+        "x-qlik-stability": "experimental"
+      },
+      "AppCreated": {
+        "type": "object",
+        "description": "An app was created.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App Identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "description": {
+            "type": "string",
+            "description": "App description."
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "App thumbnail."
+          },
+          "lastReloadTime": {
+            "type": "string",
+            "description": "Time of last successful reload.",
+            "format": "date-time"
+          },
+          "createdDate": {
+            "type": "string",
+            "description": "Time when app was created.",
+            "format": "date-time"
+          },
+          "modifiedDate": {
+            "type": "string",
+            "description": "Time when app was last modified.",
+            "format": "date-time"
+          },
+          "owner": {
+            "type": "string",
+            "description": "App owner."
+          },
+          "ownerId": {
+            "type": "string"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "dynamicColor": {
+            "type": "string",
+            "description": "App dynamic color."
+          },
+          "published": {
+            "type": "boolean",
+            "description": "App was distributed."
+          },
+          "publishTime": {
+            "type": "string",
+            "description": "Time when app was published.",
+            "format": "date-time"
+          },
+          "custom": {
+            "type": "object",
+            "description": "App custom attributes.",
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "hasSectionAccess": {
+            "type": "boolean",
+            "description": "App has section access."
+          },
+          "originAppId": {
+            "type": "string",
+            "description": "Origin app identifier.",
+            "format": "uuid"
+          },
+          "size": {
+            "type": "object",
+            "description": "Data model size.",
+            "$ref": "#/components/schemas/AppDataSize"
+          },
+          "isDirectQueryMode": {
+            "type": "boolean",
+            "description": "App is a Direct Query app"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDataSize": {
+        "type": "object",
+        "properties": {
+          "memory": {
+            "type": "integer",
+            "description": "Data model size in memory (bytes).",
+            "format": "int64"
+          },
+          "file": {
+            "type": "integer",
+            "description": "Data model size on file (bytes).",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDataTableExported": {
+        "type": "object",
+        "description": "A data file (QVD,QVX or CSV) was generated.",
+        "properties": {
+          "spaceId": {
+            "type": "string",
+            "description": "Generated app space identifier.",
+            "format": "uuid"
+          },
+          "appId": {
+            "type": "string",
+            "description": "Generated app identifier.",
+            "format": "uuid"
+          },
+          "appName": {
+            "type": "string",
+            "description": "Generated app name."
+          },
+          "reloadId": {
+            "type": "string",
+            "description": "Reload identifier.",
+            "format": "uuid"
+          },
+          "table": {
+            "type": "object",
+            "description": "Table data generated.",
+            "$ref": "#/components/schemas/TableExportTableInfo"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportTableInfo": {
+        "type": "object",
+        "properties": {
+          "fileFormat": {
+            "type": "string",
+            "description": "File type. One off:\n* qvd\n* qvx\n* txt\n\nOne of:\n* qvd or DATA_STORED_TYPE_QVD\n* qvx or DATA_STORED_TYPE_QVX\n* txt or DATA_STORED_TYPE_TXT",
+            "$ref": "#/components/schemas/TableExportFileFormat"
+          },
+          "createdTime": {
+            "type": "string",
+            "description": "Time when QVD file was generated.",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of data generation (ms).",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "Disk size.",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the source table."
+          },
+          "comment": {
+            "type": "string",
+            "description": "Table comment."
+          },
+          "encrypted": {
+            "type": "boolean",
+            "description": "True if data is encrypted, false otherwise."
+          },
+          "connectionName": {
+            "type": "string",
+            "description": "Connection name."
+          },
+          "connection": {
+            "type": "string",
+            "description": "Full connect statement."
+          },
+          "rows": {
+            "type": "integer",
+            "description": "Number of rows stored.",
+            "format": "int64"
+          },
+          "fields": {
+            "type": "array",
+            "description": "List of fields in the data.",
+            "items": {
+              "$ref": "#/components/schemas/TableExportFieldInfo"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportFileFormat": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "qvd",
+            "description": "DATA_STORED_TYPE_QVD"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "qvx",
+            "description": "DATA_STORED_TYPE_QVX"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "txt",
+            "description": "DATA_STORED_TYPE_TXT"
+          }
+        ]
+      },
+      "TableExportFieldInfo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the field stored."
+          },
+          "format": {
+            "type": "object",
+            "description": "Format of the field values.",
+            "$ref": "#/components/schemas/TableExportFieldFormat"
+          },
+          "profile": {
+            "type": "object",
+            "description": "Profile information.",
+            "$ref": "#/components/schemas/TableExportProfile"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Field comment."
+          },
+          "tags": {
+            "type": "array",
+            "description": "List of tags for a field.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportFieldFormat": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the field.\nDefault is unknown.\n\nOne of:\n* unknown or DATA_STORED_FORMAT_UNKNOWN\n* ascii or DATA_STORED_FORMAT_ASCII\n* integer or DATA_STORED_FORMAT_INTEGER\n* real or DATA_STORED_FORMAT_REAL\n* fix or DATA_STORED_FORMAT_FIX\n* money or DATA_STORED_FORMAT_MONEY\n* date or DATA_STORED_FORMAT_DATE\n* time or DATA_STORED_FORMAT_TIME\n* timestamp or DATA_STORED_FORMAT_TIMESTAMP\n* interval or DATA_STORED_FORMAT_INTERVAL",
+            "default": "DATA_STORED_FORMAT_UNKNOWN",
+            "$ref": "#/components/schemas/TableExportFieldType"
+          },
+          "decimals": {
+            "type": "integer",
+            "description": "Number of decimals.\nDefault is 10.",
+            "format": "int32",
+            "default": 10
+          },
+          "use_thousand": {
+            "type": "boolean",
+            "description": "Defines whether or not a thousand separator must be used.\nDefault is false.",
+            "default": false
+          },
+          "fmt": {
+            "type": "string",
+            "description": "Defines the format pattern that applies to value."
+          },
+          "dec": {
+            "type": "string",
+            "description": "Defines the decimal separator.\nExample: **.**"
+          },
+          "thou": {
+            "type": "string",
+            "description": "Defines the thousand separator (if any).\nIs used if **useThousand** is set to true.\nExample: **,**"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportFieldType": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "unknown",
+            "description": "DATA_STORED_FORMAT_UNKNOWN"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "ascii",
+            "description": "DATA_STORED_FORMAT_ASCII"
+          },
+          {
+            "x-qlik-const": 10,
+            "title": "integer",
+            "description": "DATA_STORED_FORMAT_INTEGER"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "real",
+            "description": "DATA_STORED_FORMAT_REAL"
+          },
+          {
+            "x-qlik-const": 11,
+            "title": "fix",
+            "description": "DATA_STORED_FORMAT_FIX"
+          },
+          {
+            "x-qlik-const": 12,
+            "title": "money",
+            "description": "DATA_STORED_FORMAT_MONEY"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "date",
+            "description": "DATA_STORED_FORMAT_DATE"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "time",
+            "description": "DATA_STORED_FORMAT_TIME"
+          },
+          {
+            "x-qlik-const": 5,
+            "title": "timestamp",
+            "description": "DATA_STORED_FORMAT_TIMESTAMP"
+          },
+          {
+            "x-qlik-const": 6,
+            "title": "interval",
+            "description": "DATA_STORED_FORMAT_INTERVAL"
+          }
+        ]
+      },
+      "TableExportProfile": {
+        "type": "object",
+        "properties": {
+          "distinct_values": {
+            "type": "integer",
+            "description": "Number of distinct values.",
+            "format": "int64"
+          },
+          "numeric_values": {
+            "type": "integer",
+            "description": "Number of numeric values.",
+            "format": "int64"
+          },
+          "null_values": {
+            "type": "integer",
+            "description": "Number of null values.",
+            "format": "int64"
+          },
+          "text_values": {
+            "type": "integer",
+            "description": "Number of textual values.",
+            "format": "int64"
+          },
+          "neg_values": {
+            "type": "integer",
+            "description": "Number of negative values.",
+            "format": "int64"
+          },
+          "pos_values": {
+            "type": "integer",
+            "description": "Number of positive values.",
+            "format": "int64"
+          },
+          "zero_values": {
+            "type": "integer",
+            "description": "Number of zero values for numerical values.",
+            "format": "int64"
+          },
+          "sum": {
+            "type": "number",
+            "description": "Sum of all numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "sum2": {
+            "type": "number",
+            "description": "Squared sum of all numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "average": {
+            "type": "number",
+            "description": "Average of all numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "median": {
+            "type": "number",
+            "description": "Median of all numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "std": {
+            "type": "number",
+            "description": "Standard deviation of numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "min": {
+            "type": "number",
+            "description": "Minimum value of numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "max": {
+            "type": "number",
+            "description": "Maximum value of numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "skewness": {
+            "type": "number",
+            "description": "Skewness of the numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "kurtosis": {
+            "type": "number",
+            "description": "Kurtosis of the numerical values. NaN otherwise.",
+            "format": "double"
+          },
+          "fractiles": {
+            "type": "array",
+            "description": "The .01, .05, .1, .25, .5, .75, .9, .95, .99 fractiles. Array of NaN otherwise.",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "empty_strings": {
+            "type": "integer",
+            "description": "Number of empty strings.",
+            "format": "int64"
+          },
+          "max_string_len": {
+            "type": "integer",
+            "description": "Maximum string length of textual values. 0 otherwise.",
+            "format": "int64"
+          },
+          "min_string_len": {
+            "type": "integer",
+            "description": "Minimum string length of textual values. 0 otherwise.",
+            "format": "int64"
+          },
+          "sum_string_len": {
+            "type": "integer",
+            "description": "Sum of string length of textual values. 0 otherwise.",
+            "format": "int64"
+          },
+          "avg_string_len": {
+            "type": "number",
+            "description": "Average string length of textual values. 0 otherwise.",
+            "format": "double"
+          },
+          "first_sorted": {
+            "type": "string",
+            "description": "For textual values, the first sorted string."
+          },
+          "last_sorted": {
+            "type": "string",
+            "description": "For textual values, the last sorted string."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the field."
+          },
+          "field_tags": {
+            "type": "array",
+            "description": "List of tags related to the field.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "number_format": {
+            "type": "object",
+            "description": "Format of the field data.",
+            "$ref": "#/components/schemas/FieldAttributes"
+          },
+          "most_frequent": {
+            "type": "array",
+            "description": "Three most frequent values and their frequencies",
+            "items": {
+              "$ref": "#/components/schemas/TableExportSymbolFrequency"
+            }
+          },
+          "frequency_distribution": {
+            "type": "object",
+            "description": "Frequency Distribution for numeric fields.",
+            "$ref": "#/components/schemas/TableExportFrequencyDistributionData"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "FieldAttributes": {
+        "type": "object",
+        "description": "Sets the formatting of a field.\nThe properties of _qFieldAttributes_ and the formatting mechanism are described below.\n\n### Formatting mechanism\nThe formatting mechanism depends on the type set in _qType,_ as shown below:\n<div class=note>In case of inconsistencies between the type and the format pattern, the format pattern takes precedence over the type.</div>\n\n### Type is DATE, TIME, TIMESTAMP or INTERVAL\nThe following applies:\n* If a format pattern is defined in _qFmt_ , the formatting is as defined in _qFmt_ .\n* If _qFmt_ is empty, the formatting is defined by the number interpretation variables included at the top of the script ( _TimeFormat_ , _DateFormat_ , _TimeStampFormat_ ).\n* The properties _qDec_ , _qThou_ , _qnDec_ , _qUseThou_ are not used.\n\n### Type is INTEGER\nThe following applies:\n* If a format pattern is defined in _qFmt_ , the engine looks at the values set in _qDec_ and _qThou_ . If these properties are not defined, the formatting mechanism uses the number interpretation variables included at the top of the script ( _DecimalSep_ and _ThousandSep_ ).\n* If no format pattern is defined in _qFmt_ , no formatting is applied. The properties _qDec_ , _qThou_ , _qnDec_ , _qUseThou_ and the number interpretation variables defined in the script are not used .\n\n### Type is REAL\nThe following applies:\n* If a format pattern is defined in _qFmt_ , the engine looks at the values set in _qDec_ and _qThou_ . If these properties are not defined, the engine uses the number interpretation variables included at the top of the script ( _DecimalSep_ and _ThousandSep_ ).\n* If no format pattern is defined in _qFmt_ , and if the value is almost an integer value (for example, 14,000012), the value is formatted as an integer. The properties _qDec_ , _qThou_ , _qnDec_ , _qUseThou_ are not used.\n* If no format pattern is defined in _qFmt_ , and if _qnDec_ is defined and not 0, the property _qDec_ is used. If _qDec_ is not defined, the variable _DecimalSep_ defined at the top of the script is used.\n* If no format pattern is defined in _qFmt_ , and if _qnDec_ is 0, the number of decimals is 14 and the property _qDec_ is used. If _qDec_ is not defined, the variable _DecimalSep_ defined at the top of the script is used.\n\n### Type is FIX\nThe following applies:\n* If a format pattern is defined in _qFmt_ , the engine looks at the values set in _qDec_ and _qThou_ . If these properties are not defined, the engine uses the number interpretation variables included at the top of the script ( _DecimalSep_ and _ThousandSep_ ).\n* If no format pattern is defined in _qFmt_ , the properties _qDec_ and _qnDec_ are used. If _qDec_ is not defined, the variable _DecimalSep_ defined at the top of the script is used.\n\n### Type is MONEY\nThe following applies:\n* If a format pattern is defined in _qFmt_ , the engine looks at the values set in _qDec_ and _qThou_ . If these properties are not defined, the engine uses the number interpretation variables included at the top of any script ( _MoneyDecimalSep_ and _MoneyThousandSep_ ).\n* If no format pattern is defined in _qFmt_ , the engine uses the number interpretation variables included at the top of the script ( _MoneyDecimalSep_ and _MoneyThousandSep_ ).\n\n### Type is ASCII\nNo formatting, _qFmt_ is ignored.",
+        "properties": {
+          "Type": {
+            "type": "string",
+            "description": "Type of the field.\nDefault is U.\n\nOne of:\n* U or UNKNOWN\n* A or ASCII\n* I or INTEGER\n* R or REAL\n* F or FIX\n* M or MONEY\n* D or DATE\n* T or TIME\n* TS or TIMESTAMP\n* IV or INTERVAL",
+            "default": "UNKNOWN",
+            "$ref": "#/components/schemas/FieldAttrType"
+          },
+          "nDec": {
+            "type": "integer",
+            "description": "Number of decimals.\nDefault is 10.",
+            "format": "int32",
+            "default": 10
+          },
+          "UseThou": {
+            "type": "integer",
+            "description": "Defines whether or not a thousands separator must be used.\nDefault is 0.",
+            "format": "int32",
+            "default": 0
+          },
+          "Fmt": {
+            "type": "string",
+            "description": "Defines the format pattern that applies to _qText_ .\nIs used in connection to the type of the field (parameter **qType** ).\nFor more information, see _Formatting mechanism_.\nExample: _YYYY-MM-DD_ for a date."
+          },
+          "Dec": {
+            "type": "string",
+            "description": "Defines the decimal separator.\nExample: **.**"
+          },
+          "Thou": {
+            "type": "string",
+            "description": "Defines the thousand separator (if any).\nIs used if **qUseThou** is set to 1.\nExample: **,**"
+          }
+        },
+        "x-qlik-stability": "experimental"
+      },
+      "FieldAttrType": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "U",
+            "description": "UNKNOWN"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "A",
+            "description": "ASCII"
+          },
+          {
+            "x-qlik-const": 10,
+            "title": "I",
+            "description": "INTEGER"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "R",
+            "description": "REAL"
+          },
+          {
+            "x-qlik-const": 11,
+            "title": "F",
+            "description": "FIX"
+          },
+          {
+            "x-qlik-const": 12,
+            "title": "M",
+            "description": "MONEY"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "D",
+            "description": "DATE"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "T",
+            "description": "TIME"
+          },
+          {
+            "x-qlik-const": 5,
+            "title": "TS",
+            "description": "TIMESTAMP"
+          },
+          {
+            "x-qlik-const": 6,
+            "title": "IV",
+            "description": "INTERVAL"
+          }
+        ]
+      },
+      "TableExportSymbolFrequency": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "object",
+            "description": "Symbol. Either string and NaN or number alone.",
+            "$ref": "#/components/schemas/TableExportSymbolValue"
+          },
+          "frequency": {
+            "type": "integer",
+            "description": "Frequency of the above symbol in the field.",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportSymbolValue": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "String value of the symbol. This parameter is optional and present only if symbol is a string."
+          },
+          "number": {
+            "type": "number",
+            "description": "Numeric value of the symbol. NaN otherwise.",
+            "format": "double"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "TableExportFrequencyDistributionData": {
+        "type": "object",
+        "properties": {
+          "num_of_bins": {
+            "type": "integer",
+            "description": "Number of bins.",
+            "format": "int32"
+          },
+          "bins_edges": {
+            "type": "array",
+            "description": "Bins edges.",
+            "items": {
+              "type": "number",
+              "format": "double"
+            }
+          },
+          "frequencies": {
+            "type": "array",
+            "description": "Bins frequencies.",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDataUpdated": {
+        "type": "object",
+        "description": "The data of an app was updated.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "size": {
+            "type": "object",
+            "description": "Data model size.",
+            "$ref": "#/components/schemas/AppDataSize"
+          },
+          "lastReloadTime": {
+            "type": "string",
+            "description": "Time of last successful reload.",
+            "format": "date-time"
+          },
+          "lineageChanged": {
+            "type": "boolean",
+            "description": "True if there is new lineage information saved."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppDeleted": {
+        "type": "object",
+        "description": "An app was deleted.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "isDirectQueryMode": {
+            "type": "boolean",
+            "description": "App is a Direct Query app"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppExported": {
+        "type": "object",
+        "description": "An app was exported.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "exportedDate": {
+            "type": "string",
+            "description": "Time when app was exported.",
+            "format": "date-time"
+          },
+          "dataExported": {
+            "type": "boolean",
+            "description": "Data was exported."
+          },
+          "owner": {
+            "type": "string",
+            "description": "App owner."
+          },
+          "ownerId": {
+            "type": "string",
+            "description": "App owner."
+          },
+          "custom": {
+            "type": "object",
+            "description": "App custom attributes.",
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "dataReduced": {
+            "type": "boolean",
+            "description": "Data was reduced for smaller file size."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLineageData": {
+        "type": "object",
+        "description": "The lineage may have changed or data is updated.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "lineageChanged": {
+            "type": "boolean",
+            "description": "True if there is new lineage information saved."
+          },
+          "size": {
+            "type": "integer",
+            "description": "Size of the lineage data in bytes",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppPublished": {
+        "type": "object",
+        "description": "An app was published.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "originAppId": {
+            "type": "string",
+            "description": "Origin app identifier.",
+            "format": "uuid"
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "Space identifier.",
+            "format": "uuid"
+          },
+          "originSpaceId": {
+            "type": "string",
+            "description": "Origin space identifier.",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "publishedDate": {
+            "type": "string",
+            "description": "Time when app was published.",
+            "format": "date-time"
+          },
+          "dataPublished": {
+            "type": "boolean",
+            "description": "Data was published."
+          },
+          "owner": {
+            "type": "string",
+            "description": "App owner"
+          },
+          "custom": {
+            "type": "object",
+            "description": "App custom attributes.",
+            "$ref": "#/components/schemas/JsonObject"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadEnded": {
+        "type": "object",
+        "description": "A reload of an app was ended.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "reloadId": {
+            "type": "string",
+            "description": "Reload identifier.",
+            "format": "uuid"
+          },
+          "endTime": {
+            "type": "string",
+            "description": "Time when reload ended.",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of reload (ms).",
+            "format": "int64"
+          },
+          "status": {
+            "type": "string",
+            "description": "Reload status - error or ok."
+          },
+          "errors": {
+            "type": "array",
+            "description": "Reload errors.",
+            "items": {
+              "$ref": "#/components/schemas/AppReloadError"
+            }
+          },
+          "size": {
+            "type": "object",
+            "description": "Reload size info.",
+            "$ref": "#/components/schemas/AppReloadSize"
+          },
+          "warnings": {
+            "type": "array",
+            "description": "Reload warnings.",
+            "items": {
+              "$ref": "#/components/schemas/AppReloadWarning"
+            }
+          },
+          "peakMemoryBytes": {
+            "type": "integer",
+            "description": "Maximum number of bytes used during reload of the app.",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          },
+          "statements": {
+            "type": "array",
+            "description": "List of script statements with meta-data.",
+            "items": {
+              "$ref": "#/components/schemas/AppReloadScriptStatement"
+            }
+          },
+          "endedWithMemoryConstraint": {
+            "type": "boolean",
+            "description": "true if memory limits were exhausted during reload."
+          },
+          "isDirectQueryMode": {
+            "type": "boolean",
+            "description": "App is a Direct Query app"
+          },
+          "isPartialReload": {
+            "type": "boolean",
+            "description": "True if the reload is a partial reload."
+          },
+          "isStatementsCapped": {
+            "type": "boolean",
+            "description": "True if there are more statements than the limit."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Type of error."
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of error."
+          },
+          "line": {
+            "type": "string",
+            "description": "Script line text where error occurred."
+          },
+          "lineNumber": {
+            "type": "integer",
+            "description": "Script line number where error occurred.",
+            "format": "int32"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadSize": {
+        "type": "object",
+        "properties": {
+          "memory": {
+            "type": "integer",
+            "description": "Data model size in memory (bytes).",
+            "format": "int64"
+          },
+          "file": {
+            "type": "integer",
+            "description": "Data model size on file (bytes).",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadWarning": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Description of warning."
+          },
+          "line": {
+            "type": "string",
+            "description": "Script line text where warning occurred."
+          },
+          "lineNumber": {
+            "type": "integer",
+            "description": "Script line number where warning occurred.",
+            "format": "int32"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadScriptStatement": {
+        "type": "object",
+        "description": "Information on reload statements.",
+        "properties": {
+          "discriminator": {
+            "type": "string",
+            "description": "A string indicating the origin of the data:\n* [filename]: The data comes from a local file.\n* INLINE: The data is entered inline in the load script.\n* RESIDENT: The data comes from a resident table. The table name is listed.\n* AUTOGENERATE: The data is generated from the load script (no external table of data source).\n* Provider: The data comes from a data connection. The connector source name is listed.\n* [webfile]: The data comes from a web-based file.\n* STORE: Path to QVD or TXT file where data is stored.\n* EXTENSION: The data comes from a Server Side Extension (SSE)."
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of statement, e.g. Store/Load."
+          },
+          "connectionId": {
+            "type": "string",
+            "description": "Connection ID."
+          },
+          "storageProvider": {
+            "type": "string",
+            "description": "The storage provider."
+          },
+          "connection": {
+            "type": "string",
+            "description": "The connecton name."
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of data generation (ms).",
+            "format": "int64"
+          },
+          "dataSize": {
+            "type": "integer",
+            "description": "Data loaded from the network (bytes).",
+            "format": "int64"
+          },
+          "nbrOfFields": {
+            "type": "integer",
+            "description": "Number of fields loaded.",
+            "format": "int64"
+          },
+          "nbrOfRows": {
+            "type": "integer",
+            "description": "Number of rows loaded.",
+            "format": "int64"
+          },
+          "qri": {
+            "type": "string",
+            "description": "Qlik Resource identifier."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppReloadStarted": {
+        "type": "object",
+        "description": "A reload of an app was started.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "reloadId": {
+            "type": "string",
+            "description": "Reload identifier.",
+            "format": "uuid"
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Time when reload was started.",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string",
+            "description": "App name."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "App space identifier.",
+            "format": "uuid"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionAppOpened": {
+        "type": "object",
+        "description": "An app was opened in a session *deprecated*.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Session identifier."
+          },
+          "appId": {
+            "type": "string",
+            "description": "App identifier for session.",
+            "format": "uuid"
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionCreated": {
+        "type": "object",
+        "description": "A session was created.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Session identifier."
+          },
+          "identity": {
+            "type": "string",
+            "description": "Identity part of the connection string if used."
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Time when session was created.",
+            "format": "date-time"
+          },
+          "ttl": {
+            "type": "integer",
+            "description": "Session ttl (sec).",
+            "format": "int32"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionDestroyed": {
+        "type": "object",
+        "description": "A session was destroyed.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Session identifier."
+          },
+          "identity": {
+            "type": "string",
+            "description": "Identity part of the connection string if used."
+          },
+          "appId": {
+            "type": "string",
+            "description": "App identifier for session.",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason session was destroyed."
+          },
+          "endTime": {
+            "type": "string",
+            "description": "Time when session was destroyed.",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Session duration (ms).",
+            "format": "int64"
+          },
+          "communication": {
+            "type": "object",
+            "description": "Session communication info.",
+            "$ref": "#/components/schemas/Communication"
+          },
+          "calls": {
+            "type": "object",
+            "description": "Session QIX calls info.",
+            "$ref": "#/components/schemas/Calls"
+          },
+          "cpu": {
+            "type": "integer",
+            "description": "Total CPU cycles spent in session.",
+            "format": "int64"
+          },
+          "licenseInfo": {
+            "type": "object",
+            "description": "License info for session.",
+            "$ref": "#/components/schemas/LicenseInfo"
+          },
+          "actorInfo": {
+            "type": "object",
+            "description": "Actor info for the session.",
+            "$ref": "#/components/schemas/ActorInfo"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "Communication": {
+        "type": "object",
+        "properties": {
+          "sent": {
+            "type": "integer",
+            "description": "Data sent (bytes).",
+            "format": "int64"
+          },
+          "received": {
+            "type": "integer",
+            "description": "Data received (bytes).",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "Calls": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "QIX calls in session.",
+            "format": "int32"
+          },
+          "selections": {
+            "type": "integer",
+            "description": "Selections in session.",
+            "format": "int32"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "LicenseInfo": {
+        "type": "object",
+        "properties": {
+          "allotmentId": {
+            "type": "string",
+            "description": "Reference to the license used."
+          },
+          "capacityUsed": {
+            "type": "integer",
+            "description": "Number of slots used during the session.",
+            "format": "int32"
+          },
+          "minutesUsed": {
+            "type": "integer",
+            "description": "Number of minutes used during the session.",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of license.\n\nOne of:\n* ASSIGNED_LICENSE\n* TIME_LICENSE\n* UNKNOWN_LICENSE",
+            "$ref": "#/components/schemas/LicenseType"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "LicenseType": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "ASSIGNED_LICENSE"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "TIME_LICENSE"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "UNKNOWN_LICENSE"
+          }
+        ]
+      },
+      "ActorInfo": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the actor.\n\nOne of:\n* SERVICE_ACTOR\n* APIKEY_ACTOR\n* INTERACTIVE_ACTOR",
+            "$ref": "#/components/schemas/ActorType"
+          },
+          "serviceName": {
+            "type": "string",
+            "description": "If SERVICE_ACTOR, the name of the service, otherwise empty."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "ActorType": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "SERVICE_ACTOR"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "APIKEY_ACTOR"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "INTERACTIVE_ACTOR"
+          }
+        ]
+      },
+      "WebSocketConnected": {
+        "type": "object",
+        "description": "A websocket was connected.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Session identifier for connection."
+          },
+          "identity": {
+            "type": "string",
+            "description": "Identity part of the connection string if used."
+          },
+          "startTime": {
+            "type": "string",
+            "description": "Time when websocket was connected.",
+            "format": "date-time"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "WebSocketDisconnected": {
+        "type": "object",
+        "description": "A websocket was disconnected.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Session Identifier for connection."
+          },
+          "identity": {
+            "type": "string",
+            "description": "Identity part of the connection string if used."
+          },
+          "endTime": {
+            "type": "string",
+            "description": "Time when websocket was disconnected.",
+            "format": "date-time"
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duration of websocket connection (ms).",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLoadError": {
+        "type": "object",
+        "description": "An application could not be loaded on an engine instance.",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "classification": {
+            "type": "string",
+            "description": "Classification of the error.\n\nOne of:\n* LOAD_ERROR_APPLICATION\n* LOAD_ERROR_APPLICATION_NOT_FOUND\n* LOAD_ERROR_RESOURCES\n* LOAD_ERROR_USER",
+            "$ref": "#/components/schemas/AppLoadErrorClassification"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for error."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppLoadErrorClassification": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "LOAD_ERROR_APPLICATION"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "LOAD_ERROR_APPLICATION_NOT_FOUND"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "LOAD_ERROR_RESOURCES"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "LOAD_ERROR_USER"
+          }
+        ]
+      },
+      "AppLoaded": {
+        "type": "object",
+        "description": "An application was loaded in an engine instance.",
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Host name."
+          },
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "loadedDate": {
+            "type": "string",
+            "description": "Time when app was loaded.",
+            "format": "date-time"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Owner of the app."
+          },
+          "spaceId": {
+            "type": "string",
+            "description": "Space ID of the app."
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          },
+          "isDirectQueryMode": {
+            "type": "boolean",
+            "description": "App is a Direct Query app"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "AppUnloaded": {
+        "type": "object",
+        "description": "An application was unloaded from an engine instance.",
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Host name."
+          },
+          "id": {
+            "type": "string",
+            "description": "App identifier.",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for unloading app."
+          },
+          "_resourcetype": {
+            "type": "string",
+            "description": "App resource type."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SessionappError": {
+        "type": "object",
+        "description": "A session app could not be created.",
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Host name."
+          },
+          "id": {
+            "type": "string",
+            "description": "Session app identifier.",
+            "format": "uuid"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for app creation failure."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "SystemStatistics": {
+        "type": "object",
+        "description": "Statistics",
+        "properties": {
+          "host": {
+            "type": "string",
+            "description": "Host name."
+          },
+          "mem": {
+            "type": "object",
+            "description": "Memory usage.",
+            "$ref": "#/components/schemas/MemUsage"
+          },
+          "cpu": {
+            "type": "integer",
+            "description": "CPU usage.",
+            "format": "int64"
+          },
+          "saturated": {
+            "type": "boolean",
+            "description": "Indicates if the system is overloaded."
+          },
+          "apps": {
+            "type": "array",
+            "description": "List of apps loaded.",
+            "items": {
+              "$ref": "#/components/schemas/App"
+            }
+          },
+          "memSaturated": {
+            "type": "boolean",
+            "description": "Indicates if memory is saturated."
+          },
+          "numSessions": {
+            "type": "integer",
+            "description": "Number of sessions",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "MemUsage": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Total available memory (bytes).",
+            "format": "int64"
+          },
+          "committed": {
+            "type": "integer",
+            "description": "Committed memory (bytes).",
+            "format": "int64"
+          },
+          "free": {
+            "type": "integer",
+            "description": "Free memory (bytes).",
+            "format": "int64"
+          },
+          "staticUsage": {
+            "type": "integer",
+            "description": "Static memory usage (bytes).",
+            "format": "int64"
+          },
+          "cacheUsage": {
+            "type": "integer",
+            "description": "Memory used for internal cache. This value (bytes) is a maximum and could be lower in reality.",
+            "format": "int64"
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      },
+      "App": {
+        "type": "object",
+        "properties": {
+          "appId": {
+            "type": "string",
+            "description": "App identifier."
+          },
+          "tenantId": {
+            "type": "string",
+            "description": "Tenant Identifier."
+          }
+        },
+        "x-qlik-stability": "experimental",
+        "x-qlik-visibility": "private"
+      }
+    }
+  },
+  "x-qlik-visibility": "public",
+  "x-qlik-stability": "stable"
+}
