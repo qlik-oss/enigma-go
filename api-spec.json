@@ -13221,7 +13221,7 @@
           "type": "bool"
         },
         "IsBDILiveMode": {
-          "description": "If set to true, the app is in BDI Live Mode.",
+          "description": "If set to true, the app is in BDI Direct Query Mode.",
           "type": "bool"
         },
         "IsDirectQueryMode": {
