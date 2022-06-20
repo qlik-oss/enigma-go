@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1385.0",
+    "version": "12.1388.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -19070,7 +19070,7 @@
           },
           "qIsBDILiveMode": {
             "type": "boolean",
-            "description": "If set to true, the app is in BDI Live Mode."
+            "description": "If set to true, the app is in BDI Direct Query Mode."
           },
           "qIsDirectQueryMode": {
             "type": "boolean",
@@ -23460,7 +23460,7 @@
       },
       "LOCERR_BDI_GENERIC_ERROR_NOT_TRANSLATED": {
         "code": 24001,
-        "message": "Live Mode error"
+        "message": "Direct Query Mode error"
       },
       "LOCERR_TRENDLINE_INVALID_DEF": {
         "code": 25000,
