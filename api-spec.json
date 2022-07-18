@@ -336,6 +336,23 @@
         }
       }
     },
+    "BookmarkApplyAndVerifyResult": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ApplySuccess": {
+          "description": "Apply successfully or not *",
+          "type": "bool"
+        },
+        "Warnings": {
+          "description": "Field values verfication result *",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/BookmarkFieldVerifyWarning"
+          }
+        }
+      }
+    },
     "BookmarkFieldItem": {
       "type": "struct",
       "entries": {
@@ -385,6 +402,27 @@
         "StartIndex": {
           "description": "The start value of the range.",
           "type": "int"
+        }
+      }
+    },
+    "BookmarkFieldVerifyWarning": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "Field": {
+          "description": "Field Name *",
+          "type": "string"
+        },
+        "State": {
+          "description": "Alternate State *",
+          "type": "string"
+        },
+        "VerifyResult": {
+          "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n\n• NOT_VERIFIED\n\n• FIELD_VALUE_MATCH_ALL\n\n• FIELD_MISSING\n\n• FIELD_VALUE_MISSING",
+          "type": "string"
+        },
+        "WarningMsg": {
+          "type": "string"
         }
       }
     },
@@ -1074,6 +1112,48 @@
             }
           ],
           "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyAndVerifyBookmark": {
+          "description": "Applies a bookmark and verifies result dataset against originally selected values.\nThe operation is successful if qApplySuccess is set to true. qWarnings lists state and field with unmatching values\n\nParameters:\n\n◾ id   -   Identifier of the bookmark.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/BookmarkApplyAndVerifyResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyAndVerifyBookmarkRaw": {
+          "description": "Applies a bookmark and verifies result dataset against originally selected values.\nThe operation is successful if qApplySuccess is set to true. qWarnings lists state and field with unmatching values\n\nParameters:\n\n◾ id   -   Identifier of the bookmark.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
             {
               "type": "error"
             }
@@ -7090,6 +7170,42 @@
           "returns": [
             {
               "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyAndVerify": {
+          "description": "Applies a bookmark and verify result dataset against originally selected values.\n\nThe operation is successful if qApplySuccess is set to true. qWarnings lists state and field with unmatching values",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/BookmarkApplyAndVerifyResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyAndVerifyRaw": {
+          "description": "Applies a bookmark and verify result dataset against originally selected values.\n\nThe operation is successful if qApplySuccess is set to true. qWarnings lists state and field with unmatching values",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
             },
             {
               "type": "error"
