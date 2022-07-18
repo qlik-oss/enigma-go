@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1396.0",
+    "version": "12.1416.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -3779,6 +3779,32 @@
       "x-qlik-stability": "locked"
     },
     {
+      "name": "GenericBookmark.ApplyAndVerify",
+      "description": "Applies a bookmark and verify result dataset against originally selected values.\n\n<div class=note>The operation is successful if **qApplySuccess** is set to true. **qWarnings** lists state and field with unmatching values </div>",
+      "params": [],
+      "result": {
+        "name": "Results for GenericBookmark.ApplyAndVerify",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qResult": {
+              "type": "object",
+              "$ref": "#/components/schemas/BookmarkApplyAndVerifyResult"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-see-also": [
+        "[Apply a bookmark](#csh-apply-bookmark)"
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
       "name": "GenericBookmark.Publish",
       "description": "Publishes a bookmark.\n<div class=note>This operation is not applicable for Qlik Sense Desktop.</div>",
       "params": [],
@@ -6708,6 +6734,38 @@
         }
       ],
       "x-qlik-stability": "locked"
+    },
+    {
+      "name": "Doc.ApplyAndVerifyBookmark",
+      "description": "Applies a bookmark and verifies result dataset against originally selected values.\n<div class=note>The operation is successful if **qApplySuccess** is set to true. **qWarnings** lists state and field with unmatching values </div>",
+      "params": [
+        {
+          "name": "qId",
+          "description": "Identifier of the bookmark.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.ApplyAndVerifyBookmark",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qResult": {
+              "type": "object",
+              "$ref": "#/components/schemas/BookmarkApplyAndVerifyResult"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
     },
     {
       "name": "Doc.CloneBookmark",
@@ -18075,6 +18133,67 @@
           }
         }
       },
+      "BookmarkApplyAndVerifyResult": {
+        "type": "object",
+        "properties": {
+          "qApplySuccess": {
+            "type": "boolean",
+            "description": "Apply successfully or not *"
+          },
+          "qWarnings": {
+            "type": "array",
+            "description": "Field values verfication result *",
+            "items": {
+              "$ref": "#/components/schemas/BookmarkFieldVerifyWarning"
+            }
+          }
+        },
+        "x-qlik-stability": "experimental"
+      },
+      "BookmarkFieldVerifyWarning": {
+        "type": "object",
+        "properties": {
+          "qState": {
+            "type": "string",
+            "description": "Alternate State *"
+          },
+          "qField": {
+            "type": "string",
+            "description": "Field Name *"
+          },
+          "qVerifyResult": {
+            "type": "string",
+            "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n* NOT_VERIFIED\n* FIELD_VALUE_MATCH_ALL\n* FIELD_MISSING\n* FIELD_VALUE_MISSING",
+            "default": "NOT_VERIFIED",
+            "$ref": "#/components/schemas/BookmarkFieldVerifyResultState"
+          },
+          "qWarningMsg": {
+            "type": "string"
+          }
+        },
+        "x-qlik-stability": "experimental"
+      },
+      "BookmarkFieldVerifyResultState": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "NOT_VERIFIED"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "FIELD_VALUE_MATCH_ALL"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "FIELD_MISSING"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "FIELD_VALUE_MISSING"
+          }
+        ]
+      },
       "GenericVariableLayout": {
         "type": "object",
         "description": "Is the layout for _GenericVariableProperties_.",
@@ -23719,5 +23838,8 @@
     }
   },
   "x-qlik-visibility": "public",
-  "x-qlik-stability": "locked"
+  "x-qlik-stability": "locked",
+  "x-qlik-categories": [
+    "external/manage"
+  ]
 }
