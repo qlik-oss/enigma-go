@@ -4,6 +4,7 @@ aliases:
       go build
 
   - &lint |
+      LINT_VERSION=1.45.2
       go fmt ./...
       @stat ./bin/golangci-lint > /dev/null && ./bin/golangci-lint --version | grep -q $(LINT_VER) || (echo "Installing golangci-lint" && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v$(LINT_VER))
       ./bin/golangci-lint run
