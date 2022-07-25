@@ -130,6 +130,48 @@ jobs:
       - run: *spec_test
       - run: go test -v -race ./release/verval
       - run: *examples
+  golang-1.17:
+    requires:
+      - generate-schema
+    docker:
+      - image: circleci/golang:1.17
+    environment:
+      GOLANG_VERSION: "1.17"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.17{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.17{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - run: *examples
+  golang-1.18:
+    requires:
+      - generate-schema
+    docker:
+      - image: circleci/golang:1.18
+    environment:
+      GOLANG_VERSION: "1.18"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.18{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.18{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - run: *examples
   
 
 workflows:
@@ -153,6 +195,16 @@ workflows:
               only:
                 - /v.*/
       - golang-1.16:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.17:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.18:
           filters:
             tags:
               only:
