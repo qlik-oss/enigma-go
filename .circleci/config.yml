@@ -6,6 +6,7 @@ aliases:
   - &lint |
       go fmt ./...
       go get -u golang.org/x/lint/golint
+      go install golang.org/x/lint/golint
       golint -set_exit_status
       # go fmt and golint can alter go.mod and go.sum.
       # This will cause the git diff to give false negative.
@@ -47,7 +48,7 @@ jobs:
     requires:
       - generate-schema
     docker:
-      - image: circleci/golang:1.13
+      - image: cimg/go:1.13
     environment:
       GOLANG_VERSION: "1.13"
     steps:
@@ -69,7 +70,7 @@ jobs:
     requires:
       - generate-schema
     docker:
-      - image: circleci/golang:1.14
+      - image: cimg/go:1.14
     environment:
       GOLANG_VERSION: "1.14"
     steps:
@@ -91,7 +92,7 @@ jobs:
     requires:
       - generate-schema
     docker:
-      - image: circleci/golang:1.15
+      - image: cimg/go:1.15
     environment:
       GOLANG_VERSION: "1.15"
     steps:
@@ -113,7 +114,7 @@ jobs:
     requires:
       - generate-schema
     docker:
-      - image: circleci/golang:1.16
+      - image: cimg/go:1.16
     environment:
       GOLANG_VERSION: "1.16"
     steps:
@@ -123,6 +124,50 @@ jobs:
       - run: *build
       - save_cache:
           key: dependency-cache-1.16{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - run: *examples
+
+  golang-1.17:
+    requires:
+      - generate-schema
+    docker:
+      - image: cimg/go:1.17
+    environment:
+      GOLANG_VERSION: "1.17"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.17{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.17{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: *spec_test
+      - run: go test -v -race ./release/verval
+      - run: *examples
+
+  golang-1.18:
+    requires:
+      - generate-schema
+    docker:
+      - image: cimg/go:1.18
+    environment:
+      GOLANG_VERSION: "1.18"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.18{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.18{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -153,6 +198,16 @@ workflows:
               only:
                 - /v.*/
       - golang-1.16:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.17:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.18:
           filters:
             tags:
               only:
