@@ -5,8 +5,8 @@ aliases:
 
   - &lint |
       go fmt ./...
-      go get -u -d golang.org/x/lint/golint
-      # go install golang.org/x/lint/golint
+      go get -u golang.org/x/lint/golint
+      go install golang.org/x/lint/golint
       golint -set_exit_status
       # go fmt and golint can alter go.mod and go.sum.
       # This will cause the git diff to give false negative.
