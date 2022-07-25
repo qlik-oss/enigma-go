@@ -5,11 +5,11 @@ aliases:
 
   - &lint |
       go fmt ./...
-      @stat ./bin/golangci-lint > /dev/null && ./bin/golangci-lint --version | grep -q $(LINT_VER) || (echo "Installing golangci-lint" && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v$(LINT_VER))
-      ./bin/golangci-lint run
+      go get -u golang.org/x/lint/golint
+      golint -set_exit_status
       # go fmt and golint can alter go.mod and go.sum.
       # This will cause the git diff to give false negative.
-      # Restore those files before proceeding to avoid side effect.
+      # Restore those files before proceeding to avoid saif effect.
       git checkout go.mod go.sum
       git diff --exit-code
 
