@@ -6,7 +6,7 @@ aliases:
   - &lint |
       LINT_VER=1.45.2
       go fmt ./...
-      @stat ./bin/golangci-lint > /dev/null && ./bin/golangci-lint --version | grep -q $LINT_VER || (echo "Installing golangci-lint" && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v$LINT_VER)
+      @stat ./bin/golangci-lint > /dev/null && ./bin/golangci-lint --version | grep -q $(LINT_VER) || (echo "Installing golangci-lint" && curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v$(LINT_VER))
       ./bin/golangci-lint run
       # go fmt and golint can alter go.mod and go.sum.
       # This will cause the git diff to give false negative.
