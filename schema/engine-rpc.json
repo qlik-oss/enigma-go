@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1425.0",
+    "version": "12.1438.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -18163,12 +18163,15 @@
           },
           "qVerifyResult": {
             "type": "string",
-            "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n* NOT_VERIFIED\n* FIELD_VALUE_MATCH_ALL\n* FIELD_MISSING\n* FIELD_VALUE_MISSING",
+            "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n* NOT_VERIFIED\n* FIELD_VALUE_MATCH_ALL\n* FIELD_MISSING\n* FIELD_VALUE_MISSING\n* STATE_MISSING",
             "default": "NOT_VERIFIED",
             "$ref": "#/components/schemas/BookmarkFieldVerifyResultState"
           },
-          "qWarningMsg": {
-            "type": "string"
+          "qMissingValues": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
         "x-qlik-stability": "experimental"
@@ -18191,6 +18194,10 @@
           {
             "x-qlik-const": 3,
             "title": "FIELD_VALUE_MISSING"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "STATE_MISSING"
           }
         ]
       },
