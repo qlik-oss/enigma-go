@@ -413,15 +413,18 @@
           "description": "Field Name *",
           "type": "string"
         },
+        "MissingValues": {
+          "type": "slice",
+          "items": {
+            "type": "string"
+          }
+        },
         "State": {
           "description": "Alternate State *",
           "type": "string"
         },
         "VerifyResult": {
-          "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n\n• NOT_VERIFIED\n\n• FIELD_VALUE_MATCH_ALL\n\n• FIELD_MISSING\n\n• FIELD_VALUE_MISSING",
-          "type": "string"
-        },
-        "WarningMsg": {
+          "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n\n• NOT_VERIFIED\n\n• FIELD_VALUE_MATCH_ALL\n\n• FIELD_MISSING\n\n• FIELD_VALUE_MISSING\n\n• STATE_MISSING",
           "type": "string"
         }
       }
