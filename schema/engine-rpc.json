@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1466.0",
+    "version": "12.1490.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -9443,6 +9443,34 @@
         }
       ],
       "x-qlik-stability": "experimental"
+    },
+    {
+      "name": "Doc.CommitScript",
+      "description": "Commits the current script version so that any future changes will be part of a new version.",
+      "params": [
+        {
+          "name": "qCommitMessage",
+          "description": "Name of the version.\n<div class=note> Only applicable to QCS. </div>",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.CommitScript",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental",
+      "x-qlik-access-control": [
+        "update"
+      ]
     },
     {
       "name": "Global.AbortRequest",

@@ -1581,6 +1581,24 @@
             }
           ]
         },
+        "CommitScript": {
+          "description": "Commits the current script version so that any future changes will be part of a new version.\n\nParameters:\n\n◾ commitMessage   -   Name of the version.\nOnly applicable to QCS.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
         "CreateBookmark": {
           "description": "Creates a bookmark.\n\nParameters:\n\n◾ prop   -   Properties for the object.",
           "x-qlik-stability": "locked",
