@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1516.0",
+    "version": "12.1520.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -11918,6 +11918,10 @@
             "title": "LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD"
           },
           {
+            "x-qlik-const": 11048,
+            "title": "LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT"
+          },
+          {
             "x-qlik-const": 12000,
             "title": "LOCERR_PERSONAL_NEW_VERSION_AVAILABLE"
           },
@@ -22173,6 +22177,9 @@
             "$ref": "#/components/errors/LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD"
           },
           {
+            "$ref": "#/components/errors/LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_PERSONAL_NEW_VERSION_AVAILABLE"
           },
           {
@@ -23309,6 +23316,10 @@
       "LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD": {
         "code": 11047,
         "message": "Unsupported or bad format in QVD file"
+      },
+      "LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT": {
+        "code": 11048,
+        "message": "Action is blocked due to that an entitlement quota limit has been reached."
       },
       "LOCERR_PERSONAL_NEW_VERSION_AVAILABLE": {
         "code": 12000,
