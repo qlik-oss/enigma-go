@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1520.0",
+    "version": "12.1532.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -20556,6 +20556,11 @@
               "type": "integer",
               "format": "int32"
             }
+          },
+          "qMatchType": {
+            "type": "string",
+            "description": "Match type applied in this result group.\n\nOne of:\n* FieldMatchNone or FM_NONE\n* FieldMatchSubString or FM_SUBSTRING\n* FieldMatchWord or FM_WORD\n* FieldMatchExact or FM_EXACT\n* FieldMatchLast or FM_LAST",
+            "$ref": "#/components/schemas/SearchFieldMatchType"
           }
         }
       },
@@ -20609,6 +20614,36 @@
             "description": "String corresponding to _qKey_ for the current _SearchGroupItemMatch_. For example, if the match is _Make by Price_ found in the title of a generic object, _qValue_ will be _qMetaDef/title_."
           }
         }
+      },
+      "SearchFieldMatchType": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "FieldMatchNone",
+            "description": "FM_NONE"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "FieldMatchSubString",
+            "description": "FM_SUBSTRING"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "FieldMatchWord",
+            "description": "FM_WORD"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "FieldMatchExact",
+            "description": "FM_EXACT"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "FieldMatchLast",
+            "description": "FM_LAST"
+          }
+        ]
       },
       "SearchObjectOptions": {
         "type": "object",

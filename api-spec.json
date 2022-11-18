@@ -16810,6 +16810,10 @@
           "description": "Type of the group item.\n\nOne of:\n\n• Field or FIELD\n\n• GenericObject or GENERIC_OBJECT",
           "type": "string"
         },
+        "MatchType": {
+          "description": "Match type applied in this result group.\n\nOne of:\n\n• FieldMatchNone or FM_NONE\n\n• FieldMatchSubString or FM_SUBSTRING\n\n• FieldMatchWord or FM_WORD\n\n• FieldMatchExact or FM_EXACT\n\n• FieldMatchLast or FM_LAST",
+          "type": "string"
+        },
         "SearchTermsMatched": {
           "description": "Indexes of the search terms that are included in the group item. These search terms are related to the list of terms defined in SearchResult.qSearchTerms .",
           "type": "slice",
