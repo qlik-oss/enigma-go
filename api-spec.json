@@ -112,6 +112,10 @@
     "AppScript": {
       "type": "struct",
       "entries": {
+        "IsLocked": {
+          "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS.",
+          "type": "bool"
+        },
         "Meta": {
           "description": "Information about publishing and permissions.\nThis parameter is optional.",
           "type": "#/definitions/NxMeta"
@@ -12630,7 +12634,7 @@
           }
         },
         "ContextSetExpression": {
-          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *",
+          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified.",
           "type": "string"
         },
         "Dimensions": {
@@ -17747,7 +17751,7 @@
           "type": "#/definitions/NxCalcCond"
         },
         "ContextSetExpression": {
-          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *",
+          "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified.",
           "type": "string"
         },
         "Dimensions": {
