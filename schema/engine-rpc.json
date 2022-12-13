@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1556.0",
+    "version": "12.1560.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -15637,7 +15637,7 @@
           },
           "qContextSetExpression": {
             "type": "string",
-            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *"
+            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified."
           }
         },
         "x-qlik-see-also": [
@@ -17596,7 +17596,7 @@
           },
           "qContextSetExpression": {
             "type": "string",
-            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified. *"
+            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified."
           }
         },
         "x-qlik-stability": "stable"
@@ -20704,6 +20704,10 @@
             "type": "object",
             "description": "Information about publishing and permissions.\nThis parameter is optional.",
             "$ref": "#/components/schemas/NxMeta"
+          },
+          "qIsLocked": {
+            "type": "boolean",
+            "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS."
           }
         }
       },
