@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1561.0",
+    "version": "12.1595.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -9445,6 +9445,32 @@
       "x-qlik-stability": "experimental"
     },
     {
+      "name": "Doc.GetScriptMeta",
+      "description": "Gets script meta-data.",
+      "params": [],
+      "result": {
+        "name": "Results for Doc.GetScriptMeta",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qMeta": {
+              "type": "object",
+              "$ref": "#/components/schemas/AppScriptMeta"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental",
+      "x-qlik-access-control": [
+        "read"
+      ]
+    },
+    {
       "name": "Doc.CommitScript",
       "description": "Commits the current script version so that any future changes will be part of a new version.",
       "params": [
@@ -14404,6 +14430,10 @@
             "type": "object",
             "description": "Value of the variable.",
             "$ref": "#/components/schemas/FieldValue"
+          },
+          "qDefinition": {
+            "type": "string",
+            "description": "The Reporting mode definition of the variable."
           }
         }
       },
@@ -21146,6 +21176,21 @@
           "qIncludeAllPatches": {
             "type": "boolean",
             "description": "IncludeAllPatches If true all patches will be stored in the temporary bookmark, if false ObjectIdsToPatch will determine what patches to include"
+          }
+        },
+        "x-qlik-stability": "experimental"
+      },
+      "AppScriptMeta": {
+        "type": "object",
+        "properties": {
+          "qMeta": {
+            "type": "object",
+            "description": "Information about publishing and permissions.\nThis parameter is optional.",
+            "$ref": "#/components/schemas/NxMeta"
+          },
+          "qIsLocked": {
+            "type": "boolean",
+            "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS."
           }
         },
         "x-qlik-stability": "experimental"
