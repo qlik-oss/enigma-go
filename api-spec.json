@@ -126,6 +126,20 @@
         }
       }
     },
+    "AppScriptMeta": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "IsLocked": {
+          "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS.",
+          "type": "bool"
+        },
+        "Meta": {
+          "description": "Information about publishing and permissions.\nThis parameter is optional.",
+          "type": "#/definitions/NxMeta"
+        }
+      }
+    },
     "ArrayOfNxValuePoint": {
       "type": "slice",
       "items": {
@@ -467,6 +481,10 @@
     "BookmarkVariableItem": {
       "type": "struct",
       "entries": {
+        "Definition": {
+          "description": "The Reporting mode definition of the variable.",
+          "type": "string"
+        },
         "Name": {
           "description": "Name of the variable.",
           "type": "string"
@@ -4427,6 +4445,42 @@
         "GetScriptExRaw": {
           "description": "Gets script and script meta-data.",
           "x-qlik-stability": "locked",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetScriptMeta": {
+          "description": "Gets script meta-data.",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/AppScriptMeta"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetScriptMetaRaw": {
+          "description": "Gets script meta-data.",
+          "x-qlik-stability": "experimental",
           "type": "method",
           "params": [
             {
