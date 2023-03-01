@@ -44,71 +44,6 @@ jobs:
       - restore_cache:
           key: dependency-cache-1.16{{ checksum "go.sum" }}
       - run: ./schema/generate.sh
-  golang-1.13:
-    requires:
-      - generate-schema
-    docker:
-      - image: cimg/go:1.13
-    environment:
-      GOLANG_VERSION: "1.13"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.13{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.13{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: *spec_test
-      - run: go test -v -race ./release/verval
-      - run: *examples
-
-  golang-1.14:
-    requires:
-      - generate-schema
-    docker:
-      - image: cimg/go:1.14
-    environment:
-      GOLANG_VERSION: "1.14"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.14{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.14{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: *spec_test
-      - run: go test -v -race ./release/verval
-      - run: *examples
-
-  golang-1.15:
-    requires:
-      - generate-schema
-    docker:
-      - image: cimg/go:1.15
-    environment:
-      GOLANG_VERSION: "1.15"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.15{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.15{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: *spec_test
-      - run: go test -v -race ./release/verval
-      - run: *examples
 
   golang-1.16:
     requires:
@@ -175,28 +110,12 @@ jobs:
       - run: *spec_test
       - run: go test -v -race ./release/verval
       - run: *examples
-  
 
 workflows:
   version: 2
   build:
     jobs:
       - generate-schema
-      - golang-1.13:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.14:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.15:
-          filters:
-            tags:
-              only:
-                - /v.*/
       - golang-1.16:
           filters:
             tags:
