@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1595.0",
+    "version": "12.1678.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -757,7 +757,7 @@
     },
     {
       "name": "GenericObject.GetLayout",
-      "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member _delta_ is set to true in the request object, only the delta is evaluated. A _GetLayout_ call on a generic object, returns up to one level down in the hierarchy.\n\n### Example:\n_A_ is a generic object and is the parent of the objects B and C. _B_ is the parent of the objects D and E.\n<br>![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)<br>\nA _GetLayout_ call on A returns information on the objects A, B and C.\nA _GetLayout_ call on B returns information on the objects B, D and E.\nA  _GetLayout_ call on C returns information on the object C.\n\n<div class=note>\nIn addition to the parameters displayed above, the **GetLayout** method can return other properties according to what is defined in the generic object.\nFor example, if **qHyperCubeDef** is defined in the generic object, the **GetLayout** method returns the properties described in _HyperCube_.\n</div>",
+      "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member _delta_ is set to true in the request object, only the delta is evaluated. A _GetLayout_ call on a generic object, returns up to one level down in the hierarchy.\n\n### Example:\n_A_ is a generic object and is the parent of the objects B and C. _B_ is the parent of the objects D and E.\n<br>![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)<br>\nA _GetLayout_ call on A returns information on the objects A, B and C.\nA _GetLayout_ call on B returns information on the objects B, D and E.\nA  _GetLayout_ call on C returns information on the object C.\n\n<div class=note>\nIn addition to the parameters displayed above, the **GetLayout** method can return other properties according to what is defined in the generic object.\nFor example, if **qHyperCubeDef** is defined in the generic object, the **GetLayout** method returns the properties described in _HyperCube_.\n</div>",
       "params": [],
       "result": {
         "name": "Results for GenericObject.GetLayout",
@@ -885,7 +885,7 @@
     },
     {
       "name": "GenericObject.GetHyperCubeReducedData",
-      "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter _qZoomFactor_ ) and on the reduction mode.\n<div class=note>This method can be used to create mini charts.</div>\n\n### Bar chart or line chart data reduction\nFor the data reduction to happen, the following conditions must be fulfilled:\n* The values cannot fit in the defined page (parameter _qPages_ ).\n* The zoom factor is not 0 (parameter _qZoomFactor_ ).\n* The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\n### Example\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the _GetHyperCubeReducedData_ method reduces the chart and retrieves 200 000 data.\n\n### Scatter plot chart data reduction\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter _qZoomFactor_.\n\n### Scatter plot chart resolution reduction\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter _qZoomFactor_ ).\n\n### Example\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.",
+      "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter _qZoomFactor_ ) and on the reduction mode.\n<div class=note>This method can be used to create mini charts.</div>\n\n### Bar chart or line chart data reduction\nFor the data reduction to happen, the following conditions must be fulfilled:\n* The values cannot fit in the defined page (parameter _qPages_ ).\n* The zoom factor is not 0 (parameter _qZoomFactor_ ).\n* The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\n### Example\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the _GetHyperCubeReducedData_ method reduces the chart and retrieves 200 000 data.\n\n### Scatter plot chart data reduction\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter _qZoomFactor_.\n\n### Scatter plot chart resolution reduction\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter _qZoomFactor_ ).\n\n### Example\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.",
       "params": [
         {
           "name": "qPath",
@@ -1520,7 +1520,7 @@
       "params": [
         {
           "name": "qFileType",
-          "description": "Type of the file to export.\n\nOne of:\n* CSV_C or EXPORT_CSV_C\n* CSV_T or EXPORT_CSV_T\n* OOXML or EXPORT_OOXML",
+          "description": "Type of the file to export.\n\nOne of:\n* CSV_C or EXPORT_CSV_C\n* CSV_T or EXPORT_CSV_T\n* OOXML or EXPORT_OOXML\n* PARQUET or EXPORT_PARQUET",
           "required": true,
           "schema": {
             "type": "string"
@@ -2388,7 +2388,7 @@
         },
         {
           "name": "qRowIndices",
-          "description": "Array of row indexes to select, starting from 0.\nIf the array is empty _[ ]_ , all rows are selected.",
+          "description": "Array of row indexes to select, starting from 0.\nIf the array is empty _[ ]_ , all rows are selected.",
           "required": true,
           "schema": {
             "type": "array",
@@ -2448,7 +2448,7 @@
     },
     {
       "name": "GenericObject.SelectPivotCells",
-      "description": "<div class=note>This method only applies to hypercubes that are not represented as straight tables. The parameter _qMode_ in _HyperCubeDef_ must be set either to _P_  or _K_ . </div>\n\n### Pivot table\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\n### Stacked table\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\n<div class=note>There is no top dimensions in a stacked table. A stacked table can only contain one measure.</div>\n\n### Example of a pivot table\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)<br>\nIn the representation above:\n<table>\n<tbody>\n<tr>\n<td>Sum(OrderTotal)<br>Count(OrderTotal)</td>\n<td>Are pseudo dimensions.</td>\n</tr>\n<tr>\n<td>CategoryName</td>\n<td>Is a left dimension.<br><i>Beverages</i> , <i>Condiments</i> ... are left dimension values.</td>\n</tr>\n<tr>\n<td>ProductName</td>\n<td>Is a top dimension.<br><i>Chef Anton's Cajun Seasoning</i> is a top dimension value. </td>\n</tr>\n<tr>\n<td>Numeric values</td>\n<td>Are calculated values in the data matrix.<br><i>626291,832</i> is a calculated value.</td>\n</tr>\n</tbody>\n</table>\n\nThe member **Change** returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to _true_ if the selections are successful and is set to _false_ in the following cases:\n* The object contains some invalid fields (fields that are not in the data model).\n* The selection applies to a locked field.\n* A range selection is performed and the parameter _OneAndOnlyOne_ is set to true in the definition of the object.",
+      "description": "<div class=note>This method only applies to hypercubes that are not represented as straight tables. The parameter _qMode_ in _HyperCubeDef_ must be set either to _P_  or _K_ . </div>\n\n### Pivot table\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\n### Stacked table\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\n<div class=note>There is no top dimensions in a stacked table. A stacked table can only contain one measure.</div>\n\n### Example of a pivot table\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)<br>\nIn the representation above:\n<table>\n<tbody>\n<tr>\n<td>Sum(OrderTotal)<br>Count(OrderTotal)</td>\n<td>Are pseudo dimensions.</td>\n</tr>\n<tr>\n<td>CategoryName</td>\n<td>Is a left dimension.<br><i>Beverages</i> , <i>Condiments</i> ... are left dimension values.</td>\n</tr>\n<tr>\n<td>ProductName</td>\n<td>Is a top dimension.<br><i>Chef Anton's Cajun Seasoning</i> is a top dimension value. </td>\n</tr>\n<tr>\n<td>Numeric values</td>\n<td>Are calculated values in the data matrix.<br><i>626291,832</i> is a calculated value.</td>\n</tr>\n</tbody>\n</table>\n\nThe member **Change** returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to _true_ if the selections are successful and is set to _false_ in the following cases:\n* The object contains some invalid fields (fields that are not in the data model).\n* The selection applies to a locked field.\n* A range selection is performed and the parameter _OneAndOnlyOne_ is set to true in the definition of the object.",
       "params": [
         {
           "name": "qPath",
@@ -7710,7 +7710,7 @@
     },
     {
       "name": "Doc.GetDatabaseInfo",
-      "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See _Outputs_ for more details.",
+      "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See _Outputs_ for more details.",
       "params": [
         {
           "name": "qConnectionId",
@@ -7826,7 +7826,7 @@
     },
     {
       "name": "Doc.GetDatabaseTables",
-      "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.",
+      "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.",
       "params": [
         {
           "name": "qConnectionId",
@@ -7877,7 +7877,7 @@
     },
     {
       "name": "Doc.GetDatabaseTableFields",
-      "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.",
+      "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.",
       "params": [
         {
           "name": "qConnectionId",
@@ -7936,7 +7936,7 @@
     },
     {
       "name": "Doc.GetDatabaseTablePreview",
-      "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.",
+      "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.",
       "params": [
         {
           "name": "qConnectionId",
@@ -8049,7 +8049,7 @@
     },
     {
       "name": "Doc.GuessFileType",
-      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8091,7 +8091,7 @@
     },
     {
       "name": "Doc.GetFileTables",
-      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8144,7 +8144,7 @@
     },
     {
       "name": "Doc.GetFileTableFields",
-      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8172,7 +8172,7 @@
         },
         {
           "name": "qTable",
-          "description": "Name of the table.\nThis parameter must be set for _XLS_ , _XLSX_ , _HTML  _ and _XML_ files.",
+          "description": "Name of the table.\nThis parameter must be set for _XLS_ , _XLSX_ , _HTML  _ and _XML_ files.",
           "required": true,
           "schema": {
             "type": "string"
@@ -8208,7 +8208,7 @@
     },
     {
       "name": "Doc.GetFileTablePreview",
-      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8236,7 +8236,7 @@
         },
         {
           "name": "qTable",
-          "description": "Name of the table.\nThis parameter must be set for _XLS_ , _XLSX_ , _HTML  _ and _XML_ files.",
+          "description": "Name of the table.\nThis parameter must be set for _XLS_ , _XLSX_ , _HTML  _ and _XML_ files.",
           "required": true,
           "schema": {
             "type": "string"
@@ -9032,7 +9032,10 @@
           "$ref": "#/components/errors/GenericErrors"
         }
       ],
-      "x-qlik-stability": "experimental"
+      "x-qlik-stability": "experimental",
+      "x-qlik-access-control": [
+        "change_owner"
+      ]
     },
     {
       "name": "Doc.ChangeSessionAppSpace",
@@ -9468,6 +9471,62 @@
       "x-qlik-stability": "experimental",
       "x-qlik-access-control": [
         "read"
+      ]
+    },
+    {
+      "name": "Doc.ReplaceBookmark",
+      "description": "Replace a bookmark. Optional inparams to change the original bookmarks properties, original are kept if left out.",
+      "params": [
+        {
+          "name": "qId",
+          "description": "Identifier of the bookmark.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "qIgnorePatches",
+          "description": "Set to true to exclude patches from the bookmark. Default is false.",
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "qObjectIdsToPatch",
+          "description": "Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. Ignored if IgnorePatches is set to true.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for Doc.ReplaceBookmark",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qInfo": {
+              "type": "object",
+              "$ref": "#/components/schemas/NxInfo"
+            },
+            "qReturn": {
+              "type": "object",
+              "$ref": "#/components/schemas/ObjectInterface"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental",
+      "x-qlik-access-control": [
+        "update"
       ]
     },
     {
@@ -10188,7 +10247,7 @@
         },
         {
           "name": "qIds",
-          "description": "Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the _CopyApp_ method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
+          "description": "Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the _CopyApp_ method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
           "required": true,
           "schema": {
             "type": "array",
@@ -10816,7 +10875,7 @@
         }
       ],
       "x-qlik-see-also": [
-        "[List the databases of a ODBC, OLEDB or CUSTOM connection](#csh-list-databases-Odbc-Oledb-custom-connection)"
+        "[List the databases of a ODBC, OLEDB or CUSTOM connection](#csh-list-databases-Odbc-Oledb-custom-connection)"
       ],
       "x-qlik-stability": "locked",
       "x-qlik-access-control": [
@@ -11396,6 +11455,10 @@
             "title": "LOCERR_HTTP_422"
           },
           {
+            "x-qlik-const": 423,
+            "title": "LOCERR_HTTP_423"
+          },
+          {
             "x-qlik-const": 429,
             "title": "LOCERR_HTTP_429"
           },
@@ -11738,6 +11801,10 @@
           {
             "x-qlik-const": 9010,
             "title": "LOCERR_PERSISTENCE_MOVE_FAILED"
+          },
+          {
+            "x-qlik-const": 9011,
+            "title": "LOCERR_PERSISTENCE_OBJECT_LOCKED"
           },
           {
             "x-qlik-const": 9510,
@@ -14938,6 +15005,11 @@
             "x-qlik-const": 2,
             "title": "OOXML",
             "description": "EXPORT_OOXML"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "PARQUET",
+            "description": "EXPORT_PARQUET"
           }
         ]
       },
@@ -16133,7 +16205,7 @@
           },
           "qTags": {
             "type": "array",
-            "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
+            "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
             "items": {
               "type": "string"
             }
@@ -17072,7 +17144,7 @@
         "properties": {
           "qDisplayNumberOfRows": {
             "type": "integer",
-            "description": "This parameter applies to list objects.\nIf the number of selected values in the list object is greater than the value set in _qDisplayNumberOfRows_ , the selected lines are promoted at the top of the list object.\nIf _qDisplayNumberOfRows_ is set to a negative value or to 0, the sort by state is disabled.",
+            "description": "This parameter applies to list objects.\nIf the total number of values in the list object is greater than the value set in _qDisplayNumberOfRows_ , the selected lines are promoted at the top of the list object.\nIf _qDisplayNumberOfRows_ is set to a negative value or to 0, the sort by state is disabled.",
             "format": "int32"
           }
         }
@@ -17495,7 +17567,7 @@
           },
           "qFieldSelectionMode": {
             "type": "string",
-            "description": "Selection mode.\n### Properties\nOne of:\n* NORMAL for a selection in normal mode.\n* AND for a selection in AND mode.\n* NOT for a selection NOT in AND mode.\nOne of:\n* NORMAL or SELECTION_MODE_NORMAL\n* AND or SELECTION_MODE_AND\n* NOT or SELECTION_MODE_NOT",
+            "description": "Selection mode.\n### Properties\nOne of:\n* NORMAL for a selection in normal mode.\n* AND for a selection in AND mode.\n* NOT for a selection NOT in AND mode.\nOne of:\n* NORMAL or SELECTION_MODE_NORMAL\n* AND or SELECTION_MODE_AND\n* NOT or SELECTION_MODE_NOT",
             "$ref": "#/components/schemas/NxFieldSelectionMode"
           }
         }
@@ -18511,7 +18583,7 @@
           },
           "qFirstWeekDay": {
             "type": "integer",
-            "description": "First day of the week, starting from 0.\nAccording to ISO 8601, _Monday_ is the first day of the week.\n* 0 = Monday\n* 1 = Tuesday\n* ...\n* 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
+            "description": "First day of the week, starting from 0.\nAccording to ISO 8601, _Monday_ is the first day of the week.\n* 0 = Monday\n* 1 = Tuesday\n* ...\n* 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
             "format": "int32"
           },
           "qBrokenWeeks": {
@@ -18530,7 +18602,7 @@
           },
           "qCollation": {
             "type": "string",
-            "description": "Locale name (following language tagging convention RFC 4646):\n_&lt; language&gt;-&lt;REGION&gt;_\nWhere:\n* _language_ is a lowercase ISO  639 language code\n* _REGION_ specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system."
+            "description": "Locale name (following language tagging convention RFC 4646):\n_&lt; language&gt;-&lt;REGION&gt;_\nWhere:\n* _language_ is a lowercase ISO  639 language code\n* _REGION_ specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system."
           },
           "qNumericalAbbreviation": {
             "type": "string",
@@ -19415,7 +19487,7 @@
         "properties": {
           "qDiscriminator": {
             "type": "string",
-            "description": "A string indicating the origin of the data:\n* [filename]: the data comes from a local file.\n* INLINE: the data is entered inline in the load script.\n* RESIDENT: the data comes from a resident table. The table name is listed.\n* AUTOGENERATE: the data is generated from the load script (no external table of data source).\n* Provider: the data comes from a data connection. The connector source name is listed.\n* [webfile]: the data comes from a web-based file.\n* STORE: path to QVD or TXT file where data is stored.\n* EXTENSION: the data comes from a Server Side Extension (SSE)."
+            "description": "A string indicating the origin of the data:\n* [filename]: the data comes from a local file.\n* INLINE: the data is entered inline in the load script.\n* RESIDENT: the data comes from a resident table. The table name is listed.\n* AUTOGENERATE: the data is generated from the load script (no external table of data source).\n* Provider: the data comes from a data connection. The connector source name is listed.\n* [webfile]: the data comes from a web-based file.\n* STORE: path to QVD or TXT file where data is stored.\n* EXTENSION: the data comes from a Server Side Extension (SSE)."
           },
           "qStatement": {
             "type": "string",
@@ -19747,7 +19819,7 @@
           },
           "qConnectionString": {
             "type": "string",
-            "description": "One of:\n* ODBC CONNECT TO [&lt;provider name&gt;]\n* OLEDB CONNECT TO [&lt;provider name&gt;]\n* CUSTOM CONNECT TO [&lt;provider name&gt;]\n* \"&lt;local absolute or relative path, UNC path&gt;\"\n* \"&lt;URL&gt;\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection."
+            "description": "One of:\n* ODBC CONNECT TO [&lt;provider name&gt;]\n* OLEDB CONNECT TO [&lt;provider name&gt;]\n* CUSTOM CONNECT TO [&lt;provider name&gt;]\n* \"&lt;local absolute or relative path, UNC path&gt;\"\n* \"&lt;URL&gt;\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection."
           },
           "qType": {
             "type": "string",
@@ -19971,7 +20043,7 @@
       },
       "FileDataFormat": {
         "type": "object",
-        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
         "properties": {
           "qType": {
             "type": "string",
@@ -20867,7 +20939,7 @@
         "properties": {
           "qBnf": {
             "type": "array",
-            "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but _qBnf_ is empty).",
+            "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but _qBnf_ is empty).",
             "items": {
               "type": "integer",
               "format": "int32"
@@ -21545,11 +21617,11 @@
         "properties": {
           "qName": {
             "type": "string",
-            "description": "Name of the ODBC connection."
+            "description": "Name of the ODBC connection."
           },
           "qDescription": {
             "type": "string",
-            "description": "Description of the ODBC connection."
+            "description": "Description of the ODBC connection."
           },
           "qBit32": {
             "type": "boolean",
@@ -21850,6 +21922,9 @@
             "$ref": "#/components/errors/LOCERR_HTTP_422"
           },
           {
+            "$ref": "#/components/errors/LOCERR_HTTP_423"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_HTTP_429"
           },
           {
@@ -22106,6 +22181,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_MOVE_FAILED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_PERSISTENCE_OBJECT_LOCKED"
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS"
@@ -22853,6 +22931,10 @@
         "code": 422,
         "message": "Unprocessable Entity"
       },
+      "LOCERR_HTTP_423": {
+        "code": 423,
+        "message": "Unknown error"
+      },
       "LOCERR_HTTP_429": {
         "code": 429,
         "message": "Too Many Requests"
@@ -23196,6 +23278,10 @@
       "LOCERR_PERSISTENCE_MOVE_FAILED": {
         "code": 9010,
         "message": "Unknown error"
+      },
+      "LOCERR_PERSISTENCE_OBJECT_LOCKED": {
+        "code": 9011,
+        "message": "Object locked"
       },
       "LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS": {
         "code": 9510,
