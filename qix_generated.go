@@ -2865,18 +2865,18 @@ type NxEngineVersion struct {
 
 // NxDerivedFieldsdata:
 //
-//	+------------------------+--------------------------------+----------------+
-//	|          NAME          |          DESCRIPTION           |      TYPE      |
-//	+------------------------+--------------------------------+----------------+
-//	| qDerivedDefinitionName | Name of the derived            | String         |
-//	|                        | definition.                    |                |
-//	| qFieldDefs             | List of the derived fields.    | Array of       |
-//	|                        |                                | NxDerivedField |
-//	| qGroupDefs             | List of the derived groups.    | Array of       |
-//	|                        |                                | NxDerivedGroup |
-//	| qTags                  | List of tags on the derived    | Array of       |
-//	|                        | fields.                        | String         |
-//	+------------------------+--------------------------------+----------------+
+//   +------------------------+--------------------------------+----------------+
+//   |          NAME          |          DESCRIPTION           |      TYPE      |
+//   +------------------------+--------------------------------+----------------+
+//   | qDerivedDefinitionName | Name of the derived            | String         |
+//   |                        | definition.                    |                |
+//   | qFieldDefs             | List of the derived fields.    | Array of       |
+//   |                        |                                | NxDerivedField |
+//   | qGroupDefs             | List of the derived groups.    | Array of       |
+//   |                        |                                | NxDerivedGroup |
+//   | qTags                  | List of tags on the derived    | Array of       |
+//   |                        | fields.                        | String         |
+//   +------------------------+--------------------------------+----------------+
 type NxFieldDescription struct {
 	// If set to true, it means that the field is a semantic.
 	IsSemantic bool `json:"qIsSemantic,omitempty"`
@@ -6117,23 +6117,22 @@ func (obj *Doc) CheckNumberOrExpressionRaw(ctx context.Context, expr string) (st
 // If there are no errors, the engine returns:
 // If there are errors, the engine returns the following properties in the response:
 //
-//	+-------------------+--------------------------------+---------+
-//	|       NAME        |          DESCRIPTION           |  TYPE   |
-//	+-------------------+--------------------------------+---------+
-//	| qErrLen           | Length of the word where the   | Integer |
-//	|                   | error is located.              |         |
-//	| qTabIx            | Number of the faulty section.  | Integer |
-//	| qLineInTab        | Line number in the section     | Integer |
-//	|                   | where the error is located.    |         |
-//	| qColInLine        | Position of the erroneous      | Integer |
-//	|                   | text from the beginning of the |         |
-//	|                   | line.                          |         |
-//	| qTextPos          | Position of the erroneous      | Integer |
-//	|                   | text from the beginning of the |         |
-//	|                   | script.                        |         |
-//	| qSecondaryFailure | The default value is false.    | Boolean |
-//	+-------------------+--------------------------------+---------+
-//
+//   +-------------------+--------------------------------+---------+
+//   |       NAME        |          DESCRIPTION           |  TYPE   |
+//   +-------------------+--------------------------------+---------+
+//   | qErrLen           | Length of the word where the   | Integer |
+//   |                   | error is located.              |         |
+//   | qTabIx            | Number of the faulty section.  | Integer |
+//   | qLineInTab        | Line number in the section     | Integer |
+//   |                   | where the error is located.    |         |
+//   | qColInLine        | Position of the erroneous      | Integer |
+//   |                   | text from the beginning of the |         |
+//   |                   | line.                          |         |
+//   | qTextPos          | Position of the erroneous      | Integer |
+//   |                   | text from the beginning of the |         |
+//   |                   | script.                        |         |
+//   | qSecondaryFailure | The default value is false.    | Boolean |
+//   +-------------------+--------------------------------+---------+
 // Stability: locked
 func (obj *Doc) CheckScriptSyntax(ctx context.Context) ([]*ScriptSyntaxError, error) {
 	result := &struct {
@@ -6154,23 +6153,22 @@ func (obj *Doc) CheckScriptSyntax(ctx context.Context) ([]*ScriptSyntaxError, er
 // If there are no errors, the engine returns:
 // If there are errors, the engine returns the following properties in the response:
 //
-//	+-------------------+--------------------------------+---------+
-//	|       NAME        |          DESCRIPTION           |  TYPE   |
-//	+-------------------+--------------------------------+---------+
-//	| qErrLen           | Length of the word where the   | Integer |
-//	|                   | error is located.              |         |
-//	| qTabIx            | Number of the faulty section.  | Integer |
-//	| qLineInTab        | Line number in the section     | Integer |
-//	|                   | where the error is located.    |         |
-//	| qColInLine        | Position of the erroneous      | Integer |
-//	|                   | text from the beginning of the |         |
-//	|                   | line.                          |         |
-//	| qTextPos          | Position of the erroneous      | Integer |
-//	|                   | text from the beginning of the |         |
-//	|                   | script.                        |         |
-//	| qSecondaryFailure | The default value is false.    | Boolean |
-//	+-------------------+--------------------------------+---------+
-//
+//   +-------------------+--------------------------------+---------+
+//   |       NAME        |          DESCRIPTION           |  TYPE   |
+//   +-------------------+--------------------------------+---------+
+//   | qErrLen           | Length of the word where the   | Integer |
+//   |                   | error is located.              |         |
+//   | qTabIx            | Number of the faulty section.  | Integer |
+//   | qLineInTab        | Line number in the section     | Integer |
+//   |                   | where the error is located.    |         |
+//   | qColInLine        | Position of the erroneous      | Integer |
+//   |                   | text from the beginning of the |         |
+//   |                   | line.                          |         |
+//   | qTextPos          | Position of the erroneous      | Integer |
+//   |                   | text from the beginning of the |         |
+//   |                   | script.                        |         |
+//   | qSecondaryFailure | The default value is false.    | Boolean |
+//   +-------------------+--------------------------------+---------+
 // Stability: locked
 func (obj *Doc) CheckScriptSyntaxRaw(ctx context.Context) (json.RawMessage, error) {
 	result := &struct {
@@ -6907,6 +6905,7 @@ func (obj *Doc) DestroySessionVariable(ctx context.Context, id string) (bool, er
 
 // Removes a transient variable.
 //
+//
 // •*qSuccess** is set to true if the operation is successful.
 //
 // Parameters:
@@ -6923,6 +6922,7 @@ func (obj *Doc) DestroySessionVariableById(ctx context.Context, id string) (bool
 }
 
 // Removes a transient variable.
+//
 //
 // •*qSuccess** is set to true if the operation is successful.
 //
@@ -6983,24 +6983,24 @@ func (obj *Doc) DestroyVariableByName(ctx context.Context, name string) (bool, e
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+----------------------------------------+----------------------------------+
-//	|           AUDIT ACTIVITY LOG           |        SYSTEM SERVICE LOG        |
-//	+----------------------------------------+----------------------------------+
-//	| <MachineName>_AuditActivity_Engine.txt | <MachineName>_Service_Engine.txt |
-//	| in Qlik Sense Enterprise               | in Qlik Sense Enterprise         |
-//	| <MachineName>_AuditActivity_Engine.log | <MachineName>_Service_Engine.log |
-//	| in Qlik Sense Desktop                  | in Qlik Sense Desktop            |
-//	+----------------------------------------+----------------------------------+
+//   +----------------------------------------+----------------------------------+
+//   |           AUDIT ACTIVITY LOG           |        SYSTEM SERVICE LOG        |
+//   +----------------------------------------+----------------------------------+
+//   | <MachineName>_AuditActivity_Engine.txt | <MachineName>_Service_Engine.txt |
+//   | in Qlik Sense Enterprise               | in Qlik Sense Enterprise         |
+//   | <MachineName>_AuditActivity_Engine.log | <MachineName>_Service_Engine.log |
+//   | in Qlik Sense Desktop                  | in Qlik Sense Desktop            |
+//   +----------------------------------------+----------------------------------+
 //
 // Where to find the log files:
 //
 // The location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.
 //
-//	+-------------------------------------+----------------------------------------+
-//	|        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
-//	+-------------------------------------+----------------------------------------+
-//	| %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
-//	+-------------------------------------+----------------------------------------+
+//   +-------------------------------------+----------------------------------------+
+//   |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
+//   +-------------------------------------+----------------------------------------+
+//   | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
+//   +-------------------------------------+----------------------------------------+
 //
 // Parameters:
 //
@@ -7037,59 +7037,59 @@ func (obj *Doc) DoReload(ctx context.Context, mode int, partial bool, debug bool
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+--------------------------+--------------------------+
-//	|    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
-//	+--------------------------+--------------------------+
-//	| < MachineName>           | < MachineName> Service   |
-//	| AuditActivity Engine.txt | Engine.txt in Qlik       |
-//	| in Qlik Sense Enterprise | Sense Enterprise  <      |
-//	|  < MachineName>          | MachineName> Service     |
-//	| AuditActivity Engine.log | Engine.log in Qlik Sense |
-//	| in Qlik Sense Desktop    | Desktop                  |
-//	+--------------------------+--------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 //
 // Where to find the log files:
 //
 // The location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.
 //
-//	+-------------------------------------+----------------------------------------+
-//	|        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
-//	+-------------------------------------+----------------------------------------+
-//	| %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
-//	+-------------------------------------+----------------------------------------+
+//   +-------------------------------------+----------------------------------------+
+//   |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
+//   +-------------------------------------+----------------------------------------+
+//   | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
+//   +-------------------------------------+----------------------------------------+
 //
 // DoReloadExParams:
 //
-//	+----------+--------------------------------+---------+
-//	|   NAME   |          DESCRIPTION           |  TYPE   |
-//	+----------+--------------------------------+---------+
-//	| qMode    | Error handling mode  One of:   | Integer |
-//	|          |    * 0: for default mode.  *   |         |
-//	|          | 1: for ABEND; the reload of    |         |
-//	|          | the script ends if an error    |         |
-//	|          | occurs.  * 2: for ignore; the  |         |
-//	|          | reload of the script continues |         |
-//	|          | even if an error is detected   |         |
-//	|          | in the script.                 |         |
-//	| qPartial | Set to true for partial        | Boolean |
-//	|          | reload.  The default value is  |         |
-//	|          | false.                         |         |
-//	| qDebug   | Set to true if debug           | Boolean |
-//	|          | breakpoints are to be honored. |         |
-//	|          | The execution of the script    |         |
-//	|          | will be in debug mode.  The    |         |
-//	|          | default value is false.        |         |
-//	+----------+--------------------------------+---------+
+//   +----------+--------------------------------+---------+
+//   |   NAME   |          DESCRIPTION           |  TYPE   |
+//   +----------+--------------------------------+---------+
+//   | qMode    | Error handling mode  One of:   | Integer |
+//   |          |    * 0: for default mode.  *   |         |
+//   |          | 1: for ABEND; the reload of    |         |
+//   |          | the script ends if an error    |         |
+//   |          | occurs.  * 2: for ignore; the  |         |
+//   |          | reload of the script continues |         |
+//   |          | even if an error is detected   |         |
+//   |          | in the script.                 |         |
+//   | qPartial | Set to true for partial        | Boolean |
+//   |          | reload.  The default value is  |         |
+//   |          | false.                         |         |
+//   | qDebug   | Set to true if debug           | Boolean |
+//   |          | breakpoints are to be honored. |         |
+//   |          | The execution of the script    |         |
+//   |          | will be in debug mode.  The    |         |
+//   |          | default value is false.        |         |
+//   +----------+--------------------------------+---------+
 //
 // DoReloadExResult:
 //
-//	+----------------+--------------------------------+---------+
-//	|      NAME      |          DESCRIPTION           |  TYPE   |
-//	+----------------+--------------------------------+---------+
-//	| qSuccess       | The operation is successful if | Boolean |
-//	|                | qSuccess is set to True.       |         |
-//	| qScriptLogFile | Path to the script log file.   | String  |
-//	+----------------+--------------------------------+---------+
+//   +----------------+--------------------------------+---------+
+//   |      NAME      |          DESCRIPTION           |  TYPE   |
+//   +----------------+--------------------------------+---------+
+//   | qSuccess       | The operation is successful if | Boolean |
+//   |                | qSuccess is set to True.       |         |
+//   | qScriptLogFile | Path to the script log file.   | String  |
+//   +----------------+--------------------------------+---------+
 //
 // If the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.
 // Stability: locked
@@ -7110,59 +7110,59 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+--------------------------+--------------------------+
-//	|    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
-//	+--------------------------+--------------------------+
-//	| < MachineName>           | < MachineName> Service   |
-//	| AuditActivity Engine.txt | Engine.txt in Qlik       |
-//	| in Qlik Sense Enterprise | Sense Enterprise  <      |
-//	|  < MachineName>          | MachineName> Service     |
-//	| AuditActivity Engine.log | Engine.log in Qlik Sense |
-//	| in Qlik Sense Desktop    | Desktop                  |
-//	+--------------------------+--------------------------+
+//   +--------------------------+--------------------------+
+//   |    AUDIT ACTIVITY LOG    |    SYSTEM SERVICE LOG    |
+//   +--------------------------+--------------------------+
+//   | < MachineName>           | < MachineName> Service   |
+//   | AuditActivity Engine.txt | Engine.txt in Qlik       |
+//   | in Qlik Sense Enterprise | Sense Enterprise  <      |
+//   |  < MachineName>          | MachineName> Service     |
+//   | AuditActivity Engine.log | Engine.log in Qlik Sense |
+//   | in Qlik Sense Desktop    | Desktop                  |
+//   +--------------------------+--------------------------+
 //
 // Where to find the log files:
 //
 // The location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.
 //
-//	+-------------------------------------+----------------------------------------+
-//	|        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
-//	+-------------------------------------+----------------------------------------+
-//	| %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
-//	+-------------------------------------+----------------------------------------+
+//   +-------------------------------------+----------------------------------------+
+//   |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
+//   +-------------------------------------+----------------------------------------+
+//   | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
+//   +-------------------------------------+----------------------------------------+
 //
 // DoReloadExParams:
 //
-//	+----------+--------------------------------+---------+
-//	|   NAME   |          DESCRIPTION           |  TYPE   |
-//	+----------+--------------------------------+---------+
-//	| qMode    | Error handling mode  One of:   | Integer |
-//	|          |    * 0: for default mode.  *   |         |
-//	|          | 1: for ABEND; the reload of    |         |
-//	|          | the script ends if an error    |         |
-//	|          | occurs.  * 2: for ignore; the  |         |
-//	|          | reload of the script continues |         |
-//	|          | even if an error is detected   |         |
-//	|          | in the script.                 |         |
-//	| qPartial | Set to true for partial        | Boolean |
-//	|          | reload.  The default value is  |         |
-//	|          | false.                         |         |
-//	| qDebug   | Set to true if debug           | Boolean |
-//	|          | breakpoints are to be honored. |         |
-//	|          | The execution of the script    |         |
-//	|          | will be in debug mode.  The    |         |
-//	|          | default value is false.        |         |
-//	+----------+--------------------------------+---------+
+//   +----------+--------------------------------+---------+
+//   |   NAME   |          DESCRIPTION           |  TYPE   |
+//   +----------+--------------------------------+---------+
+//   | qMode    | Error handling mode  One of:   | Integer |
+//   |          |    * 0: for default mode.  *   |         |
+//   |          | 1: for ABEND; the reload of    |         |
+//   |          | the script ends if an error    |         |
+//   |          | occurs.  * 2: for ignore; the  |         |
+//   |          | reload of the script continues |         |
+//   |          | even if an error is detected   |         |
+//   |          | in the script.                 |         |
+//   | qPartial | Set to true for partial        | Boolean |
+//   |          | reload.  The default value is  |         |
+//   |          | false.                         |         |
+//   | qDebug   | Set to true if debug           | Boolean |
+//   |          | breakpoints are to be honored. |         |
+//   |          | The execution of the script    |         |
+//   |          | will be in debug mode.  The    |         |
+//   |          | default value is false.        |         |
+//   +----------+--------------------------------+---------+
 //
 // DoReloadExResult:
 //
-//	+----------------+--------------------------------+---------+
-//	|      NAME      |          DESCRIPTION           |  TYPE   |
-//	+----------------+--------------------------------+---------+
-//	| qSuccess       | The operation is successful if | Boolean |
-//	|                | qSuccess is set to True.       |         |
-//	| qScriptLogFile | Path to the script log file.   | String  |
-//	+----------------+--------------------------------+---------+
+//   +----------------+--------------------------------+---------+
+//   |      NAME      |          DESCRIPTION           |  TYPE   |
+//   +----------------+--------------------------------+---------+
+//   | qSuccess       | The operation is successful if | Boolean |
+//   |                | qSuccess is set to True.       |         |
+//   | qScriptLogFile | Path to the script log file.   | String  |
+//   +----------------+--------------------------------+---------+
 //
 // If the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.
 // Stability: locked
@@ -8880,11 +8880,10 @@ func (obj *Doc) GetScriptMetaRaw(ctx context.Context) (json.RawMessage, error) {
 }
 
 // Returns a set analysis expression from active selections or from a saved bookmark. Fields on the fly and Calculated dimensions will not be included in the generated expressions, instead a message indicating 'missing fields' will provided within the expression.
-//
-//	| | BookmarkId empty | BookmarkId set |
-//	|-----------------------|--------------------------------------|----------------------------------------------------|
-//	|StateName empty (or $) | Default selections state is returned.| Default state ($) in bookmark with id is returned. |
-//	|StateName set | State selections is returned. | State in bookmark with id is returned. |
+//   | | BookmarkId empty | BookmarkId set |
+//   |-----------------------|--------------------------------------|----------------------------------------------------|
+//   |StateName empty (or $) | Default selections state is returned.| Default state ($) in bookmark with id is returned. |
+//   |StateName set | State selections is returned. | State in bookmark with id is returned. |
 //
 // Parameters:
 //
@@ -9534,13 +9533,13 @@ func (obj *Doc) Scramble(ctx context.Context, fieldName string) error {
 //
 // SearchMatchCombinations:
 //
-//	+--------------------------+-------------------------------+------------------------+
-//	|           NAME           |          DESCRIPTION          |          TYPE          |
-//	+--------------------------+-------------------------------+------------------------+
-//	| qSearchMatchCombinations | Array of search combinations. | Array of               |
-//	|                          |                               | SearchMatchCombination |
-//	|                          |                               |                        |
-//	+--------------------------+-------------------------------+------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -9566,13 +9565,13 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 //
 // SearchMatchCombinations:
 //
-//	+--------------------------+-------------------------------+------------------------+
-//	|           NAME           |          DESCRIPTION          |          TYPE          |
-//	+--------------------------+-------------------------------+------------------------+
-//	| qSearchMatchCombinations | Array of search combinations. | Array of               |
-//	|                          |                               | SearchMatchCombination |
-//	|                          |                               |                        |
-//	+--------------------------+-------------------------------+------------------------+
+//   +--------------------------+-------------------------------+------------------------+
+//   |           NAME           |          DESCRIPTION          |          TYPE          |
+//   +--------------------------+-------------------------------+------------------------+
+//   | qSearchMatchCombinations | Array of search combinations. | Array of               |
+//   |                          |                               | SearchMatchCombination |
+//   |                          |                               |                        |
+//   +--------------------------+-------------------------------+------------------------+
 //
 // Parameters:
 //
@@ -10455,17 +10454,17 @@ func (obj *GenericBookmark) Approve(ctx context.Context) error {
 //
 // Fieldvalue:
 //
-//	+------------+--------------------------------+---------+
-//	|    NAME    |          DESCRIPTION           |  TYPE   |
-//	+------------+--------------------------------+---------+
-//	| qText      | Text related to the field      | String  |
-//	|            | value.                         |         |
-//	| qIsNumeric | Is set to true if the value is | Boolean |
-//	|            | a numeric.  Default is false.  |         |
-//	| qNumber    | Numeric value of the field.    | Double  |
-//	|            | This parameter is displayed if |         |
-//	|            | qIsNumeric is set to true.     |         |
-//	+------------+--------------------------------+---------+
+//   +------------+--------------------------------+---------+
+//   |    NAME    |          DESCRIPTION           |  TYPE   |
+//   +------------+--------------------------------+---------+
+//   | qText      | Text related to the field      | String  |
+//   |            | value.                         |         |
+//   | qIsNumeric | Is set to true if the value is | Boolean |
+//   |            | a numeric.  Default is false.  |         |
+//   | qNumber    | Numeric value of the field.    | Double  |
+//   |            | This parameter is displayed if |         |
+//   |            | qIsNumeric is set to true.     |         |
+//   +------------+--------------------------------+---------+
 //
 // Parameters:
 //
@@ -10488,17 +10487,17 @@ func (obj *GenericBookmark) GetFieldValues(ctx context.Context, field string, ge
 //
 // Fieldvalue:
 //
-//	+------------+--------------------------------+---------+
-//	|    NAME    |          DESCRIPTION           |  TYPE   |
-//	+------------+--------------------------------+---------+
-//	| qText      | Text related to the field      | String  |
-//	|            | value.                         |         |
-//	| qIsNumeric | Is set to true if the value is | Boolean |
-//	|            | a numeric.  Default is false.  |         |
-//	| qNumber    | Numeric value of the field.    | Double  |
-//	|            | This parameter is displayed if |         |
-//	|            | qIsNumeric is set to true.     |         |
-//	+------------+--------------------------------+---------+
+//   +------------+--------------------------------+---------+
+//   |    NAME    |          DESCRIPTION           |  TYPE   |
+//   +------------+--------------------------------+---------+
+//   | qText      | Text related to the field      | String  |
+//   |            | value.                         |         |
+//   | qIsNumeric | Is set to true if the value is | Boolean |
+//   |            | a numeric.  Default is false.  |         |
+//   | qNumber    | Numeric value of the field.    | Double  |
+//   |            | This parameter is displayed if |         |
+//   |            | qIsNumeric is set to true.     |         |
+//   +------------+--------------------------------+---------+
 //
 // Parameters:
 //
@@ -11623,57 +11622,57 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 //
-//	+-------------+--------------------------------+----------------------------+
-//	|    NAME     |          DESCRIPTION           |            TYPE            |
-//	+-------------+--------------------------------+----------------------------+
-//	| qNum        | Maximum number of points that  | String                     |
-//	|             | a cell can contain.            |                            |
-//	| qElemNumber | Is set to 0.                   | Boolean                    |
-//	| qState      | The default value is L.        | One of:   * L for Locked   |
-//	|             |                                |  * S for Selected  *       |
-//	|             |                                | O for Optional  * D        |
-//	|             |                                | for Deselected  * A        |
-//	|             |                                | for Alternative  * X       |
-//	|             |                                | for eXcluded  * XS for     |
-//	|             |                                | eXcluded Selected  * XL    |
-//	|             |                                | for eXcluded Locked        |
-//	+-------------+--------------------------------+----------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 //
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
 //
-//	+-------------+--------------------------------+--------------------------------+
-//	|    NAME     |          DESCRIPTION           |              TYPE              |
-//	+-------------+--------------------------------+--------------------------------+
-//	| qText       | Coordinates of a cell in       | String                         |
-//	|             | the measure range.  “qText”:   |                                |
-//	|             | “[[<left>, <top>, <right>,     |                                |
-//	|             | <bottom>], [<left>, <top>,     |                                |
-//	|             | <right>, <bottom>], ....       |                                |
-//	|             | [<left>, <top>, <right>,       |                                |
-//	|             | <bottom>]]  Where:  < left     |                                |
-//	|             | >, < top >, < right > and <    |                                |
-//	|             | bottom > are the coordinates   |                                |
-//	|             | of the cell in the measure     |                                |
-//	|             | range.                         |                                |
-//	| qNum        | Number of points in the cell.  | Double precision floating      |
-//	|             |                                | point                          |
-//	| qElemNumber | Unique identifier for each     | Integer                        |
-//	|             | cell, calculated by the engine |                                |
-//	|             | during the construction of     |                                |
-//	|             | the grid.  This element number |                                |
-//	|             | is not stored in the database  |                                |
-//	|             | and can have a positive or a   |                                |
-//	|             | negative value.                |                                |
-//	| qState      | The default value is L.        | One of:   * L for Locked       |
-//	|             |                                |  * S for Selected  *           |
-//	|             |                                | O for Optional  * D            |
-//	|             |                                | for Deselected  * A            |
-//	|             |                                | for Alternative  * X           |
-//	|             |                                | for eXcluded  * XS for         |
-//	|             |                                | eXcluded Selected  * XL        |
-//	|             |                                | for eXcluded Locked            |
-//	+-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+--------------------------------+
+//   |    NAME     |          DESCRIPTION           |              TYPE              |
+//   +-------------+--------------------------------+--------------------------------+
+//   | qText       | Coordinates of a cell in       | String                         |
+//   |             | the measure range.  “qText”:   |                                |
+//   |             | “[[<left>, <top>, <right>,     |                                |
+//   |             | <bottom>], [<left>, <top>,     |                                |
+//   |             | <right>, <bottom>], ....       |                                |
+//   |             | [<left>, <top>, <right>,       |                                |
+//   |             | <bottom>]]  Where:  < left     |                                |
+//   |             | >, < top >, < right > and <    |                                |
+//   |             | bottom > are the coordinates   |                                |
+//   |             | of the cell in the measure     |                                |
+//   |             | range.                         |                                |
+//   | qNum        | Number of points in the cell.  | Double precision floating      |
+//   |             |                                | point                          |
+//   | qElemNumber | Unique identifier for each     | Integer                        |
+//   |             | cell, calculated by the engine |                                |
+//   |             | during the construction of     |                                |
+//   |             | the grid.  This element number |                                |
+//   |             | is not stored in the database  |                                |
+//   |             | and can have a positive or a   |                                |
+//   |             | negative value.                |                                |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
+//   +-------------+--------------------------------+--------------------------------+
 //
 // Cells are represented as rectangles.
 //
@@ -11684,31 +11683,31 @@ func (obj *GenericObject) GetFullPropertyTreeRaw(ctx context.Context) (json.RawM
 // The first array is empty because no information on the adaptive grid is needed.
 // The next arrays bring information about the dimension and the measure values.
 //
-//	+-------------+--------------------------------+--------------------------------+
-//	|    NAME     |          DESCRIPTION           |              TYPE              |
-//	+-------------+--------------------------------+--------------------------------+
-//	| qText       | Text value of the dimension or | String                         |
-//	|             | the measure.                   |                                |
-//	| qNum        | Numerical value of the         | Double precision floating      |
-//	|             | dimension or the measure.  Is  | point                          |
-//	|             | set to 0 if the value is only  |                                |
-//	|             | text.                          |                                |
-//	| qElemNumber | Unique identifier for each     | Integer                        |
-//	|             | cell, calculated by the engine |                                |
-//	|             | during the construction of     |                                |
-//	|             | the grid.  This element number |                                |
-//	|             | is not stored in the database  |                                |
-//	|             | and can have a positive or a   |                                |
-//	|             | negative value.                |                                |
-//	| qState      | The default value is L.        | One of:   * L for Locked       |
-//	|             |                                |  * S for Selected  *           |
-//	|             |                                | O for Optional  * D            |
-//	|             |                                | for Deselected  * A            |
-//	|             |                                | for Alternative  * X           |
-//	|             |                                | for eXcluded  * XS for         |
-//	|             |                                | eXcluded Selected  * XL        |
-//	|             |                                | for eXcluded Locked            |
-//	+-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+--------------------------------+
+//   |    NAME     |          DESCRIPTION           |              TYPE              |
+//   +-------------+--------------------------------+--------------------------------+
+//   | qText       | Text value of the dimension or | String                         |
+//   |             | the measure.                   |                                |
+//   | qNum        | Numerical value of the         | Double precision floating      |
+//   |             | dimension or the measure.  Is  | point                          |
+//   |             | set to 0 if the value is only  |                                |
+//   |             | text.                          |                                |
+//   | qElemNumber | Unique identifier for each     | Integer                        |
+//   |             | cell, calculated by the engine |                                |
+//   |             | during the construction of     |                                |
+//   |             | the grid.  This element number |                                |
+//   |             | is not stored in the database  |                                |
+//   |             | and can have a positive or a   |                                |
+//   |             | negative value.                |                                |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
+//   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
 //
@@ -11766,57 +11765,57 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 // When the refinement is not the highest (cells are rendered), information about the adaptive grid is returned through several arrays.
 // The first array contains the following properties:
 //
-//	+-------------+--------------------------------+----------------------------+
-//	|    NAME     |          DESCRIPTION           |            TYPE            |
-//	+-------------+--------------------------------+----------------------------+
-//	| qNum        | Maximum number of points that  | String                     |
-//	|             | a cell can contain.            |                            |
-//	| qElemNumber | Is set to 0.                   | Boolean                    |
-//	| qState      | The default value is L.        | One of:   * L for Locked   |
-//	|             |                                |  * S for Selected  *       |
-//	|             |                                | O for Optional  * D        |
-//	|             |                                | for Deselected  * A        |
-//	|             |                                | for Alternative  * X       |
-//	|             |                                | for eXcluded  * XS for     |
-//	|             |                                | eXcluded Selected  * XL    |
-//	|             |                                | for eXcluded Locked        |
-//	+-------------+--------------------------------+----------------------------+
+//   +-------------+--------------------------------+----------------------------+
+//   |    NAME     |          DESCRIPTION           |            TYPE            |
+//   +-------------+--------------------------------+----------------------------+
+//   | qNum        | Maximum number of points that  | String                     |
+//   |             | a cell can contain.            |                            |
+//   | qElemNumber | Is set to 0.                   | Boolean                    |
+//   | qState      | The default value is L.        | One of:   * L for Locked   |
+//   |             |                                |  * S for Selected  *       |
+//   |             |                                | O for Optional  * D        |
+//   |             |                                | for Deselected  * A        |
+//   |             |                                | for Alternative  * X       |
+//   |             |                                | for eXcluded  * XS for     |
+//   |             |                                | eXcluded Selected  * XL    |
+//   |             |                                | for eXcluded Locked        |
+//   +-------------+--------------------------------+----------------------------+
 //
 // The next arrays give the coordinates of each cell in the page.
 // Each array contains the following properties:
 //
-//	+-------------+--------------------------------+--------------------------------+
-//	|    NAME     |          DESCRIPTION           |              TYPE              |
-//	+-------------+--------------------------------+--------------------------------+
-//	| qText       | Coordinates of a cell in       | String                         |
-//	|             | the measure range.  “qText”:   |                                |
-//	|             | “[[<left>, <top>, <right>,     |                                |
-//	|             | <bottom>], [<left>, <top>,     |                                |
-//	|             | <right>, <bottom>], ....       |                                |
-//	|             | [<left>, <top>, <right>,       |                                |
-//	|             | <bottom>]]  Where:  < left     |                                |
-//	|             | >, < top >, < right > and <    |                                |
-//	|             | bottom > are the coordinates   |                                |
-//	|             | of the cell in the measure     |                                |
-//	|             | range.                         |                                |
-//	| qNum        | Number of points in the cell.  | Double precision floating      |
-//	|             |                                | point                          |
-//	| qElemNumber | Unique identifier for each     | Integer                        |
-//	|             | cell, calculated by the engine |                                |
-//	|             | during the construction of     |                                |
-//	|             | the grid.  This element number |                                |
-//	|             | is not stored in the database  |                                |
-//	|             | and can have a positive or a   |                                |
-//	|             | negative value.                |                                |
-//	| qState      | The default value is L.        | One of:   * L for Locked       |
-//	|             |                                |  * S for Selected  *           |
-//	|             |                                | O for Optional  * D            |
-//	|             |                                | for Deselected  * A            |
-//	|             |                                | for Alternative  * X           |
-//	|             |                                | for eXcluded  * XS for         |
-//	|             |                                | eXcluded Selected  * XL        |
-//	|             |                                | for eXcluded Locked            |
-//	+-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+--------------------------------+
+//   |    NAME     |          DESCRIPTION           |              TYPE              |
+//   +-------------+--------------------------------+--------------------------------+
+//   | qText       | Coordinates of a cell in       | String                         |
+//   |             | the measure range.  “qText”:   |                                |
+//   |             | “[[<left>, <top>, <right>,     |                                |
+//   |             | <bottom>], [<left>, <top>,     |                                |
+//   |             | <right>, <bottom>], ....       |                                |
+//   |             | [<left>, <top>, <right>,       |                                |
+//   |             | <bottom>]]  Where:  < left     |                                |
+//   |             | >, < top >, < right > and <    |                                |
+//   |             | bottom > are the coordinates   |                                |
+//   |             | of the cell in the measure     |                                |
+//   |             | range.                         |                                |
+//   | qNum        | Number of points in the cell.  | Double precision floating      |
+//   |             |                                | point                          |
+//   | qElemNumber | Unique identifier for each     | Integer                        |
+//   |             | cell, calculated by the engine |                                |
+//   |             | during the construction of     |                                |
+//   |             | the grid.  This element number |                                |
+//   |             | is not stored in the database  |                                |
+//   |             | and can have a positive or a   |                                |
+//   |             | negative value.                |                                |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
+//   +-------------+--------------------------------+--------------------------------+
 //
 // Cells are represented as rectangles.
 //
@@ -11827,31 +11826,31 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 // The first array is empty because no information on the adaptive grid is needed.
 // The next arrays bring information about the dimension and the measure values.
 //
-//	+-------------+--------------------------------+--------------------------------+
-//	|    NAME     |          DESCRIPTION           |              TYPE              |
-//	+-------------+--------------------------------+--------------------------------+
-//	| qText       | Text value of the dimension or | String                         |
-//	|             | the measure.                   |                                |
-//	| qNum        | Numerical value of the         | Double precision floating      |
-//	|             | dimension or the measure.  Is  | point                          |
-//	|             | set to 0 if the value is only  |                                |
-//	|             | text.                          |                                |
-//	| qElemNumber | Unique identifier for each     | Integer                        |
-//	|             | cell, calculated by the engine |                                |
-//	|             | during the construction of     |                                |
-//	|             | the grid.  This element number |                                |
-//	|             | is not stored in the database  |                                |
-//	|             | and can have a positive or a   |                                |
-//	|             | negative value.                |                                |
-//	| qState      | The default value is L.        | One of:   * L for Locked       |
-//	|             |                                |  * S for Selected  *           |
-//	|             |                                | O for Optional  * D            |
-//	|             |                                | for Deselected  * A            |
-//	|             |                                | for Alternative  * X           |
-//	|             |                                | for eXcluded  * XS for         |
-//	|             |                                | eXcluded Selected  * XL        |
-//	|             |                                | for eXcluded Locked            |
-//	+-------------+--------------------------------+--------------------------------+
+//   +-------------+--------------------------------+--------------------------------+
+//   |    NAME     |          DESCRIPTION           |              TYPE              |
+//   +-------------+--------------------------------+--------------------------------+
+//   | qText       | Text value of the dimension or | String                         |
+//   |             | the measure.                   |                                |
+//   | qNum        | Numerical value of the         | Double precision floating      |
+//   |             | dimension or the measure.  Is  | point                          |
+//   |             | set to 0 if the value is only  |                                |
+//   |             | text.                          |                                |
+//   | qElemNumber | Unique identifier for each     | Integer                        |
+//   |             | cell, calculated by the engine |                                |
+//   |             | during the construction of     |                                |
+//   |             | the grid.  This element number |                                |
+//   |             | is not stored in the database  |                                |
+//   |             | and can have a positive or a   |                                |
+//   |             | negative value.                |                                |
+//   | qState      | The default value is L.        | One of:   * L for Locked       |
+//   |             |                                |  * S for Selected  *           |
+//   |             |                                | O for Optional  * D            |
+//   |             |                                | for Deselected  * A            |
+//   |             |                                | for Alternative  * X           |
+//   |             |                                | for eXcluded  * XS for         |
+//   |             |                                | eXcluded Selected  * XL        |
+//   |             |                                | for eXcluded Locked            |
+//   +-------------+--------------------------------+--------------------------------+
 //
 // Parameters:
 //
@@ -12999,19 +12998,19 @@ func (obj *GenericObject) SelectListObjectValues(ctx context.Context, path strin
 //
 // In the representation above:
 //
-//	+-------------------+--------------------------------+
-//	| Sum(OrderTotal)   | Are pseudo dimensions.         |
-//	| Count(OrderTotal) |                                |
-//	| CategoryName      | Is a left dimension.           |
-//	|                   | Beverages , Condiments ... are |
-//	|                   | left dimension values.         |
-//	| ProductName       | Is a top dimension.  Chef      |
-//	|                   | Anton's Cajun Seasoning is a   |
-//	|                   | top dimension value.           |
-//	| Numeric values    | Are calculated values in the   |
-//	|                   | data matrix.  626291,832 is a  |
-//	|                   | calculated value.              |
-//	+-------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 //
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
@@ -13060,19 +13059,19 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 //
 // In the representation above:
 //
-//	+-------------------+--------------------------------+
-//	| Sum(OrderTotal)   | Are pseudo dimensions.         |
-//	| Count(OrderTotal) |                                |
-//	| CategoryName      | Is a left dimension.           |
-//	|                   | Beverages , Condiments ... are |
-//	|                   | left dimension values.         |
-//	| ProductName       | Is a top dimension.  Chef      |
-//	|                   | Anton's Cajun Seasoning is a   |
-//	|                   | top dimension value.           |
-//	| Numeric values    | Are calculated values in the   |
-//	|                   | data matrix.  626291,832 is a  |
-//	|                   | calculated value.              |
-//	+-------------------+--------------------------------+
+//   +-------------------+--------------------------------+
+//   | Sum(OrderTotal)   | Are pseudo dimensions.         |
+//   | Count(OrderTotal) |                                |
+//   | CategoryName      | Is a left dimension.           |
+//   |                   | Beverages , Condiments ... are |
+//   |                   | left dimension values.         |
+//   | ProductName       | Is a top dimension.  Chef      |
+//   |                   | Anton's Cajun Seasoning is a   |
+//   |                   | top dimension value.           |
+//   | Numeric values    | Are calculated values in the   |
+//   |                   | data matrix.  626291,832 is a  |
+//   |                   | calculated value.              |
+//   +-------------------+--------------------------------+
 //
 // The member Change returns the handles of the objects that are updated following the selections.
 // _qSuccess_ is set to true if the selections are successful and is set to false in the following cases:
@@ -13517,24 +13516,24 @@ func (obj *Global) CopyApp(ctx context.Context, targetAppId string, srcAppId str
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+----------------------------------------+---------------------------------+
-//	|           AUDIT ACTIVITY LOG           |       SYSTEM SERVICE LOG        |
-//	+----------------------------------------+---------------------------------+
-//	| <MachineName>_AuditActivity_Engine.txt | <MachineName>_ServiceEngine.txt |
-//	| in Qlik Sense Enterprise               | in Qlik Sense Enterprise        |
-//	| <MachineName>_AuditActivity_Engine.log | <MachineName>_ServiceEngine.log |
-//	| in Qlik Sense Desktop                  | in Qlik Sense Desktop           |
-//	+----------------------------------------+---------------------------------+
+//   +----------------------------------------+---------------------------------+
+//   |           AUDIT ACTIVITY LOG           |       SYSTEM SERVICE LOG        |
+//   +----------------------------------------+---------------------------------+
+//   | <MachineName>_AuditActivity_Engine.txt | <MachineName>_ServiceEngine.txt |
+//   | in Qlik Sense Enterprise               | in Qlik Sense Enterprise        |
+//   | <MachineName>_AuditActivity_Engine.log | <MachineName>_ServiceEngine.log |
+//   | in Qlik Sense Desktop                  | in Qlik Sense Desktop           |
+//   +----------------------------------------+---------------------------------+
 //
 // Where to find the log files:
 //
 // The location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.
 //
-//	+-------------------------------------+----------------------------------------+
-//	|        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
-//	+-------------------------------------+----------------------------------------+
-//	| %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
-//	+-------------------------------------+----------------------------------------+
+//   +-------------------------------------+----------------------------------------+
+//   |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
+//   +-------------------------------------+----------------------------------------+
+//   | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
+//   +-------------------------------------+----------------------------------------+
 //
 // Parameters:
 //
@@ -13656,24 +13655,24 @@ func (obj *Global) CreateSessionAppFromApp(ctx context.Context, srcAppId string)
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+--------------------------------------+--------------------------------+
-//	|          AUDIT ACTIVITY LOG          |       SYSTEM SERVICE LOG       |
-//	+--------------------------------------+--------------------------------+
-//	| <MachineName>AuditActivityEngine.txt | <MachineName>ServiceEngine.txt |
-//	| in Qlik Sense Enterprise             | in Qlik Sense Enterprise       |
-//	| <MachineName>AuditActivityEngine.log | <MachineName>ServiceEngine.log |
-//	| in Qlik Sense Desktop                | in Qlik Sense Desktop          |
-//	+--------------------------------------+--------------------------------+
+//   +--------------------------------------+--------------------------------+
+//   |          AUDIT ACTIVITY LOG          |       SYSTEM SERVICE LOG       |
+//   +--------------------------------------+--------------------------------+
+//   | <MachineName>AuditActivityEngine.txt | <MachineName>ServiceEngine.txt |
+//   | in Qlik Sense Enterprise             | in Qlik Sense Enterprise       |
+//   | <MachineName>AuditActivityEngine.log | <MachineName>ServiceEngine.log |
+//   | in Qlik Sense Desktop                | in Qlik Sense Desktop          |
+//   +--------------------------------------+--------------------------------+
 //
 // Where to find the log files:
 //
 // The location of the log files depends on whether you have installed Qlik Sense Enterprise or Qlik Sense Desktop.
 //
-//	+-------------------------------------+----------------------------------------+
-//	|        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
-//	+-------------------------------------+----------------------------------------+
-//	| %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
-//	+-------------------------------------+----------------------------------------+
+//   +-------------------------------------+----------------------------------------+
+//   |        QLIK SENSE ENTERPRISE        |           QLIK SENSE DESKTOP           |
+//   +-------------------------------------+----------------------------------------+
+//   | %ProgramData%/Qlik/Sense/Log/Engine | %UserProfile%/Documents/Qlik/Sense/Log |
+//   +-------------------------------------+----------------------------------------+
 //
 // Parameters:
 //
@@ -13721,11 +13720,11 @@ func (obj *Global) EngineVersionRaw(ctx context.Context) (json.RawMessage, error
 // In the case of errors, both audit activity logs and system services logs are produced.
 // The log files are named as follows:
 //
-//	+-----------------------------------------+-----------------------------------+
-//	|           AUDIT ACTIVITY LOG            |        SYSTEM SERVICE LOG         |
-//	+-----------------------------------------+-----------------------------------+
-//	| *<MachineName>_AuditActivityEngine.txt* | *<MachineName>_ServiceEngine.txt* |
-//	+-----------------------------------------+-----------------------------------+
+//   +-----------------------------------------+-----------------------------------+
+//   |           AUDIT ACTIVITY LOG            |        SYSTEM SERVICE LOG         |
+//   +-----------------------------------------+-----------------------------------+
+//   | *<MachineName>_AuditActivityEngine.txt* | *<MachineName>_ServiceEngine.txt* |
+//   +-----------------------------------------+-----------------------------------+
 //
 // The log files are located in:
 // _%ProgramData%/Qlik/Sense/Log/Engine_
