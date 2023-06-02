@@ -1,0 +1,44 @@
+name: Update enigma-go to new engine schema
+
+on:
+  schedule:
+    - cron: 0 4 * * 1 # Every monday at 04:00
+  workflow_dispatch:
+
+jobs:
+  fetch-api-specs:
+    uses: qlik-trial/dev-portal/.github/workflows/update-api-specs.yaml@master
+    secrets: inherit
+    with:
+      repository: qlik-oss/enigma-go
+      ref: master
+      internal_apis: false
+      stage_apis: false
+      specs_dir: "schema"
+  update-api-specs:
+    runs-on: ubuntu-latest
+    needs: fetch-api-specs
+    steps:
+      - name: Checkout qlik-oss/enigma-go@get-latest-specs
+        uses: actions/checkout@v3
+        with:
+          repository: qlik-oss/enigma-go
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+          ref: get-latest-specs
+      - name: Copy the engine spec to the correct location
+        run: |
+          rm $(find schema/ -not -type d | grep -v -e /openRPC/)
+          mv schema/openRPC/engine-rpc.json schema/engine-rpc.json
+          rm -rf schema/openRPC
+      - name: Generate enigma-go and update the API specification
+        run: |
+          make update-engine-version
+      - name: Create a pull request with the updated files
+        run: |
+          git config user.name 'qlikossbuild'
+          git config user.email 'noreply@github.com'
+          git add ./api-spec.json
+          git add ./qix_generated.go
+          git add ./schema/engine-rpc.json
+          git commit -m "chore: generate enigma-go"
+          git push
