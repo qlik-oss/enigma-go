@@ -1,10 +1,10 @@
-module github.com/qlik-oss/enigma-go/v3
+module github.com/qlik-oss/enigma-go/v4
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/goccy/go-json v0.9.3
+	github.com/goccy/go-json v0.10.2
 	github.com/golang-jwt/jwt/v4 v4.2.0
-	github.com/gorilla/websocket v1.4.2
+	github.com/gorilla/websocket v1.5.0
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056
 	github.com/mattn/go-runewidth v0.0.4 // indirect
 	github.com/olekukonko/tablewriter v0.0.1 // indirect
