@@ -11,7 +11,7 @@ ENGINE_CONTAINER_ID=$(docker run -p9076:9076 -d qlikcore/engine:$ENGINE_VERSION 
 docker cp ./examples/reload/monitor-progress/testdata/ $ENGINE_CONTAINER_ID:/testdata
 
 # Execute both unit and integration tests
-go test -coverprofile=./coverage/c.out -coverpkg="github.com/qlik-oss/enigma-go/v3" -race -p=1 ./... --count=1
+go test -coverprofile=./coverage/c.out -coverpkg="github.com/qlik-oss/enigma-go/v4" -race -p=1 ./... --count=1
 
 # Stop the engine container
 docker kill $ENGINE_CONTAINER_ID

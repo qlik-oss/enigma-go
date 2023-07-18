@@ -14,7 +14,7 @@ func Test(t *testing.T) {
 
 	info := &info{
 		Name:                "mockapi",
-		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v3/spec/mockapi",
+		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v4/spec/mockapi",
 		GoPackageName:       "mockapi",
 		Version:             "no particular version",
 		License:             "MIT",

@@ -3,7 +3,7 @@
   "info": {
     "name": "mockapi",
     "go-package-name": "mockapi",
-    "go-package-import-path": "github.com/qlik-oss/enigma-go/v3/spec/mockapi",
+    "go-package-import-path": "github.com/qlik-oss/enigma-go/v4/spec/mockapi",
     "version": "no particular version",
     "description": "mockapi is a package used to verify the spec generator itself",
     "license": "MIT"

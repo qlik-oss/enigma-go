@@ -3,7 +3,7 @@
   "info": {
     "name": "enigma",
     "go-package-name": "enigma",
-    "go-package-import-path": "github.com/qlik-oss/enigma-go/v3",
+    "go-package-import-path": "github.com/qlik-oss/enigma-go/v4",
     "version": "latest",
     "description": "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
     "license": "MIT"

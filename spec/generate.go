@@ -88,7 +88,7 @@ func main() {
 	flag.Parse() // This reads in the value of the passed flags.
 	info := &info{
 		Name:                "enigma",
-		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v3",
+		GoPackageImportPath: "github.com/qlik-oss/enigma-go/v4",
 		GoPackageName:       "enigma",
 		Version:             *version,
 		License:             "MIT",
