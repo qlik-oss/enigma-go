@@ -3,7 +3,7 @@
   "info": {
     "name": "enigma",
     "go-package-name": "enigma",
-    "go-package-import-path": "github.com/qlik-oss/enigma-go/v3",
+    "go-package-import-path": "github.com/qlik-oss/enigma-go/v4",
     "version": "latest",
     "description": "enigma-go is a library that helps you communicate with a Qlik Associative Engine.",
     "license": "MIT"
@@ -175,7 +175,7 @@
           "type": "bool"
         },
         "Bnf": {
-          "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).",
+          "description": "Array of token references that all together build up the definition of the current token.\nGenerally, if the array is not empty, the definition is a BNF rule (_qIsBnfRule_ is set to true). However, some BNF  rules do have an empty array (_qIsBnfRule_ is set to true, but qBnf is empty).",
           "type": "slice",
           "items": {
             "type": "int"
@@ -622,7 +622,7 @@
       "type": "struct",
       "entries": {
         "ConnectionString": {
-          "description": "One of:\n\n• ODBC CONNECT TO [\u003cprovider name\u003e]\n\n• OLEDB CONNECT TO [\u003cprovider name\u003e]\n\n• CUSTOM CONNECT TO [\u003cprovider name\u003e]\n\n• \"\u003clocal absolute or relative path, UNC path\u003e\"\n\n• \"\u003cURL\u003e\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection.",
+          "description": "One of:\n\n• ODBC CONNECT TO [\u003cprovider name\u003e]\n\n• OLEDB CONNECT TO [\u003cprovider name\u003e]\n\n• CUSTOM CONNECT TO [\u003cprovider name\u003e]\n\n• \"\u003clocal absolute or relative path, UNC path\u003e\"\n\n• \"\u003cURL\u003e\"\n\nConnection string.\nThis parameter is mandatory and must be set when creating or modifying a connection.",
           "type": "string"
         },
         "Id": {
@@ -1037,6 +1037,15 @@
         "ReloadId": {
           "description": "Optional reload ID.\nID will be automatically generated if not set.",
           "type": "string"
+        },
+        "RowLimit": {
+          "description": "If greater than or equal 0, defines max number of rows loaded from a data source.\nWhen set to nil the default value is used, when set to point at a value that value is used (including golang zero values)",
+          "type": "int",
+          "ref-type": "pointer"
+        },
+        "SkipStore": {
+          "description": "Set to true to skip Store statements.\nThe default value is false.",
+          "type": "bool"
         }
       }
     },
@@ -1207,7 +1216,7 @@
         },
         "ApplyTemporaryBookmark": {
           "description": "Apply temporary bookmark identified by Id.\nApplyTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ id   -   Identifier of the temporary selection state",
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
@@ -1476,6 +1485,21 @@
             },
             {
               "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ClearAllSoftPatches": {
+          "description": "Clear the soft properties of all generic objects in the app",
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
             }
           ],
           "returns": [
@@ -1994,7 +2018,7 @@
         },
         "CreateTemporaryBookmark": {
           "description": "Create temporary bookmark\nCreateTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ options            -   Options for the temporary bookmark\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
@@ -2024,7 +2048,7 @@
         },
         "CreateTemporaryBookmarkRaw": {
           "description": "Create temporary bookmark\nCreateTemporaryBookmark method is only supported in SaaS Editions of Qlik Sense.\n\nParameters:\n\n◾ options            -   Options for the temporary bookmark\n\n◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
-          "x-qlik-stability": "experimental",
+          "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
@@ -3020,7 +3044,7 @@
           ]
         },
         "GetDatabaseInfo": {
-          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
+          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3041,7 +3065,7 @@
           ]
         },
         "GetDatabaseInfoRaw": {
-          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
+          "description": "Gives information about an ODBC, OLEDB or CUSTOM connection. See Outputs for more details.\n\nParameters:\n\n◾ connectionId   -   Name of the connection.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3113,7 +3137,7 @@
           ]
         },
         "GetDatabaseTableFields": {
-          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
+          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3146,7 +3170,7 @@
           ]
         },
         "GetDatabaseTableFieldsRaw": {
-          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
+          "description": "Lists the fields inside a table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3176,7 +3200,7 @@
           ]
         },
         "GetDatabaseTablePreview": {
-          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
+          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3215,7 +3239,7 @@
           ]
         },
         "GetDatabaseTablePreviewRaw": {
-          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
+          "description": "Retrieves the values of the specified table of a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.\n\n◾ table          -   Name of the table.\n\n◾ conditions     -",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3251,7 +3275,7 @@
           ]
         },
         "GetDatabaseTables": {
-          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
+          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3281,7 +3305,7 @@
           ]
         },
         "GetDatabaseTablesRaw": {
-          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
+          "description": "Lists the tables inside a database for a ODBC, OLEDB or CUSTOM connection.\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ database       -   Name of the database.\nIf qDatabase is not set then qOwner must be set.\n\n◾ owner          -   Owner of the database.\nIf qOwner is not set then qDatabase must be set.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3701,7 +3725,7 @@
           ]
         },
         "GetFileTableFields": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3737,7 +3761,7 @@
           ]
         },
         "GetFileTableFieldsRaw": {
-          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the fields of a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3770,7 +3794,7 @@
           ]
         },
         "GetFileTablePreview": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3806,7 +3830,7 @@
           ]
         },
         "GetFileTablePreviewRaw": {
-          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML and XML files.",
+          "description": "Lists the values in a table for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.\n\n◾ table          -   Name of the table.\nThis parameter must be set for XLS , XLSX , HTML   and XML files.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3839,7 +3863,7 @@
           ]
         },
         "GetFileTables": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -3926,7 +3950,7 @@
           ]
         },
         "GetFileTablesRaw": {
-          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
+          "description": "Lists the tables for a folder connection.\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection.\n\n◾ relativePath   -   Path of the connection file.\n\n◾ dataFormat     -   Type of the file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4893,7 +4917,7 @@
           ]
         },
         "GuessFileType": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -4917,7 +4941,7 @@
           ]
         },
         "GuessFileTypeRaw": {
-          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
+          "description": "Guesses the data format for a given file.\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nFileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file\n\nParameters:\n\n◾ connectionId   -   Identifier of the connection file.\n\n◾ relativePath   -   Path of the connection file.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -5986,6 +6010,10 @@
         },
         "Title": {
           "description": "Title of the app.",
+          "type": "string"
+        },
+        "Usage": {
+          "description": "One of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
           "type": "string"
         }
       }
@@ -7112,7 +7140,7 @@
       }
     },
     "FileDataFormat": {
-      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file",
+      "description": "FileType:\n\nRecognized file formats are:\n\n• CSV for Delimited\n\n• FIX for Fixed Record\n\n• DIF for Data Interchange Format\n\n• EXCELBIFF_ for Microsoft Excel (XLS)\n\n• EXCELOOXML_ for Microsoft Excel (XLSX)\n\n• HTML for HTML\n\n• QVD for QVD file\n\n• XML for XML\n\n• QVX for QVX file\n\n• JSON for JSON format\n\n• KML for KML file\n\n• PARQUET for PARQUET file",
       "type": "struct",
       "entries": {
         "CodePage": {
@@ -8939,7 +8967,7 @@
           ]
         },
         "ExportData": {
-          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\nExportData method is not supported in SaaS Editions of Qlik Sense.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n• PARQUET or EXPORT_PARQUET\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
+          "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\nExportData method is not supported in SaaS Editions of Qlik Sense.\n\nDefault limitations in number of rows and columns:\n\nThe default maximum number of rows and columns in the Excel export file is:\n\n• 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n\n• 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\nDefault limitation in number of columns:\n\nThe default maximum number of columns in the export file is:\n\n• 1000 to export to a CSV file\n\nDefault limitations in number of cells:\n\nThe default maximum number of cells in the export file is:\n\n• 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\nThere is an option to export only the possible values ( qExportState is P).\n\nDefault limitation in size:\n\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\nExported files are temporary and are available only for a certain time span and only to the user who created them.\n\nParameters:\n\n◾ fileType      -   Type of the file to export.\n\nOne of:\n\n• CSV_C or EXPORT_CSV_C\n\n• CSV_T or EXPORT_CSV_T\n\n• OOXML or EXPORT_OOXML\n\n• PARQUET or EXPORT_PARQUET\n\n◾ path          -   Path to the definition of the object to be exported.\nFor example, /qHyperCubeDef .\nThis parameter is mandatory if the file type is CSVC_ or CSVT_ .\n\n◾ fileName      -   Name of the exported file after download from browser.\nThis parameter is optional and only used in Qlik Sense Desktop.\n\n◾ exportState   -   Defines the values to be exported.\nThe default value is A.\n\nOne of:\n\n• P or EXPORT_POSSIBLE\n\n• A or EXPORT_ALL\n\n◾ serveOnce     -   If the exported file should be served only once\nThis parameter is optional and only used in Qlik Sense Enterprise (Windows)\nDefault value: false",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -9368,7 +9396,7 @@
           ]
         },
         "GetHyperCubeReducedData": {
-          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
+          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -9404,7 +9432,7 @@
           ]
         },
         "GetHyperCubeReducedDataRaw": {
-          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
+          "description": "Reduces the data of a bar chart, a line chart or a scatter plot chart and retrieves them.\nThe reduction is dependent on the zoom factor (parameter qZoomFactor ) and on the reduction mode.\nThis method can be used to create mini charts.\n\nBar chart or line chart data reduction:\n\nFor the data reduction to happen, the following conditions must be fulfilled:\n\n• The values cannot fit in the defined page (parameter qPages ).\n\n• The zoom factor is not 0 (parameter qZoomFactor ).\n\n• The reduction mode must be set to D1.\n\nThe reduction algorithm keeps the shape of the visualizations and works whatever the number of dimensions in the chart. The global profile of the chart is reduced, and not only a specific dimension. A visualization that has been reduced contains fewer values but its shape is the same. Data of all types can be reduced. Therefore it is hard to relate the values before and after a reduction especially when reducing string values.\n\nExample:\n\nIf you have a chart with 1 million data, and you have set the zoom factor to 5, the GetHyperCubeReducedData method reduces the chart and retrieves 200 000 data.\n\nScatter plot chart data reduction:\n\nThe reduction mode must be set to C.\nThis reduction mechanism follows the 2D K-Means algorithm. Data are reduced into a number of clusters. Each data is assigned to a specific centroid.\nThe number of centroids can be defined in the parameter qZoomFactor.\n\nScatter plot chart resolution reduction:\n\nThe reduction mode must be set to S.\nThe resolution is reduced according to the zoom factor (parameter qZoomFactor ).\n\nExample:\n\nIf you have a scatter plot chart and the zoom factor is set to 2, the scatter plot chart resolution is reduced by 4.\n\nParameters:\n\n◾ path            -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ pages           -   Array of pages.\n\n◾ zoomFactor      -   Defines the zoom factor.\nIf set to -1, the engine decides of the zoom factor.\n\n• If the reduction mode is D1 or S , the zoom factor is 2ⁿ. If the zoom factor is 5, the data are reduced by a factor 32.\n\n• If the reduction mode is C , the zoom factor defines the number of centroids.\n\n◾ reductionMode   -   Defines the reduction mode.\n\nOne of:\n\n• N or DATA_REDUCTION_NONE\n\n• D1 or DATA_REDUCTION_ONEDIM\n\n• S or DATA_REDUCTION_SCATTERED\n\n• C or DATA_REDUCTION_CLUSTERED\n\n• ST or DATA_REDUCTION_STACKED",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -9581,7 +9609,7 @@
           ]
         },
         "GetLayout": {
-          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
+          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA  GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -9599,7 +9627,7 @@
           ]
         },
         "GetLayoutRaw": {
-          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
+          "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member delta is set to true in the request object, only the delta is evaluated. A GetLayout call on a generic object, returns up to one level down in the hierarchy.\n\nExample::\n\n_A_ is a generic object and is the parent of the objects B and C. B is the parent of the objects D and E.\n\n![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)\n\nA GetLayout call on A returns information on the objects A, B and C.\nA GetLayout call on B returns information on the objects B, D and E.\nA  GetLayout call on C returns information on the object C.\n\nIn addition to the parameters displayed above, the GetLayout method can return other properties according to what is defined in the generic object.\nFor example, if qHyperCubeDef is defined in the generic object, the GetLayout method returns the properties described in HyperCube.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10063,7 +10091,7 @@
           ]
         },
         "SelectHyperCubeCells": {
-          "description": "Makes selections in multiple dimensions and measures.\nThis method applies to hypercubes, such as bar charts, tables and scatter plots.\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ rowIndices                -   Array of row indexes to select, starting from 0.\nIf the array is empty [ ] , all rows are selected.\n\n◾ colIndices                -   Indexes of the columns to select, starting from 0.\nA column corresponds to a dimension in the order they are added to the hypercube.\nIf a column is hidden it is ignored, qColIndex n refers to the n:th visible column (starting from zero).\nExample:\nIf the hypercube has two dimensions:\n\n• [0] selects the first column (i.e the first dimension).\n\n• [1] selects the second column (i.e the second dimension).\n\nIf the array is empty [ ] , all columns are selected.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "Makes selections in multiple dimensions and measures.\nThis method applies to hypercubes, such as bar charts, tables and scatter plots.\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object to be selected.\nFor example, /qHyperCubeDef .\n\n◾ rowIndices                -   Array of row indexes to select, starting from 0.\nIf the array is empty [ ] , all rows are selected.\n\n◾ colIndices                -   Indexes of the columns to select, starting from 0.\nA column corresponds to a dimension in the order they are added to the hypercube.\nIf a column is hidden it is ignored, qColIndex n refers to the n:th visible column (starting from zero).\nExample:\nIf the hypercube has two dimensions:\n\n• [0] selects the first column (i.e the first dimension).\n\n• [1] selects the second column (i.e the second dimension).\n\nIf the array is empty [ ] , all columns are selected.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10378,7 +10406,7 @@
           ]
         },
         "SelectPivotCells": {
-          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -10411,7 +10439,7 @@
           ]
         },
         "SelectPivotCellsRaw": {
-          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
+          "description": "This method only applies to hypercubes that are not represented as straight tables. The parameter qMode in HyperCubeDef must be set either to P  or K .\n\nPivot table:\n\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\nStacked table:\n\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\nThere is no top dimensions in a stacked table. A stacked table can only contain one measure.\n\nExample of a pivot table:\n\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)\n\nIn the representation above:\n\n  +-------------------+--------------------------------+\n  | Sum(OrderTotal)   | Are pseudo dimensions.         |\n  | Count(OrderTotal) |                                |\n  | CategoryName      | Is a left dimension.           |\n  |                   | Beverages , Condiments ... are |\n  |                   | left dimension values.         |\n  | ProductName       | Is a top dimension.  Chef      |\n  |                   | Anton's Cajun Seasoning is a   |\n  |                   | top dimension value.           |\n  | Numeric values    | Are calculated values in the   |\n  |                   | data matrix.  626291,832 is a  |\n  |                   | calculated value.              |\n  +-------------------+--------------------------------+\n\nThe member Change returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to true if the selections are successful and is set to false in the following cases:\n\n• The object contains some invalid fields (fields that are not in the data model).\n\n• The selection applies to a locked field.\n\n• A range selection is performed and the parameter OneAndOnlyOne is set to true in the definition of the object.\n\nParameters:\n\n◾ path                      -   Path to the definition of the object.\nFor example, /qHyperCubeDef .\n\n◾ selections                -   Information about the selections to perform.\n\n◾ softLock                  -   Set to true to ignore locks; in that case, locked fields can be selected.\n\n◾ deselectOnlyOneSelected   -   Set this parameter to true to unselect the last single selected value. There must be only one selected value in the field.\nThe default value is false.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -11162,12 +11190,15 @@
           ]
         },
         "CancelReload": {
-          "description": "Cancels an ongoing reload. The reload of the app is stopped. The indexation can be canceled and true is still the return value of the reload task.",
+          "description": "Cancels an ongoing reload. The reload of the app is stopped. The indexation can be canceled and true is still the return value of the reload task.\n\nParameters:\n\n◾ reason   -   Reason for why the reload was cancelled. This will be echoed back to the user in the script log.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
             {
               "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "string"
             }
           ],
           "returns": [
@@ -11219,7 +11250,7 @@
           ]
         },
         "CopyApp": {
-          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository.\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
+          "description": "Copies an app that is in the Qlik Sense repository.\nThe engine copies the app into an app entity that was previously created by the repository.\nThis operation is possible only in Qlik Sense Enterprise.\n\nParameters:\n\n◾ targetAppId   -   Identifier (GUID) of the app entity in the Qlik Sense repository.\nThe app entity must have been previously created by the Qlik Sense Repository Service (QRS) API.\n\n◾ srcAppId      -   Identifier (GUID) of the source app in the Qlik Sense repository.\n\n◾ ids           -   Array of QRS identifiers.\nThe list of all objects in the app to be copied must be given. This list must contain the GUIDs of all these objects.\nIf the list of the QRS identifiers is empty, the CopyApp method copies all objects to the target app.\nScript-defined variables are automatically copied when copying an app. To be able to copy variables not created via script, the GUID of each variable must be provided in the list of QRS identifiers.\nTo get the QRS identifiers of the objects in an app, you can use the QRS API. The GET method (from the QRS API) returns the identifiers of the objects in the app.\nThe following example returns the QRS identifiers of all the objects in a specified app:\nGET /qrs/app/9c3f8634-6191-4a34-a114-a39102058d13\nWhere\n_9c3f8634-6191-4a34-a114-a39102058d13_ is the identifier of the app.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -13055,7 +13086,7 @@
       "type": "struct",
       "entries": {
         "Discriminator": {
-          "description": "A string indicating the origin of the data:\n\n• [filename]: the data comes from a local file.\n\n• INLINE: the data is entered inline in the load script.\n\n• RESIDENT: the data comes from a resident table. The table name is listed.\n\n• AUTOGENERATE: the data is generated from the load script (no external table of data source).\n\n• Provider: the data comes from a data connection. The connector source name is listed.\n\n• [webfile]: the data comes from a web-based file.\n\n• STORE: path to QVD or TXT file where data is stored.\n\n• EXTENSION: the data comes from a Server Side Extension (SSE).",
+          "description": "A string indicating the origin of the data:\n\n• [filename]: the data comes from a local file.\n\n• INLINE: the data is entered inline in the load script.\n\n• RESIDENT: the data comes from a resident table. The table name is listed.\n\n• AUTOGENERATE: the data is generated from the load script (no external table of data source).\n\n• Provider: the data comes from a data connection. The connector source name is listed.\n\n• [webfile]: the data comes from a web-based file.\n\n• STORE: path to QVD or TXT file where data is stored.\n\n• EXTENSION: the data comes from a Server Side Extension (SSE).",
           "type": "string"
         },
         "Statement": {
@@ -13161,7 +13192,7 @@
           "type": "#/definitions/CalendarStrings"
         },
         "Collation": {
-          "description": "Locale name (following language tagging convention RFC 4646):\n_\u003c language\u003e-\u003cREGION\u003e_\nWhere:\n\n• language is a lowercase ISO 639 language code\n\n• REGION specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
+          "description": "Locale name (following language tagging convention RFC 4646):\n_\u003c language\u003e-\u003cREGION\u003e_\nWhere:\n\n• language is a lowercase ISO  639 language code\n\n• REGION specifies an uppercase ISO 3166 country code.\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
           "type": "string"
         },
         "CurrentYear": {
@@ -13181,7 +13212,7 @@
           "type": "int"
         },
         "FirstWeekDay": {
-          "description": "First day of the week, starting from 0.\nAccording to ISO 8601, Monday is the first day of the week.\n\n• 0 = Monday\n\n• 1 = Tuesday\n\n• ...\n\n• 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
+          "description": "First day of the week, starting from 0.\nAccording to ISO 8601, Monday is the first day of the week.\n\n• 0 = Monday\n\n• 1 = Tuesday\n\n• ...\n\n• 6 = Sunday\n\nIf this property has not been set in a script, the returned value comes from the Windows operating system.",
           "type": "int"
         },
         "ListSep": {
@@ -13477,6 +13508,10 @@
           "description": "Is set to true if the app has been updated since the last save.",
           "type": "bool"
         },
+        "ProhibitBinaryLoad": {
+          "description": "If set to true, the persisted app cannot be used in a Binary load statement in Qlik load script.",
+          "type": "bool"
+        },
         "ReadOnly": {
           "description": "If set to true, it means that the app is read-only.",
           "type": "bool"
@@ -13502,6 +13537,10 @@
           "items": {
             "type": "string"
           }
+        },
+        "Usage": {
+          "description": "One of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
+          "type": "string"
         }
       }
     },
@@ -13531,6 +13570,10 @@
         },
         "Title": {
           "description": "App title.",
+          "type": "string"
+        },
+        "Usage": {
+          "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
           "type": "string"
         }
       }
@@ -14457,7 +14500,7 @@
       "type": "struct",
       "entries": {
         "FieldSelectionMode": {
-          "description": "Selection mode.\n\nProperties:\n\nOne of:\n\n• NORMAL for a selection in normal mode.\n\n• AND for a selection in AND mode.\n\n• NOT for a selection NOT in AND mode.\nOne of:\n\n• NORMAL or SELECTION_MODE_NORMAL\n\n• AND or SELECTION_MODE_AND\n\n• NOT or SELECTION_MODE_NOT",
+          "description": "Selection mode.\n\nProperties:\n\nOne of:\n\n• NORMAL for a selection in normal mode.\n\n• AND for a selection in AND mode.\n\n• NOT for a selection NOT in AND mode.\nOne of:\n\n• NORMAL or SELECTION_MODE_NORMAL\n\n• AND or SELECTION_MODE_AND\n\n• NOT or SELECTION_MODE_NOT",
           "type": "string"
         },
         "Name": {
@@ -14665,7 +14708,7 @@
           "type": "bool"
         },
         "Tags": {
-          "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
+          "description": "Name connected to the measure that is used for search purposes.\nA measure can have several tags.\nThis parameter is optional.",
           "type": "slice",
           "items": {
             "type": "string"
@@ -15546,7 +15589,6 @@
       }
     },
     "NxTempBookmarkOptions": {
-      "x-qlik-stability": "experimental",
       "type": "struct",
       "entries": {
         "IncludeAllPatches": {
@@ -16143,11 +16185,11 @@
           "type": "bool"
         },
         "Description": {
-          "description": "Description of the ODBC connection.",
+          "description": "Description of the ODBC connection.",
           "type": "string"
         },
         "Name": {
-          "description": "Name of the ODBC connection.",
+          "description": "Name of the ODBC connection.",
           "type": "string"
         },
         "UserOnly": {

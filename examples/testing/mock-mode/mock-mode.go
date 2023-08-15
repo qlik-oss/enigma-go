@@ -11,7 +11,7 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/qlik-oss/enigma-go/v3"
+	"github.com/qlik-oss/enigma-go/v4"
 )
 
 const script = `
