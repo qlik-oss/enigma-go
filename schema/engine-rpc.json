@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1777.0",
+    "version": "12.1831.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -10551,7 +10551,7 @@
     },
     {
       "name": "Global.CreateSessionAppFromApp",
-      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app but contain no data.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
+      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app.\n* There is no data in the session app, unless it is reloaded.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
       "params": [
         {
           "name": "qSrcAppId",
@@ -11588,6 +11588,10 @@
             "title": "LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
           },
           {
+            "x-qlik-const": 1017,
+            "title": "LOCERR_APP_NOT_OPEN"
+          },
+          {
             "x-qlik-const": 2000,
             "title": "LOCERR_CONNECTION_ALREADY_EXISTS"
           },
@@ -11830,6 +11834,10 @@
           {
             "x-qlik-const": 9011,
             "title": "LOCERR_PERSISTENCE_OBJECT_LOCKED"
+          },
+          {
+            "x-qlik-const": 9012,
+            "title": "LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING"
           },
           {
             "x-qlik-const": 9510,
@@ -19375,7 +19383,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -19490,13 +19498,11 @@
         "oneOf": [
           {
             "x-qlik-const": 0,
-            "title": "ANALYTICS",
-            "description": "ANALYTICS_USAGE"
+            "title": "ANALYTICS"
           },
           {
             "x-qlik-const": 1,
-            "title": "DATA_PREPARATION",
-            "description": "DATA_PREPARATION_USAGE"
+            "title": "DATA_PREPARATION"
           }
         ]
       },
@@ -19531,7 +19537,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -21513,7 +21519,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -22072,6 +22078,9 @@
             "$ref": "#/components/errors/LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
           },
           {
+            "$ref": "#/components/errors/LOCERR_APP_NOT_OPEN"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_CONNECTION_ALREADY_EXISTS"
           },
           {
@@ -22253,6 +22262,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_OBJECT_LOCKED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING"
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS"
@@ -23108,6 +23120,10 @@
         "code": 1016,
         "message": "Direct Query mode not supported"
       },
+      "LOCERR_APP_NOT_OPEN": {
+        "code": 1017,
+        "message": "Unknown error"
+      },
       "LOCERR_CONNECTION_ALREADY_EXISTS": {
         "code": 2000,
         "message": "Connection already exists"
@@ -23351,6 +23367,10 @@
       "LOCERR_PERSISTENCE_OBJECT_LOCKED": {
         "code": 9011,
         "message": "Object locked"
+      },
+      "LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING": {
+        "code": 9012,
+        "message": "Encryption key migration ongoing"
       },
       "LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS": {
         "code": 9510,
