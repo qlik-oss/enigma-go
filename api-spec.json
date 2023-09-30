@@ -6013,7 +6013,7 @@
           "type": "string"
         },
         "Usage": {
-          "description": "One of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
+          "description": "One of:\n\n• ANALYTICS\n\n• DATA_PREPARATION",
           "type": "string"
         }
       }
@@ -11361,7 +11361,7 @@
           ]
         },
         "CreateSessionAppFromApp": {
-          "description": "Creates a session app from a source app.\nThe following applies:\n\n• The objects in the source app are copied into the session app but contain no data.\n\n• The script of the session app can be edited and reloaded.\n\n• The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n\n• A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.\n\nParameters:\n\n◾ srcAppId   -   App identifier of the source app.\nIt corresponds to qAppId returned by the CreateApp method when creating the source app.",
+          "description": "Creates a session app from a source app.\nThe following applies:\n\n• The objects in the source app are copied into the session app.\n\n• There is no data in the session app, unless it is reloaded.\n\n• The script of the session app can be edited and reloaded.\n\n• The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n\n• A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.\n\nParameters:\n\n◾ srcAppId   -   App identifier of the source app.\nIt corresponds to qAppId returned by the CreateApp method when creating the source app.",
           "x-qlik-stability": "locked",
           "type": "method",
           "params": [
@@ -13539,7 +13539,7 @@
           }
         },
         "Usage": {
-          "description": "One of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
+          "description": "One of:\n\n• ANALYTICS\n\n• DATA_PREPARATION",
           "type": "string"
         }
       }
@@ -13573,7 +13573,7 @@
           "type": "string"
         },
         "Usage": {
-          "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n\n• ANALYTICS or ANALYTICS_USAGE\n\n• DATA_PREPARATION or DATA_PREPARATION_USAGE",
+          "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n\n• ANALYTICS\n\n• DATA_PREPARATION",
           "type": "string"
         }
       }
