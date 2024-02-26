@@ -34,6 +34,8 @@ type (
 		Changed []int
 		// Closed  list of closed object handles or nil
 		Closed []int
+		// Suspended list of suspended object handles or nil
+		Suspended []int
 	}
 )
 
@@ -142,7 +144,7 @@ func (q *session) handleResponse(message []byte, receiveTimestamp time.Time) {
 		q.emitSessionMessage(rpcResponse.Method, rpcResponse.Params)
 	} else {
 		pendingCall := q.removePendingCall(rpcResponse.ID)
-		q.emitChangeLists(rpcResponse.Change, rpcResponse.Close, pendingCall == nil) // Emit this before marking the pending call as done to make sure it is there when the pending call returns
+		q.emitChangeLists(rpcResponse.Change, rpcResponse.Close, rpcResponse.Suspend, pendingCall == nil) // Emit this before marking the pending call as done to make sure it is there when the pending call returns
 		if pendingCall != nil {
 			pendingCall.Response = rpcResponse
 			pendingCall.receiveTimestamp = receiveTimestamp
