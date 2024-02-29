@@ -2,7 +2,7 @@
 
 ## compares engine spec with master
 
-wget -q https://qlik.dev/specs/openRPC/engine-rpc.json -O ./schema/engine-rpc.json
+wget -q https://qlik.dev/specs/json-rpc/qix.json -O ./schema/engine-rpc.json
 git diff --exit-code origin/master -- ./schema/engine-rpc.json >/dev/null
 if [[ $? -ne 0 ]]; then
     ENGINE_VERSION=$(cat ./schema/engine-rpc.json | jq -r '.info.version')
