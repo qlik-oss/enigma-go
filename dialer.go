@@ -80,8 +80,9 @@ type (
 // DialRaw establishes a connection to Qlik Associative Engine using the settings set in the Dialer.
 // The returned remote object points to the Global object of the session with handle -1.
 // DialRaw can be used with custom specifications by wrapping the returned RemoteObject in a generated schema type like so:
-//    remoteObject, err := enigma.Dialer{}.DialRaw(ctx, "ws://...", nil)
-//    mySpecialGlobal := &specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}
+//
+//	remoteObject, err := enigma.Dialer{}.DialRaw(ctx, "ws://...", nil)
+//	mySpecialGlobal := &specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}
 func (dialer Dialer) DialRaw(ctx context.Context, url string, httpHeader http.Header) (*RemoteObject, error) {
 	// Set empty http header if omitted
 	if httpHeader == nil {

@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-//Float64 is an enigma-go equivalent of float64 which adds support for the Qlik Associative Engine specific way of marshalling and unmarshalling "Infinity", "-Infinity" and "NaN" as json strings.
-//It can always safely be typecasted to plain float64 including these special cases.
+// Float64 is an enigma-go equivalent of float64 which adds support for the Qlik Associative Engine specific way of marshalling and unmarshalling "Infinity", "-Infinity" and "NaN" as json strings.
+// It can always safely be typecasted to plain float64 including these special cases.
 type Float64 float64
 
 // UnmarshalJSON implements the Unmarshaler interface for custom unmarshalling.
