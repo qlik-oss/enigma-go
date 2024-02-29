@@ -934,7 +934,7 @@
           ]
         },
         "DialRaw": {
-          "description": "DialRaw establishes a connection to Qlik Associative Engine using the settings set in the Dialer.\nThe returned remote object points to the Global object of the session with handle -1.\nDialRaw can be used with custom specifications by wrapping the returned RemoteObject in a generated schema type like so:\n   remoteObject, err := enigma.Dialer{}.DialRaw(ctx, \"ws://...\", nil)\n   mySpecialGlobal := \u0026specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}",
+          "description": "DialRaw establishes a connection to Qlik Associative Engine using the settings set in the Dialer.\nThe returned remote object points to the Global object of the session with handle -1.\nDialRaw can be used with custom specifications by wrapping the returned RemoteObject in a generated schema type like so:\n\n\tremoteObject, err := enigma.Dialer{}.DialRaw(ctx, \"ws://...\", nil)\n\tmySpecialGlobal := \u0026specialSchemaPackage.SpecialGlobal{RemoteObject: remoteObject}",
           "type": "method",
           "params": [
             {
