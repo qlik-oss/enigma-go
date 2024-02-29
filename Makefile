@@ -3,5 +3,18 @@ SHELL := /bin/bash
 test-unit:
 	go test -count=1 -v -race .
 
-generate-schema:
+lint:
+	go fmt ./...
+
+mod:
+	go mod tidy
+
+mod-update:
+	go get -u ./...
+	go mod tidy
+
+generate:
 	./schema/generate.sh
+
+generate-enigma-spec:
+	go run ./spec/generate.go
