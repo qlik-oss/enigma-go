@@ -539,6 +539,13 @@
           "items": {
             "type": "int"
           }
+        },
+        "Suspended": {
+          "description": "Suspended list of suspended object handles or nil",
+          "type": "slice",
+          "items": {
+            "type": "int"
+          }
         }
       }
     },
