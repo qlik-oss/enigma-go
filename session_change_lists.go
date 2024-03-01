@@ -16,14 +16,14 @@ type (
 	}
 )
 
-func (e *sessionChangeLists) emitChangeLists(changed []int, closed []int, pushed bool) {
+func (e *sessionChangeLists) emitChangeLists(changed, closed, suspended []int, pushed bool) {
 	if len(changed) > 0 || len(closed) > 0 {
 		e.mutex.Lock()
 		defer e.mutex.Unlock()
 
 		for channelEntry := range e.channels {
 			if pushed || !channelEntry.pushedOnly {
-				channelEntry.channel <- ChangeLists{Changed: changed, Closed: closed}
+				channelEntry.channel <- ChangeLists{Changed: changed, Closed: closed, Suspended: suspended}
 			}
 		}
 	}

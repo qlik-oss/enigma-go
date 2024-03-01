@@ -28,8 +28,9 @@ type (
 	}
 
 	rpcStatusInfo struct {
-		Change []int `json:"change"`
-		Close  []int `json:"close"`
+		Change  []int `json:"change"`
+		Close   []int `json:"close"`
+		Suspend []int `json:"suspend"`
 	}
 
 	// socketOutput represents a request message sent to Qlik Associative Engine
