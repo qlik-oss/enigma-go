@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-//This example shows how to connect to a locally running Qlik Associative Engine, print the version number and disconnect again.
+// This example shows how to connect to a locally running Qlik Associative Engine, print the version number and disconnect again.
 func Example() {
 	ctx := context.Background()
 	global, err := enigma.Dialer{}.Dial(ctx, "ws://localhost:9076", nil)

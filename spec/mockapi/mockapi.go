@@ -21,10 +21,10 @@ type privateEmbedded struct {
 // Comment for FuncInPrivateEmbedded
 func (*privateEmbedded) FuncInPrivateEmbedded() {}
 
-//Comment for signature
+// Comment for signature
 type Signature func(param1 string, param2 int, param3 *int, param4 *SubObj, param5 SubObj, paramVar6 Interface1) string
 
-//Comment for Obj
+// Comment for Obj
 type Obj struct {
 	*PublicEmbedded
 	*privateEmbedded
@@ -84,7 +84,7 @@ type Obj struct {
 	DepObj *DepObj
 }
 
-//Comment for NamedSlice
+// Comment for NamedSlice
 type NamedSlice []*SubObj
 
 func (obj Obj) MemberNonPointerReceiver() {
@@ -94,7 +94,7 @@ func (obj Obj) MemberNonPointerReceiver() {
 type SubObj struct {
 }
 
-//Deprecated: This will be removed in a future version
+// Deprecated: This will be removed in a future version
 type DepObj struct{}
 
 // Stability: Experimental
@@ -110,13 +110,13 @@ func (ExperimentalObject1) ExpMember1() {
 
 }
 
-//Deprecated: This will be removed in a future version
+// Deprecated: This will be removed in a future version
 func (*DepObj) DepMember1() {
 
 }
 
-//Comment preceding deprecation
-//Deprecated: This will be removed in a future version
+// Comment preceding deprecation
+// Deprecated: This will be removed in a future version
 func (*DepObj) DepMember2() {
 
 }
@@ -155,5 +155,5 @@ func (obj *Obj) Member(
 // Alias for float32 so we can add some methods
 type Float32 float32
 
-//Method on Float32
+// Method on Float32
 func (float32 *Float32) AdditionalMethodOnFloat() {}

@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.1777.0",
+    "version": "12.1976.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -3543,6 +3543,80 @@
       "x-qlik-access-control": [
         "approve"
       ]
+    },
+    {
+      "name": "GenericDimension.StepCycle",
+      "description": "Step active field in a cyclic dimension.\n<div class=tip>This operation is only possible for cyclic dimensions.</div>",
+      "params": [
+        {
+          "name": "qStep",
+          "description": "The number of steps made through the dimension. Positive values step forward and negative values step backward.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericDimension.StepCycle",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
+      "name": "GenericDimension.SetActiveField",
+      "description": "Set a cyclic dimension's active field directly.\n<div class=tip>This operation is only possible for cyclic dimensions.</div>",
+      "params": [
+        {
+          "name": "qIx",
+          "description": "Index of the new active field.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericDimension.SetActiveField",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
+      "name": "GenericDimension.GetActiveField",
+      "description": "Get a cyclic dimension's active field.\n<div class=tip>This operation is only possible for cyclic dimensions.</div>",
+      "params": [],
+      "result": {
+        "name": "Results for GenericDimension.GetActiveField",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qReturn": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
     },
     {
       "name": "GenericBookmark.GetFieldValues",
@@ -9386,7 +9460,7 @@
         },
         {
           "name": "qObjectIdsToPatch",
-          "description": "Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. This is ignored if IncludePatches is false.",
+          "description": "Add softpatches for these objects to the bookmark if available. If IncludePatches is true, softpatches are included for all objects.\nAny session objects included are also added to the bookmark. IncludePatches has no effect on the patching of session objects.",
           "schema": {
             "type": "array",
             "items": {
@@ -10551,7 +10625,7 @@
     },
     {
       "name": "Global.CreateSessionAppFromApp",
-      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app but contain no data.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
+      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app.\n* There is no data in the session app, unless it is reloaded.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
       "params": [
         {
           "name": "qSrcAppId",
@@ -10774,7 +10848,7 @@
       "params": [
         {
           "name": "qGroup",
-          "description": "Name of the group.\nDefault is all groups.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE",
+          "description": "Name of the group.\nDefault is all groups.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE\n* WINDOW or FUNC_GROUP_WINDOW",
           "schema": {
             "type": "string"
           }
@@ -11588,6 +11662,14 @@
             "title": "LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
           },
           {
+            "x-qlik-const": 1017,
+            "title": "LOCERR_APP_NOT_OPEN"
+          },
+          {
+            "x-qlik-const": 1018,
+            "title": "LOCERR_APP_EVENT_SOURCE_TIMEOUT"
+          },
+          {
             "x-qlik-const": 2000,
             "title": "LOCERR_CONNECTION_ALREADY_EXISTS"
           },
@@ -11830,6 +11912,10 @@
           {
             "x-qlik-const": 9011,
             "title": "LOCERR_PERSISTENCE_OBJECT_LOCKED"
+          },
+          {
+            "x-qlik-const": 9012,
+            "title": "LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING"
           },
           {
             "x-qlik-const": 9510,
@@ -14859,11 +14945,8 @@
         }
       },
       "Blob": {
-        "type": "array",
-        "items": {
-          "type": "integer",
-          "format": "byte"
-        }
+        "type": "string",
+        "contentEncoding": "base64"
       },
       "InterFieldSortData": {
         "type": "object",
@@ -15765,6 +15848,10 @@
           "qContextSetExpression": {
             "type": "string",
             "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified."
+          },
+          "qSuppressMeasureTotals": {
+            "type": "boolean",
+            "description": "If set to true, suppress any measure grand totals, ignoring any AggrFunc."
           }
         },
         "x-qlik-see-also": [
@@ -16259,7 +16346,7 @@
           },
           "qAggrFunc": {
             "type": "string",
-            "description": "Aggregate function.\nFor more information on the aggregate function syntax, see the section Working with Qlik Sense on the online help portal.\nThe default value is 0 (Sum of rows)\nThis parameter is optional."
+            "description": "Flag indicating how the measure should be aggregated to create a grand total.\n\"None\" - No total calculation.\n\"Expr\" - Calculate total according to the measure expression.\n\"\"     - Empty string is default and has same effect as \"Expr\".\nThis parameter is optional."
           },
           "qAccumulate": {
             "type": "integer",
@@ -19375,7 +19462,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -19490,13 +19577,11 @@
         "oneOf": [
           {
             "x-qlik-const": 0,
-            "title": "ANALYTICS",
-            "description": "ANALYTICS_USAGE"
+            "title": "ANALYTICS"
           },
           {
             "x-qlik-const": 1,
-            "title": "DATA_PREPARATION",
-            "description": "DATA_PREPARATION_USAGE"
+            "title": "DATA_PREPARATION"
           }
         ]
       },
@@ -19531,7 +19616,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -21065,7 +21150,7 @@
           },
           "qFG": {
             "type": "string",
-            "description": "Group of the function.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE",
+            "description": "Group of the function.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE\n* WINDOW or FUNC_GROUP_WINDOW",
             "$ref": "#/components/schemas/FunctionGroup"
           },
           "qFieldFlag": {
@@ -21249,6 +21334,11 @@
             "x-qlik-const": 30,
             "title": "DB",
             "description": "FUNC_GROUP_DB_NATIVE"
+          },
+          {
+            "x-qlik-const": 31,
+            "title": "WINDOW",
+            "description": "FUNC_GROUP_WINDOW"
           }
         ]
       },
@@ -21513,7 +21603,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS or ANALYTICS_USAGE\n* DATA_PREPARATION or DATA_PREPARATION_USAGE",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -21672,7 +21762,7 @@
           },
           "qGroup": {
             "type": "string",
-            "description": "Group of the script function.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE",
+            "description": "Group of the script function.\n\nOne of:\n* ALL or FUNC_GROUP_ALL\n* U or FUNC_GROUP_UNKNOWN\n* NONE or FUNC_GROUP_NONE\n* AGGR or FUNC_GROUP_AGGR\n* NUM or FUNC_GROUP_NUMERIC\n* RNG or FUNC_GROUP_RANGE\n* EXP or FUNC_GROUP_EXPONENTIAL_AND_LOGARITHMIC\n* TRIG or FUNC_GROUP_TRIGONOMETRIC_AND_HYPERBOLIC\n* FIN or FUNC_GROUP_FINANCIAL\n* MATH or FUNC_GROUP_MATH_CONSTANT_AND_PARAM_FREE\n* COUNT or FUNC_GROUP_COUNTER\n* STR or FUNC_GROUP_STRING\n* MAPP or FUNC_GROUP_MAPPING\n* RCRD or FUNC_GROUP_INTER_RECORD\n* CND or FUNC_GROUP_CONDITIONAL\n* LOG or FUNC_GROUP_LOGICAL\n* NULL or FUNC_GROUP_NULL\n* SYS or FUNC_GROUP_SYSTEM\n* FILE or FUNC_GROUP_FILE\n* TBL or FUNC_GROUP_TABLE\n* DATE or FUNC_GROUP_DATE_AND_TIME\n* NUMI or FUNC_GROUP_NUMBER_INTERPRET\n* FRMT or FUNC_GROUP_FORMATTING\n* CLR or FUNC_GROUP_COLOR\n* RNK or FUNC_GROUP_RANKING\n* GEO or FUNC_GROUP_GEO\n* EXT or FUNC_GROUP_EXTERNAL\n* PROB or FUNC_GROUP_PROBABILITY\n* ARRAY or FUNC_GROUP_ARRAY\n* LEG or FUNC_GROUP_LEGACY\n* DB or FUNC_GROUP_DB_NATIVE\n* WINDOW or FUNC_GROUP_WINDOW",
             "$ref": "#/components/schemas/FunctionGroup"
           },
           "qSignature": {
@@ -22072,6 +22162,12 @@
             "$ref": "#/components/errors/LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED"
           },
           {
+            "$ref": "#/components/errors/LOCERR_APP_NOT_OPEN"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_APP_EVENT_SOURCE_TIMEOUT"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_CONNECTION_ALREADY_EXISTS"
           },
           {
@@ -22253,6 +22349,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_OBJECT_LOCKED"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING"
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS"
@@ -23108,6 +23207,14 @@
         "code": 1016,
         "message": "Direct Query mode not supported"
       },
+      "LOCERR_APP_NOT_OPEN": {
+        "code": 1017,
+        "message": "Unknown error"
+      },
+      "LOCERR_APP_EVENT_SOURCE_TIMEOUT": {
+        "code": 1018,
+        "message": "App event source timeout"
+      },
       "LOCERR_CONNECTION_ALREADY_EXISTS": {
         "code": 2000,
         "message": "Connection already exists"
@@ -23352,6 +23459,10 @@
         "code": 9011,
         "message": "Object locked"
       },
+      "LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING": {
+        "code": 9012,
+        "message": "Encryption key migration ongoing"
+      },
       "LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS": {
         "code": 9510,
         "message": "Invalid parameters to SetChunk"
@@ -23458,7 +23569,7 @@
       },
       "LOCERR_RELOAD_MATCHING_CONTROL_STATEMENT_ERROR": {
         "code": 11023,
-        "message": "The control statement is not correctly matched with its corresponding start statement"
+        "message": "The control statement is not correctly matched with its corresponding start statement."
       },
       "LOCERR_RELOAD_MATCHING_LIBPATH_X_NOT_FOUND": {
         "code": 11024,

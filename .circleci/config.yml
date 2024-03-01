@@ -36,29 +36,29 @@ version: 2
 jobs:
   generate-schema:
     docker:
-      - image: circleci/golang:1.16
+      - image: cimg/go:1.22
     environment:
-      GOLANG_VERSION: "1.16"
+      GOLANG_VERSION: "1.22"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.16{{ checksum "go.sum" }}
+          key: dependency-cache-1.22{{ checksum "go.sum" }}
       - run: ./schema/generate.sh
 
-  golang-1.16:
+  golang-1.22:
     requires:
       - generate-schema
     docker:
-      - image: cimg/go:1.16
+      - image: cimg/go:1.22
     environment:
-      GOLANG_VERSION: "1.16"
+      GOLANG_VERSION: "1.22"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.16{{ checksum "go.sum" }}
+          key: dependency-cache-1.22{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
-          key: dependency-cache-1.16{{ checksum "go.sum" }}
+          key: dependency-cache-1.22{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -67,20 +67,20 @@ jobs:
       - run: go test -v -race ./release/verval
       - run: *examples
 
-  golang-1.17:
+  golang-1.21:
     requires:
       - generate-schema
     docker:
-      - image: cimg/go:1.17
+      - image: cimg/go:1.21
     environment:
-      GOLANG_VERSION: "1.17"
+      GOLANG_VERSION: "1.21"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.17{{ checksum "go.sum" }}
+          key: dependency-cache-1.21{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
-          key: dependency-cache-1.17{{ checksum "go.sum" }}
+          key: dependency-cache-1.21{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -89,20 +89,20 @@ jobs:
       - run: go test -v -race ./release/verval
       - run: *examples
 
-  golang-1.18:
+  golang-1.20:
     requires:
       - generate-schema
     docker:
-      - image: cimg/go:1.18
+      - image: cimg/go:1.20
     environment:
-      GOLANG_VERSION: "1.18"
+      GOLANG_VERSION: "1.20"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.18{{ checksum "go.sum" }}
+          key: dependency-cache-1.20{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
-          key: dependency-cache-1.18{{ checksum "go.sum" }}
+          key: dependency-cache-1.20{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -116,17 +116,17 @@ workflows:
   build:
     jobs:
       - generate-schema
-      - golang-1.16:
+      - golang-1.22:
           filters:
             tags:
               only:
                 - /v.*/
-      - golang-1.17:
+      - golang-1.21:
           filters:
             tags:
               only:
                 - /v.*/
-      - golang-1.18:
+      - golang-1.20:
           filters:
             tags:
               only:

@@ -1,12 +1,12 @@
 // Package enigma is a library that helps you communicate with Qlik Associative Engine.
 // Examples of use may be building your own analytics tools, back-end services, or other tools communicating with Qlik Associative Engine.
 //
-// Schemas
+// # Schemas
 //
 // enigma-go includes generated API code that is based on the latest available Qlik Associative Engine schema.
 // When a new schema is available a new version of enigma-go will be made available
 //
-// Getting started
+// # Getting started
 //
 // Connecting to Qlik Associative Engine and intreract with a document/app involves at least the following steps:
 //
