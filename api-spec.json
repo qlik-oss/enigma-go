@@ -140,6 +140,17 @@
         }
       }
     },
+    "ApplyGroupStatesResult": {
+      "description": "Result of applying GroupState to multiple cyclic groups.",
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ApplySuccess": {
+          "description": "When true, the cyclic group state was fully applied. *",
+          "type": "bool"
+        }
+      }
+    },
     "ArrayOfNxValuePoint": {
       "type": "slice",
       "items": {
@@ -713,6 +724,19 @@
         }
       }
     },
+    "CyclicGroupPosition": {
+      "type": "struct",
+      "entries": {
+        "ActiveField": {
+          "description": "Active field of the cyclic group, identified by a zero-based index.",
+          "type": "int"
+        },
+        "Info": {
+          "description": "Target cyclic group.",
+          "type": "#/definitions/NxInfo"
+        }
+      }
+    },
     "DataField": {
       "type": "struct",
       "entries": {
@@ -1209,6 +1233,49 @@
           "returns": [
             {
               "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyGroupStates": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/GroupState"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/ApplyGroupStatesResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyGroupStatesRaw": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
             },
             {
               "type": "error"
@@ -4017,6 +4084,43 @@
             },
             {
               "type": "string"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetGroupStates": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/GroupState"
+              }
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetGroupStatesRaw": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
             }
           ],
           "returns": [
@@ -12660,6 +12764,20 @@
         }
       }
     },
+    "GroupState": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ActiveFieldDef": {
+          "description": "String defining the active field.",
+          "type": "string"
+        },
+        "Info": {
+          "description": "Target cyclic group.",
+          "type": "#/definitions/NxInfo"
+        }
+      }
+    },
     "GroupStateInfo": {
       "type": "struct",
       "entries": {
@@ -13822,6 +13940,20 @@
     "NxBookmark": {
       "type": "struct",
       "entries": {
+        "CyclicGroupStates": {
+          "description": "Information about cyclic groups by zero-based index. This field is unused.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/CyclicGroupPosition"
+          }
+        },
+        "GroupStates": {
+          "description": "Information about cyclic groups indexed by field definition.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/GroupState"
+          }
+        },
         "Patches": {
           "description": "Softpatches to be applied with this bookmark.",
           "type": "slice",
@@ -14666,6 +14798,10 @@
           "description": "Index of the active field in a cyclic dimension.\nThis parameter is optional. The default value is 0.\nThis parameter is used in case of cyclic dimensions ( qGrouping is C).",
           "type": "int"
         },
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of field names.\nWhen creating a grouped dimension, more than one field name is defined.\nThis parameter is optional.",
           "type": "slice",
@@ -14787,6 +14923,10 @@
     "NxLibraryDimension": {
       "type": "struct",
       "entries": {
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of dimension names.",
           "type": "slice",
@@ -14813,6 +14953,10 @@
     "NxLibraryDimensionDef": {
       "type": "struct",
       "entries": {
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of dimension names.",
           "type": "slice",
