@@ -140,6 +140,38 @@
         }
       }
     },
+    "ApplyGroupStateWarning": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "State": {
+          "description": "Group state that could not be applied.",
+          "type": "#/definitions/GroupState"
+        },
+        "Type": {
+          "description": "Nature of the warning.\n\nOne of:\n\n• group_missing or GROUP_MISSING\n\n• group_not_applicable or GROUP_NOT_APPLICABLE\n\n• fielddef_missing or FIELDDEF_MISSING",
+          "type": "string"
+        }
+      }
+    },
+    "ApplyGroupStatesResult": {
+      "description": "Result of applying GroupState to multiple cyclic groups.",
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ApplySuccess": {
+          "description": "When true, the operation was successful.",
+          "type": "bool"
+        },
+        "Warnings": {
+          "description": "Lists which states failed to be applied and why.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/ApplyGroupStateWarning"
+          }
+        }
+      }
+    },
     "ArrayOfNxValuePoint": {
       "type": "slice",
       "items": {
@@ -355,6 +387,10 @@
         "ApplySuccess": {
           "description": "Apply successfully or not *",
           "type": "bool"
+        },
+        "GroupStateResult": {
+          "description": "Result of applying group states (if any).",
+          "type": "#/definitions/ApplyGroupStatesResult"
         },
         "Warnings": {
           "description": "Field values verfication result *",
@@ -710,6 +746,19 @@
         },
         "SupportFileStreaming": {
           "type": "bool"
+        }
+      }
+    },
+    "CyclicGroupPosition": {
+      "type": "struct",
+      "entries": {
+        "ActiveField": {
+          "description": "Active field of the cyclic group, identified by a zero-based index.",
+          "type": "int"
+        },
+        "Info": {
+          "description": "Target cyclic group.",
+          "type": "#/definitions/NxInfo"
         }
       }
     },
@@ -1209,6 +1258,49 @@
           "returns": [
             {
               "type": "bool"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyGroupStates": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/GroupState"
+              }
+            }
+          ],
+          "returns": [
+            {
+              "type": "#/definitions/ApplyGroupStatesResult"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "ApplyGroupStatesRaw": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            },
+            {
+              "type": "interface"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
             },
             {
               "type": "error"
@@ -4028,6 +4120,43 @@
             }
           ]
         },
+        "GetGroupStates": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "slice",
+              "items": {
+                "type": "#/definitions/GroupState"
+              }
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
+        "GetGroupStatesRaw": {
+          "x-qlik-stability": "experimental",
+          "type": "method",
+          "params": [
+            {
+              "type": "https://golang.org/pkg/context/Context"
+            }
+          ],
+          "returns": [
+            {
+              "type": "https://golang.org/pkg/encoding/json/RawMessage"
+            },
+            {
+              "type": "error"
+            }
+          ]
+        },
         "GetIncludeFileContent": {
           "description": "Gets the content of a file.\n\nParameters:\n\n◾ path   -   [\"lib://CONNECTION_NAME\\\\\\\u003cthe name of the file you want to use\u003e.txt\"]\nOR\n[\"lib://Connection_Name\\\\\\\u003cFolder under your connection\u003e\\\\\\\u003cthe name of the file you want to use\u003e.txt\"]\n[ ] should be used when the first variable contains a lib reference.",
           "x-qlik-stability": "locked",
@@ -5159,7 +5288,7 @@
           ],
           "returns": [
             {
-              "type": "#/definitions/RemoteObject"
+              "type": "#/definitions/GenericBookmark"
             },
             {
               "type": "error"
@@ -12660,6 +12789,20 @@
         }
       }
     },
+    "GroupState": {
+      "x-qlik-stability": "experimental",
+      "type": "struct",
+      "entries": {
+        "ActiveFieldDef": {
+          "description": "String defining the active field.",
+          "type": "string"
+        },
+        "Info": {
+          "description": "Target cyclic group.",
+          "type": "#/definitions/NxInfo"
+        }
+      }
+    },
     "GroupStateInfo": {
       "type": "struct",
       "entries": {
@@ -13822,6 +13965,20 @@
     "NxBookmark": {
       "type": "struct",
       "entries": {
+        "CyclicGroupStates": {
+          "description": "Information about cyclic groups by zero-based index. This field is unused.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/CyclicGroupPosition"
+          }
+        },
+        "GroupStates": {
+          "description": "Information about cyclic groups indexed by field definition.",
+          "type": "slice",
+          "items": {
+            "type": "#/definitions/GroupState"
+          }
+        },
         "Patches": {
           "description": "Softpatches to be applied with this bookmark.",
           "type": "slice",
@@ -14666,6 +14823,10 @@
           "description": "Index of the active field in a cyclic dimension.\nThis parameter is optional. The default value is 0.\nThis parameter is used in case of cyclic dimensions ( qGrouping is C).",
           "type": "int"
         },
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of field names.\nWhen creating a grouped dimension, more than one field name is defined.\nThis parameter is optional.",
           "type": "slice",
@@ -14787,6 +14948,10 @@
     "NxLibraryDimension": {
       "type": "struct",
       "entries": {
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of dimension names.",
           "type": "slice",
@@ -14813,6 +14978,10 @@
     "NxLibraryDimensionDef": {
       "type": "struct",
       "entries": {
+        "Alias": {
+          "description": "Alias of the dimension.",
+          "type": "string"
+        },
         "FieldDefs": {
           "description": "Array of dimension names.",
           "type": "slice",
