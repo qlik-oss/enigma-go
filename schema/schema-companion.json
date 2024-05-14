@@ -25,6 +25,7 @@
     "Doc.CreateDimension":"GenericDimension",
     "Doc.GetBookmark":"GenericBookmark",
     "Doc.GetVariableByName":"GenericVariable",
-    "Doc.GetMeasure":"GenericMeasure"
+    "Doc.GetMeasure":"GenericMeasure",
+    "Doc.ReplaceBookmark":"GenericBookmark"
   }
 }
