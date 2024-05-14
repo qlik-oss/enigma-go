@@ -34,20 +34,7 @@ aliases:
 
 version: 2
 jobs:
-  generate-schema:
-    docker:
-      - image: cimg/go:1.22
-    environment:
-      GOLANG_VERSION: "1.22"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.22{{ checksum "go.sum" }}
-      - run: ./schema/generate.sh
-
   golang-1.22:
-    requires:
-      - generate-schema
     docker:
       - image: cimg/go:1.22
     environment:
@@ -68,8 +55,6 @@ jobs:
       - run: *examples
 
   golang-1.21:
-    requires:
-      - generate-schema
     docker:
       - image: cimg/go:1.21
     environment:
@@ -90,8 +75,6 @@ jobs:
       - run: *examples
 
   golang-1.20:
-    requires:
-      - generate-schema
     docker:
       - image: cimg/go:1.20
     environment:
@@ -115,7 +98,6 @@ workflows:
   version: 2
   build:
     jobs:
-      - generate-schema
       - golang-1.22:
           filters:
             tags:
