@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.2064.0",
+    "version": "12.2073.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -15965,7 +15965,7 @@
       },
       "NxDimension": {
         "type": "object",
-        "description": "<div class=note>Either **qDef** or **qLibraryId** must be set, but not both. </div> <div class=note>If the dimension is set in the hypercube and not in the library, this dimension cannot be shared with other objects.</div> <div class=note>A dimension that is set in the library can be used by many objects.</div>",
+        "description": "<div class=note>The fields or expressions in the dimension are either defined in **qDef** or in the master dimension referred to by **qLibraryId**. If **qLibraryId** is set then the qFieldDefs, qFieldLabels, qGrouping, qLabelExpression and qAlias of the master dimension will be used. </div> <div class=note>If the dimension is set in the hypercube and not in the library, this dimension cannot be shared with other objects.</div> <div class=note>A dimension that is set in the library can be used by many objects.</div>",
         "properties": {
           "qLibraryId": {
             "type": "string",
@@ -16358,7 +16358,7 @@
       },
       "NxMeasure": {
         "type": "object",
-        "description": "<div class=note>Either **qDef** or **qLibraryId** must be set, but not both. </div> <div class=note>If the measure is set in the hypercube and not in the library, this measure cannot be shared with other objects.</div> <div class=note>A measure that is set in the library can be used by many objects.</div> <div class=note>\nexpressions are complementary expressions associated to a measure. For example, you can decide to change the background color of a visualization depending on the values of the measure.\nAttribute expressions do not affect the layout of an object. The sorting order is unchanged.\n</div>",
+        "description": "<div class=note>Either **qDef** or **qLibraryId** must be set, but not both. If both are set, the library measure's qDef and qLabel will be used. </div> <div class=note>If the measure is set in the hypercube and not in the library, this measure cannot be shared with other objects.</div> <div class=note>A measure that is set in the library can be used by many objects.</div> <div class=note>\nexpressions are complementary expressions associated to a measure. For example, you can decide to change the background color of a visualization depending on the values of the measure.\nAttribute expressions do not affect the layout of an object. The sorting order is unchanged.\n</div>",
         "properties": {
           "qLibraryId": {
             "type": "string",
@@ -24408,8 +24408,5 @@
     }
   },
   "x-qlik-visibility": "public",
-  "x-qlik-stability": "locked",
-  "x-qlik-categories": [
-    "external/manage"
-  ]
+  "x-qlik-stability": "locked"
 }
