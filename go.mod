@@ -7,7 +7,7 @@ require (
 	github.com/jaytaylor/html2text v0.0.0-20230321000545-74c2419ad056
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.7.0
-	golang.org/x/net v0.25.0
+	golang.org/x/net v0.36.0
 )
 
 require (
@@ -20,4 +20,6 @@ require (
 	gopkg.in/yaml.v3 v3.0.0 // indirect
 )
 
-go 1.21
+go 1.23.0
+
+toolchain go1.24.1
