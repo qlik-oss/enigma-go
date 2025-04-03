@@ -5,10 +5,10 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"net/http"
+	"os"
 
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/qlik-oss/enigma-go/v4"
 )
 
@@ -35,7 +35,7 @@ var jwtClaims = jwt.MapClaims{
 
 func main() {
 	ctx := context.Background()
-	key, err := ioutil.ReadFile(privateKeyPath)
+	key, err := os.ReadFile(privateKeyPath)
 	if err != nil {
 		fmt.Println("Could not find private key", err)
 		panic(err)
