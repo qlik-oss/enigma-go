@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"regexp"
 	"sort"
@@ -267,7 +266,7 @@ func createTypesMap(schema *OpenRpcFile) map[string]string {
 }
 
 func loadSchemaFile(schemaFilePath string) (*OpenRpcFile, error) {
-	rawSchemaFile, err := ioutil.ReadFile(schemaFilePath)
+	rawSchemaFile, err := os.ReadFile(schemaFilePath)
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
@@ -288,7 +287,7 @@ func createObjectFunctionToObjectTypeMapping(schemaCompanionFilePath string) map
 	var result struct {
 		RemoteObjectReturnTypes map[string]string `json:"remote-object-return-types"`
 	}
-	file, err := ioutil.ReadFile(schemaCompanionFilePath)
+	file, err := os.ReadFile(schemaCompanionFilePath)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

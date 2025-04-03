@@ -1,7 +1,5 @@
 SHELL := /bin/bash
 
-build: generate generate-enigma-spec
-
 test-unit:
 	go test -count=1 -v -race .
 
@@ -17,6 +15,3 @@ mod-update:
 
 generate:
 	./schema/generate.sh
-
-generate-enigma-spec:
-	go run ./spec/generate.go

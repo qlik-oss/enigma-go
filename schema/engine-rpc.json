@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.2073.0",
+    "version": "12.2393.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -114,7 +114,7 @@
       "params": [
         {
           "name": "qMatch",
-          "description": "String to search for.\nCan contain wild cards or numeric search criteria.",
+          "description": "String to search for.\nCan contain wild cards or numeric search criteria.\nThe characters &lt;&gt;\"~()='[] have pre-defined meanings when used at the start of the string.\nTo use them, EnableSpecialCharacterEscapingInSearch needs to be enabled and the delimiter \\ needs to precede the special character.",
           "required": true,
           "schema": {
             "type": "string"
@@ -757,7 +757,7 @@
     },
     {
       "name": "GenericObject.GetLayout",
-      "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member _delta_ is set to true in the request object, only the delta is evaluated. A _GetLayout_ call on a generic object, returns up to one level down in the hierarchy.\n\n### Example:\n_A_ is a generic object and is the parent of the objects B and C. _B_ is the parent of the objects D and E.\n<br>![](images/dr_gen_QVCPMethodGetLayoutHierarchy.png)<br>\nA _GetLayout_ call on A returns information on the objects A, B and C.\nA _GetLayout_ call on B returns information on the objects B, D and E.\nA  _GetLayout_ call on C returns information on the object C.\n\n<div class=note>\nIn addition to the parameters displayed above, the **GetLayout** method can return other properties according to what is defined in the generic object.\nFor example, if **qHyperCubeDef** is defined in the generic object, the **GetLayout** method returns the properties described in _HyperCube_.\n</div>",
+      "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member _delta_ is set to true in the request object, only the delta is evaluated. A _GetLayout_ call on a generic object, returns up to one level down in the hierarchy.\n\n### Example:\n_A_ is a generic object and is the parent of the objects B and C. _B_ is the parent of the objects D and E.\nA _GetLayout_ call on A returns information on the objects A, B and C.\nA _GetLayout_ call on B returns information on the objects B, D and E.\nA  _GetLayout_ call on C returns information on the object C.\n<div class=note>\nIn addition to the parameters displayed above, the **GetLayout** method can return other properties according to what is defined in the generic object.\nFor example, if **qHyperCubeDef** is defined in the generic object, the **GetLayout** method returns the properties described in _HyperCube_.\n</div>",
       "params": [],
       "result": {
         "name": "Results for GenericObject.GetLayout",
@@ -788,7 +788,7 @@
     },
     {
       "name": "GenericObject.GetListObjectData",
-      "description": "Retrieves the values of a list object.\nA data set is returned.",
+      "description": "Retrieves the values of a list object.\nA data set is returned.\n\n### Limitations on the number of cells\nThe maximum for the combined total number of cells across all pages is:\n* 10,000 cells. If this limit is exceeded, a calc-pages-too-large error with code 7009 is returned.",
       "params": [
         {
           "name": "qPath",
@@ -836,7 +836,7 @@
     },
     {
       "name": "GenericObject.GetHyperCubeData",
-      "description": "Retrieves the calculated data for a chart, a table, or a scatter plot. It is possible to retrieve specific pages of data.\n<div class=note>This method works for a hypercube in DATA_MODE_STRAIGHT.</div>\nA data set is returned.",
+      "description": "Retrieves the calculated data for a chart, a table, or a scatter plot. It is possible to retrieve specific pages of data.\n<div class=note>This method works for a hypercube in DATA_MODE_STRAIGHT.</div>\nA data set is returned.\n\n### Limitations on the number of cells\nThe maximum for the combined total number of cells across all pages is:\n* 10,000 cells. If this limit is exceeded, a calc-pages-too-large error with code 7009 is returned.",
       "params": [
         {
           "name": "qPath",
@@ -2313,6 +2313,90 @@
       "x-qlik-stability": "locked"
     },
     {
+      "name": "GenericObject.StepCycle",
+      "description": "You can use the StepCycle method with any object that contains a cyclic group as a dimension.\nThis method allows you to move between different fields in a cyclic dimension.\nA hypercube will avoid field collisions with its other dimensions when cycling in this manner. If all other fields cause collisions then no cycling is performed.",
+      "params": [
+        {
+          "name": "qPath",
+          "description": "Path to the definition of the object to be selected.\nFor example, _/qHyperCubeDef_ .",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "qDimNo",
+          "description": "Dimension number or index starting from 0.\nThe default value is 0.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "qNbrSteps",
+          "description": "Number of steps you want to cycle.\nPositive values cycle forwards while negative values cycle backwards. A value of 0 leads to no action being taken.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericObject.StepCycle",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
+      "name": "GenericObject.SetActiveField",
+      "description": "You can use the SetActiveField method with any object that contains a cyclic group as a dimension.\nThis method allows you to jump to a specific field in a cyclic dimension. If NewIndex is out-of-bounds of the dimension's fields then no action is taken.\nA hypercube will avoid field collisions with its other dimensions when setting the active field in this manner. If there are any collisions then no action is performed.",
+      "params": [
+        {
+          "name": "qPath",
+          "description": "Path to the definition of the object to be selected.\nFor example, _/qHyperCubeDef_ .",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "qDimNo",
+          "description": "Dimension number or index starting from 0.\nThe default value is 0.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "qNewIndex",
+          "description": "Index of the field to jump to.",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericObject.SetActiveField",
+        "schema": {
+          "type": "object"
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "experimental"
+    },
+    {
       "name": "GenericObject.SelectHyperCubeValues",
       "description": "Selects some values in one dimension.\nThe values are identified by their element numbers.\n<div class=note>This method applies to charts, tables and scatter plots.</div>\nThe member **Change** returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to _true_ if the selections are successful and is set to _false_ in the following cases:\n* The object contains some invalid fields (fields that are not in the data model).\n* The selection applies to a locked field.\n* A range selection is performed and the parameter _OneAndOnlyOne_ is set to true in the definition of the object.",
       "params": [
@@ -2448,7 +2532,7 @@
     },
     {
       "name": "GenericObject.SelectPivotCells",
-      "description": "<div class=note>This method only applies to hypercubes that are not represented as straight tables. The parameter _qMode_ in _HyperCubeDef_ must be set either to _P_  or _K_ . </div>\n\n### Pivot table\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\n### Stacked table\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\n<div class=note>There is no top dimensions in a stacked table. A stacked table can only contain one measure.</div>\n\n### Example of a pivot table\n![](images/ui_gen_ExampleQVCPPivotTableDescription.png)<br>\nIn the representation above:\n<table>\n<tbody>\n<tr>\n<td>Sum(OrderTotal)<br>Count(OrderTotal)</td>\n<td>Are pseudo dimensions.</td>\n</tr>\n<tr>\n<td>CategoryName</td>\n<td>Is a left dimension.<br><i>Beverages</i> , <i>Condiments</i> ... are left dimension values.</td>\n</tr>\n<tr>\n<td>ProductName</td>\n<td>Is a top dimension.<br><i>Chef Anton's Cajun Seasoning</i> is a top dimension value. </td>\n</tr>\n<tr>\n<td>Numeric values</td>\n<td>Are calculated values in the data matrix.<br><i>626291,832</i> is a calculated value.</td>\n</tr>\n</tbody>\n</table>\n\nThe member **Change** returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to _true_ if the selections are successful and is set to _false_ in the following cases:\n* The object contains some invalid fields (fields that are not in the data model).\n* The selection applies to a locked field.\n* A range selection is performed and the parameter _OneAndOnlyOne_ is set to true in the definition of the object.",
+      "description": "<div class=note>This method only applies to hypercubes that are not represented as straight tables. The parameter _qMode_ in _HyperCubeDef_ must be set either to _P_  or _K_ . </div>\n\n### Pivot table\nMakes selections in the top or left dimension cells of a pivot table or in the data matrix. Only expanded dimensions can be selected.\n\n### Stacked table\nMakes selections in the left dimension cells of a stacked table or in the data matrix.\n<div class=note>There is no top dimensions in a stacked table. A stacked table can only contain one measure.</div>\n\nThe member **Change** returns the handles of the objects that are updated following the selections.\n_qSuccess_ is set to _true_ if the selections are successful and is set to _false_ in the following cases:\n* The object contains some invalid fields (fields that are not in the data model).\n* The selection applies to a locked field.\n* A range selection is performed and the parameter _OneAndOnlyOne_ is set to true in the definition of the object.",
       "params": [
         {
           "name": "qPath",
@@ -3620,7 +3704,7 @@
     },
     {
       "name": "GenericBookmark.GetFieldValues",
-      "description": "Retrieves the values of a field.\n\n### Fieldvalue\n<table>\n<tbody>\n<tr>\n<th>Name</th>\n<th>Description</th>\n<th>Type</th>\n</tr>\n<tr>\n<td>qText</td>\n<td>Text related to the field value.</td>\n<td>String</td>\n</tr>\n<tr>\n<td>qIsNumeric</td>\n<td>Is set to true if the value is a numeric.<br>Default is false.</td>\n<td>Boolean</td>\n</tr>\n<tr>\n<td>qNumber</td>\n<td>Numeric value of the field.<br>This parameter is displayed if <i>qIsNumeric</i> is set to true.</td>\n<td>Double</td>\n</tr>\n</tbody>\n</table>",
+      "description": "Retrieves the values of a field for the default state.\n\n### Fieldvalue\n<table>\n<tbody>\n<tr>\n<th>Name</th>\n<th>Description</th>\n<th>Type</th>\n</tr>\n<tr>\n<td>qText</td>\n<td>Text related to the field value.</td>\n<td>String</td>\n</tr>\n<tr>\n<td>qIsNumeric</td>\n<td>Is set to true if the value is a numeric.<br>Default is false.</td>\n<td>Boolean</td>\n</tr>\n<tr>\n<td>qNumber</td>\n<td>Numeric value of the field.<br>This parameter is displayed if <i>qIsNumeric</i> is set to true.</td>\n<td>Double</td>\n</tr>\n</tbody>\n</table>",
       "params": [
         {
           "name": "qField",
@@ -3632,7 +3716,7 @@
         },
         {
           "name": "qGetExcludedValues",
-          "description": "If set to true, only excluded values are returned.",
+          "description": "If set to true, only NOT-selected values are returned.",
           "required": true,
           "schema": {
             "type": "boolean"
@@ -3657,6 +3741,60 @@
               "type": "array",
               "items": {
                 "$ref": "#/components/schemas/FieldValue"
+              }
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-see-also": [
+        "[Get the handle of a field](#csh-get-handle-field)"
+      ],
+      "x-qlik-stability": "locked"
+    },
+    {
+      "name": "GenericBookmark.GetFieldValuesEx",
+      "description": "Retrieves the values of a field per state.\n\n### Fieldvalue\n<table>\n<tbody>\n<tr>\n<th>Name</th>\n<th>Description</th>\n<th>Type</th>\n</tr>\n<tr>\n<td>qText</td>\n<td>Text related to the field value.</td>\n<td>String</td>\n</tr>\n<tr>\n<td>qIsNumeric</td>\n<td>Is set to true if the value is a numeric.<br>Default is false.</td>\n<td>Boolean</td>\n</tr>\n<tr>\n<td>qNumber</td>\n<td>Numeric value of the field.<br>This parameter is displayed if <i>qIsNumeric</i> is set to true.</td>\n<td>Double</td>\n</tr>\n</tbody>\n</table>",
+      "params": [
+        {
+          "name": "qField",
+          "description": "Name of the field.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "qGetExcludedValues",
+          "description": "When to true, only NOT-selected values are returned.",
+          "required": true,
+          "schema": {
+            "type": "boolean"
+          }
+        },
+        {
+          "name": "qDataPages",
+          "description": "Range of returned values per state, an empty array will return the values of all states. Only one page without a state name returns the values for all states, using the start and end indices of the first page.",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "$ref": "#/components/schemas/BookmarkStateFieldPages"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericBookmark.GetFieldValuesEx",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qFieldValues": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/StateFieldValues"
               }
             }
           }
@@ -5035,7 +5173,7 @@
     },
     {
       "name": "Doc.GetViewDlgSaveInfo",
-      "description": "Returns information about the position of the tables in the data model viewer.\n<div class=note>The position of the broom points and the position of the connection points cannot be retrieved in Qlik Sense.</div>\n\n### Representation of tables, broom points and connection points\n![](images/ui_gen_BroomConnectionPoints_dmv.png)<br>\nThe green circles represent the broom points.\nThe red circle represents a connection point.",
+      "description": "Returns information about the position of the tables in the data model viewer.\n<div class=note>The position of the broom points and the position of the connection points cannot be retrieved in Qlik Sense.</div>",
       "params": [],
       "result": {
         "name": "Results for Doc.GetViewDlgSaveInfo",
@@ -5058,7 +5196,7 @@
     },
     {
       "name": "Doc.SetViewDlgSaveInfo",
-      "description": "Sets the positions of the tables in the data model viewer.\n<div class=note>The position of the broom points and the position of the connection points cannot be set in Qlik Sense.</div>\n\n### Representation of tables, broom points and connection points\n![](images/ui_gen_BroomConnectionPoints_dmv.png)<br>\nThe green circles represent the broom points.\nThe red circle represents a connection point.",
+      "description": "Sets the positions of the tables in the data model viewer.\n<div class=note>The position of the broom points and the position of the connection points cannot be set in Qlik Sense.</div>",
       "params": [
         {
           "name": "qInfo",
@@ -9657,7 +9795,7 @@
           "$ref": "#/components/errors/GenericErrors"
         }
       ],
-      "x-qlik-stability": "experimental",
+      "x-qlik-stability": "locked",
       "x-qlik-access-control": [
         "update"
       ]
@@ -12301,6 +12439,14 @@
             "title": "LOCERR_FEATURE_DISABLED"
           },
           {
+            "x-qlik-const": 21000,
+            "title": "LOCERR_LOAD_TOO_MANY_FIELDS"
+          },
+          {
+            "x-qlik-const": 21001,
+            "title": "LOCERR_LOAD_TOO_MANY_TABLES"
+          },
+          {
             "x-qlik-const": -32600,
             "title": "LOCERR_JSON_RPC_INVALID_REQUEST"
           },
@@ -12315,6 +12461,10 @@
           {
             "x-qlik-const": -32603,
             "title": "LOCERR_JSON_RPC_INTERNAL_ERROR"
+          },
+          {
+            "x-qlik-const": -32604,
+            "title": "LOCERR_JSON_RPC_RESPONSE_TOO_LARGE"
           },
           {
             "x-qlik-const": -32700,
@@ -12743,6 +12893,10 @@
           {
             "x-qlik-const": 30237,
             "title": "LOCERR_WIN_INTERNET_SERVER_UNREACHABLE"
+          },
+          {
+            "x-qlik-const": 31000,
+            "title": "LOCERR_BM_RESULT_TOO_LARGE"
           }
         ]
       },
@@ -14522,6 +14676,18 @@
           "qOneAndOnlyOne": {
             "type": "boolean",
             "description": "If set to true, the field has always one selection (not 0 and not more than 1). If another value is selected, the previous one is unselected.\nThe default value is false. This parameter is not returned if set to false."
+          },
+          "qValuesCount": {
+            "type": "integer",
+            "description": "Count of selected values. Indicates if the Values field is loaded.",
+            "format": "int32",
+            "default": -1
+          },
+          "qExcludedValuesCount": {
+            "type": "integer",
+            "description": "Count of excluded values. Indicates if the ExcludedValues field is loaded.",
+            "format": "int32",
+            "default": -1
           }
         }
       },
@@ -16944,6 +17110,11 @@
           "qLibraryId": {
             "type": "string",
             "description": "Refers to a dimension stored in the library."
+          },
+          "qEffectiveDimensionName": {
+            "type": "string",
+            "description": "The expanded and stripped dimension name used internally in engine.",
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -17553,6 +17724,10 @@
           "qAlias": {
             "type": "string",
             "description": "Alias of the dimension."
+          },
+          "qScriptGenerated": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -17584,6 +17759,9 @@
           "qAlias": {
             "type": "string",
             "description": "Alias of the dimension."
+          },
+          "qScriptGenerated": {
+            "type": "boolean"
           }
         }
       },
@@ -17623,6 +17801,10 @@
             "type": "object",
             "description": "Format of the field.\nThis parameter is optional.",
             "$ref": "#/components/schemas/FieldAttributes"
+          },
+          "qScriptGenerated": {
+            "type": "boolean",
+            "default": false
           }
         }
       },
@@ -17658,6 +17840,9 @@
             "type": "object",
             "description": "Format of the field.\nThis parameter is optional.",
             "$ref": "#/components/schemas/FieldAttributes"
+          },
+          "qScriptGenerated": {
+            "type": "boolean"
           }
         }
       },
@@ -17777,11 +17962,19 @@
           },
           "qReadableName": {
             "type": "string",
-            "description": "Label that, if defined, is displayed in current selections instead of the actual expression."
+            "description": "Label that, if defined, is displayed in current selections instead of the actual expression. ReadableName is only used with field-on-the-fly."
           },
           "qIsHidden": {
             "type": "boolean",
             "description": "Optional parameter. Indicates if the selection is to be hidden in the Selections bar.\nIs set to true if the current selection is hidden."
+          },
+          "qDimensionReferences": {
+            "type": "array",
+            "description": "List of dimensions in the app that refer to the data model field of an NxCurrentSelectionItem.",
+            "items": {
+              "$ref": "#/components/schemas/DimensionReference"
+            },
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -17818,6 +18011,21 @@
             "description": "SELECTION_MODE_NOT"
           }
         ]
+      },
+      "DimensionReference": {
+        "type": "object",
+        "description": "The DimensionReference structure points to a GenericDimension.",
+        "properties": {
+          "qId": {
+            "type": "string",
+            "description": "Identifier of the associated dimension."
+          },
+          "qLabel": {
+            "type": "string",
+            "description": "Text label."
+          }
+        },
+        "x-qlik-stability": "experimental"
       },
       "StaticContentUrlDef": {
         "type": "object",
@@ -18218,6 +18426,11 @@
           "qLibraryId": {
             "type": "string",
             "description": "Refers to a dimension stored in the library."
+          },
+          "qEffectiveDimensionName": {
+            "type": "string",
+            "description": "The expanded and stripped dimension name used internally in engine.",
+            "x-qlik-stability": "experimental"
           }
         },
         "x-qlik-stability": "stable"
@@ -18443,6 +18656,56 @@
             "type": "integer",
             "description": "The end value of the range.",
             "format": "int32"
+          }
+        }
+      },
+      "BookmarkStateFieldPages": {
+        "type": "object",
+        "properties": {
+          "qStatePages": {
+            "type": "array",
+            "description": "Bookmark field pages for different states.",
+            "items": {
+              "$ref": "#/components/schemas/BookmarkFieldPageEx"
+            }
+          }
+        }
+      },
+      "BookmarkFieldPageEx": {
+        "type": "object",
+        "properties": {
+          "qStateName": {
+            "type": "string",
+            "description": "The name of the selected state.",
+            "default": "$"
+          },
+          "qStartIndex": {
+            "type": "integer",
+            "description": "The start value of the range.",
+            "format": "int32",
+            "default": 0
+          },
+          "qEndIndex": {
+            "type": "integer",
+            "description": "The end value of the range.",
+            "format": "int32",
+            "default": 0
+          }
+        }
+      },
+      "StateFieldValues": {
+        "type": "object",
+        "properties": {
+          "qStateName": {
+            "type": "string",
+            "description": "Name of the state."
+          },
+          "qFieldValues": {
+            "type": "array",
+            "description": "The field values associated with the state.",
+            "items": {
+              "$ref": "#/components/schemas/FieldValue"
+            }
           }
         }
       },
@@ -19636,7 +19899,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -19756,6 +20019,14 @@
           {
             "x-qlik-const": 1,
             "title": "DATA_PREPARATION"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "DATAFLOW_PREP"
+          },
+          {
+            "x-qlik-const": 3,
+            "title": "SINGLE_TABLE_PREP"
           }
         ]
       },
@@ -19790,7 +20061,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
+            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -21777,7 +22048,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -22771,6 +23042,12 @@
             "$ref": "#/components/errors/LOCERR_FEATURE_DISABLED"
           },
           {
+            "$ref": "#/components/errors/LOCERR_LOAD_TOO_MANY_FIELDS"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_LOAD_TOO_MANY_TABLES"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_JSON_RPC_INVALID_REQUEST"
           },
           {
@@ -22781,6 +23058,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_JSON_RPC_INTERNAL_ERROR"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_JSON_RPC_RESPONSE_TOO_LARGE"
           },
           {
             "$ref": "#/components/errors/LOCERR_JSON_RPC_PARSE_ERROR"
@@ -23102,6 +23382,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_WIN_INTERNET_SERVER_UNREACHABLE"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_BM_RESULT_TOO_LARGE"
           }
         ]
       },
@@ -23191,7 +23474,7 @@
       },
       "LOCERR_GENERIC_MEMORY_LIMIT_REACHED": {
         "code": 19,
-        "message": "Your quota limit of {0}MB was exceeded. You loaded {1}MB. Reduce your data within this application or buy additional capacity."
+        "message": "Memory limit reached"
       },
       "LOCERR_GENERIC_NOT_IMPLEMENTED": {
         "code": 20,
@@ -23961,6 +24244,14 @@
         "code": 20000,
         "message": "Feature disabled"
       },
+      "LOCERR_LOAD_TOO_MANY_FIELDS": {
+        "code": 21000,
+        "message": "Too many fields in file"
+      },
+      "LOCERR_LOAD_TOO_MANY_TABLES": {
+        "code": 21001,
+        "message": "Too many tables in file"
+      },
       "LOCERR_JSON_RPC_INVALID_REQUEST": {
         "code": -32600,
         "message": "Invalid JSON request"
@@ -23976,6 +24267,10 @@
       "LOCERR_JSON_RPC_INTERNAL_ERROR": {
         "code": -32603,
         "message": "Internal JSON-RPC error"
+      },
+      "LOCERR_JSON_RPC_RESPONSE_TOO_LARGE": {
+        "code": -32604,
+        "message": "Response too large"
       },
       "LOCERR_JSON_RPC_PARSE_ERROR": {
         "code": -32700,
@@ -24019,7 +24314,7 @@
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_CANCELLED": {
         "code": 22001,
-        "message": "The operation was cancelled."
+        "message": "Operation cancelled."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_UNKNOWN": {
         "code": 22002,
@@ -24027,51 +24322,51 @@
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_INVALID_ARGUMENT": {
         "code": 22003,
-        "message": "Client specified an invalid argument."
+        "message": "Invalid argument."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_DEADLINE_EXCEEDED": {
         "code": 22004,
-        "message": "Deadline expired before operation could complete."
+        "message": "Deadline exceeded."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_NOT_FOUND": {
         "code": 22005,
-        "message": "Some requested entity (e.g., file or directory) was not found."
+        "message": "Resource not found."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_ALREADY_EXISTS": {
         "code": 22006,
-        "message": "Some entity that we attempted to create (e.g., file or directory) already exists."
+        "message": "Resource already exists."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_PERMISSION_DENIED": {
         "code": 22007,
-        "message": "The caller does not have permission to execute the specified operation."
+        "message": "Permission Denied."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_RESOURCE_EXHAUSTED": {
         "code": 22008,
-        "message": "Some resource has been exhausted, perhaps a per-user quota, or perhaps the entire file system is out of space."
+        "message": "Resource exhausted."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_FAILED_PRECONDITION": {
         "code": 22009,
-        "message": "Operation was rejected because the system is not in a state required for the operation's execution."
+        "message": "Operation rejected, failed precondition."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_ABORTED": {
         "code": 22010,
-        "message": "The operation was aborted, typically due to a concurrency issue like sequencer check failures, transaction aborts, etc."
+        "message": "Operation aborted."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_OUT_OF_RANGE": {
         "code": 22011,
-        "message": "Operation was attempted past the valid range. E.g., seeking or reading past end of file."
+        "message": "Operation out of range."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_UNIMPLEMENTED": {
         "code": 22012,
-        "message": "Operation is not implemented or not supported/enabled in this service."
+        "message": "Operation not implemented."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_INTERNAL": {
         "code": 22013,
-        "message": "Internal errors. Means some invariants expected by underlying System has been broken. If you see one of these errors, Something is very broken."
+        "message": "Internal error."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_UNAVAILABLE": {
         "code": 22014,
-        "message": "The service is currently unavailable. This is a most likely a transient condition and may be corrected by retrying with a backoff."
+        "message": "Service unavailable."
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_DATA_LOSS": {
         "code": 22015,
@@ -24079,7 +24374,7 @@
       },
       "LOCERR_EXTENGINE_GRPC_STATUS_UNAUTHENTICATED": {
         "code": 22016,
-        "message": "The request does not have valid authentication credentials for the operation."
+        "message": "Invalid authentication."
       },
       "LOCERR_LXW_INVALID_OBJ": {
         "code": 23001,
@@ -24404,6 +24699,10 @@
       "LOCERR_WIN_INTERNET_SERVER_UNREACHABLE": {
         "code": 30237,
         "message": "The website or server indicated is unreachable"
+      },
+      "LOCERR_BM_RESULT_TOO_LARGE": {
+        "code": 31000,
+        "message": "Unknown error"
       }
     }
   },

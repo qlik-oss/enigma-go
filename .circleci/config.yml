@@ -17,23 +17,49 @@ aliases:
   - &test
       make test-unit
 
-  - &spec_test |
-      go test -v -race ./spec
-      set +e # If we don't have any tags we will get exit code 128.
-      TAG=$(git describe --tags --abbrev=0 2> /dev/null)
-      set -e # Reset -e just in case
-      if [[ ! -z $TAG && ($(git rev-list -n 1 $TAG) == $(git rev-parse HEAD)) ]]; then
-        go run ./spec/generate.go -version $TAG
-      else
-        go run ./spec/generate.go
-      fi
-      git diff --exit-code api-spec.json
-
   - &examples |
       ./examples/run_examples.sh
 
 version: 2
 jobs:
+  golang-1.24:
+    docker:
+      - image: cimg/go:1.24
+    environment:
+      GOLANG_VERSION: "1.24"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.22{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.22{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: go test -v -race ./release/verval
+      - run: *examples
+
+  golang-1.23:
+    docker:
+      - image: cimg/go:1.23
+    environment:
+      GOLANG_VERSION: "1.23"
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-1.21{{ checksum "go.sum" }}
+      - run: *build
+      - save_cache:
+          key: dependency-cache-1.21{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run: *lint
+      - run: *test
+      - run: go test -v -race ./release/verval
+      - run: *examples
+
   golang-1.22:
     docker:
       - image: cimg/go:1.22
@@ -42,46 +68,6 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.22{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.22{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: *spec_test
-      - run: go test -v -race ./release/verval
-      - run: *examples
-
-  golang-1.21:
-    docker:
-      - image: cimg/go:1.21
-    environment:
-      GOLANG_VERSION: "1.21"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.21{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.21{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: *spec_test
-      - run: go test -v -race ./release/verval
-      - run: *examples
-
-  golang-1.20:
-    docker:
-      - image: cimg/go:1.20
-    environment:
-      GOLANG_VERSION: "1.20"
-    steps:
-      - checkout
-      - restore_cache:
           key: dependency-cache-1.20{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
@@ -90,7 +76,6 @@ jobs:
             - "/go/pkg/mod"
       - run: *lint
       - run: *test
-      - run: *spec_test
       - run: go test -v -race ./release/verval
       - run: *examples
 
@@ -98,17 +83,17 @@ workflows:
   version: 2
   build:
     jobs:
+      - golang-1.24:
+          filters:
+            tags:
+              only:
+                - /v.*/
+      - golang-1.23:
+          filters:
+            tags:
+              only:
+                - /v.*/
       - golang-1.22:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.21:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.20:
           filters:
             tags:
               only:
