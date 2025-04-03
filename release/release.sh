@@ -34,8 +34,8 @@ bump_version() {
     echo $new_ver
     exit $ecode
   fi
-  echo "New version: $new_ver"
   VERSION=v$new_ver
+  echo "New version: $VERSION"
 }
 
 sanity_check() {
@@ -72,35 +72,15 @@ case $1 in
     WD=$(pwd)
     cd $(dirname "$0")
     bump_version $1
-    echo $VERSION
-    cd ../spec
-    echo "Generating spec..."
-    go run generate.go -version=$VERSION
-    if [[ $? -ne 0 ]]; then
-      echo "FAIL"
-      echo "Failed to generate API specification, aborting"
-      exit 1
-    fi
-    echo "Done"
     QIX_VERSION=$(grep "QIX_SCHEMA_VERSION" ../qix_generated.go | cut -d ' ' -f4 | sed 's/"//g')
     if [[ -z $QIX_VERSION ]]; then
       echo "Couldn't find QIX schema version"
       exit 1
     fi
     MSG="Release: ${VERSION} for QIX schema version ${QIX_VERSION}"
-    echo "git add ../api-spec.json"
-    git add ../api-spec.json > /dev/null
-    echo "git commit -m \"${MSG}\""
-    git commit -m "${MSG}" > /dev/null
     echo "git tag -a ${VERSION} -m \"${MSG}\""
     git tag -a ${VERSION} -m "${MSG}" > /dev/null
     # Set version to latest on master
-    echo "Bumping version of spec again, now to latest"
-    go run generate.go
-    echo "git add ../api-spec.json"
-    git add ../api-spec.json > /dev/null
-    echo "git commit -m \"Post-release: bumping version to latest\""
-    git commit -m "Post-release: bumping version to latest" > /dev/null
     echo
     echo "If everything looks OK run the following command to release:"
     echo
