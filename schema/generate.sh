@@ -20,8 +20,6 @@ generate() {
     go run ./schema/generate.go ./schema/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
     ## format code
     go fmt ./qix_generated.go >/dev/null
-    ## generate spec
-    go run ./spec/generate.go
   else
     echo "No changes to engine-rpc.json, nothing to do."
   fi
