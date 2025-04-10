@@ -43,7 +43,7 @@ jobs:
 
   golang-1.23:
     docker:
-      - image: cimg/go:1.24
+      - image: cimg/go:1.23
     environment:
       GOLANG_VERSION: "1.23"
     steps:
@@ -62,7 +62,7 @@ jobs:
 
   golang-1.22:
     docker:
-      - image: cimg/go:1.24
+      - image: cimg/go:1.22
     environment:
       GOLANG_VERSION: "1.22"
     steps:
