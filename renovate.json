@@ -4,5 +4,5 @@
     "qlik-oss:groupMinorPatch"
   ],
   "postUpdateOptions": ["gomodTidy"],
-  "ignoreDeps": ["circleci/golang"]
+  "ignorePaths": ["./circleci/config.yml"]
 }
