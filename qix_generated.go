@@ -6864,7 +6864,7 @@ func (obj *Doc) ApplyGroupStates(ctx context.Context, groupStates []*GroupState)
 }
 
 // Stability: experimental
-func (obj *Doc) ApplyGroupStatesRaw(ctx context.Context, groupStates interface{}) (json.RawMessage, error) {
+func (obj *Doc) ApplyGroupStatesRaw(ctx context.Context, groupStates any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -7243,7 +7243,7 @@ func (obj *Doc) CreateBookmark(ctx context.Context, prop *GenericBookmarkPropert
 // ◾ prop   -   Properties for the object.
 //
 // Stability: locked
-func (obj *Doc) CreateBookmarkRaw(ctx context.Context, prop interface{}) (*GenericBookmark, error) {
+func (obj *Doc) CreateBookmarkRaw(ctx context.Context, prop any) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7283,7 +7283,7 @@ func (obj *Doc) CreateBookmarkEx(ctx context.Context, prop *GenericBookmarkPrope
 // ◾ objectIdsToPatch   -   Add softpatches for this objects if available. If empty all softpatches are added to the bookmark.
 //
 // Stability: experimental
-func (obj *Doc) CreateBookmarkExRaw(ctx context.Context, prop interface{}, objectIdsToPatch []string) (*GenericBookmark, error) {
+func (obj *Doc) CreateBookmarkExRaw(ctx context.Context, prop any, objectIdsToPatch []string) (*GenericBookmark, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7318,7 +7318,7 @@ func (obj *Doc) CreateConnection(ctx context.Context, connection *Connection) (s
 // ◾ connection   -   Information about the connection.
 //
 // Stability: locked
-func (obj *Doc) CreateConnectionRaw(ctx context.Context, connection interface{}) (string, error) {
+func (obj *Doc) CreateConnectionRaw(ctx context.Context, connection any) (string, error) {
 	result := &struct {
 		ConnectionId string `json:"qConnectionId"`
 	}{}
@@ -7353,7 +7353,7 @@ func (obj *Doc) CreateDimension(ctx context.Context, prop *GenericDimensionPrope
 // ◾ prop   -   Information about the properties.
 //
 // Stability: locked
-func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop interface{}) (*GenericDimension, error) {
+func (obj *Doc) CreateDimensionRaw(ctx context.Context, prop any) (*GenericDimension, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7411,7 +7411,7 @@ func (obj *Doc) CreateMeasure(ctx context.Context, prop *GenericMeasurePropertie
 // ◾ prop   -   Information about the properties.
 //
 // Stability: locked
-func (obj *Doc) CreateMeasureRaw(ctx context.Context, prop interface{}) (*GenericMeasure, error) {
+func (obj *Doc) CreateMeasureRaw(ctx context.Context, prop any) (*GenericMeasure, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7455,7 +7455,7 @@ func (obj *Doc) CreateObject(ctx context.Context, prop *GenericObjectProperties)
 // ◾ prop   -   Information about the object.
 //
 // Stability: locked
-func (obj *Doc) CreateObjectRaw(ctx context.Context, prop interface{}) (*GenericObject, error) {
+func (obj *Doc) CreateObjectRaw(ctx context.Context, prop any) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7499,7 +7499,7 @@ func (obj *Doc) CreateSessionObject(ctx context.Context, prop *GenericObjectProp
 // ◾ prop   -   Information about the object.
 //
 // Stability: locked
-func (obj *Doc) CreateSessionObjectRaw(ctx context.Context, prop interface{}) (*GenericObject, error) {
+func (obj *Doc) CreateSessionObjectRaw(ctx context.Context, prop any) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7559,7 +7559,7 @@ func (obj *Doc) CreateSessionVariable(ctx context.Context, prop *GenericVariable
 // ◾ prop   -   Name of the variable. Variable names are case sensitive.
 //
 // Stability: locked
-func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop interface{}) (*GenericVariable, error) {
+func (obj *Doc) CreateSessionVariableRaw(ctx context.Context, prop any) (*GenericVariable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -7601,7 +7601,7 @@ func (obj *Doc) CreateTemporaryBookmark(ctx context.Context, options *NxTempBook
 // Any session objects included are also added to the bookmark. IncludePatches has no effect on the patching of session objects.
 //
 // Stability: locked
-func (obj *Doc) CreateTemporaryBookmarkRaw(ctx context.Context, options interface{}, objectIdsToPatch []string) (string, bool, error) {
+func (obj *Doc) CreateTemporaryBookmarkRaw(ctx context.Context, options any, objectIdsToPatch []string) (string, bool, error) {
 	result := &struct {
 		Id     string `json:"qId"`
 		Return bool   `json:"qReturn"`
@@ -7679,7 +7679,7 @@ func (obj *Doc) CreateVariableEx(ctx context.Context, prop *GenericVariablePrope
 // ◾ prop   -   Name of the variable. Variable names are case sensitive and must be unique.
 //
 // Stability: locked
-func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop interface{}) (*GenericVariable, error) {
+func (obj *Doc) CreateVariableExRaw(ctx context.Context, prop any) (*GenericVariable, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -8088,7 +8088,7 @@ func (obj *Doc) DoReloadEx(ctx context.Context, params *DoReloadExParams) (*DoRe
 //
 // If the data load has successfully finished, no matter how the indexing behaves, true is returned. This happens even if there is a timeout, a memory limit is reached or any other error occurs during the indexing.
 // Stability: locked
-func (obj *Doc) DoReloadExRaw(ctx context.Context, params interface{}) (json.RawMessage, error) {
+func (obj *Doc) DoReloadExRaw(ctx context.Context, params any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -8267,7 +8267,7 @@ func (obj *Doc) ExportReducedData(ctx context.Context, options *NxDownloadOption
 // ◾ options   -   BookmarkId used to reduced the app on and an expire time.
 //
 // Stability: locked
-func (obj *Doc) ExportReducedDataRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
+func (obj *Doc) ExportReducedDataRaw(ctx context.Context, options any) (json.RawMessage, error) {
 	result := &struct {
 		DownloadInfo json.RawMessage `json:"qDownloadInfo"`
 	}{}
@@ -8472,7 +8472,7 @@ func (obj *Doc) GetBookmarks(ctx context.Context, options *NxGetBookmarkOptions)
 // ◾ options   -   Bookmark type filter and requested properties.
 //
 // Stability: locked
-func (obj *Doc) GetBookmarksRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
+func (obj *Doc) GetBookmarksRaw(ctx context.Context, options any) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
@@ -8749,7 +8749,7 @@ func (obj *Doc) GetDatabaseTablePreview(ctx context.Context, connectionId string
 // ◾ conditions     -
 //
 // Stability: locked
-func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId string, database string, owner string, table string, conditions interface{}) (json.RawMessage, int, error) {
+func (obj *Doc) GetDatabaseTablePreviewRaw(ctx context.Context, connectionId string, database string, owner string, table string, conditions any) (json.RawMessage, int, error) {
 	result := &struct {
 		Preview  json.RawMessage `json:"qPreview"`
 		RowCount int             `json:"qRowCount"`
@@ -8964,7 +8964,7 @@ func (obj *Doc) GetFieldAndColumnSamples(ctx context.Context, fieldsOrColumnsWit
 // ◾ randSeed                       -   Optional. Sets the random number seed. Should only be set for test purposes.
 //
 // Stability: locked
-func (obj *Doc) GetFieldAndColumnSamplesRaw(ctx context.Context, fieldsOrColumnsWithWildcards interface{}, maxNumberOfValues int, randSeed int) (json.RawMessage, error) {
+func (obj *Doc) GetFieldAndColumnSamplesRaw(ctx context.Context, fieldsOrColumnsWithWildcards any, maxNumberOfValues int, randSeed int) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -9159,7 +9159,7 @@ func (obj *Doc) GetFileTableFields(ctx context.Context, connectionId string, rel
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
 // Stability: locked
-func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
+func (obj *Doc) GetFileTableFieldsRaw(ctx context.Context, connectionId string, relativePath string, dataFormat any, table string) (json.RawMessage, string, error) {
 	result := &struct {
 		Fields     json.RawMessage `json:"qFields"`
 		FormatSpec string          `json:"qFormatSpec"`
@@ -9261,7 +9261,7 @@ func (obj *Doc) GetFileTablePreview(ctx context.Context, connectionId string, re
 // This parameter must be set for XLS , XLSX , HTML   and XML files.
 //
 // Stability: locked
-func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}, table string) (json.RawMessage, string, error) {
+func (obj *Doc) GetFileTablePreviewRaw(ctx context.Context, connectionId string, relativePath string, dataFormat any, table string) (json.RawMessage, string, error) {
 	result := &struct {
 		Preview    json.RawMessage `json:"qPreview"`
 		FormatSpec string          `json:"qFormatSpec"`
@@ -9356,7 +9356,7 @@ func (obj *Doc) GetFileTables(ctx context.Context, connectionId string, relative
 // ◾ dataFormat     -   Type of the file.
 //
 // Stability: locked
-func (obj *Doc) GetFileTablesRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}) (json.RawMessage, error) {
+func (obj *Doc) GetFileTablesRaw(ctx context.Context, connectionId string, relativePath string, dataFormat any) (json.RawMessage, error) {
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
 	}{}
@@ -9394,7 +9394,7 @@ func (obj *Doc) GetFileTablesEx(ctx context.Context, connectionId string, relati
 // ◾ dataFormat     -   Type of the file.
 //
 // Stability: locked
-func (obj *Doc) GetFileTablesExRaw(ctx context.Context, connectionId string, relativePath string, dataFormat interface{}) (json.RawMessage, error) {
+func (obj *Doc) GetFileTablesExRaw(ctx context.Context, connectionId string, relativePath string, dataFormat any) (json.RawMessage, error) {
 	result := &struct {
 		Tables json.RawMessage `json:"qTables"`
 	}{}
@@ -9741,7 +9741,7 @@ func (obj *Doc) GetObjects(ctx context.Context, options *NxGetObjectOptions) ([]
 // ◾ options   -   Object type filter and requested properties.
 //
 // Stability: locked
-func (obj *Doc) GetObjectsRaw(ctx context.Context, options interface{}) (json.RawMessage, error) {
+func (obj *Doc) GetObjectsRaw(ctx context.Context, options any) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
@@ -9761,7 +9761,7 @@ func (obj *Doc) GetObjectsRaw(ctx context.Context, options interface{}) (json.Ra
 // ◾ prop   -   GenericObjectProperties with at least Info : { "qId": "<identifier of the new generic object>", "qType": "<type of the new generic object>" }
 //
 // Stability: experimental
-func (obj *Doc) GetOrCreateObject(ctx context.Context, prop *GenericObjectProperties) (*RemoteObject, error) {
+func (obj *Doc) GetOrCreateObject(ctx context.Context, prop *GenericObjectProperties) (*GenericObject, error) {
 	result := &struct {
 		NewObject bool             `json:"qNewObject"`
 		Return    *ObjectInterface `json:"qReturn"`
@@ -9770,7 +9770,7 @@ func (obj *Doc) GetOrCreateObject(ctx context.Context, prop *GenericObjectProper
 	if err != nil {
 		return nil, err
 	}
-	return obj.GetRemoteObject(result.Return), err
+	return &GenericObject{obj.GetRemoteObject(result.Return)}, err
 }
 
 // Get or create a generic object at app level with a specific Id and Type.
@@ -9785,7 +9785,7 @@ func (obj *Doc) GetOrCreateObject(ctx context.Context, prop *GenericObjectProper
 // ◾ prop   -   GenericObjectProperties with at least Info : { "qId": "<identifier of the new generic object>", "qType": "<type of the new generic object>" }
 //
 // Stability: experimental
-func (obj *Doc) GetOrCreateObjectRaw(ctx context.Context, prop interface{}) (*RemoteObject, error) {
+func (obj *Doc) GetOrCreateObjectRaw(ctx context.Context, prop any) (*GenericObject, error) {
 	result := &struct {
 		NewObject bool             `json:"qNewObject"`
 		Return    *ObjectInterface `json:"qReturn"`
@@ -9794,7 +9794,7 @@ func (obj *Doc) GetOrCreateObjectRaw(ctx context.Context, prop interface{}) (*Re
 	if err != nil {
 		return nil, err
 	}
-	return obj.GetRemoteObject(result.Return), err
+	return &GenericObject{obj.GetRemoteObject(result.Return)}, err
 }
 
 // Gets values in script.
@@ -10030,7 +10030,7 @@ func (obj *Doc) GetTablesAndKeys(ctx context.Context, windowSize *Size, nullSize
 // ◾ includeProfiling   -   If set to true, profiling information is included.
 //
 // Stability: locked
-func (obj *Doc) GetTablesAndKeysRaw(ctx context.Context, windowSize interface{}, nullSize interface{}, cellHeight int, syntheticMode bool, includeSysVars bool, includeProfiling bool) (json.RawMessage, json.RawMessage, error) {
+func (obj *Doc) GetTablesAndKeysRaw(ctx context.Context, windowSize any, nullSize any, cellHeight int, syntheticMode bool, includeSysVars bool, includeProfiling bool) (json.RawMessage, json.RawMessage, error) {
 	result := &struct {
 		Tr json.RawMessage `json:"qtr"`
 		K  json.RawMessage `json:"qk"`
@@ -10128,7 +10128,7 @@ func (obj *Doc) GetVariables(ctx context.Context, listDef *VariableListDef) ([]*
 }
 
 // Stability: locked
-func (obj *Doc) GetVariablesRaw(ctx context.Context, listDef interface{}) (json.RawMessage, error) {
+func (obj *Doc) GetVariablesRaw(ctx context.Context, listDef any) (json.RawMessage, error) {
 	result := &struct {
 		List json.RawMessage `json:"qList"`
 	}{}
@@ -10341,7 +10341,7 @@ func (obj *Doc) ModifyConnection(ctx context.Context, connectionId string, conne
 // ◾ overrideCredentials   -   Set this parameter to true to override the user name and password.
 //
 // Stability: locked
-func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, connection interface{}, overrideCredentials bool) error {
+func (obj *Doc) ModifyConnectionRaw(ctx context.Context, connectionId string, connection any, overrideCredentials bool) error {
 	err := obj.RPC(ctx, "ModifyConnection", nil, connectionId, connection, overrideCredentials)
 	return err
 }
@@ -10558,7 +10558,7 @@ func (obj *Doc) SearchAssociations(ctx context.Context, options *SearchCombinati
 //
 // Deprecated: Use _SearchResults_ method instead
 // Stability: locked
-func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
+func (obj *Doc) SearchAssociationsRaw(ctx context.Context, options any, terms []string, page any) (json.RawMessage, error) {
 	result := &struct {
 		Results json.RawMessage `json:"qResults"`
 	}{}
@@ -10596,7 +10596,7 @@ func (obj *Doc) SearchObjects(ctx context.Context, options *SearchObjectOptions,
 // ◾ page      -   Array of pages to retrieve.
 //
 // Stability: locked
-func (obj *Doc) SearchObjectsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
+func (obj *Doc) SearchObjectsRaw(ctx context.Context, options any, terms []string, page any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -10674,7 +10674,7 @@ func (obj *Doc) SearchResults(ctx context.Context, options *SearchCombinationOpt
 // ◾ page      -   Array of pages to retrieve.
 //
 // Stability: locked
-func (obj *Doc) SearchResultsRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
+func (obj *Doc) SearchResultsRaw(ctx context.Context, options any, terms []string, page any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -10708,7 +10708,7 @@ func (obj *Doc) SearchSuggest(ctx context.Context, options *SearchCombinationOpt
 // ◾ terms     -   Terms to search for.
 //
 // Stability: locked
-func (obj *Doc) SearchSuggestRaw(ctx context.Context, options interface{}, terms []string) (json.RawMessage, error) {
+func (obj *Doc) SearchSuggestRaw(ctx context.Context, options any, terms []string) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -10726,7 +10726,7 @@ func (obj *Doc) SearchValues(ctx context.Context, options *SearchValueOptions, t
 }
 
 // Stability: experimental
-func (obj *Doc) SearchValuesRaw(ctx context.Context, options interface{}, terms []string, page interface{}) (json.RawMessage, error) {
+func (obj *Doc) SearchValuesRaw(ctx context.Context, options any, terms []string, page any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -10769,7 +10769,7 @@ func (obj *Doc) SelectAssociations(ctx context.Context, options *SearchCombinati
 // ◾ softLock   -   This parameter is deprecated and should not be set.
 //
 // Stability: locked
-func (obj *Doc) SelectAssociationsRaw(ctx context.Context, options interface{}, terms []string, matchIx int, softLock bool) error {
+func (obj *Doc) SelectAssociationsRaw(ctx context.Context, options any, terms []string, matchIx int, softLock bool) error {
 	err := obj.RPC(ctx, "SelectAssociations", nil, options, terms, matchIx, softLock)
 	return err
 }
@@ -10832,7 +10832,7 @@ func (obj *Doc) SetAppProperties(ctx context.Context, prop *NxAppProperties) err
 // ◾ prop   -   Information about the properties of an app.
 //
 // Stability: locked
-func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *Doc) SetAppPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetAppProperties", nil, prop)
 	return err
 }
@@ -10932,7 +10932,7 @@ func (obj *Doc) SetScriptBreakpoints(ctx context.Context, breakpoints []*EditorB
 // ◾ breakpoints   -   Information about the breakpoints.
 //
 // Stability: locked
-func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints interface{}) error {
+func (obj *Doc) SetScriptBreakpointsRaw(ctx context.Context, breakpoints any) error {
 	err := obj.RPC(ctx, "SetScriptBreakpoints", nil, breakpoints)
 	return err
 }
@@ -10958,7 +10958,7 @@ func (obj *Doc) SetViewDlgSaveInfo(ctx context.Context, info *TableViewDlgSaveIn
 // ◾ info   -   Information about the table.
 //
 // Stability: locked
-func (obj *Doc) SetViewDlgSaveInfoRaw(ctx context.Context, info interface{}) error {
+func (obj *Doc) SetViewDlgSaveInfoRaw(ctx context.Context, info any) error {
 	err := obj.RPC(ctx, "SetViewDlgSaveInfo", nil, info)
 	return err
 }
@@ -11004,7 +11004,7 @@ func (obj *Doc) TransformApp(ctx context.Context, dstParameters *TransformAppPar
 // ◾ dstParameters   -   Attributes that should be set in the new app.
 //
 // Stability: locked
-func (obj *Doc) TransformAppRaw(ctx context.Context, dstParameters interface{}) (json.RawMessage, error) {
+func (obj *Doc) TransformAppRaw(ctx context.Context, dstParameters any) (json.RawMessage, error) {
 	result := &struct {
 		Result json.RawMessage `json:"qResult"`
 	}{}
@@ -11261,7 +11261,7 @@ func (obj *Field) SelectValues(ctx context.Context, fieldValues []*FieldValue, t
 // The default value is false.
 //
 // Stability: locked
-func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues interface{}, toggleMode bool, softLock bool) (bool, error) {
+func (obj *Field) SelectValuesRaw(ctx context.Context, fieldValues any, toggleMode bool, softLock bool) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
@@ -11301,7 +11301,7 @@ func (obj *Field) SetNxProperties(ctx context.Context, properties *NxFieldProper
 // ◾ properties   -   Information about the properties of the field.
 //
 // Stability: locked
-func (obj *Field) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
+func (obj *Field) SetNxPropertiesRaw(ctx context.Context, properties any) error {
 	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }
@@ -11400,7 +11400,7 @@ func (obj *GenericBookmark) ApplyPatches(ctx context.Context, patches []*NxPatch
 // ◾ patches   -   Array of patches.
 //
 // Stability: locked
-func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
+func (obj *GenericBookmark) ApplyPatchesRaw(ctx context.Context, patches any) error {
 	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
@@ -11471,7 +11471,7 @@ func (obj *GenericBookmark) GetFieldValues(ctx context.Context, field string, ge
 // ◾ dataPage            -   Range of returned values.
 //
 // Stability: locked
-func (obj *GenericBookmark) GetFieldValuesRaw(ctx context.Context, field string, getExcludedValues bool, dataPage interface{}) (json.RawMessage, error) {
+func (obj *GenericBookmark) GetFieldValuesRaw(ctx context.Context, field string, getExcludedValues bool, dataPage any) (json.RawMessage, error) {
 	result := &struct {
 		FieldValues json.RawMessage `json:"qFieldValues"`
 	}{}
@@ -11537,7 +11537,7 @@ func (obj *GenericBookmark) GetFieldValuesEx(ctx context.Context, field string, 
 // ◾ dataPages           -   Range of returned values per state, an empty array will return the values of all states. Only one page without a state name returns the values for all states, using the start and end indices of the first page.
 //
 // Stability: locked
-func (obj *GenericBookmark) GetFieldValuesExRaw(ctx context.Context, field string, getExcludedValues bool, dataPages interface{}) (json.RawMessage, error) {
+func (obj *GenericBookmark) GetFieldValuesExRaw(ctx context.Context, field string, getExcludedValues bool, dataPages any) (json.RawMessage, error) {
 	result := &struct {
 		FieldValues json.RawMessage `json:"qFieldValues"`
 	}{}
@@ -11648,7 +11648,7 @@ func (obj *GenericBookmark) SetProperties(ctx context.Context, prop *GenericBook
 // ◾ prop   -   Information about the bookmark.
 //
 // Stability: locked
-func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *GenericBookmark) SetPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
@@ -11696,7 +11696,7 @@ func (obj *GenericDimension) ApplyPatches(ctx context.Context, patches []*NxPatc
 // ◾ patches   -   Array of patches.
 //
 // Stability: locked
-func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
+func (obj *GenericDimension) ApplyPatchesRaw(ctx context.Context, patches any) error {
 	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
@@ -11868,7 +11868,7 @@ func (obj *GenericDimension) SetProperties(ctx context.Context, prop *GenericDim
 // ◾ prop   -   Information about the dimension.
 //
 // Stability: locked
-func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *GenericDimension) SetPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
@@ -11929,7 +11929,7 @@ func (obj *GenericMeasure) ApplyPatches(ctx context.Context, patches []*NxPatch)
 // ◾ patches   -   Array of patches.
 //
 // Stability: locked
-func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
+func (obj *GenericMeasure) ApplyPatchesRaw(ctx context.Context, patches any) error {
 	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
@@ -12077,7 +12077,7 @@ func (obj *GenericMeasure) SetProperties(ctx context.Context, prop *GenericMeasu
 // ◾ prop   -   Information about the measure.
 //
 // Stability: locked
-func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *GenericMeasure) SetPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
@@ -12173,7 +12173,7 @@ func (obj *GenericObject) AddGroupMembers(ctx context.Context, path string, memb
 // ◾ posId           -   Id of the member whose position to insert into.
 //
 // Stability: experimental
-func (obj *GenericObject) AddGroupMembersRaw(ctx context.Context, path string, members interface{}, targetGroupId string, posId string) error {
+func (obj *GenericObject) AddGroupMembersRaw(ctx context.Context, path string, members any, targetGroupId string, posId string) error {
 	err := obj.RPC(ctx, "AddGroupMembers", nil, path, members, targetGroupId, posId)
 	return err
 }
@@ -12213,7 +12213,7 @@ func (obj *GenericObject) ApplyPatches(ctx context.Context, patches []*NxPatch, 
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches interface{}, softPatch bool) error {
+func (obj *GenericObject) ApplyPatchesRaw(ctx context.Context, patches any, softPatch bool) error {
 	err := obj.RPC(ctx, "ApplyPatches", nil, patches, softPatch)
 	return err
 }
@@ -12370,7 +12370,7 @@ func (obj *GenericObject) CreateChild(ctx context.Context, prop *GenericObjectPr
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
 // Stability: locked
-func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop interface{}, propForThis interface{}) (*GenericObject, error) {
+func (obj *GenericObject) CreateChildRaw(ctx context.Context, prop any, propForThis any) (*GenericObject, error) {
 	result := &struct {
 		Return *ObjectInterface `json:"qReturn"`
 	}{}
@@ -12417,7 +12417,7 @@ func (obj *GenericObject) CreateGroup(ctx context.Context, path string, groupDef
 // ◾ targetGroupId   -   Id of the group to create the new subgroup in (if not the called object).
 //
 // Stability: experimental
-func (obj *GenericObject) CreateGroupRaw(ctx context.Context, path string, groupDef interface{}, targetGroupId string) (string, error) {
+func (obj *GenericObject) CreateGroupRaw(ctx context.Context, path string, groupDef any, targetGroupId string) (string, error) {
 	result := &struct {
 		GroupId string `json:"qGroupId"`
 	}{}
@@ -12446,7 +12446,7 @@ func (obj *GenericObject) DestroyAllChildren(ctx context.Context, propForThis *G
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
 // Stability: locked
-func (obj *GenericObject) DestroyAllChildrenRaw(ctx context.Context, propForThis interface{}) error {
+func (obj *GenericObject) DestroyAllChildrenRaw(ctx context.Context, propForThis any) error {
 	err := obj.RPC(ctx, "DestroyAllChildren", nil, propForThis)
 	return err
 }
@@ -12487,7 +12487,7 @@ func (obj *GenericObject) DestroyChild(ctx context.Context, id string, propForTh
 // Should be set to update the properties of the parent's object at the same time the child is created.
 //
 // Stability: locked
-func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propForThis interface{}) (bool, error) {
+func (obj *GenericObject) DestroyChildRaw(ctx context.Context, id string, propForThis any) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -13041,7 +13041,7 @@ func (obj *GenericObject) GetHyperCubeBinnedData(ctx context.Context, path strin
 // • 2: Uniform grid
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubeBinnedDataRaw(ctx context.Context, path string, pages interface{}, viewport interface{}, dataRanges interface{}, maxNbrCells int, queryLevel int, binningMethod int) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeBinnedDataRaw(ctx context.Context, path string, pages any, viewport any, dataRanges any, maxNbrCells int, queryLevel int, binningMethod int) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13086,7 +13086,7 @@ func (obj *GenericObject) GetHyperCubeContinuousData(ctx context.Context, path s
 // Optional.
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubeContinuousDataRaw(ctx context.Context, path string, options interface{}, reverseSort bool) (json.RawMessage, json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeContinuousDataRaw(ctx context.Context, path string, options any, reverseSort bool) (json.RawMessage, json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 		AxisData  json.RawMessage `json:"qAxisData"`
@@ -13141,7 +13141,7 @@ func (obj *GenericObject) GetHyperCubeData(ctx context.Context, path string, pag
 // ◾ pages   -   Array of pages to retrieve.
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubeDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeDataRaw(ctx context.Context, path string, pages any) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13179,7 +13179,7 @@ func (obj *GenericObject) GetHyperCubePivotData(ctx context.Context, path string
 // ◾ pages   -   Array of pages to retrieve.
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubePivotDataRaw(ctx context.Context, path string, pages any) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13323,7 +13323,7 @@ func (obj *GenericObject) GetHyperCubeReducedData(ctx context.Context, path stri
 // • ST or DATA_REDUCTION_STACKED
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubeReducedDataRaw(ctx context.Context, path string, pages interface{}, zoomFactor int, reductionMode string) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeReducedDataRaw(ctx context.Context, path string, pages any, zoomFactor int, reductionMode string) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13367,7 +13367,7 @@ func (obj *GenericObject) GetHyperCubeStackData(ctx context.Context, path string
 // The default value is 10 000.
 //
 // Stability: locked
-func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path string, pages interface{}, maxNbrCells int) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeStackDataRaw(ctx context.Context, path string, pages any, maxNbrCells int) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13403,7 +13403,7 @@ func (obj *GenericObject) GetHyperCubeTreeData(ctx context.Context, path string,
 // ◾ nodeOptions   -   Specifies all the paging filters needed to define the tree to be fetched. If left out the complete tree is returned.
 //
 // Stability: stable
-func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path string, nodeOptions interface{}) (json.RawMessage, error) {
+func (obj *GenericObject) GetHyperCubeTreeDataRaw(ctx context.Context, path string, nodeOptions any) (json.RawMessage, error) {
 	result := &struct {
 		Nodes json.RawMessage `json:"qNodes"`
 	}{}
@@ -13535,7 +13535,7 @@ func (obj *GenericObject) GetListObjectData(ctx context.Context, path string, pa
 // ◾ pages   -   Array of pages you are interested in.
 //
 // Stability: locked
-func (obj *GenericObject) GetListObjectDataRaw(ctx context.Context, path string, pages interface{}) (json.RawMessage, error) {
+func (obj *GenericObject) GetListObjectDataRaw(ctx context.Context, path string, pages any) (json.RawMessage, error) {
 	result := &struct {
 		DataPages json.RawMessage `json:"qDataPages"`
 	}{}
@@ -13682,7 +13682,7 @@ func (obj *GenericObject) MultiRangeSelectHyperCubeValues(ctx context.Context, p
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges interface{}, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
+func (obj *GenericObject) MultiRangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges any, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -13700,7 +13700,7 @@ func (obj *GenericObject) MultiRangeSelectTreeDataValues(ctx context.Context, pa
 }
 
 // Stability: stable
-func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context, path string, ranges interface{}, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
+func (obj *GenericObject) MultiRangeSelectTreeDataValuesRaw(ctx context.Context, path string, ranges any, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -13788,7 +13788,7 @@ func (obj *GenericObject) RangeSelectHyperCubeValues(ctx context.Context, path s
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) RangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges interface{}, columnsToSelect []int, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
+func (obj *GenericObject) RangeSelectHyperCubeValuesRaw(ctx context.Context, path string, ranges any, columnsToSelect []int, orMode bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -13951,7 +13951,7 @@ func (obj *GenericObject) SelectHyperCubeContinuousRange(ctx context.Context, pa
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) SelectHyperCubeContinuousRangeRaw(ctx context.Context, path string, ranges interface{}, softLock bool) (bool, error) {
+func (obj *GenericObject) SelectHyperCubeContinuousRangeRaw(ctx context.Context, path string, ranges any, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -14091,7 +14091,7 @@ func (obj *GenericObject) SelectListObjectContinuousRange(ctx context.Context, p
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) SelectListObjectContinuousRangeRaw(ctx context.Context, path string, ranges interface{}, softLock bool) (bool, error) {
+func (obj *GenericObject) SelectListObjectContinuousRangeRaw(ctx context.Context, path string, ranges any, softLock bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -14265,7 +14265,7 @@ func (obj *GenericObject) SelectPivotCells(ctx context.Context, path string, sel
 // The default value is false.
 //
 // Stability: locked
-func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, selections interface{}, softLock bool, deselectOnlyOneSelected bool) (bool, error) {
+func (obj *GenericObject) SelectPivotCellsRaw(ctx context.Context, path string, selections any, softLock bool, deselectOnlyOneSelected bool) (bool, error) {
 	result := &struct {
 		Success bool `json:"qSuccess"`
 	}{}
@@ -14343,7 +14343,7 @@ func (obj *GenericObject) SetFullPropertyTree(ctx context.Context, propEntry *Ge
 // ◾ propEntry   -   Information about the generic object entry.
 //
 // Stability: locked
-func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry interface{}) error {
+func (obj *GenericObject) SetFullPropertyTreeRaw(ctx context.Context, propEntry any) error {
 	err := obj.RPC(ctx, "SetFullPropertyTree", nil, propEntry)
 	return err
 }
@@ -14388,7 +14388,7 @@ func (obj *GenericObject) SetProperties(ctx context.Context, prop *GenericObject
 // ◾ prop   -   Information about the generic object.
 //
 // Stability: locked
-func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *GenericObject) SetPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
@@ -14474,7 +14474,7 @@ func (obj *GenericVariable) ApplyPatches(ctx context.Context, patches []*NxPatch
 // ◾ patches   -   Array of patches.
 //
 // Stability: locked
-func (obj *GenericVariable) ApplyPatchesRaw(ctx context.Context, patches interface{}) error {
+func (obj *GenericVariable) ApplyPatchesRaw(ctx context.Context, patches any) error {
 	err := obj.RPC(ctx, "ApplyPatches", nil, patches)
 	return err
 }
@@ -14608,7 +14608,7 @@ func (obj *GenericVariable) SetProperties(ctx context.Context, prop *GenericVari
 // ◾ prop   -   Information about the variable.
 //
 // Stability: locked
-func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop interface{}) error {
+func (obj *GenericVariable) SetPropertiesRaw(ctx context.Context, prop any) error {
 	err := obj.RPC(ctx, "SetProperties", nil, prop)
 	return err
 }
@@ -15267,7 +15267,7 @@ func (obj *Global) GetDatabasesFromConnectionString(ctx context.Context, connect
 // ◾ connection   -   Information about the connection.
 //
 // Stability: locked
-func (obj *Global) GetDatabasesFromConnectionStringRaw(ctx context.Context, connection interface{}) (json.RawMessage, error) {
+func (obj *Global) GetDatabasesFromConnectionStringRaw(ctx context.Context, connection any) (json.RawMessage, error) {
 	result := &struct {
 		Databases json.RawMessage `json:"qDatabases"`
 	}{}
@@ -15764,7 +15764,7 @@ func (obj *Global) InteractDone(ctx context.Context, requestId int, def *Interac
 // ◾ def         -   User response to the current interaction.
 //
 // Stability: locked
-func (obj *Global) InteractDoneRaw(ctx context.Context, requestId int, def interface{}) error {
+func (obj *Global) InteractDoneRaw(ctx context.Context, requestId int, def any) error {
 	err := obj.RPC(ctx, "InteractDone", nil, requestId, def)
 	return err
 }
@@ -15812,7 +15812,7 @@ func (obj *Global) IsValidConnectionString(ctx context.Context, connection *Conn
 // ◾ connection   -   Information about the connection.
 //
 // Stability: locked
-func (obj *Global) IsValidConnectionStringRaw(ctx context.Context, connection interface{}) (bool, error) {
+func (obj *Global) IsValidConnectionStringRaw(ctx context.Context, connection any) (bool, error) {
 	result := &struct {
 		Return bool `json:"qReturn"`
 	}{}
@@ -16109,7 +16109,7 @@ func (obj *Variable) SetNxProperties(ctx context.Context, properties *NxVariable
 //
 // Deprecated: Use _SetProperties_ method instead
 // Stability: locked
-func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties interface{}) error {
+func (obj *Variable) SetNxPropertiesRaw(ctx context.Context, properties any) error {
 	err := obj.RPC(ctx, "SetNxProperties", nil, properties)
 	return err
 }

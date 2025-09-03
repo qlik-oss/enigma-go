@@ -14,17 +14,20 @@ import (
 
 // QlikExtensions represents Qlik JSON Schema extensinos
 type QlikExtensions struct {
-	QlikStability              string `json:"x-qlik-stability,omitempty"`
-	QlikVisibility             string `json:"x-qlik-visibility,omitempty"`
-	QlikDeprecated1            bool   `json:"deprecated,omitempty"`
-	QlikDeprecated2            bool   `json:"x-qlik-deprecated,omitempty"`
-	QlikDeprecationDescription string `json:"x-qlik-deprecation-description,omitempty"`
+	QlikStability              string   `json:"x-qlik-stability,omitempty"`
+	QlikVisibility             string   `json:"x-qlik-visibility,omitempty"`
+	QlikDeprecated1            bool     `json:"deprecated,omitempty"`
+	QlikDeprecated2            bool     `json:"x-qlik-deprecated,omitempty"`
+	QlikDeprecationDescription string   `json:"x-qlik-deprecation-description,omitempty"`
+	QlikSeeAlso                []string `json:"x-qlik-see-also,omitempty"`
+	QlikAccessControl          []string `json:"x-qlik-access-control,omitempty"`
 }
 
 // Info represents engine information
 type Info struct {
-	Version string `json:"version,omitempty"` //Engine version
-	Title   string `json:"title,omitempty"`
+	Version     string `json:"version,omitempty"` //Engine version
+	Description string `json:"description,omitempty"`
+	Title       string `json:"title,omitempty"`
 }
 
 type OpenRpcFile struct {
@@ -37,6 +40,7 @@ type OpenRpcFile struct {
 
 type OpenRpcComponents struct {
 	Schemas map[string]*Type `json:"schemas,omitempty"`
+	Errors  map[string]*Type `json:"errors,omitempty"`
 }
 
 type OpenRpcMethod struct {
@@ -45,11 +49,12 @@ type OpenRpcMethod struct {
 	Description string         `json:"description,omitempty"`
 	Parameters  []*Type        `json:"params,omitempty"`
 	Responses   *OpenRpcResult `json:"result,omitempty"`
+	Errors      []*Type        `json:"errors,omitempty"`
 }
 
 type OpenRpcResult struct {
 	QlikExtensions
-	Name        string `json:"description,omitempty"`
+	Name        string `json:"name,omitempty"`
 	Description string `json:"description,omitempty"`
 	Schema      *Type  `json:"schema,omitempty"`
 }
@@ -61,19 +66,20 @@ type AdditionalProperties struct {
 // Type represents a JSON Schema object type.
 type Type struct {
 	QlikExtensions
-	AdditionalProperties *AdditionalProperties   `json:"additionalProperties,omitempty"`
-	Default              interface{}             `json:"default,omitempty"`
+	Name                 string                  `json:"name,omitempty"`
 	Description          string                  `json:"description,omitempty"`
-	Enum                 []interface{}           `json:"enum,omitempty"`
+	AdditionalProperties *AdditionalProperties   `json:"additionalProperties,omitempty"`
+	Default              any                     `json:"default,omitempty"`
+	Enum                 []any                   `json:"enum,omitempty"`
 	Format               string                  `json:"format,omitempty"`
 	Items                *Type                   `json:"items,omitempty"`
-	Name                 string                  `json:"name,omitempty"`
 	OneOf                []*Option               `json:"oneOf,omitempty"`
 	Properties           map[OrderAwareKey]*Type `json:"properties,omitempty"` // Special trick with the OrderAwareKey to retain the order of the properties
 	Ref                  string                  `json:"$ref,omitempty"`
 	Required             bool                    `json:"required,omitempty"`
 	Type                 string                  `json:"type,omitempty"`
 	Schema               *Type                   `json:"schema,omitempty"`
+	Encoding             string                  `json:"contentEncoding,omitempty"`
 }
 
 // Option represents a possible value in case of an "enum".
@@ -266,20 +272,22 @@ func createTypesMap(schema *OpenRpcFile) map[string]string {
 }
 
 func loadSchemaFile(schemaFilePath string) (*OpenRpcFile, error) {
-	rawSchemaFile, err := os.ReadFile(schemaFilePath)
+	file, err := os.Open(schemaFilePath)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return nil, err
 	}
-	var schema = &OpenRpcFile{}
-	err = json.Unmarshal(rawSchemaFile, schema)
+	defer file.Close()
+	var schema OpenRpcFile
+	decoder := json.NewDecoder(file)
+	// Use the line below to run the decoder in a stricter mode
+	// where all fields must be handled.
+	// decoder.DisallowUnknownFields()
+	err = decoder.Decode(&schema)
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return nil, err
 	}
-
-	typesMap = createTypesMap(schema)
-	return schema, err
+	typesMap = createTypesMap(&schema)
+	return &schema, nil
 }
 
 // Read the file that describes what remote object type is created by each method
@@ -336,7 +344,7 @@ func patchMissingTypeInfo(param *Type, name, methodName string) {
 func getRawInputTypeName(t *Type) string {
 	tn := getTypeName(t)
 	if strings.Contains(tn, "*") {
-		return "interface{}"
+		return "any"
 	}
 	return tn
 }
@@ -711,7 +719,7 @@ func printErrorCodeLookup(out *os.File, def *Type) {
 	fmt.Fprint(out, "}\nreturn \"\"\n}\n\n")
 }
 
-func isNonZero(value interface{}) bool {
+func isNonZero(value any) bool {
 	return !(value == nil || value == "" || value == float64(0) || value == 0 || value == false)
 }
 
@@ -762,14 +770,18 @@ func main() {
 
 	objectFuncToObject := createObjectFunctionToObjectTypeMapping(schemaCompanionFilePath)
 	schemaFile, err := loadSchemaFile(schemaFilePath)
-
-	// Start generating the go file
-	out, err := os.Create(generatedFilePath)
-	defer out.Close()
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
+
+	// Start generating the go file
+	out, err := os.Create(generatedFilePath)
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	defer out.Close()
 
 	fmt.Fprintln(out, "// Code generated by QIX generator (./schema/generate.go) for Qlik Associative Engine version", schemaFile.Info.Version, ". DO NOT EDIT.")
 	fmt.Fprintln(out)

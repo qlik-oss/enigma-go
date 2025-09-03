@@ -17,9 +17,8 @@ generate() {
     ENGINE_VERSION=$(cat ./schema/engine-rpc.json | jq -r '.info.version')
     echo "Generating enigma-go based on OPEN-RPC API for Qlik Associative Engine version $ENGINE_VERSION"
     ## generate code
-    go run ./schema/generate.go ./schema/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import
-    ## format code
-    go fmt ./qix_generated.go >/dev/null
+    go run ./schema/generate.go ./schema/engine-rpc.json ./schema/schema-companion.json ./qix_generated.go enigma disable-enigma-import && \
+      go fmt ./qix_generated.go >/dev/null
   else
     echo "No changes to engine-rpc.json, nothing to do."
   fi
