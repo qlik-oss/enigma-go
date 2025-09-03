@@ -19,6 +19,7 @@
     "Doc.CreateSessionVariable":"GenericVariable",
     "Doc.GetVariable":"GenericVariable",
     "Doc.GetObject":"GenericObject",
+    "Doc.GetOrCreateObject":"GenericObject",
     "Doc.GetVariableById":"GenericVariable",
     "Doc.CreateObject":"GenericObject",
     "Doc.CreateVariableEx":"GenericVariable",
