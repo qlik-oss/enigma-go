@@ -22,18 +22,18 @@ aliases:
 
 version: 2
 jobs:
-  golang-1.24:
+  golang-latest:
     docker:
-      - image: cimg/go:1.26
+      - image: cimg/go:1.27
     environment:
-      GOLANG_VERSION: "1.24"
+      GOLANG_VERSION: "1.27"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.22{{ checksum "go.sum" }}
+          key: dependency-cache-1.27{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
-          key: dependency-cache-1.22{{ checksum "go.sum" }}
+          key: dependency-cache-1.27{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -43,35 +43,16 @@ jobs:
 
   golang-1.23:
     docker:
-      - image: cimg/go:1.26
+      - image: cimg/go:1.23
     environment:
       GOLANG_VERSION: "1.23"
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-1.21{{ checksum "go.sum" }}
+          key: dependency-cache-1.23{{ checksum "go.sum" }}
       - run: *build
       - save_cache:
-          key: dependency-cache-1.21{{ checksum "go.sum" }}
-          paths:
-            - "/go/pkg/mod"
-      - run: *lint
-      - run: *test
-      - run: go test -v -race ./release/verval
-      - run: *examples
-
-  golang-1.22:
-    docker:
-      - image: cimg/go:1.26
-    environment:
-      GOLANG_VERSION: "1.22"
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-1.20{{ checksum "go.sum" }}
-      - run: *build
-      - save_cache:
-          key: dependency-cache-1.20{{ checksum "go.sum" }}
+          key: dependency-cache-1.23{{ checksum "go.sum" }}
           paths:
             - "/go/pkg/mod"
       - run: *lint
@@ -83,7 +64,7 @@ workflows:
   version: 2
   build:
     jobs:
-      - golang-1.24:
+      - golang-latest:
           filters:
             tags:
               only:
