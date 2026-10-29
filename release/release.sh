@@ -1,6 +1,7 @@
 # !/bin/bash
 # This script bumps the version based on the previous tag.
 # If no tags are present, this will be interpreted '0.0.0'.
+# Use 'auto' to derive the bump from the conventional commits since the previous tag.
 #
 # After the version has been generated the tag will be added.
 # Finally, a commit bumping the api spec to version=latest is added.
@@ -9,9 +10,33 @@
 # NOTE: This script should generate exactly 2 commits and 1 tag.
 
 VERSION=""
+
+# Determines the bump (major, minor or patch) from the conventional commit
+# messages since the given tag (or from the whole history if the tag is empty):
+#   breaking change ('!' after type/scope or a BREAKING CHANGE footer) -> major
+#   feat                                                                -> minor
+#   fix, perf                                                           -> patch
+# Other types (chore, docs, ...) do not trigger a release on their own.
+auto_bump() {
+  local range=""
+  [[ -n $1 ]] && range="$1..HEAD"
+  local subjects bodies
+  subjects=$(git log --format=%s $range)
+  bodies=$(git log --format=%b $range)
+  if grep -qE '^[a-zA-Z]+(\([^)]*\))?!:' <<< "$subjects" || grep -qE '^BREAKING[ -]CHANGE(:| )' <<< "$bodies"; then
+    echo "major"
+  elif grep -qE '^feat(\([^)]*\))?:' <<< "$subjects"; then
+    echo "minor"
+  elif grep -qE '^(fix|perf)(\([^)]*\))?:' <<< "$subjects"; then
+    echo "patch"
+  fi
+}
+
 bump_version() {
   local ver
   local new_ver
+  local bump=$1
+  local last_tag=""
   # relying on git describe requires us to always apply tags directly
   # to master
   ver=$(git describe --tag --abbrev=0)
@@ -27,8 +52,17 @@ bump_version() {
     return
   else
     echo "Found tag, bumping from '$ver'"
+    last_tag=$ver
   fi
-  new_ver=$(go run ./verval/verval.go bump $1 $ver)
+  if [[ $bump == "auto" ]]; then
+    bump=$(auto_bump "$last_tag")
+    if [[ -z $bump ]]; then
+      echo "No releasable commits (feat, fix, perf or breaking changes) found since '${last_tag:-the beginning}'."
+      exit 1
+    fi
+    echo "Conventional commits since '${last_tag:-the beginning}' result in a '$bump' bump"
+  fi
+  new_ver=$(go run ./verval/verval.go bump $bump $ver)
   ecode=$?
   if [[ $ecode -ne 0 ]]; then
     echo $new_ver
@@ -61,12 +95,12 @@ sanity_check() {
 }
 
 if [[ $# -ne 1 ]]; then
-  echo "use: release.sh <major|minor|patch>"
+  echo "use: release.sh <major|minor|patch|auto>"
   exit 1
 fi
 
 case $1 in
-  "major"|"minor"|"patch")
+  "major"|"minor"|"patch"|"auto")
     set -eo pipefail
     sanity_check
     WD=$(pwd)
@@ -89,7 +123,7 @@ case $1 in
     cd $WD
     ;;
   *)
-    echo "Argument must be one of 'major', 'minor' or 'patch'."
+    echo "Argument must be one of 'major', 'minor', 'patch' or 'auto'."
     exit 1
     ;;
 esac

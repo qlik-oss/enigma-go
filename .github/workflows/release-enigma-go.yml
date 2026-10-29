@@ -1,12 +1,13 @@
-name: release-enigma-go
+name: release
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: Release Version (major, minor, patch)
+        description: Release Version (auto derives it from conventional commits)
         type: choice
         required: true
         options:
+          - auto
           - patch
           - minor
           - major
@@ -52,3 +53,10 @@ jobs:
           else
             git push --follow-tags
           fi
+      - name: Create GitHub release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=$(git describe --tags --abbrev=0)
+          gh release create "$TAG" --verify-tag --title "$TAG" --generate-notes
