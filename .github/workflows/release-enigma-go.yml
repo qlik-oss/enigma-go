@@ -1,4 +1,4 @@
-name: release
+name: release-enigma-go
 on:
   workflow_dispatch:
     inputs:
