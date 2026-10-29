@@ -41,7 +41,7 @@ jobs:
       - run: go test -v -race ./release/verval
       - run: *examples
 
-  golang-back-comp:
+  golang-compat:
     docker:
       - image: cimg/go:1.23
     environment:
@@ -69,12 +69,7 @@ workflows:
             tags:
               only:
                 - /v.*/
-      - golang-1.23:
-          filters:
-            tags:
-              only:
-                - /v.*/
-      - golang-1.22:
+      - golang-compat:
           filters:
             tags:
               only:
