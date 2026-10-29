@@ -5,3 +5,4 @@ socket.traffic
 coverage
 .vscode
 env
+.env
