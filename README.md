@@ -12,6 +12,7 @@ Examples of use may be building your own analytics tools, back-end services, or 
 - [Installation](#installation)
 - [Getting started](#getting-started)
 - [Schemas](#schemas)
+- [Contributing and commit messages](#contributing-and-commit-messages)
 - [Release](#release)
 - [Updating enigma-go to new engine schema](#updating-enigma-go-to-new-engine-schema)
 
@@ -40,30 +41,40 @@ Refer to the [examples](https://github.com/qlik-oss/enigma-go/tree/master/exampl
 enigma-go includes generated API code that is based on the latest available Qlik Associative Engine schema.
 When a new schema is available, a new version of enigma-go will be made available.
 
+## Contributing and commit messages
+
+This project uses [conventional commits](https://www.conventionalcommits.org), for example `feat: add X`,
+`fix(deps): update Y` or `feat!: remove Z` for breaking changes. Pull request titles are validated by the
+[Semantic PR](./.github/workflows/semantic.yaml) workflow, and the commit messages are used to determine the
+version of the next release. See also [CONTRIBUTING](./.github/CONTRIBUTING.md).
+
 ## Release
 
-To release a new version of enigma-go you have to be on the **master** branch.
-From there you can run the [release.sh](./release/release.sh) script. The usage is:
-```bash
-./release.sh <major|minor|patch>
-```
-where the argument specifies what should be bumped. The release-script does a couple of things.
-1. Creates a new version based on previous version-tag (if any, otherwise 0.0.0) and suffixes it with the QIX schema version
-as metadata. For example bumping minor when there are no previous tags will result in the version `0.1.0+12.429.0`.
-2. Generates a new API specification using the new version.
-3. Adds the resulting `api-spec.json` file to a commit with the message `Release: <version> for QIX schema version <qix_version>`.
-4. Creates a tag containing the version with the same message as in step 3.
-5. Afterwards, adds another commit bumping the `api-spec.json` to latest again.
+Releases are created by the [release-enigma-go](./.github/workflows/release-enigma-go.yml) GitHub workflow, which is run
+manually (`workflow_dispatch`) on the **master** branch. It takes two inputs:
+- `version`: `auto`, `major`, `minor` or `patch`. With `auto` the bump is derived from the conventional commits since the
+previous tag: a breaking change (`!` or a `BREAKING CHANGE` footer) gives `major`, `feat` gives `minor` and `fix`/`perf`
+gives `patch`. If there are none of these the release is aborted.
+- `dry_run`: shows what would be pushed without pushing anything.
 
-After the script has run, check the results. If everything looks good run:
+The workflow runs the [release.sh](./release/release.sh) script, pushes the resulting tag and creates a GitHub release with
+auto-generated release notes.
+
+The script can also be run locally from the **master** branch:
+```bash
+./release/release.sh <major|minor|patch|auto>
+```
+It does the following:
+1. Checks that the local repo is pristine (no untracked files or uncommitted changes), that you are on **master** and
+that you are up-to-date with the remote **master**.
+2. Creates a new version based on the previous version-tag (if any, otherwise 0.0.0) and the requested bump.
+3. Creates an annotated tag `v<version>` with the message `Release: v<version> for QIX schema version <qix_version>`.
+
+The script does not push anything. If everything looks good, run:
 ```bash
 git push --follow-tags
 ```
-to push the tag and commit to **master**.
-The release-script also checks if the local repo is in a pristine state: no untracked files or uncommitted change and, you
-have to be up-to-date with the latest changes on **master**.
 
 ## Updating enigma-go to new engine schema
 
 - Generate enigma-go: [Generate-Docs](./schema/README.md)
-- Update the API specification: [Update-API-Docs](./spec/README.md)
