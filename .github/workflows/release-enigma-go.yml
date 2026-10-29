@@ -1,32 +1,54 @@
 name: release-enigma-go
-on: 
+on:
   workflow_dispatch:
     inputs:
       version:
         description: Release Version (major, minor, patch)
+        type: choice
         required: true
+        options:
+          - patch
+          - minor
+          - major
+      dry_run:
+        description: Dry run (show what would be pushed without pushing)
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-enigma-go
+  cancel-in-progress: false
+
 jobs:
   create-release:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
     steps:
-      - name: Setup Go environment
-        uses: actions/setup-go@v7.0.0
-        with:
-          go-version: '^1.17'
       - name: Checkout enigma-go repo
         uses: actions/checkout@v7
         with:
-          repository: qlik-oss/enigma-go
           ref: master
           fetch-depth: 0
-          token: ${{ secrets.GH_ACCESS_TOKEN}}
+      - name: Setup Go environment
+        uses: actions/setup-go@v7.0.0
+        with:
+          go-version-file: go.mod
+          cache: false
       - name: Setup Git environment
         run: |
-          git config --global user.email "no-reply@example.com"
-          git config --global user.name "github-actions-bot"
+          git config user.email "no-reply@example.com"
+          git config user.name "github-actions-bot"
       - name: Create enigma-go release
-        run: |                  
-          ./release/release.sh ${{ github.event.inputs.version }}
-          git push --follow-tags
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          ./release/release.sh "$RELEASE_VERSION"
+          if [[ "$DRY_RUN" == "true" ]]; then
+            echo "Dry run: the following would be pushed"
+            git push --follow-tags --dry-run --verbose
+          else
+            git push --follow-tags
+          fi
