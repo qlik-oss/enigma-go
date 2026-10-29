@@ -809,14 +809,19 @@ func main() {
 		case "object":
 			fmt.Fprintln(out, "type", defName, "struct {")
 			// types
+			var propertyNames = map[string]bool{}
 			propertiesKeys := getOriginalOrderSortedKeys(def.Properties)
 			for _, key := range propertiesKeys {
 				propertyName := key.Key
 				property := def.Properties[key]
 				printStructMember(propertyName, property, out)
+				propertyNames[propertyName] = true
 			}
 			if def.AdditionalProperties != nil {
 				for _, property := range def.AdditionalProperties.AnyOf {
+					if propertyNames[property.Name] {
+						continue // Duplicate property by the same name.
+					}
 					printStructMember(property.Name, property.Schema, out)
 				}
 			}

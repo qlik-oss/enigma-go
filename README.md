@@ -1,6 +1,6 @@
 ![](enigma-go.png)
 
-[![CircleCI](https://circleci.com/gh/qlik-oss/enigma-go.svg?style=shield)](https://circleci.com/gh/qlik-oss/enigma-go)
+[![validate](https://github.com/qlik-oss/enigma-go/actions/workflows/validate.yml/badge.svg)](https://github.com/qlik-oss/enigma-go/actions/workflows/validate.yml)
 [![Go Report Card](https://goreportcard.com/badge/qlik-oss/enigma-go)](https://goreportcard.com/report/qlik-oss/enigma-go)
 ![Latest Version](https://img.shields.io/github/release/qlik-oss/enigma-go.svg?style=flat)
 

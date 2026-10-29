@@ -2,7 +2,7 @@
   "openrpc": "1.0.0",
   "info": {
     "title": "QIX",
-    "version": "12.2636.0",
+    "version": "12.2969.0",
     "description": "The JSON-RPC API over websocket that enables you to interact with the Qlik Associative Engine."
   },
   "methods": [
@@ -1516,7 +1516,7 @@
     },
     {
       "name": "GenericObject.ExportData",
-      "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\n<div class=note>ExportData method is not supported in SaaS Editions of Qlik Sense.</div>\n\n### Default limitations in number of rows and columns\nThe default maximum number of rows and columns in the Excel export file is:\n* 1048566 rows per sheet. For pivot tables: 1048566 column dimensions. 10 rows can be added after the export.\n* 16384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\n### Default limitation in number of columns\nThe default maximum number of columns in the export file is:\n* 1000 to export to a CSV file\n\n### Default limitations in number of cells\nThe default maximum number of cells in the export file is:\n* 5000000 to export to a CSV file\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\n<div class=note>There is an option to export only the possible values ( _qExportState_ is P). </div>\n\n### Default limitation in size\nIf the exported file is larger than the maximum value, then an out-of-memory error with code 13000 is returned.\n\n<div class=note>Exported files are temporary and are available only for a certain time span and only to the user who created them.</div>",
+      "description": "Exports the data of any generic object to an Excel file or a open XML file. If the object contains excluded values, those excluded values are not exported.\nThis API has limited functionality and will not support CSV export from all types of objects. Consider using Excel export instead. Treemap and bar chart are not supported.\n<div class=note>ExportData method is not supported in SaaS Editions of Qlik Sense.</div>\n\n### Default limitations in number of rows and columns\nThe default maximum number of rows and columns in the Excel export file is:\n* 1,048,576 rows per sheet. For pivot tables: 1,048,576 column dimensions. 10 rows can be added after the export.\n* 16,384 columns per sheet. If the number of columns exceeds the limit, the exported file is truncated and a warning message is sent.\n\n### Default limitation in number of columns\nThe default maximum number of columns in the export file is:\n* 1,000 for CSV file export.\n\n### Default limitation in number of cells\nThe default maximum number of cells in the export file is:\n* 5,000,000 for CSV file export.\n\nThe exported file is truncated if the number of cells exceeds the limit. A warning message with code 1000 is sent.\n<div class=note>There is an option to export only the possible values ( _qExportState_ is P). </div>\n\n### Default limitation in size\nIf the exported file is larger than the maximum value, an Out of Memory (OOM) error with code 13000 is returned.\n\n<div class=note>Exported files are temporary and are available only for a certain time span and only to the user who created them.</div>",
       "params": [
         {
           "name": "qFileType",
@@ -4338,6 +4338,36 @@
       ]
     },
     {
+      "name": "GenericBookmark.GetSetAnalysis",
+      "description": "Returns a set analysis expression from a bookmark. Fields on the fly and calculated dimensions will not be included in the generated expression; instead a `MISSING VALUES` comment will be included within the expression.",
+      "params": [
+        {
+          "name": "qStateName",
+          "description": "Optional. The name of the state to get set analysis expression for. If left empty, the default state will be retrieved.",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "result": {
+        "name": "Results for GenericBookmark.GetSetAnalysis",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "qSetExpression": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "errors": [
+        {
+          "$ref": "#/components/errors/GenericErrors"
+        }
+      ],
+      "x-qlik-stability": "locked"
+    },
+    {
       "name": "GenericVariable.GetLayout",
       "description": "Evaluates an object and displays its properties including the dynamic properties.\nIf the member _delta_ is set to true in the request object, only the delta is evaluated.",
       "params": [],
@@ -6889,6 +6919,13 @@
               "type": "string"
             }
           }
+        },
+        {
+          "name": "qStrictFieldValidation",
+          "description": "If true, enforces strict validation of field references.",
+          "schema": {
+            "type": "boolean"
+          }
         }
       ],
       "result": {
@@ -8534,7 +8571,7 @@
     },
     {
       "name": "Doc.GuessFileType",
-      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Guesses the data format for a given file.\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8576,7 +8613,7 @@
     },
     {
       "name": "Doc.GetFileTables",
-      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the tables for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8629,7 +8666,7 @@
     },
     {
       "name": "Doc.GetFileTableFields",
-      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the fields of a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file",
       "params": [
         {
           "name": "qConnectionId",
@@ -8693,7 +8730,7 @@
     },
     {
       "name": "Doc.GetFileTablePreview",
-      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+      "description": "Lists the values in a table for a folder connection.\n\n### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file",
       "params": [
         {
           "name": "qConnectionId",
@@ -9189,7 +9226,7 @@
     },
     {
       "name": "Doc.GetScriptEx",
-      "description": "Gets script and script meta-data.",
+      "description": "Gets script and script metadata.",
       "params": [],
       "result": {
         "name": "Results for Doc.GetScriptEx",
@@ -9993,7 +10030,7 @@
     },
     {
       "name": "Doc.GetScriptMeta",
-      "description": "Gets script meta-data.",
+      "description": "Gets script metadata.",
       "params": [],
       "result": {
         "name": "Results for Doc.GetScriptMeta",
@@ -10019,7 +10056,7 @@
     },
     {
       "name": "Doc.ReplaceBookmark",
-      "description": "Replace a bookmark. Optional inparams to change the original bookmarks properties, original are kept if left out.",
+      "description": "Replaces a bookmark. Optional parameters to modify the original bookmark properties; if not specified, the original properties are retained.",
       "params": [
         {
           "name": "qId",
@@ -10031,14 +10068,14 @@
         },
         {
           "name": "qIgnorePatches",
-          "description": "Set to true to exclude patches from the bookmark. Default is false.",
+          "description": "When true, excludes patches from the bookmark. The default value is false.",
           "schema": {
             "type": "boolean"
           }
         },
         {
           "name": "qObjectIdsToPatch",
-          "description": "Add softpatches for this objects if available. If empty all softpatches are added to the bookmark. Ignored if IgnorePatches is set to true.",
+          "description": "Adds softpatches for these objects if available. If empty, all softpatches are added to the bookmark. Ignored if IgnorePatches is set to true.",
           "schema": {
             "type": "array",
             "items": {
@@ -10075,7 +10112,7 @@
     },
     {
       "name": "Doc.ClearAllSoftPatches",
-      "description": "Clear the soft properties of all generic objects in the app",
+      "description": "Clears the soft properties of all generic objects in the app.",
       "params": [],
       "result": {
         "name": "Results for Doc.ClearAllSoftPatches",
@@ -11095,7 +11132,7 @@
     },
     {
       "name": "Global.CreateSessionAppFromApp",
-      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app.\n* There is no data in the session app, unless it is reloaded.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
+      "description": "Creates a session app from a source app.\nThe following applies:\n* The objects in the source app are copied into the session app.\n* The session app contains no data unless it is reloaded.\n* The script of the session app can be edited and reloaded.\n* The name of a session app cannot be chosen. The engine automatically assigns a unique identifier to the session app.\n* A session app is not persisted and cannot be saved. Everything created during a session app is non-persisted; for example: objects, data connections.",
       "params": [
         {
           "name": "qSrcAppId",
@@ -11164,7 +11201,7 @@
     },
     {
       "name": "Global.GetAppEntry",
-      "description": "Retrieves the meta data of an app.",
+      "description": "Retrieves the metadata of an app.",
       "params": [
         {
           "name": "qAppID",
@@ -11248,7 +11285,7 @@
       "params": [
         {
           "name": "qReason",
-          "description": "Reason for why the reload was cancelled. This will be echoed back to the user in the script log.",
+          "description": "Reason for the cancellation of the reload. This information is echoed back to the user in the script log.",
           "schema": {
             "type": "string"
           }
@@ -12148,6 +12185,10 @@
             "title": "LOCERR_APP_EVENT_SOURCE_TIMEOUT"
           },
           {
+            "x-qlik-const": 1019,
+            "title": "LOCERR_APP_SOFT_DELETED"
+          },
+          {
             "x-qlik-const": 2000,
             "title": "LOCERR_CONNECTION_ALREADY_EXISTS"
           },
@@ -12602,6 +12643,10 @@
           {
             "x-qlik-const": 11048,
             "title": "LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT"
+          },
+          {
+            "x-qlik-const": 11049,
+            "title": "LOCERR_RELOAD_EXIT_ERROR"
           },
           {
             "x-qlik-const": 12000,
@@ -13412,9 +13457,64 @@
           "qStateName": {
             "type": "string",
             "description": "Name of the alternate state.\nDefault is current selections _$_ ."
+          },
+          "qAppObjectList": {
+            "$ref": "#/components/schemas/AppObjectList"
+          },
+          "qBookmarkList": {
+            "$ref": "#/components/schemas/BookmarkList"
+          },
+          "qChildList": {
+            "$ref": "#/components/schemas/ChildList"
+          },
+          "qDimensionList": {
+            "$ref": "#/components/schemas/DimensionList"
+          },
+          "qEmbeddedSnapshot": {
+            "$ref": "#/components/schemas/EmbeddedSnapshot"
+          },
+          "qExtensionList": {
+            "$ref": "#/components/schemas/ExtensionList"
+          },
+          "qFieldList": {
+            "$ref": "#/components/schemas/FieldList"
+          },
+          "qHyperCube": {
+            "$ref": "#/components/schemas/HyperCube"
+          },
+          "qListObject": {
+            "$ref": "#/components/schemas/ListObject"
+          },
+          "qMeasureList": {
+            "$ref": "#/components/schemas/MeasureList"
+          },
+          "qMediaList": {
+            "$ref": "#/components/schemas/MediaList"
+          },
+          "qNxLibraryDimension": {
+            "$ref": "#/components/schemas/NxLibraryDimension"
+          },
+          "qNxLibraryMeasure": {
+            "$ref": "#/components/schemas/NxLibraryMeasure"
+          },
+          "qSelectionObject": {
+            "$ref": "#/components/schemas/SelectionObject"
+          },
+          "qStaticContentUrl": {
+            "$ref": "#/components/schemas/StaticContentUrl"
+          },
+          "qTreeData": {
+            "$ref": "#/components/schemas/TreeData"
+          },
+          "qUndoInfo": {
+            "$ref": "#/components/schemas/UndoInfo"
+          },
+          "qVariableList": {
+            "$ref": "#/components/schemas/VariableList"
           }
         },
         "additionalProperties": {
+          "x-qlik-visibility": "private",
           "anyOf": [
             {
               "name": "qAppObjectList",
@@ -14635,9 +14735,73 @@
           "qStateName": {
             "type": "string",
             "description": "Name of the alternate state.\nDefault is current selections _$_ ."
+          },
+          "qAppObjectListDef": {
+            "$ref": "#/components/schemas/AppObjectListDef"
+          },
+          "qBookmarkListDef": {
+            "$ref": "#/components/schemas/BookmarkListDef"
+          },
+          "qChildListDef": {
+            "$ref": "#/components/schemas/ChildListDef"
+          },
+          "qDimensionListDef": {
+            "$ref": "#/components/schemas/DimensionListDef"
+          },
+          "qEmbeddedSnapshotDef": {
+            "$ref": "#/components/schemas/EmbeddedSnapshotDef"
+          },
+          "qExtensionListDef": {
+            "$ref": "#/components/schemas/ExtensionListDef"
+          },
+          "qFieldListDef": {
+            "$ref": "#/components/schemas/FieldListDef"
+          },
+          "qHyperCubeDef": {
+            "$ref": "#/components/schemas/HyperCubeDef"
+          },
+          "qLayoutExclude": {
+            "$ref": "#/components/schemas/LayoutExclude"
+          },
+          "qListObjectDef": {
+            "$ref": "#/components/schemas/ListObjectDef"
+          },
+          "qMeasureListDef": {
+            "$ref": "#/components/schemas/MeasureListDef"
+          },
+          "qMediaListDef": {
+            "$ref": "#/components/schemas/MediaListDef"
+          },
+          "qNxLibraryDimensionDef": {
+            "$ref": "#/components/schemas/NxLibraryDimensionDef"
+          },
+          "qNxLibraryMeasureDef": {
+            "$ref": "#/components/schemas/NxLibraryMeasureDef"
+          },
+          "qSelectionObjectDef": {
+            "$ref": "#/components/schemas/SelectionObjectDef"
+          },
+          "qStaticContentUrlDef": {
+            "$ref": "#/components/schemas/StaticContentUrlDef"
+          },
+          "qStringExpression": {
+            "$ref": "#/components/schemas/StringExpression"
+          },
+          "qTreeDataDef": {
+            "$ref": "#/components/schemas/TreeDataDef"
+          },
+          "qUndoInfoDef": {
+            "$ref": "#/components/schemas/UndoInfoDef"
+          },
+          "qValueExpression": {
+            "$ref": "#/components/schemas/ValueExpression"
+          },
+          "qVariableListDef": {
+            "$ref": "#/components/schemas/VariableListDef"
           }
         },
         "additionalProperties": {
+          "x-qlik-visibility": "private",
           "anyOf": [
             {
               "name": "qAppObjectListDef",
@@ -14791,7 +14955,7 @@
       },
       "NxMetaDef": {
         "type": "object",
-        "description": "Used to collect meta data.\n\n### Properties\nSemantic type with an empty structure."
+        "description": "Used to collect metadata.\n\n### Properties\nSemantic type with an empty structure."
       },
       "GenericObjectEntry": {
         "type": "object",
@@ -15042,13 +15206,13 @@
             "type": "number",
             "description": "Lower value of the search range.\nThis parameter is used when performing range selections or text searches in dimensions.\nDefault is Null.",
             "format": "double",
-            "default": -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000
+            "default": -1E+300
           },
           "qRangeHi": {
             "type": "number",
             "description": "Highest value of the search range.\nThis parameter is used when performing range selections or text searches in dimensions.\nDefault is Null.",
             "format": "double",
-            "default": -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000
+            "default": -1E+300
           },
           "qNumberFormat": {
             "type": "object",
@@ -15088,13 +15252,13 @@
             "type": "number",
             "description": "Lowest value in the range.",
             "format": "double",
-            "default": -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000
+            "default": -1E+300
           },
           "qRangeHi": {
             "type": "number",
             "description": "Highest value in the range.",
             "format": "double",
-            "default": -1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.000000
+            "default": -1E+300
           },
           "qMeasure": {
             "type": "string",
@@ -15875,6 +16039,10 @@
             "type": "string",
             "description": "The group's label. Will be evaluated as an expression if it starts with '='."
           },
+          "qIncludeOrphanGroups": {
+            "type": "boolean",
+            "description": "Include all groups of the relevant type, by adding those groups last that are not explicitly included in the hierarchy (orphans)"
+          },
           "qMemberIds": {
             "type": "array",
             "description": "The objects and sub-groups that are members of the group.",
@@ -16466,11 +16634,11 @@
           },
           "qContextSetExpression": {
             "type": "string",
-            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified."
+            "description": "Set expression valid for the whole cube, limiting computations to the specified set."
           },
           "qSuppressMeasureTotals": {
             "type": "boolean",
-            "description": "If set to true, suppress any measure grand totals, ignoring any AggrFunc."
+            "description": "When true, suppresses any grand totals for measures, regardless of the AggrFunc setting."
           }
         },
         "x-qlik-see-also": [
@@ -16969,7 +17137,7 @@
           },
           "qAggrFunc": {
             "type": "string",
-            "description": "Flag indicating how the measure should be aggregated to create a grand total.\n\"None\" - No total calculation.\n\"Expr\" - Calculate total according to the measure expression.\n\"\"     - Empty string is default and has same effect as \"Expr\".\nThis parameter is optional."
+            "description": "Indicates how to aggregate the measure to create a grand total.\n\"None\" - No total calculation is performed.\n\"Expr\" - Total is calculated based on the measure expression.\nThe default value is an empty string, which has the same effect as \"Expr\".\nThis parameter is optional."
           },
           "qAccumulate": {
             "type": "integer",
@@ -17884,7 +18052,7 @@
         "properties": {
           "qDisplayNumberOfRows": {
             "type": "integer",
-            "description": "This parameter applies to list objects.\nIf the total number of values in the list object is greater than the value set in _qDisplayNumberOfRows_ , the selected lines are promoted at the top of the list object.\nIf _qDisplayNumberOfRows_ is set to a negative value or to 0, the sort by state is disabled.",
+            "description": "This parameter applies to list objects.\nIf the total number of values in the list object exceeds the value set in _qDisplayNumberOfRows_ , the selected lines are promoted to the top of the list object.\nIf _qDisplayNumberOfRows_ is set to a negative value or to 0, the sort by state is disabled.",
             "format": "int32"
           }
         }
@@ -18077,9 +18245,34 @@
           },
           "qScriptGenerated": {
             "type": "boolean",
-            "default": false
+            "default": false,
+            "x-qlik-deprecated": true
+          },
+          "qOrigin": {
+            "type": "string",
+            "description": "## NxOrigin\nWith the introduction of Data Products, there will be a need to describe the origin of objects other than just being\ngenerated by a loading script or not.\n\nThis enum contains:\n* PROGRAM:      Object is created via ui or api call\n* SCRIPT:       Object is created from load script\n* DATA_PRODUCT: Object is created from a data product\nOne of:\n* PROGRAM\n* SCRIPT\n* DATA_PRODUCT",
+            "default": "PROGRAM",
+            "$ref": "#/components/schemas/NxOrigin",
+            "x-qlik-stability": "experimental"
           }
         }
+      },
+      "NxOrigin": {
+        "type": "string",
+        "oneOf": [
+          {
+            "x-qlik-const": 0,
+            "title": "PROGRAM"
+          },
+          {
+            "x-qlik-const": 1,
+            "title": "SCRIPT"
+          },
+          {
+            "x-qlik-const": 2,
+            "title": "DATA_PRODUCT"
+          }
+        ]
       },
       "NxLibraryDimension": {
         "type": "object",
@@ -18111,7 +18304,14 @@
             "description": "Alias of the dimension."
           },
           "qScriptGenerated": {
-            "type": "boolean"
+            "type": "boolean",
+            "x-qlik-deprecated": true
+          },
+          "qOrigin": {
+            "type": "string",
+            "description": "## NxOrigin\nWith the introduction of Data Products, there will be a need to describe the origin of objects other than just being\ngenerated by a loading script or not.\n\nThis enum contains:\n* PROGRAM:      Object is created via ui or api call\n* SCRIPT:       Object is created from load script\n* DATA_PRODUCT: Object is created from a data product\nOne of:\n* PROGRAM\n* SCRIPT\n* DATA_PRODUCT",
+            "$ref": "#/components/schemas/NxOrigin",
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -18154,7 +18354,15 @@
           },
           "qScriptGenerated": {
             "type": "boolean",
-            "default": false
+            "default": false,
+            "x-qlik-deprecated": true
+          },
+          "qOrigin": {
+            "type": "string",
+            "description": "## NxOrigin\nWith the introduction of Data Products, there will be a need to describe the origin of objects other than just being\ngenerated by a loading script or not.\n\nThis enum contains:\n* PROGRAM:      Object is created via ui or api call\n* SCRIPT:       Object is created from load script\n* DATA_PRODUCT: Object is created from a data product\nOne of:\n* PROGRAM\n* SCRIPT\n* DATA_PRODUCT",
+            "default": "PROGRAM",
+            "$ref": "#/components/schemas/NxOrigin",
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -18192,7 +18400,14 @@
             "$ref": "#/components/schemas/FieldAttributes"
           },
           "qScriptGenerated": {
-            "type": "boolean"
+            "type": "boolean",
+            "x-qlik-deprecated": true
+          },
+          "qOrigin": {
+            "type": "string",
+            "description": "## NxOrigin\nWith the introduction of Data Products, there will be a need to describe the origin of objects other than just being\ngenerated by a loading script or not.\n\nThis enum contains:\n* PROGRAM:      Object is created via ui or api call\n* SCRIPT:       Object is created from load script\n* DATA_PRODUCT: Object is created from a data product\nOne of:\n* PROGRAM\n* SCRIPT\n* DATA_PRODUCT",
+            "$ref": "#/components/schemas/NxOrigin",
+            "x-qlik-stability": "experimental"
           }
         }
       },
@@ -18483,7 +18698,7 @@
           },
           "qContextSetExpression": {
             "type": "string",
-            "description": "Set Expression valid for the whole cube. Used to limit computations to the set specified."
+            "description": "Set expression valid for the whole cube, limiting computations to the specified set."
           }
         },
         "x-qlik-stability": "stable"
@@ -19089,7 +19304,7 @@
       },
       "LayoutFieldInfo": {
         "type": "object",
-        "description": "Meta data about the selection in a field.",
+        "description": "Metadata about the selection in a field.",
         "properties": {
           "qFieldName": {
             "type": "string",
@@ -19142,15 +19357,31 @@
           },
           "qVerifyResult": {
             "type": "string",
-            "description": "Field/values verfication result *\nDefines result of ApplyAndVerify.\nOne of:\n* NOT_VERIFIED\n* FIELD_VALUE_MATCH_ALL\n* FIELD_MISSING\n* FIELD_VALUE_MISSING\n* STATE_MISSING",
+            "description": "Field/values verfication result *\nResult of ApplyAndVerify for one field, used only in BookmarkFieldVerifyWarning.\nOne of:\n* NOT_VERIFIED\n* FIELD_VALUE_MATCH_ALL\n* FIELD_MISSING\n* FIELD_VALUE_MISSING\n* STATE_MISSING\n* SEARCH_NO_MATCH",
             "default": "NOT_VERIFIED",
             "$ref": "#/components/schemas/BookmarkFieldVerifyResultState"
           },
           "qMissingValues": {
             "type": "array",
+            "description": "Strings representing missing field values. Will be replaced by MissingDuals. *",
             "items": {
               "type": "string"
-            }
+            },
+            "x-qlik-deprecated": true
+          },
+          "qMissingDuals": {
+            "type": "array",
+            "description": "Missing field values as duals, carrying both text and numeric parts. Number of values included is capped. Default cap is 20. *",
+            "items": {
+              "$ref": "#/components/schemas/FieldValue"
+            },
+            "x-qlik-stability": "experimental"
+          },
+          "qTotalMissing": {
+            "type": "integer",
+            "description": "Total count of missing field values *",
+            "format": "int32",
+            "x-qlik-stability": "experimental"
           }
         },
         "x-qlik-stability": "experimental"
@@ -19177,6 +19408,10 @@
           {
             "x-qlik-const": 4,
             "title": "STATE_MISSING"
+          },
+          {
+            "x-qlik-const": 5,
+            "title": "SEARCH_NO_MATCH"
           }
         ]
       },
@@ -19273,7 +19508,7 @@
           },
           "qMetaDef": {
             "type": "object",
-            "description": "Meta data.",
+            "description": "Metadata.",
             "$ref": "#/components/schemas/NxMetaDef"
           },
           "qName": {
@@ -20098,7 +20333,7 @@
             "type": "number",
             "description": "Zoom factor in the database model viewer.\nThe default value is 1.0.",
             "format": "double",
-            "default": 1.000000
+            "default": 1
           }
         }
       },
@@ -20276,7 +20511,7 @@
           },
           "qProhibitBinaryLoad": {
             "type": "boolean",
-            "description": "If set to true, the persisted app cannot be used in a Binary load statement in Qlik load script."
+            "description": "When true, the persisted app cannot be used in a Binary load statement in a Qlik load script."
           },
           "qThumbnail": {
             "type": "object",
@@ -20300,7 +20535,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP\n* DIRECT_QUERY_MODE",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -20428,6 +20663,10 @@
           {
             "x-qlik-const": 3,
             "title": "SINGLE_TABLE_PREP"
+          },
+          {
+            "x-qlik-const": 4,
+            "title": "DIRECT_QUERY_MODE"
           }
         ]
       },
@@ -20462,7 +20701,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "Indicates whether the app is used for Analytics or DataPreparation\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
+            "description": "Indicates whether the app is used for analytics or data preparation.\n\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP\n* DIRECT_QUERY_MODE",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -20736,7 +20975,7 @@
           },
           "qLineNumber": {
             "type": "integer",
-            "description": "Script line number where error occurred.",
+            "description": "Script line number where error occurred (zero-based).",
             "format": "int32"
           },
           "qCode": {
@@ -20746,7 +20985,7 @@
           },
           "qTitle": {
             "type": "string",
-            "description": "Enum name of the error code.\n\nOne of:\n* LOCERR_INTERNAL_ERROR\n* LOCERR_GENERIC_UNKNOWN\n* LOCERR_GENERIC_OK\n* LOCERR_GENERIC_NOT_SET\n* LOCERR_GENERIC_NOT_FOUND\n* LOCERR_GENERIC_ALREADY_EXISTS\n* LOCERR_GENERIC_INVALID_PATH\n* LOCERR_GENERIC_ACCESS_DENIED\n* LOCERR_GENERIC_OUT_OF_MEMORY\n* LOCERR_GENERIC_NOT_INITIALIZED\n* LOCERR_GENERIC_INVALID_PARAMETERS\n* LOCERR_GENERIC_EMPTY_PARAMETERS\n* LOCERR_GENERIC_INTERNAL_ERROR\n* LOCERR_GENERIC_CORRUPT_DATA\n* LOCERR_GENERIC_MEMORY_INCONSISTENCY\n* LOCERR_GENERIC_INVISIBLE_OWNER_ABORT\n* LOCERR_GENERIC_PROHIBIT_VALIDATE\n* LOCERR_GENERIC_ABORTED\n* LOCERR_GENERIC_CONNECTION_LOST\n* LOCERR_GENERIC_UNSUPPORTED_IN_PRODUCT_VERSION\n* LOCERR_GENERIC_REST_CONNECTION_FAILURE\n* LOCERR_GENERIC_MEMORY_LIMIT_REACHED\n* LOCERR_GENERIC_NOT_IMPLEMENTED\n* LOCERR_GENERIC_ENGINE_TERMINATED\n* LOCERR_GENERIC_WRITE_OPERATIONS_LIMIT_REACHED\n* LOCERR_HTTP_400\n* LOCERR_HTTP_401\n* LOCERR_HTTP_402\n* LOCERR_HTTP_403\n* LOCERR_HTTP_404\n* LOCERR_HTTP_405\n* LOCERR_HTTP_406\n* LOCERR_HTTP_407\n* LOCERR_HTTP_408\n* LOCERR_HTTP_409\n* LOCERR_HTTP_410\n* LOCERR_HTTP_411\n* LOCERR_HTTP_412\n* LOCERR_HTTP_413\n* LOCERR_HTTP_414\n* LOCERR_HTTP_415\n* LOCERR_HTTP_416\n* LOCERR_HTTP_417\n* LOCERR_HTTP_422\n* LOCERR_HTTP_423\n* LOCERR_HTTP_429\n* LOCERR_HTTP_500\n* LOCERR_HTTP_501\n* LOCERR_HTTP_502\n* LOCERR_HTTP_503\n* LOCERR_HTTP_504\n* LOCERR_HTTP_505\n* LOCERR_HTTP_509\n* LOCERR_HTTP_COULD_NOT_RESOLVE_HOST\n* LOCERR_APP_ALREADY_EXISTS\n* LOCERR_APP_INVALID_NAME\n* LOCERR_APP_ALREADY_OPEN\n* LOCERR_APP_NOT_FOUND\n* LOCERR_APP_IMPORT_FAILED\n* LOCERR_APP_SAVE_FAILED\n* LOCERR_APP_CREATE_FAILED\n* LOCERR_APP_INVALID\n* LOCERR_APP_CONNECT_FAILED\n* LOCERR_APP_ALREADY_OPEN_IN_DIFFERENT_MODE\n* LOCERR_APP_MIGRATION_COULD_NOT_CONTACT_MIGRATION_SERVICE\n* LOCERR_APP_MIGRATION_COULD_NOT_START_MIGRATION\n* LOCERR_APP_MIGRATION_FAILURE\n* LOCERR_APP_SCRIPT_MISSING\n* LOCERR_APP_EXPORT_FAILED\n* LOCERR_APP_SIZE_EXCEEDED\n* LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED\n* LOCERR_APP_NOT_OPEN\n* LOCERR_APP_EVENT_SOURCE_TIMEOUT\n* LOCERR_CONNECTION_ALREADY_EXISTS\n* LOCERR_CONNECTION_NOT_FOUND\n* LOCERR_CONNECTION_FAILED_TO_LOAD\n* LOCERR_CONNECTION_FAILED_TO_IMPORT\n* LOCERR_CONNECTION_NAME_IS_INVALID\n* LOCERR_CONNECTION_MISSING_CREDENTIALS\n* LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT\n* LOCERR_CONNECTOR_FILESIZE_EXCEEDED_BUFFER_SIZE\n* LOCERR_FILE_ACCESS_DENIED\n* LOCERR_FILE_NAME_INVALID\n* LOCERR_FILE_CORRUPT\n* LOCERR_FILE_NOT_FOUND\n* LOCERR_FILE_FORMAT_UNSUPPORTED\n* LOCERR_FILE_OPENED_IN_UNSUPPORTED_MODE\n* LOCERR_FILE_TABLE_NOT_FOUND\n* LOCERR_USER_ACCESS_DENIED\n* LOCERR_USER_IMPERSONATION_FAILED\n* LOCERR_SERVER_OUT_OF_SESSION_AND_USER_CALS\n* LOCERR_SERVER_OUT_OF_SESSION_CALS\n* LOCERR_SERVER_OUT_OF_USAGE_CALS\n* LOCERR_SERVER_OUT_OF_CALS\n* LOCERR_SERVER_OUT_OF_NAMED_CALS\n* LOCERR_SERVER_OFF_DUTY\n* LOCERR_SERVER_BUSY\n* LOCERR_SERVER_LICENSE_EXPIRED\n* LOCERR_SERVER_AJAX_DISABLED\n* LOCERR_SERVER_NO_TOKEN\n* LOCERR_HC_INVALID_OBJECT\n* LOCERR_HC_RESULT_TOO_LARGE\n* LOCERR_HC_INVALID_OBJECT_STATE\n* LOCERR_HC_MODAL_OBJECT_ERROR\n* LOCERR_CALC_INVALID_DEF\n* LOCERR_CALC_NOT_IN_LIB\n* LOCERR_CALC_HEAP_ERROR\n* LOCERR_CALC_TOO_LARGE\n* LOCERR_CALC_TIMEOUT\n* LOCERR_CALC_EVAL_CONDITION_FAILED\n* LOCERR_CALC_MIXED_LINKED_AGGREGATION\n* LOCERR_CALC_MISSING_LINKED\n* LOCERR_CALC_INVALID_COL_SORT\n* LOCERR_CALC_PAGES_TOO_LARGE\n* LOCERR_CALC_SEMANTIC_FIELD_NOT_ALLOWED\n* LOCERR_CALC_VALIDATION_STATE_INVALID\n* LOCERR_CALC_PIVOT_DIMENSIONS_ALREADY_EXISTS\n* LOCERR_CALC_MISSING_LINKED_FIELD\n* LOCERR_CALC_NOT_CALCULATED\n* LOCERR_LAYOUT_EXTENDS_INVALID_ID\n* LOCERR_LAYOUT_LINKED_OBJECT_NOT_FOUND\n* LOCERR_LAYOUT_LINKED_OBJECT_INVALID\n* LOCERR_PERSISTENCE_WRITE_FAILED\n* LOCERR_PERSISTENCE_READ_FAILED\n* LOCERR_PERSISTENCE_DELETE_FAILED\n* LOCERR_PERSISTENCE_NOT_FOUND\n* LOCERR_PERSISTENCE_UNSUPPORTED_VERSION\n* LOCERR_PERSISTENCE_MIGRATION_FAILED_READ_ONLY\n* LOCERR_PERSISTENCE_MIGRATION_CANCELLED\n* LOCERR_PERSISTENCE_MIGRATION_BACKUP_FAILED\n* LOCERR_PERSISTENCE_DISK_FULL\n* LOCERR_PERSISTENCE_NOT_SUPPORTED_FOR_SESSION_APP\n* LOCERR_PERSISTENCE_MOVE_FAILED\n* LOCERR_PERSISTENCE_OBJECT_LOCKED\n* LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING\n* LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS\n* LOCERR_PERSISTENCE_SYNC_GET_CHUNK_INVALID_PARAMETERS\n* LOCERR_SCRIPT_DATASOURCE_ACCESS_DENIED\n* LOCERR_RELOAD_IN_PROGRESS\n* LOCERR_RELOAD_TABLE_X_NOT_FOUND\n* LOCERR_RELOAD_UNKNOWN_STATEMENT\n* LOCERR_RELOAD_EXPECTED_SOMETHING_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_NOTHING_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_1_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_2_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_3_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_4_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_5_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_6_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_7_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_8_OR_MORE_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_FIELD_X_NOT_FOUND\n* LOCERR_RELOAD_MAPPING_TABLE_X_NOT_FOUND\n* LOCERR_RELOAD_LIB_CONNECTION_X_NOT_FOUND\n* LOCERR_RELOAD_NAME_ALREADY_TAKEN\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_DIF\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_BIFF\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_ENCRYPTED\n* LOCERR_RELOAD_OPEN_FILE_ERROR\n* LOCERR_RELOAD_AUTO_GENERATE_COUNT\n* LOCERR_RELOAD_PE_ILLEGAL_PREFIX_COMB\n* LOCERR_RELOAD_MATCHING_CONTROL_STATEMENT_ERROR\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_NOT_FOUND\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_INVALID\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_OUTSIDE\n* LOCERR_RELOAD_NO_QUALIFIED_PATH_FOR_FILE\n* LOCERR_RELOAD_MODE_STATEMENT_ONLY_FOR_LIB_PATHS\n* LOCERR_RELOAD_INCONSISTENT_USE_OF_SEMANTIC_FIELDS\n* LOCERR_RELOAD_NO_OPEN_DATABASE\n* LOCERR_RELOAD_AGGREGATION_REQUIRED_BY_GROUP_BY\n* LOCERR_RELOAD_CONNECT_MUST_USE_LIB_PREFIX_IN_THIS_MODE\n* LOCERR_RELOAD_ODBC_CONNECT_FAILED\n* LOCERR_RELOAD_OLEDB_CONNECT_FAILED\n* LOCERR_RELOAD_CUSTOM_CONNECT_FAILED\n* LOCERR_RELOAD_ODBC_READ_FAILED\n* LOCERR_RELOAD_OLEDB_READ_FAILED\n* LOCERR_RELOAD_CUSTOM_READ_FAILED\n* LOCERR_RELOAD_BINARY_LOAD_PROHIBITED\n* LOCERR_RELOAD_CONNECTOR_START_FAILED\n* LOCERR_RELOAD_CONNECTOR_NOT_RESPONDING\n* LOCERR_RELOAD_CONNECTOR_REPLY_ERROR\n* LOCERR_RELOAD_CONNECTOR_CONNECT_ERROR\n* LOCERR_RELOAD_CONNECTOR_NOT_FOUND_ERROR\n* LOCERR_RELOAD_INPUT_FIELD_WITH_DUPLICATE_KEYS\n* LOCERR_RELOAD_CONCATENATE_LOAD_NO_PREVIOUS_TABLE\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD\n* LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT\n* LOCERR_PERSONAL_NEW_VERSION_AVAILABLE\n* LOCERR_PERSONAL_VERSION_EXPIRED\n* LOCERR_PERSONAL_SECTION_ACCESS_DETECTED\n* LOCERR_PERSONAL_APP_DELETION_FAILED\n* LOCERR_USER_AUTHENTICATION_FAILURE\n* LOCERR_EXPORT_OUT_OF_MEMORY\n* LOCERR_EXPORT_NO_DATA\n* LOCERR_SYNC_INVALID_OFFSET\n* LOCERR_SEARCH_TIMEOUT\n* LOCERR_DIRECT_DISCOVERY_LINKED_EXPRESSION_FAIL\n* LOCERR_DIRECT_DISCOVERY_ROWCOUNT_OVERFLOW\n* LOCERR_DIRECT_DISCOVERY_EMPTY_RESULT\n* LOCERR_DIRECT_DISCOVERY_DB_CONNECTION_FAILED\n* LOCERR_DIRECT_DISCOVERY_MEASURE_NOT_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_DETAIL_NOT_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_NOT_SYNTH_CIRCULAR_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_ONLY_ONE_DD_TABLE_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_DB_AUTHORIZATION_FAILED\n* LOCERR_SMART_LOAD_TABLE_NOT_FOUND\n* LOCERR_SMART_LOAD_TABLE_DUPLICATED\n* LOCERR_VARIABLE_NO_NAME\n* LOCERR_VARIABLE_DUPLICATE_NAME\n* LOCERR_VARIABLE_INCONSISTENCY\n* LOCERR_VARIABLE_CONSTRAINT_INCONSISTENCY\n* LOCERR_VARIABLE_CONSTRAINT_FAILED\n* LOCERR_MEDIA_LIBRARY_LIST_FAILED\n* LOCERR_MEDIA_LIBRARY_CONTENT_FAILED\n* LOCERR_MEDIA_BUNDLING_FAILED\n* LOCERR_MEDIA_UNBUNDLING_FAILED\n* LOCERR_MEDIA_LIBRARY_NOT_FOUND\n* LOCERR_FEATURE_DISABLED\n* LOCERR_LOAD_TOO_MANY_FIELDS\n* LOCERR_LOAD_TOO_MANY_TABLES\n* LOCERR_JSON_RPC_INVALID_REQUEST\n* LOCERR_JSON_RPC_METHOD_NOT_FOUND\n* LOCERR_JSON_RPC_INVALID_PARAMETERS\n* LOCERR_JSON_RPC_INTERNAL_ERROR\n* LOCERR_JSON_RPC_RESPONSE_TOO_LARGE\n* LOCERR_JSON_RPC_PARSE_ERROR\n* LOCERR_MQ_SOCKET_CONNECT_FAILURE\n* LOCERR_MQ_SOCKET_OPEN_FAILURE\n* LOCERR_MQ_PROTOCOL_NO_RESPONE\n* LOCERR_MQ_PROTOCOL_LIBRARY_EXCEPTION\n* LOCERR_MQ_PROTOCOL_CONNECTION_CLOSED\n* LOCERR_MQ_PROTOCOL_CHANNEL_CLOSED\n* LOCERR_MQ_PROTOCOL_UNKNOWN_ERROR\n* LOCERR_MQ_PROTOCOL_INVALID_STATUS\n* LOCERR_EXTENGINE_GRPC_STATUS_OK\n* LOCERR_EXTENGINE_GRPC_STATUS_CANCELLED\n* LOCERR_EXTENGINE_GRPC_STATUS_UNKNOWN\n* LOCERR_EXTENGINE_GRPC_STATUS_INVALID_ARGUMENT\n* LOCERR_EXTENGINE_GRPC_STATUS_DEADLINE_EXCEEDED\n* LOCERR_EXTENGINE_GRPC_STATUS_NOT_FOUND\n* LOCERR_EXTENGINE_GRPC_STATUS_ALREADY_EXISTS\n* LOCERR_EXTENGINE_GRPC_STATUS_PERMISSION_DENIED\n* LOCERR_EXTENGINE_GRPC_STATUS_RESOURCE_EXHAUSTED\n* LOCERR_EXTENGINE_GRPC_STATUS_FAILED_PRECONDITION\n* LOCERR_EXTENGINE_GRPC_STATUS_ABORTED\n* LOCERR_EXTENGINE_GRPC_STATUS_OUT_OF_RANGE\n* LOCERR_EXTENGINE_GRPC_STATUS_UNIMPLEMENTED\n* LOCERR_EXTENGINE_GRPC_STATUS_INTERNAL\n* LOCERR_EXTENGINE_GRPC_STATUS_UNAVAILABLE\n* LOCERR_EXTENGINE_GRPC_STATUS_DATA_LOSS\n* LOCERR_EXTENGINE_GRPC_STATUS_UNAUTHENTICATED\n* LOCERR_LXW_INVALID_OBJ\n* LOCERR_LXW_INVALID_FILE\n* LOCERR_LXW_INVALID_SHEET\n* LOCERR_LXW_INVALID_EXPORT_RANGE\n* LOCERR_LXW_ERROR\n* LOCERR_LXW_ERROR_MEMORY_MALLOC_FAILED\n* LOCERR_LXW_ERROR_CREATING_XLSX_FILE\n* LOCERR_LXW_ERROR_CREATING_TMPFILE\n* LOCERR_LXW_ERROR_ZIP_FILE_OPERATION\n* LOCERR_LXW_ERROR_ZIP_FILE_ADD\n* LOCERR_LXW_ERROR_ZIP_CLOSE\n* LOCERR_LXW_ERROR_NULL_PARAMETER_IGNORED\n* LOCERR_LXW_ERROR_MAX_STRING_LENGTH_EXCEEDED\n* LOCERR_LXW_ERROR_255_STRING_LENGTH_EXCEEDED\n* LOCERR_LXW_ERROR_SHARED_STRING_INDEX_NOT_FOUND\n* LOCERR_LXW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE\n* LOCERR_LXW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED\n* LOCERR_BDI_STATUS_OK\n* LOCERR_BDI_GENERIC_ERROR_NOT_TRANSLATED\n* LOCERR_TRENDLINE_INVALID_DEF\n* LOCERR_TRENDLINE_INVALID_MATH_ERROR\n* LOCERR_CURL_UNSUPPORTED_PROTOCOL\n* LOCERR_CURL_COULDNT_RESOLVE_PROXY\n* LOCERR_CURL_COULDNT_CONNECT\n* LOCERR_CURL_REMOTE_ACCESS_DENIED\n* LOCERR_CURL_FTP_ACCEPT_FAILED\n* LOCERR_CURL_FTP_ACCEPT_TIMEOUT\n* LOCERR_CURL_FTP_CANT_GET_HOST\n* LOCERR_CURL_PARTIAL_FILE\n* LOCERR_CURL_QUOTE_ERROR\n* LOCERR_CURL_WRITE_ERROR\n* LOCERR_CURL_UPLOAD_FAILED\n* LOCERR_CURL_OUT_OF_MEMORY\n* LOCERR_CURL_OPERATION_TIMEDOUT\n* LOCERR_CURL_FTP_COULDNT_USE_REST\n* LOCERR_CURL_HTTP_POST_ERROR\n* LOCERR_CURL_SSL_CONNECT_ERROR\n* LOCERR_CURL_FILE_COULDNT_READ_FILE\n* LOCERR_CURL_LDAP_CANNOT_BIND\n* LOCERR_CURL_LDAP_SEARCH_FAILED\n* LOCERR_CURL_TOO_MANY_REDIRECTS\n* LOCERR_CURL_PEER_FAILED_VERIFICATION\n* LOCERR_CURL_GOT_NOTHING\n* LOCERR_CURL_SSL_ENGINE_NOTFOUND\n* LOCERR_CURL_SSL_ENGINE_SETFAILED\n* LOCERR_CURL_SSL_CERTPROBLEM\n* LOCERR_CURL_SSL_CIPHER\n* LOCERR_CURL_SSL_CACERT\n* LOCERR_CURL_BAD_CONTENT_ENCODING\n* LOCERR_CURL_LDAP_INVALID_URL\n* LOCERR_CURL_USE_SSL_FAILED\n* LOCERR_CURL_SSL_ENGINE_INITFAILED\n* LOCERR_CURL_LOGIN_DENIED\n* LOCERR_CURL_TFTP_NOTFOUND\n* LOCERR_CURL_TFTP_ILLEGAL\n* LOCERR_CURL_SSH\n* LOCERR_SETEXPRESSION_TOO_LARGE\n* LOCERR_RELOAD_MERGE_LOAD_ERROR\n* LOCERR_WIN_FTP_DROPPED\n* LOCERR_WIN_FTP_NO_PASSIVE_MODE\n* LOCERR_WIN_HTTP_DOWNLEVEL_SERVER\n* LOCERR_WIN_HTTP_INVALID_SERVER_RESPONSE\n* LOCERR_WIN_HTTP_REDIRECT_NEEDS_CONFIRMATION\n* LOCERR_WIN_INTERNET_FORCE_RETRY\n* LOCERR_WIN_INTERNET_CANNOT_CONNECT\n* LOCERR_WIN_INTERNET_CONNECTION_ABORTED\n* LOCERR_WIN_INTERNET_CONNECTION_RESET\n* LOCERR_WIN_INTERNET_DISCONNECTED\n* LOCERR_WIN_INTERNET_INCORRECT_FORMAT\n* LOCERR_WIN_INTERNET_INVALID_CA\n* LOCERR_WIN_INTERNET_INVALID_OPERATION\n* LOCERR_WIN_INTERNET_INVALID_URL\n* LOCERR_WIN_INTERNET_ITEM_NOT_FOUND\n* LOCERR_WIN_INTERNET_LOGIN_FAILURE\n* LOCERR_WIN_INTERNET_NAME_NOT_RESOLVED\n* LOCERR_WIN_INTERNET_NEED_UI\n* LOCERR_WIN_INTERNET_SEC_CERT_CN_INVALID\n* LOCERR_WIN_INTERNET_SEC_CERT_DATE_INVALID\n* LOCERR_WIN_INTERNET_SEC_CERT_ERRORS\n* LOCERR_WIN_INTERNET_SEC_INVALID_CERT\n* LOCERR_WIN_INTERNET_SERVER_UNREACHABLE\n* LOCERR_BM_RESULT_TOO_LARGE",
+            "description": "Enum name of the error code.\n\nOne of:\n* LOCERR_INTERNAL_ERROR\n* LOCERR_GENERIC_UNKNOWN\n* LOCERR_GENERIC_OK\n* LOCERR_GENERIC_NOT_SET\n* LOCERR_GENERIC_NOT_FOUND\n* LOCERR_GENERIC_ALREADY_EXISTS\n* LOCERR_GENERIC_INVALID_PATH\n* LOCERR_GENERIC_ACCESS_DENIED\n* LOCERR_GENERIC_OUT_OF_MEMORY\n* LOCERR_GENERIC_NOT_INITIALIZED\n* LOCERR_GENERIC_INVALID_PARAMETERS\n* LOCERR_GENERIC_EMPTY_PARAMETERS\n* LOCERR_GENERIC_INTERNAL_ERROR\n* LOCERR_GENERIC_CORRUPT_DATA\n* LOCERR_GENERIC_MEMORY_INCONSISTENCY\n* LOCERR_GENERIC_INVISIBLE_OWNER_ABORT\n* LOCERR_GENERIC_PROHIBIT_VALIDATE\n* LOCERR_GENERIC_ABORTED\n* LOCERR_GENERIC_CONNECTION_LOST\n* LOCERR_GENERIC_UNSUPPORTED_IN_PRODUCT_VERSION\n* LOCERR_GENERIC_REST_CONNECTION_FAILURE\n* LOCERR_GENERIC_MEMORY_LIMIT_REACHED\n* LOCERR_GENERIC_NOT_IMPLEMENTED\n* LOCERR_GENERIC_ENGINE_TERMINATED\n* LOCERR_GENERIC_WRITE_OPERATIONS_LIMIT_REACHED\n* LOCERR_HTTP_400\n* LOCERR_HTTP_401\n* LOCERR_HTTP_402\n* LOCERR_HTTP_403\n* LOCERR_HTTP_404\n* LOCERR_HTTP_405\n* LOCERR_HTTP_406\n* LOCERR_HTTP_407\n* LOCERR_HTTP_408\n* LOCERR_HTTP_409\n* LOCERR_HTTP_410\n* LOCERR_HTTP_411\n* LOCERR_HTTP_412\n* LOCERR_HTTP_413\n* LOCERR_HTTP_414\n* LOCERR_HTTP_415\n* LOCERR_HTTP_416\n* LOCERR_HTTP_417\n* LOCERR_HTTP_422\n* LOCERR_HTTP_423\n* LOCERR_HTTP_429\n* LOCERR_HTTP_500\n* LOCERR_HTTP_501\n* LOCERR_HTTP_502\n* LOCERR_HTTP_503\n* LOCERR_HTTP_504\n* LOCERR_HTTP_505\n* LOCERR_HTTP_509\n* LOCERR_HTTP_COULD_NOT_RESOLVE_HOST\n* LOCERR_APP_ALREADY_EXISTS\n* LOCERR_APP_INVALID_NAME\n* LOCERR_APP_ALREADY_OPEN\n* LOCERR_APP_NOT_FOUND\n* LOCERR_APP_IMPORT_FAILED\n* LOCERR_APP_SAVE_FAILED\n* LOCERR_APP_CREATE_FAILED\n* LOCERR_APP_INVALID\n* LOCERR_APP_CONNECT_FAILED\n* LOCERR_APP_ALREADY_OPEN_IN_DIFFERENT_MODE\n* LOCERR_APP_MIGRATION_COULD_NOT_CONTACT_MIGRATION_SERVICE\n* LOCERR_APP_MIGRATION_COULD_NOT_START_MIGRATION\n* LOCERR_APP_MIGRATION_FAILURE\n* LOCERR_APP_SCRIPT_MISSING\n* LOCERR_APP_EXPORT_FAILED\n* LOCERR_APP_SIZE_EXCEEDED\n* LOCERR_APP_DIRECT_QUERY_WORKLOAD_NOT_SUPPORTED\n* LOCERR_APP_NOT_OPEN\n* LOCERR_APP_EVENT_SOURCE_TIMEOUT\n* LOCERR_APP_SOFT_DELETED\n* LOCERR_CONNECTION_ALREADY_EXISTS\n* LOCERR_CONNECTION_NOT_FOUND\n* LOCERR_CONNECTION_FAILED_TO_LOAD\n* LOCERR_CONNECTION_FAILED_TO_IMPORT\n* LOCERR_CONNECTION_NAME_IS_INVALID\n* LOCERR_CONNECTION_MISSING_CREDENTIALS\n* LOCERR_CONNECTOR_NO_FILE_STREAMING_SUPPORT\n* LOCERR_CONNECTOR_FILESIZE_EXCEEDED_BUFFER_SIZE\n* LOCERR_FILE_ACCESS_DENIED\n* LOCERR_FILE_NAME_INVALID\n* LOCERR_FILE_CORRUPT\n* LOCERR_FILE_NOT_FOUND\n* LOCERR_FILE_FORMAT_UNSUPPORTED\n* LOCERR_FILE_OPENED_IN_UNSUPPORTED_MODE\n* LOCERR_FILE_TABLE_NOT_FOUND\n* LOCERR_USER_ACCESS_DENIED\n* LOCERR_USER_IMPERSONATION_FAILED\n* LOCERR_SERVER_OUT_OF_SESSION_AND_USER_CALS\n* LOCERR_SERVER_OUT_OF_SESSION_CALS\n* LOCERR_SERVER_OUT_OF_USAGE_CALS\n* LOCERR_SERVER_OUT_OF_CALS\n* LOCERR_SERVER_OUT_OF_NAMED_CALS\n* LOCERR_SERVER_OFF_DUTY\n* LOCERR_SERVER_BUSY\n* LOCERR_SERVER_LICENSE_EXPIRED\n* LOCERR_SERVER_AJAX_DISABLED\n* LOCERR_SERVER_NO_TOKEN\n* LOCERR_HC_INVALID_OBJECT\n* LOCERR_HC_RESULT_TOO_LARGE\n* LOCERR_HC_INVALID_OBJECT_STATE\n* LOCERR_HC_MODAL_OBJECT_ERROR\n* LOCERR_CALC_INVALID_DEF\n* LOCERR_CALC_NOT_IN_LIB\n* LOCERR_CALC_HEAP_ERROR\n* LOCERR_CALC_TOO_LARGE\n* LOCERR_CALC_TIMEOUT\n* LOCERR_CALC_EVAL_CONDITION_FAILED\n* LOCERR_CALC_MIXED_LINKED_AGGREGATION\n* LOCERR_CALC_MISSING_LINKED\n* LOCERR_CALC_INVALID_COL_SORT\n* LOCERR_CALC_PAGES_TOO_LARGE\n* LOCERR_CALC_SEMANTIC_FIELD_NOT_ALLOWED\n* LOCERR_CALC_VALIDATION_STATE_INVALID\n* LOCERR_CALC_PIVOT_DIMENSIONS_ALREADY_EXISTS\n* LOCERR_CALC_MISSING_LINKED_FIELD\n* LOCERR_CALC_NOT_CALCULATED\n* LOCERR_LAYOUT_EXTENDS_INVALID_ID\n* LOCERR_LAYOUT_LINKED_OBJECT_NOT_FOUND\n* LOCERR_LAYOUT_LINKED_OBJECT_INVALID\n* LOCERR_PERSISTENCE_WRITE_FAILED\n* LOCERR_PERSISTENCE_READ_FAILED\n* LOCERR_PERSISTENCE_DELETE_FAILED\n* LOCERR_PERSISTENCE_NOT_FOUND\n* LOCERR_PERSISTENCE_UNSUPPORTED_VERSION\n* LOCERR_PERSISTENCE_MIGRATION_FAILED_READ_ONLY\n* LOCERR_PERSISTENCE_MIGRATION_CANCELLED\n* LOCERR_PERSISTENCE_MIGRATION_BACKUP_FAILED\n* LOCERR_PERSISTENCE_DISK_FULL\n* LOCERR_PERSISTENCE_NOT_SUPPORTED_FOR_SESSION_APP\n* LOCERR_PERSISTENCE_MOVE_FAILED\n* LOCERR_PERSISTENCE_OBJECT_LOCKED\n* LOCERR_PERSISTENCE_ENCRYPTION_KEY_MIGRATION_ONGOING\n* LOCERR_PERSISTENCE_SYNC_SET_CHUNK_INVALID_PARAMETERS\n* LOCERR_PERSISTENCE_SYNC_GET_CHUNK_INVALID_PARAMETERS\n* LOCERR_SCRIPT_DATASOURCE_ACCESS_DENIED\n* LOCERR_RELOAD_IN_PROGRESS\n* LOCERR_RELOAD_TABLE_X_NOT_FOUND\n* LOCERR_RELOAD_UNKNOWN_STATEMENT\n* LOCERR_RELOAD_EXPECTED_SOMETHING_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_NOTHING_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_1_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_2_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_3_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_4_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_5_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_6_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_7_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_EXPECTED_ONE_OF_8_OR_MORE_TOKENS_FOUND_UNKNOWN\n* LOCERR_RELOAD_FIELD_X_NOT_FOUND\n* LOCERR_RELOAD_MAPPING_TABLE_X_NOT_FOUND\n* LOCERR_RELOAD_LIB_CONNECTION_X_NOT_FOUND\n* LOCERR_RELOAD_NAME_ALREADY_TAKEN\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_DIF\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_BIFF\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_ENCRYPTED\n* LOCERR_RELOAD_OPEN_FILE_ERROR\n* LOCERR_RELOAD_AUTO_GENERATE_COUNT\n* LOCERR_RELOAD_PE_ILLEGAL_PREFIX_COMB\n* LOCERR_RELOAD_MATCHING_CONTROL_STATEMENT_ERROR\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_NOT_FOUND\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_INVALID\n* LOCERR_RELOAD_MATCHING_LIBPATH_X_OUTSIDE\n* LOCERR_RELOAD_NO_QUALIFIED_PATH_FOR_FILE\n* LOCERR_RELOAD_MODE_STATEMENT_ONLY_FOR_LIB_PATHS\n* LOCERR_RELOAD_INCONSISTENT_USE_OF_SEMANTIC_FIELDS\n* LOCERR_RELOAD_NO_OPEN_DATABASE\n* LOCERR_RELOAD_AGGREGATION_REQUIRED_BY_GROUP_BY\n* LOCERR_RELOAD_CONNECT_MUST_USE_LIB_PREFIX_IN_THIS_MODE\n* LOCERR_RELOAD_ODBC_CONNECT_FAILED\n* LOCERR_RELOAD_OLEDB_CONNECT_FAILED\n* LOCERR_RELOAD_CUSTOM_CONNECT_FAILED\n* LOCERR_RELOAD_ODBC_READ_FAILED\n* LOCERR_RELOAD_OLEDB_READ_FAILED\n* LOCERR_RELOAD_CUSTOM_READ_FAILED\n* LOCERR_RELOAD_BINARY_LOAD_PROHIBITED\n* LOCERR_RELOAD_CONNECTOR_START_FAILED\n* LOCERR_RELOAD_CONNECTOR_NOT_RESPONDING\n* LOCERR_RELOAD_CONNECTOR_REPLY_ERROR\n* LOCERR_RELOAD_CONNECTOR_CONNECT_ERROR\n* LOCERR_RELOAD_CONNECTOR_NOT_FOUND_ERROR\n* LOCERR_RELOAD_INPUT_FIELD_WITH_DUPLICATE_KEYS\n* LOCERR_RELOAD_CONCATENATE_LOAD_NO_PREVIOUS_TABLE\n* LOCERR_RELOAD_WRONG_FILE_FORMAT_QVD\n* LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT\n* LOCERR_RELOAD_EXIT_ERROR\n* LOCERR_PERSONAL_NEW_VERSION_AVAILABLE\n* LOCERR_PERSONAL_VERSION_EXPIRED\n* LOCERR_PERSONAL_SECTION_ACCESS_DETECTED\n* LOCERR_PERSONAL_APP_DELETION_FAILED\n* LOCERR_USER_AUTHENTICATION_FAILURE\n* LOCERR_EXPORT_OUT_OF_MEMORY\n* LOCERR_EXPORT_NO_DATA\n* LOCERR_SYNC_INVALID_OFFSET\n* LOCERR_SEARCH_TIMEOUT\n* LOCERR_DIRECT_DISCOVERY_LINKED_EXPRESSION_FAIL\n* LOCERR_DIRECT_DISCOVERY_ROWCOUNT_OVERFLOW\n* LOCERR_DIRECT_DISCOVERY_EMPTY_RESULT\n* LOCERR_DIRECT_DISCOVERY_DB_CONNECTION_FAILED\n* LOCERR_DIRECT_DISCOVERY_MEASURE_NOT_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_DETAIL_NOT_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_NOT_SYNTH_CIRCULAR_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_ONLY_ONE_DD_TABLE_ALLOWED\n* LOCERR_DIRECT_DISCOVERY_DB_AUTHORIZATION_FAILED\n* LOCERR_SMART_LOAD_TABLE_NOT_FOUND\n* LOCERR_SMART_LOAD_TABLE_DUPLICATED\n* LOCERR_VARIABLE_NO_NAME\n* LOCERR_VARIABLE_DUPLICATE_NAME\n* LOCERR_VARIABLE_INCONSISTENCY\n* LOCERR_VARIABLE_CONSTRAINT_INCONSISTENCY\n* LOCERR_VARIABLE_CONSTRAINT_FAILED\n* LOCERR_MEDIA_LIBRARY_LIST_FAILED\n* LOCERR_MEDIA_LIBRARY_CONTENT_FAILED\n* LOCERR_MEDIA_BUNDLING_FAILED\n* LOCERR_MEDIA_UNBUNDLING_FAILED\n* LOCERR_MEDIA_LIBRARY_NOT_FOUND\n* LOCERR_FEATURE_DISABLED\n* LOCERR_LOAD_TOO_MANY_FIELDS\n* LOCERR_LOAD_TOO_MANY_TABLES\n* LOCERR_JSON_RPC_INVALID_REQUEST\n* LOCERR_JSON_RPC_METHOD_NOT_FOUND\n* LOCERR_JSON_RPC_INVALID_PARAMETERS\n* LOCERR_JSON_RPC_INTERNAL_ERROR\n* LOCERR_JSON_RPC_RESPONSE_TOO_LARGE\n* LOCERR_JSON_RPC_PARSE_ERROR\n* LOCERR_MQ_SOCKET_CONNECT_FAILURE\n* LOCERR_MQ_SOCKET_OPEN_FAILURE\n* LOCERR_MQ_PROTOCOL_NO_RESPONE\n* LOCERR_MQ_PROTOCOL_LIBRARY_EXCEPTION\n* LOCERR_MQ_PROTOCOL_CONNECTION_CLOSED\n* LOCERR_MQ_PROTOCOL_CHANNEL_CLOSED\n* LOCERR_MQ_PROTOCOL_UNKNOWN_ERROR\n* LOCERR_MQ_PROTOCOL_INVALID_STATUS\n* LOCERR_EXTENGINE_GRPC_STATUS_OK\n* LOCERR_EXTENGINE_GRPC_STATUS_CANCELLED\n* LOCERR_EXTENGINE_GRPC_STATUS_UNKNOWN\n* LOCERR_EXTENGINE_GRPC_STATUS_INVALID_ARGUMENT\n* LOCERR_EXTENGINE_GRPC_STATUS_DEADLINE_EXCEEDED\n* LOCERR_EXTENGINE_GRPC_STATUS_NOT_FOUND\n* LOCERR_EXTENGINE_GRPC_STATUS_ALREADY_EXISTS\n* LOCERR_EXTENGINE_GRPC_STATUS_PERMISSION_DENIED\n* LOCERR_EXTENGINE_GRPC_STATUS_RESOURCE_EXHAUSTED\n* LOCERR_EXTENGINE_GRPC_STATUS_FAILED_PRECONDITION\n* LOCERR_EXTENGINE_GRPC_STATUS_ABORTED\n* LOCERR_EXTENGINE_GRPC_STATUS_OUT_OF_RANGE\n* LOCERR_EXTENGINE_GRPC_STATUS_UNIMPLEMENTED\n* LOCERR_EXTENGINE_GRPC_STATUS_INTERNAL\n* LOCERR_EXTENGINE_GRPC_STATUS_UNAVAILABLE\n* LOCERR_EXTENGINE_GRPC_STATUS_DATA_LOSS\n* LOCERR_EXTENGINE_GRPC_STATUS_UNAUTHENTICATED\n* LOCERR_LXW_INVALID_OBJ\n* LOCERR_LXW_INVALID_FILE\n* LOCERR_LXW_INVALID_SHEET\n* LOCERR_LXW_INVALID_EXPORT_RANGE\n* LOCERR_LXW_ERROR\n* LOCERR_LXW_ERROR_MEMORY_MALLOC_FAILED\n* LOCERR_LXW_ERROR_CREATING_XLSX_FILE\n* LOCERR_LXW_ERROR_CREATING_TMPFILE\n* LOCERR_LXW_ERROR_ZIP_FILE_OPERATION\n* LOCERR_LXW_ERROR_ZIP_FILE_ADD\n* LOCERR_LXW_ERROR_ZIP_CLOSE\n* LOCERR_LXW_ERROR_NULL_PARAMETER_IGNORED\n* LOCERR_LXW_ERROR_MAX_STRING_LENGTH_EXCEEDED\n* LOCERR_LXW_ERROR_255_STRING_LENGTH_EXCEEDED\n* LOCERR_LXW_ERROR_SHARED_STRING_INDEX_NOT_FOUND\n* LOCERR_LXW_ERROR_WORKSHEET_INDEX_OUT_OF_RANGE\n* LOCERR_LXW_ERROR_WORKSHEET_MAX_NUMBER_URLS_EXCEEDED\n* LOCERR_BDI_STATUS_OK\n* LOCERR_BDI_GENERIC_ERROR_NOT_TRANSLATED\n* LOCERR_TRENDLINE_INVALID_DEF\n* LOCERR_TRENDLINE_INVALID_MATH_ERROR\n* LOCERR_CURL_UNSUPPORTED_PROTOCOL\n* LOCERR_CURL_COULDNT_RESOLVE_PROXY\n* LOCERR_CURL_COULDNT_CONNECT\n* LOCERR_CURL_REMOTE_ACCESS_DENIED\n* LOCERR_CURL_FTP_ACCEPT_FAILED\n* LOCERR_CURL_FTP_ACCEPT_TIMEOUT\n* LOCERR_CURL_FTP_CANT_GET_HOST\n* LOCERR_CURL_PARTIAL_FILE\n* LOCERR_CURL_QUOTE_ERROR\n* LOCERR_CURL_WRITE_ERROR\n* LOCERR_CURL_UPLOAD_FAILED\n* LOCERR_CURL_OUT_OF_MEMORY\n* LOCERR_CURL_OPERATION_TIMEDOUT\n* LOCERR_CURL_FTP_COULDNT_USE_REST\n* LOCERR_CURL_HTTP_POST_ERROR\n* LOCERR_CURL_SSL_CONNECT_ERROR\n* LOCERR_CURL_FILE_COULDNT_READ_FILE\n* LOCERR_CURL_LDAP_CANNOT_BIND\n* LOCERR_CURL_LDAP_SEARCH_FAILED\n* LOCERR_CURL_TOO_MANY_REDIRECTS\n* LOCERR_CURL_PEER_FAILED_VERIFICATION\n* LOCERR_CURL_GOT_NOTHING\n* LOCERR_CURL_SSL_ENGINE_NOTFOUND\n* LOCERR_CURL_SSL_ENGINE_SETFAILED\n* LOCERR_CURL_SSL_CERTPROBLEM\n* LOCERR_CURL_SSL_CIPHER\n* LOCERR_CURL_SSL_CACERT\n* LOCERR_CURL_BAD_CONTENT_ENCODING\n* LOCERR_CURL_LDAP_INVALID_URL\n* LOCERR_CURL_USE_SSL_FAILED\n* LOCERR_CURL_SSL_ENGINE_INITFAILED\n* LOCERR_CURL_LOGIN_DENIED\n* LOCERR_CURL_TFTP_NOTFOUND\n* LOCERR_CURL_TFTP_ILLEGAL\n* LOCERR_CURL_SSH\n* LOCERR_SETEXPRESSION_TOO_LARGE\n* LOCERR_RELOAD_MERGE_LOAD_ERROR\n* LOCERR_WIN_FTP_DROPPED\n* LOCERR_WIN_FTP_NO_PASSIVE_MODE\n* LOCERR_WIN_HTTP_DOWNLEVEL_SERVER\n* LOCERR_WIN_HTTP_INVALID_SERVER_RESPONSE\n* LOCERR_WIN_HTTP_REDIRECT_NEEDS_CONFIRMATION\n* LOCERR_WIN_INTERNET_FORCE_RETRY\n* LOCERR_WIN_INTERNET_CANNOT_CONNECT\n* LOCERR_WIN_INTERNET_CONNECTION_ABORTED\n* LOCERR_WIN_INTERNET_CONNECTION_RESET\n* LOCERR_WIN_INTERNET_DISCONNECTED\n* LOCERR_WIN_INTERNET_INCORRECT_FORMAT\n* LOCERR_WIN_INTERNET_INVALID_CA\n* LOCERR_WIN_INTERNET_INVALID_OPERATION\n* LOCERR_WIN_INTERNET_INVALID_URL\n* LOCERR_WIN_INTERNET_ITEM_NOT_FOUND\n* LOCERR_WIN_INTERNET_LOGIN_FAILURE\n* LOCERR_WIN_INTERNET_NAME_NOT_RESOLVED\n* LOCERR_WIN_INTERNET_NEED_UI\n* LOCERR_WIN_INTERNET_SEC_CERT_CN_INVALID\n* LOCERR_WIN_INTERNET_SEC_CERT_DATE_INVALID\n* LOCERR_WIN_INTERNET_SEC_CERT_ERRORS\n* LOCERR_WIN_INTERNET_SEC_INVALID_CERT\n* LOCERR_WIN_INTERNET_SERVER_UNREACHABLE\n* LOCERR_BM_RESULT_TOO_LARGE",
             "$ref": "#/components/schemas/NxLocalizedErrorCode"
           }
         }
@@ -20777,12 +21016,12 @@
           },
           "qSkipStore": {
             "type": "boolean",
-            "description": "Set to true to skip Store statements.\nThe default value is false.",
+            "description": "When true, Store statements are skipped.\nThe default value is false.",
             "default": false
           },
           "qRowLimit": {
             "type": "integer",
-            "description": "If greater than or equal 0, defines max number of rows loaded from a data source.",
+            "description": "If greater than or equal to 0, defines the maximum number of rows loaded from a data source.",
             "format": "int64",
             "default": -1
           }
@@ -21001,6 +21240,10 @@
           "qType": {
             "type": "string",
             "description": "Type of the table.\nFor example: Table or View."
+          },
+          "qLogicalName": {
+            "type": "string",
+            "description": "Logical name of the table. Used by nested Parquet tables."
           }
         }
       },
@@ -21098,11 +21341,11 @@
       },
       "FileDataFormat": {
         "type": "object",
-        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file",
+        "description": "### FileType\nRecognized file formats are:\n* _CSV_ for Delimited\n* _FIX_ for Fixed Record\n* _DIF_ for Data Interchange Format\n* _EXCEL_BIFF_ for Microsoft Excel (XLS)\n* _EXCEL_OOXML_ for Microsoft Excel (XLSX)\n* _HTML_ for HTML\n* _QVD_ for QVD file\n* _XML_ for XML\n* _QVX_ for QVX file\n* _JSON_ for JSON format\n* _KML_ for KML file\n* _PARQUET_ for PARQUET file\n* _GOOGLE_SHEET_ for Google Sheet file",
         "properties": {
           "qType": {
             "type": "string",
-            "description": "Type of the file.\n\nOne of:\n* CSV or FILE_TYPE_CSV\n* FIX or FILE_TYPE_FIX\n* DIF or FILE_TYPE_DIF\n* EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n* EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n* HTML or FILE_TYPE_HTML\n* QVD or FILE_TYPE_QVD\n* XML or FILE_TYPE_XML\n* QVX or FILE_TYPE_QVX\n* JSON or FILE_TYPE_JSON\n* KML or FILE_TYPE_KML\n* PARQUET or FILE_TYPE_PARQUET",
+            "description": "Type of the file.\n\nOne of:\n* CSV or FILE_TYPE_CSV\n* FIX or FILE_TYPE_FIX\n* DIF or FILE_TYPE_DIF\n* EXCEL_BIFF or FILE_TYPE_EXCEL_BIFF\n* EXCEL_OOXML or FILE_TYPE_EXCEL_OOXML\n* HTML or FILE_TYPE_HTML\n* QVD or FILE_TYPE_QVD\n* XML or FILE_TYPE_XML\n* QVX or FILE_TYPE_QVX\n* JSON or FILE_TYPE_JSON\n* KML or FILE_TYPE_KML\n* PARQUET or FILE_TYPE_PARQUET\n* GOOGLE_SHEET or FILE_TYPE_GOOGLE_SHEET",
             "$ref": "#/components/schemas/FileType"
           },
           "qLabel": {
@@ -21214,6 +21457,11 @@
             "x-qlik-const": 11,
             "title": "PARQUET",
             "description": "FILE_TYPE_PARQUET"
+          },
+          {
+            "x-qlik-const": 12,
+            "title": "GOOGLE_SHEET",
+            "description": "FILE_TYPE_GOOGLE_SHEET"
           }
         ]
       },
@@ -21256,6 +21504,10 @@
           "qFormatSpec": {
             "type": "string",
             "description": "List of format specification items, within brackets.\nExamples of specification items:\n* file type\n* embedded labels, no labels\n* table is &lt;table name&gt;"
+          },
+          "qLogicalName": {
+            "type": "string",
+            "description": "Logical name of the table. Used by nested Parquet tables."
           }
         }
       },
@@ -21864,7 +22116,7 @@
           },
           "qIsLocked": {
             "type": "boolean",
-            "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS."
+            "description": "When true, the user is temporarily locked from modifying the script. The Meta information contains the ID of the last modifier. Only applicable to Qlik Cloud."
           }
         }
       },
@@ -22321,7 +22573,7 @@
           },
           "qIsLocked": {
             "type": "boolean",
-            "description": "True if user is temporarily locked from modifying the script. Meta contains the ID of the last modifier. Only applicable to QCS."
+            "description": "When true, the user is temporarily locked from modifying the script. The Meta information contains the ID of the last modifier. Only applicable to Qlik Cloud."
           }
         },
         "x-qlik-stability": "experimental"
@@ -22508,7 +22760,7 @@
           },
           "qUsage": {
             "type": "string",
-            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP",
+            "description": "\nOne of:\n* ANALYTICS\n* DATA_PREPARATION\n* DATAFLOW_PREP\n* SINGLE_TABLE_PREP\n* DIRECT_QUERY_MODE",
             "$ref": "#/components/schemas/UsageEnum"
           }
         }
@@ -22625,7 +22877,7 @@
           },
           "qMeta": {
             "type": "object",
-            "description": "Meta data.",
+            "description": "Metadata.",
             "$ref": "#/components/schemas/NxMeta"
           },
           "qThumbnail": {
@@ -23079,6 +23331,9 @@
             "$ref": "#/components/errors/LOCERR_APP_EVENT_SOURCE_TIMEOUT"
           },
           {
+            "$ref": "#/components/errors/LOCERR_APP_SOFT_DELETED"
+          },
+          {
             "$ref": "#/components/errors/LOCERR_CONNECTION_ALREADY_EXISTS"
           },
           {
@@ -23419,6 +23674,9 @@
           },
           {
             "$ref": "#/components/errors/LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT"
+          },
+          {
+            "$ref": "#/components/errors/LOCERR_RELOAD_EXIT_ERROR"
           },
           {
             "$ref": "#/components/errors/LOCERR_PERSONAL_NEW_VERSION_AVAILABLE"
@@ -24152,6 +24410,10 @@
         "code": 1018,
         "message": "App event source timeout"
       },
+      "LOCERR_APP_SOFT_DELETED": {
+        "code": 1019,
+        "message": "App is soft deleted"
+      },
       "LOCERR_CONNECTION_ALREADY_EXISTS": {
         "code": 2000,
         "message": "Connection already exists"
@@ -24607,6 +24869,10 @@
       "LOCERR_RELOAD_ACTION_BLOCKED_ENTITLEMENT": {
         "code": 11048,
         "message": "Action is blocked due to that an entitlement quota limit has been reached."
+      },
+      "LOCERR_RELOAD_EXIT_ERROR": {
+        "code": 11049,
+        "message": "Error raised by script: {0}"
       },
       "LOCERR_PERSONAL_NEW_VERSION_AVAILABLE": {
         "code": 12000,
