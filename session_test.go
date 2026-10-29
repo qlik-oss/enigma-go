@@ -1,12 +1,13 @@
 package enigma
 
 import (
+	"context"
 	"encoding/json"
-	"github.com/stretchr/testify/assert"
-	"golang.org/x/net/context"
 	"net/http"
 	"reflect"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func createAndConnectSession() (*session, *MockSocket, *RemoteObject) {
@@ -81,7 +82,7 @@ func TestRawArrayConversion(t *testing.T) {
 	p2 := json.RawMessage("string2")
 	params := []interface{}{p1, p2}
 	result := convertToRawSliceIfNeeded(params)
-	assert.Equal(t, "[]json.RawMessage", reflect.TypeOf(result).String())
+	assert.Equal(t, "[]jsontext.Value", reflect.TypeOf(result).String())
 }
 func TestRawArrayConversionWithoutRawContent(t *testing.T) {
 	p1 := "string1"

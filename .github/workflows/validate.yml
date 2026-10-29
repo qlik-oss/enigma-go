@@ -1,0 +1,57 @@
+name: validate
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Go environment
+        uses: actions/setup-go@v6.4.0
+        with:
+          go-version: stable
+          cache-dependency-path: go.sum
+      - name: Build
+        run: go build
+      - name: Lint
+        run: |
+          go fmt ./...
+          go install golang.org/x/lint/golint@latest
+          golint -set_exit_status
+          # go fmt and golint can alter go.mod and go.sum.
+          # Restore those files before proceeding to avoid false negatives.
+          git checkout go.mod go.sum
+          git diff --exit-code
+      - name: Unit tests
+        run: make test-unit
+      - name: Test verval
+        run: go test -v -race ./release/verval
+      - name: Examples
+        env:
+          QCS_HOST: ${{ secrets.QCS_HOST }}
+          QCS_API_KEY: ${{ secrets.QCS_API_KEY }}
+        run: ./examples/run_examples.sh
+      # Must run last since it replaces the Go installation on PATH.
+      - name: Setup Go 1.23 (backwards compatibility)
+        uses: actions/setup-go@v6.4.0
+        with:
+          go-version: '1.23'
+          cache: false
+      - name: Build with Go 1.23 (backwards compatibility)
+        env:
+          # go.mod requires a newer Go, so let Go 1.23 fetch the required toolchain.
+          GOTOOLCHAIN: auto
+        run: |
+          go version
+          go build ./...

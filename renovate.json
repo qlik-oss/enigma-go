@@ -3,6 +3,5 @@
     "qlik-oss",
     "qlik-oss:groupMinorPatch"
   ],
-  "postUpdateOptions": ["gomodTidy"],
-  "ignorePaths": ["./circleci/config.yml"]
+  "postUpdateOptions": ["gomodTidy"]
 }
