@@ -83,11 +83,15 @@ _WARNING: Squashing or reverting commits and force-pushing thereafter may remove
 
 ### Commit message format
 
-There are currently no conventions on how to format commit messages. We'd like you to follow some rules on the content however:
+This project uses [conventional commits](https://www.conventionalcommits.org), e.g. `feat: add cleanup of socket on timeout`
+or `fix(dialer): handle nil header`. The commit messages (pull request titles when squash merging) are validated and
+used to determine the version of the next release:
 
-- Use the present form, e.g. _Add cleanup of socket on timeout_
-- Be descriptive and avoid messages like _Minor fix_.
-- If the change is breaking an API, add a _[breaking]_ tag in the message.
+- `feat` gives a minor release and `fix`/`perf` gives a patch release.
+- Breaking changes are marked with a `!` after the type/scope (e.g. `feat!: remove Foo`) or a `BREAKING CHANGE:` footer
+and give a major release.
+- Other types (`chore`, `docs`, `test`, ...) do not trigger a release on their own.
+- Use the present form and be descriptive, avoid messages like _Minor fix_.
 
 ## <a name="cla"></a> Signing the CLA
 
