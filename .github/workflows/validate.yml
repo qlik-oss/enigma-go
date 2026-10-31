@@ -46,7 +46,7 @@ jobs:
       - name: Setup Go 1.23 (backwards compatibility)
         uses: actions/setup-go@v7.0.0
         with:
-          go-version: '1.23'
+          go-version: '1.27'
           cache: false
       - name: Build with Go 1.23 (backwards compatibility)
         env:
