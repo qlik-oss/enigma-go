@@ -3,7 +3,9 @@ package enigma
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -149,6 +151,10 @@ func (q *session) handleResponse(message []byte, receiveTimestamp time.Time) {
 			pendingCall.Response = rpcResponse
 			pendingCall.receiveTimestamp = receiveTimestamp
 			pendingCall.messageSize = len(message)
+			// Excerpt is kept only for responses without result or error, so invokeRPC can include it in its error without retaining every message
+			if rpcResponse.Result == nil && rpcResponse.Error == nil {
+				pendingCall.messageExcerpt = strings.ToValidUTF8(string(message[:min(len(message), 1000)]), "")
+			}
 			pendingCall.Done <- nil
 		}
 	}
@@ -234,6 +240,8 @@ func (q *session) invokeRPC(ctx context.Context, invocation *Invocation) *Invoca
 		} else if pendingCall.Response.Error != nil {
 			// error sent from server
 			result = &InvocationResponse{Result: nil, RequestID: pendingCall.ID, Error: pendingCall.Response.Error}
+		} else if pendingCall.Response.Result == nil {
+			result = &InvocationResponse{Result: nil, RequestID: pendingCall.ID, Error: fmt.Errorf("response contained neither result nor error: %s", pendingCall.messageExcerpt)}
 		} else {
 			result = &InvocationResponse{Result: *pendingCall.Response.Result, RequestID: pendingCall.ID, Error: nil}
 
