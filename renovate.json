@@ -3,5 +3,13 @@
     "qlik-oss",
     "qlik-oss:groupMinorPatch"
   ],
-  "postUpdateOptions": ["gomodTidy"]
+  "postUpdateOptions": ["gomodTidy"],
+  "packageRules": [
+    {
+      "description": "The Go version in the workflow is the oldest supported version (backwards compatibility check) and must be bumped manually",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["go"],
+      "enabled": false
+    }
+  ]
 }
