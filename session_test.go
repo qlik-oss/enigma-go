@@ -91,3 +91,16 @@ func TestRawArrayConversionWithoutRawContent(t *testing.T) {
 	result := convertToRawSliceIfNeeded(params)
 	assert.Equal(t, params, result, "Should not convert the slice")
 }
+
+func TestRpcInvocationNilResult(t *testing.T) {
+	_, testSocket, rpcObject := createAndConnectSession()
+
+	testSocket.ExpectCall(
+		`{"jsonrpc":"2.0","delta":false,"method":"DummyQixMethod","handle":-1,"id":1,"params":[]}`,
+		`{"handle": -1, "id": 1, "result": null}`)
+
+	resultHolder := ""
+	assert.NotPanics(t, func() {
+		assert.ErrorContains(t, rpcObject.RPC(context.Background(), "DummyQixMethod", &resultHolder), `"result": null`)
+	})
+}

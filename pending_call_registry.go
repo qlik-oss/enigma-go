@@ -13,6 +13,7 @@ type (
 		Done             chan error
 		receiveTimestamp time.Time
 		messageSize      int
+		messageExcerpt   string
 	}
 
 	pendingCallRegistry struct {
